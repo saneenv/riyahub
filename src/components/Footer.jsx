@@ -1,8 +1,20 @@
 import React from 'react'
 import logo from '../images/footer/footerlogo.png'
 import polygon from '../images/footer/Polygon.png'
+import { useNavigate } from 'react-router-dom'
 
 function Footer() {
+    const navigate= useNavigate();
+    const empreg = () => {
+        navigate('/empreg');
+      };
+      const canreg = () => {
+        navigate('/canreg');
+      };
+     
+      const jobpost = () => {
+        navigate('/jobpost');
+      };
     return (
         <div className='flex flex-col'>
             <div className='h-auto w-full bg-[#3D3B3B] flex lg:flex-row flex-col lg:p-12 p-3 lg:gap-0 gap-5'>
@@ -34,11 +46,11 @@ function Footer() {
                         <span className='text-base font-[500] font-[display] text-[white]'>FOR EMPLOYER</span>
                         <span className='flex flex-row justify-start items-center gap-1 '>
                             <img src={polygon} alt="polygon" className='w-[6%] h-[6%]' />
-                            <span className='text-sm font-[400] font-[display] text-[white]'>Registration</span>
+                            <span className='text-sm font-[400] font-[display] text-[white] cursor-pointer' onClick={empreg}>Registration</span>
                         </span>
                         <span className='flex flex-row justify-start items-center gap-1 '>
                             <img src={polygon} alt="polygon" className='w-[6%] h-[6%]' />
-                            <span className='text-sm font-[400] font-[display] text-[white]'>Job Post</span>
+                            <span className='text-sm font-[400] font-[display] text-[white] cursor-pointer' onClick={jobpost} >Job Post</span>
                         </span>
                         <span className='flex flex-row justify-start items-center gap-1 '>
                             <img src={polygon} alt="polygon" className='w-[6%] h-[6%]' />
@@ -51,7 +63,7 @@ function Footer() {
                         <span className='text-base font-[500] font-[display] text-[white]'>FOR CANDIDATE</span>
                         <span className='flex flex-row justify-start items-center gap-1 '>
                             <img src={polygon} alt="polygon" className='w-[6%] h-[6%]' />
-                            <span className='text-sm font-[400] font-[display] text-[white]'>Registration</span>
+                            <span className='text-sm font-[400] font-[display] text-[white] cursor-pointer' onClick={canreg}>Registration</span>
                         </span>
                         <span className='flex flex-row justify-start items-center gap-1 '>
                             <img src={polygon} alt="polygon" className='w-[6%] h-[6%]' />

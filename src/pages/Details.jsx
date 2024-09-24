@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import { useMediaQuery } from 'react-responsive';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar'
@@ -15,6 +15,7 @@ import insta from '../images/details/insta.png'
 import x from '../images/details/x.png'
 import telegram from '../images/details/telegram.png'
 import Footer from '../components/Footer';
+import Navbar2 from '../components/Navbar2';
 
 
 function Details() {
@@ -23,11 +24,20 @@ function Details() {
     const Packages = () => {
         navigate('/packages');
     };
+    const HomePage = () => {
+        navigate('/home');
+      };
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
     return (
         <div className='min-h-screen flex flex-col '>
             {isMobile ? <NavbarMob /> : <Navbar />}
+            <div className='md:flex hidden'>
+                <Navbar2 />
+            </div>
             <div className='flex flex-row gap-3 lg:px-12 px-3'>
-                <span className='text-lg font-[500] font-[display] text-[#828282] cursor-pointer'>Home</span>
+                <span className='text-lg font-[500] font-[display] text-[#828282] cursor-pointer' onClick={HomePage}>Home</span>
                 <span className='text-lg font-[500] font-[display]'>{">"}</span>
                 <span className='text-lg font-[500] font-[display]'>Details</span>
             </div>
