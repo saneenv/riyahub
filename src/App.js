@@ -8,6 +8,8 @@ import CandidateReg from './components/CandidateReg';
 import JobPost from './components/JobPost';
 import EmployeeReg from './components/EmployeeReg';
 import Login from './components/Login';
+import Verify from './components/Verify';
+import RegChoose from './components/RegChoose';
 
 
 
@@ -25,6 +27,9 @@ function App() {
                 <Route path='/jobpost' element={<JobPost/>}/>
                 <Route path='/empreg' element={<EmployeeReg/>}/>
                 <Route path='/login' element={<Login/>}/>
+                <Route path='/verify' element={<Verify/>}/>
+                <Route path='/regchoose' element={<RegChoose/>}/>
+
 
 
 

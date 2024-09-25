@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { useMediaQuery } from 'react-responsive';
 import Navbar from '../components/Navbar'
 import Navbar2 from '../components/Navbar2'
@@ -15,6 +15,7 @@ import Footer from '../components/Footer';
 
 function Home() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+  
     const navigate = useNavigate();
     const HomePage = () => {
         navigate('/home');
@@ -22,7 +23,7 @@ function Home() {
     const details = () => {
         navigate('/details'); 
       };
-
+     
 
     return (
         <div className='min-h-screen flex flex-col'>
@@ -41,7 +42,7 @@ function Home() {
                             <span className='text-base   font-[600] font-[display]'>I Want a Job</span>
                             <div className='h-[42px] lg:w-[30%] w-[50%] bg-[#E22E37] rounded-[5px] flex justify-center items-center lg:text-sm text-xs font-[600] font-[display] text-[white] cursor-pointer'>Register Now</div>
                         </div>
-                        <div className='w-[40%] h-full flex justify-center items-center'>
+                        <div className='w-[40%] h-full flex justify-center items-end'>
                             <img src={girl} alt="girl" />
                         </div>
                     </div>
@@ -51,14 +52,14 @@ function Home() {
                             <span className='text-base font-[600] font-[display] text-[white]'>I Want to Hire</span>
                             <div className='h-[42px] lg:w-[30%] w-[50%] bg-[white] rounded-[5px] flex justify-center items-center lg:text-sm text-xs font-[600] font-[display] cursor-pointer'>Register Now</div>
                         </div>
-                        <div className='w-[40%] h-full flex justify-center items-center'>
+                        <div className='w-[40%] h-full flex justify-center items-end'>
                             <img src={india} alt="abroad" />
                         </div>
                     </div>
 
                 </div>
             </div>
-            <div className='flex flex-col w-full lg:px-12 px-3 h-auto gap-12 mt-12 justify-center items-center pb-12'>
+            <div className='flex flex-col w-full lg:px-12 px-3 h-auto gap-12 mt-12 justify-center items-center pb-12 bg-[#FFFFFF]'>
                 <span className='text-3xl font-[600] font-[display]'>Latest Jobs</span>
                 <div className='grid lg:grid-cols-3 grid-cols-1 w-full gap-3'>
                     <div className='h-[292px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'>
@@ -70,7 +71,7 @@ function Home() {
                             </div>
 
                         </div>
-                        <div className='w-full h-[70%] bg-[#ecebeb] flex flex-row'>
+                        <div className='w-full h-[70%]  flex flex-row'>
                             <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-5'>
                                 <div className='flex items-center justify-between w-full'>
                                     <span className='text-base font-[display] font-[500]'>JOB ID</span>
@@ -128,7 +129,7 @@ function Home() {
                             </div>
 
                         </div>
-                        <div className='w-full h-[70%] bg-[#ecebeb] flex flex-row'>
+                        <div className='w-full h-[70%]  flex flex-row'>
                             <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-5'>
                                 <div className='flex items-center justify-between w-full'>
                                     <span className='text-base font-[display] font-[500]'>JOB ID</span>
@@ -186,7 +187,7 @@ function Home() {
                             </div>
 
                         </div>
-                        <div className='w-full h-[70%] bg-[#ecebeb] flex flex-row'>
+                        <div className='w-full h-[70%]  flex flex-row'>
                             <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-5'>
                                 <div className='flex items-center justify-between w-full'>
                                     <span className='text-base font-[display] font-[500]'>JOB ID</span>
@@ -244,7 +245,7 @@ function Home() {
                             </div>
 
                         </div>
-                        <div className='w-full h-[70%] bg-[#ecebeb] flex flex-row'>
+                        <div className='w-full h-[70%]  flex flex-row'>
                             <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-5'>
                                 <div className='flex items-center justify-between w-full'>
                                     <span className='text-base font-[display] font-[500]'>JOB ID</span>
@@ -302,7 +303,7 @@ function Home() {
                             </div>
 
                         </div>
-                        <div className='w-full h-[70%] bg-[#ecebeb] flex flex-row'>
+                        <div className='w-full h-[70%]  flex flex-row'>
                             <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-5'>
                                 <div className='flex items-center justify-between w-full'>
                                     <span className='text-base font-[display] font-[500]'>JOB ID</span>
@@ -360,7 +361,7 @@ function Home() {
                             </div>
 
                         </div>
-                        <div className='w-full h-[70%] bg-[#ecebeb] flex flex-row'>
+                        <div className='w-full h-[70%]  flex flex-row'>
                             <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-5'>
                                 <div className='flex items-center justify-between w-full'>
                                     <span className='text-base font-[display] font-[500]'>JOB ID</span>
@@ -419,7 +420,7 @@ function Home() {
                             bring you closer to your career goals.</span>
                             <div className='w-[30%] bg-[white] h-[40px] rounded-[5px] justify-center items-center flex text-base font-[700] font-[display]'>Register Now</div>
                     </div>
-                    <div className='w-[50%]   lg:flex hidden justify-center items-center'>
+                    <div className='w-[50%]   lg:flex hidden justify-center items-end'>
                         <img src={girloffice} alt="girloffice" />
                     </div>
                 </div>

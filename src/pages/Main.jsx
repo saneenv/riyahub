@@ -31,7 +31,7 @@ function Main() {
                             <span className='lg:text-3xl md:text-2xl text-xl  font-[700] font-[display]'>Jobs in Abroad</span>
                             <div className='h-[42px] lg:w-[30%] w-[50%] bg-[#E22E37] rounded-[5px] flex justify-center items-center lg:text-sm text-xs font-[600] font-[display] text-[white] cursor-pointer'>Register Now</div>
                         </div>
-                        <div className='w-[40%] h-full flex justify-center items-center'>
+                        <div className='w-[40%] h-full flex justify-center items-end'>
                             <img src={abroad} alt="abroad" />
                         </div>
                     </div>
@@ -40,7 +40,7 @@ function Main() {
                             <span className='lg:text-3xl md:text-2xl text-xl font-[700] font-[display] text-[white]'>Jobs in India</span>
                             <div className='h-[42px] lg:w-[30%] w-[50%] bg-[white] rounded-[5px] flex justify-center items-center lg:text-sm text-xs font-[600] font-[display] cursor-pointer'>Register Now</div>
                         </div>
-                        <div className='w-[40%] h-full flex justify-center items-center'>
+                        <div className='w-[40%] h-full flex justify-center items-end'>
                             <img src={india} alt="abroad" />
                         </div>
                     </div>

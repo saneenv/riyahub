@@ -5,7 +5,7 @@ module.exports = {
   theme: {
     extend: {},
     fontFamily: {
-      display: ["Epilogue"],
+      display: ["Poppins"],
     },
   },
   plugins: [],

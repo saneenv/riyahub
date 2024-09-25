@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 import logo from '../images/navbar/logo.png'
-import smallloc from '../images/navbar/smallloc.png'
+// import smallloc from '../images/navbar/smallloc.png'
 
 
 function NavbarMob() {
@@ -51,8 +51,8 @@ function NavbarMob() {
                     </ul>
                     <div className='w-[full] h-[8%] flex justify-center items-center mt-5'>
                         <div className='w-[60%] h-full border-2 border-[#E22E37] bg-[white] rounded-[5px] flex flex-row gap-4 cursor-pointer justify-center items-center'>
-                        <img src={smallloc} alt="smalllocation" />
-                        <span className='text-base font-[600] font-[display] text-[black]'>Kerala</span>
+                        {/* <img src={smallloc} alt="smalllocation" /> */}
+                        <span className='text-sm font-[600] font-[display] text-[black]'>FREE JOB POST</span>
                         </div>
                      
                 </div>

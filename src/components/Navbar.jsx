@@ -16,6 +16,9 @@ function Navbar() {
       const jobpost = () => {
         navigate('/jobpost');
       };
+      const regchooses = () => {
+        navigate('/regchoose');
+      };
     return (
         <div className='h-[100px] w-full  lg:px-12 px-3 flex items-center flex-row gap-5'>
 
@@ -44,10 +47,10 @@ function Navbar() {
 
             <div className='w-[40%] h-[48px] flex flex-row gap-4'>
                 <div className='w-[30%] h-full flex justify-center items-center border-2 border-[#E22E37] rounded-[5px] text-sm font-[600] font-[display] cursor-pointer' onClick={login}>Login</div>
-                <div className='w-[30%] h-full flex justify-center items-center border-2 border-[#E22E37] rounded-[5px] text-sm font-[600] font-[display] cursor-pointer'>Register</div>
-                <div className='w-[40%] h-full flex justify-center items-center border-2 border-[#E22E37] rounded-[5px] flex-row gap-4 cursor-pointer'>
+                <div className='w-[30%] h-full flex justify-center items-center border-2 border-[#E22E37] rounded-[5px] text-sm font-[600] font-[display] cursor-pointer' onClick={regchooses}>Register</div>
+                <div className='w-[40%] h-full flex justify-center items-center border-2 border-[#E22E37] rounded-[5px] flex-row gap-4 cursor-pointer'  onClick={jobpost}>
                      {/* <img src={smallloc} alt="smalllocation" /> */}
-                     <span className='text-base font-[600] font-[display] cursor-pointer' onClick={jobpost}>FREE JOB POST</span>
+                     <span className='text-base font-[600] font-[display] cursor-pointer'>FREE JOB POST</span>
                 </div>
 
             </div>
