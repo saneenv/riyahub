@@ -23,6 +23,9 @@ function Home() {
     const details = () => {
         navigate('/details'); 
       };
+      const empreg2 = () => {
+        navigate('/empreg'); 
+      };
      
 
     return (
@@ -36,7 +39,7 @@ function Home() {
                     Welcome to Riya Hub Jobs - Best Job Portal in Kerala
                 </div>
                 <div className='w-full h-[80%] flex justify-center items-center lg:px-12 px-3  lg:flex-row flex-col gap-5'>
-                    <div onClick={HomePage} className='lg:w-[50%] w-[100%] lg:h-[340px] md:h-[300px] h-[260px] rounded-[10px] bg-[white] flex flex-row justify-center items-center cursor-pointer'>
+                    <div  className='lg:w-[50%] w-[100%] lg:h-[340px] md:h-[300px] h-[260px] rounded-[10px] bg-[white] flex flex-row justify-center items-center cursor-pointer'>
                         <div className='w-[60%] h-[80%]  flex flex-col gap-4 lg:px-12 px-3 justify-start items-start'>
                             <span className='lg:text-3xl md:text-2xl text-xl  font-[700] font-[display]'>I am a Candidate</span>
                             <span className='text-base   font-[600] font-[display]'>I Want a Job</span>
@@ -46,11 +49,11 @@ function Home() {
                             <img src={girl} alt="girl" />
                         </div>
                     </div>
-                    <div onClick={HomePage} className='lg:w-[50%] w-[100%] lg:h-[340px] md:h-[300px] h-[260px] rounded-[10px] bg-[#E22E37] flex flex-row justify-center items-center cursor-pointer'>
+                    <div  className='lg:w-[50%] w-[100%] lg:h-[340px] md:h-[300px] h-[260px] rounded-[10px] bg-[#E22E37] flex flex-row justify-center items-center ' >
                         <div className='w-[60%] h-[80%]  flex flex-col gap-4 lg:px-12 px-3 justify-start items-start'>
                             <span className='lg:text-3xl md:text-2xl text-xl font-[700] font-[display] text-[white]'>I am an Employer</span>
                             <span className='text-base font-[600] font-[display] text-[white]'>I Want to Hire</span>
-                            <div className='h-[42px] lg:w-[30%] w-[50%] bg-[white] rounded-[5px] flex justify-center items-center lg:text-sm text-xs font-[600] font-[display] cursor-pointer'>Register Now</div>
+                            <div className='h-[42px] lg:w-[30%] w-[50%] bg-[white] rounded-[5px] flex justify-center items-center lg:text-sm text-xs font-[600] font-[display] cursor-pointer' onClick={empreg2}>Register Now</div>
                         </div>
                         <div className='w-[40%] h-full flex justify-center items-end'>
                             <img src={india} alt="abroad" />

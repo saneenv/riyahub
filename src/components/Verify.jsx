@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import { useMediaQuery } from 'react-responsive';
 import NavbarMob from './NavbarMob';
 import Navbar from './Navbar';
@@ -13,6 +13,10 @@ function Verify() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
     const [code, setCode] = useState(new Array(6).fill(''));
     const [otp, setOtp] = useState('');
+    
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     // const navigate = useNavigate();
     // const verify = () => {
@@ -52,7 +56,7 @@ function Verify() {
                 <div className='lg:w-[60%] w-[90%] h-[70%] bg-[white]  flex flex-col items-center  gap-6 py-12 lg:rounded-[20px] rounded-[5px]'>
                     <div className='flex flex-col justify-center items-center gap-3 px-12'>
                         <span className='text-2xl font-[600] font-[display]'>Enter the code</span>
-                        <span className='text-base font-[400] font-[display]'>Enter the code we sent to your phone number ********11 be
+                        <span className='text-base font-[400] font-[display]'>Enter the code we sent to your mail Id be
                              careful<br/> not to share with any one.</span>
                     </div>
                     <div className='w-[60%] h-auto gap-3 flex flex-col mt-5'>
