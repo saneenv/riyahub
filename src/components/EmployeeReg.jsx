@@ -17,6 +17,7 @@ function EmployeeReg() {
     const [companyDistrict, setCompanyDistrict] = useState('');
     const [address, setAddress] = useState('');
     const [password, setPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(false); // New loading state
     const navigate = useNavigate();
 
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
@@ -82,6 +83,8 @@ function EmployeeReg() {
 
         console.log(formData);
 
+        setIsLoading(true); // Set loading state to true
+
         try {
             const response = await fetch(`${apiBaseUrl}/registerEmployee`, {
                 method: 'POST',
@@ -94,17 +97,17 @@ function EmployeeReg() {
             const data = await response.json();
 
             if (response.ok) {
-            alert('Registration Successful');
-            navigate('/verify');
-            // Clear all input fields
-            setCompanyName('');
-            setMobileNumber('');
-            setWhatsappNumber('');
-            setEmail('');
-            setCompanyCategory('');
-            setCompanyDistrict(''); // Clear district
-            setAddress('');
-            setPassword('');
+                alert('Registration Successful');
+                navigate('/verify', { state: { employeeId: data.employeeId } });
+                // Clear all input fields
+                setCompanyName('');
+                setMobileNumber('');
+                setWhatsappNumber('');
+                setEmail('');
+                setCompanyCategory('');
+                setCompanyDistrict(''); // Clear district
+                setAddress('');
+                setPassword('');
             } else {
                 console.log('Response error:', data);
                 alert('Error in registration');
@@ -113,6 +116,9 @@ function EmployeeReg() {
             console.error('Request error:', err);
             alert('Error connecting to server');
         }
+     finally {
+        setIsLoading(false);
+    }
     };
 
 
@@ -254,11 +260,22 @@ function EmployeeReg() {
                     </div>
 
                     <div className='flex flex-col gap-5 w-full px-12 justify-center items-center'>
-                        <button
+                    <button
                             onClick={handleSubmit}
                             className='h-[56px] lg:w-[25%] w-[50%] bg-[#E22E37] rounded-[20px] flex justify-center items-center text-[white] text-xl font-[display] font-[600]'
+                            disabled={isLoading}
                         >
-                            Register
+                            {isLoading ? (
+                                <div className="flex justify-center items-center">
+                                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                        <path className="opacity-75" fill="currentColor" d="M4 12c0-4.418 3.582-8 8-8v8H4z"></path>
+                                    </svg>
+                                    <span>Register</span>
+                                </div>
+                            ) : (
+                                'Register'
+                            )}
                         </button>
                         <span className='text-base font-[500] font-[dislay]'>
                             Already Registered? -
