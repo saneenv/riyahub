@@ -8,16 +8,25 @@ import Select from 'react-select';
 import companies from '../json/company-categories.json';
 import jobs from '../json/jobs.json';
 import location from '../json/cities.json'
+import worktime from '../json/worktime.json'
+import endtime from '../json/endtime.json'
 
 
 
 function JobPost() {
+    const [jobTitle, setJobTitle] = useState('');
+    const [minSalary, setMinSalary] = useState('');
+    const [maxSalary, setMaxSalary] = useState('');
+    const [qualification, setQualification] = useState('');
+    const [jobDescription, setJobDescription] = useState('');
+    const [jobType, setJobType] = useState(null);
     const [employeeData, setEmployeeData] = useState(null);
     const [whatsappNumber, setWhatsappNumber] = useState(''); // State for WhatsApp number
     const [email, setEmail] = useState('');
     const [address, setAddress] = useState('');
-    const [jobType, setJobType] = useState(null);
     const [genderType, setGenderType] = useState(null);
+    const [foodType, setFoodType] = useState(null);
+
     const [companyCategory, setCompanyCategory] = useState('');
     const [categoryOptions, setCategoryOptions] = useState([]);
     const [jobsCategory, setJobsCategory] = useState('');
@@ -27,6 +36,14 @@ function JobPost() {
     const [locationCategory, setLocationCategory] = useState('');
 
     const [locationOptions, setLocationOptions] = useState([]);
+
+    const [startCategory, setStartCategory] = useState('');
+
+    const [startOptions, setStartOptions] = useState([]);
+
+    const [endCategory, setEndCategory] = useState('');
+
+    const [endOptions, setEndOptions] = useState([]);
 
 
 
@@ -41,6 +58,13 @@ function JobPost() {
         { value: 'male', label: 'Male' },
         { value: 'female', label: 'Female' },
         { value: 'male/female', label: 'Male/Female' }
+    ];
+
+    const foodTypeOptions = [
+        { value: 'no', label: 'No' },
+        { value: 'yes', label: 'Yes' },
+        { value: 'Accomodationonly', label: 'Accomodation Only' },
+        { value: 'Foodonly', label: 'Food Only' }
     ];
 
     // Custom styles to match the input field style
@@ -67,6 +91,10 @@ function JobPost() {
         setGenderType(selectedOption);
     };
 
+    const handleFoodTypeChange = (selectedOption) => {
+        setFoodType(selectedOption);
+    };
+
 
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
     useEffect(() => {
@@ -85,7 +113,17 @@ function JobPost() {
         }));
 
         // Extract districts from the imported JSON data
+        const workstart = worktime.states[0].districts.map(district => ({
+            value: district,
+            label: district
+        }));
+
         const locations = location.states[0].districts.map(district => ({
+            value: district,
+            label: district
+        }));
+
+        const workend = endtime.states[0].districts.map(district => ({
             value: district,
             label: district
         }));
@@ -93,6 +131,8 @@ function JobPost() {
         setCategoryOptions(districts);
         setJobsOptions(job); // Set district options for the select
         setLocationOptions(locations)
+        setStartOptions(workstart)
+        setEndOptions(workend)
     }, []);
 
     const handleCategoryChange = selectedOption => {
@@ -105,6 +145,15 @@ function JobPost() {
 
     const handleLocationChange = selectedOption => {
         setLocationCategory(selectedOption ? selectedOption.value : ''); // Set the selected district value
+    };
+
+    const handleStartChange = selectedOption => {
+        setStartCategory(selectedOption ? selectedOption.value : ''); // Set the selected district value
+    };
+
+
+    const handleEndChange = selectedOption => {
+        setEndCategory(selectedOption ? selectedOption.value : ''); // Set the selected district value
     };
 
 
@@ -149,6 +198,77 @@ function JobPost() {
         setAddress(e.target.value); // Update the state when the user types
     };
 
+    const selectedCompanyCategory = categoryOptions.find(option => option.value === companyCategory);
+    const selectedEndCategory = endOptions.find(option => option.value === endCategory);
+    const selectedJobCategory = jobsOptions.find(option => option.value === jobsCategory);
+    const selectedLocationCategory = locationOptions.find(option => option.value === locationCategory);
+    const selectedStartCategory = startOptions.find(option => option.value === startCategory)
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const formData = {
+            employeeId,
+            jobTitle,
+            jobType: jobType?.value, // Assuming you're using react-select
+            genderType: genderType?.value,
+            companyType: selectedCompanyCategory ? selectedCompanyCategory.label : null,
+            job: selectedJobCategory ? selectedJobCategory.label : null,
+            location: selectedLocationCategory ? selectedLocationCategory.label : null,
+            minSalary,
+            maxSalary,
+            startTime: selectedStartCategory ? selectedStartCategory.label : null,
+            endTime: selectedEndCategory ? selectedEndCategory.label : null,
+            qualification,
+            jobDescription,
+            foodType: foodType?.value,
+            whatsappNumber,
+            email,
+            address,
+        };
+
+        console.log(formData, "formdata:");
+
+
+        try {
+            const response = await fetch(`${apiBaseUrl}/jobpost`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                alert('Job posted successfully!');
+                
+            
+            setCompanyCategory('');
+            setFoodType('');
+            setGenderType('');
+            setJobType('');
+            setJobDescription('');
+            setQualification('');
+            setMaxSalary('');
+            setMinSalary('');
+            setJobTitle('');
+            setEndCategory('');
+            setStartCategory('');
+            setLocationCategory('');
+            setJobsCategory('');
+            
+           
+           
+            } else {
+                alert('Failed to post job.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while posting the job.');
+        }
+    };
+
+
     return (
         <div className='flex flex-col min-h-screen'>
             {isMobile ? <NavbarMob /> : <Navbar />}
@@ -161,7 +281,14 @@ function JobPost() {
                     <div className='grid lg:grid-cols-3 grid-cols-1 gap-5 lg:px-12 px-3 w-full'>
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-lg font-[500] font-[display]'>Job Title *</span>
-                            <input placeholder='Job Title' type="text" className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4' />
+                            <input
+                                placeholder='Job Title'
+                                type="text"
+                                className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                                value={jobTitle}
+                                onChange={(e) => setJobTitle(e.target.value)}
+                            />
+
                         </div>
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-lg font-[500] font-[display]'>Job Type *</span>
@@ -232,36 +359,90 @@ function JobPost() {
 
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-lg font-[500] font-[display]'>Minimum Salary *</span>
-                            <input placeholder='Select Minimum Salary' type="text" className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4' />
+                            <input
+                             placeholder='Enter Minimum Salary'
+                              type="text"
+                               className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4' 
+                               value={minSalary}
+                               onChange={(e) => setMinSalary(e.target.value)}
+                               
+                               />
                         </div>
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-lg font-[500] font-[display]'>Maximum Salary *</span>
-                            <input placeholder='Select Maximum Salary' type="text" className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4' />
+                            <input
+                             placeholder='Enter Maximum Salary'
+                              type="text"
+                               className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                               value={maxSalary}
+                               onChange={(e) => setMaxSalary(e.target.value)}
+                               
+                               />
                         </div>
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-lg font-[500] font-[display]'>Work Time Start *</span>
-                            <input placeholder='Select Working Time Start' type="text" className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4' />
+                            <Select
+                                options={startOptions}
+                                onChange={handleStartChange}
+                                placeholder="Select Location"
+                                className='w-full'
+                                classNamePrefix='select'
+                                isClearable={true}
+                                value={startOptions.find(option => option.value === startCategory) || null} // Set the selected option
+                                styles={customStyles}
+                            />
                         </div>
 
 
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-lg font-[500] font-[display]'>Work Time End *</span>
-                            <input placeholder='Select Working Time End' type="text" className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4' />
+                            <Select
+                                options={endOptions}
+                                onChange={handleEndChange}
+                                placeholder="Select Location"
+                                className='w-full'
+                                classNamePrefix='select'
+                                isClearable={true}
+                                value={endOptions.find(option => option.value === endCategory) || null} // Set the selected option
+                                styles={customStyles}
+                            />
                         </div>
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-lg font-[500] font-[display]'>Qualification Required *</span>
-                            <input placeholder='Qualification Required' type="text" className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4' />
+                            <input
+                                placeholder='Qualification Required'
+                                type="text"
+                                className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                                value={qualification}
+                                onChange={(e) => setQualification(e.target.value)}
+
+                            />
                         </div>
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-lg font-[500] font-[display]'>Job Description *</span>
-                            <input placeholder='Job Description' type="text" className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4' />
+                            <input
+                                placeholder='Job Description'
+                                type="text"
+                                className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                                value={jobDescription}
+                                onChange={(e) => setJobDescription(e.target.value)}
+
+                            />
                         </div>
 
 
 
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-lg font-[500] font-[display]'>Food & Accommodation</span>
-                            <input placeholder='Select If Applicable' type="text" className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4' />
+                            <Select
+                                placeholder="Select"
+                                options={foodTypeOptions}
+                                value={foodType}
+                                onChange={handleFoodTypeChange}
+                                isClearable={true}
+                                styles={customStyles}
+                                classNamePrefix="react-select" // Ensures custom class prefix
+                            />
                         </div>
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-lg font-[500] font-[display]'>Whatsapp Number *</span>
@@ -302,7 +483,7 @@ function JobPost() {
                     </div>
 
                     <div className='flex flex-col gap-5 w-full px-12 justify-center items-center'>
-                        <div className='h-[56px] lg:w-[25%] w-[50%] bg-[#E22E37] rounded-[20px] flex justify-center items-center text-[white] text-xl font-[display] font-[600]'>Job Post</div>
+                        <div className='h-[56px] lg:w-[25%] w-[50%] bg-[#E22E37] rounded-[20px] flex justify-center items-center text-[white] text-xl font-[display] font-[600]' onClick={handleSubmit}>Job Post</div>
                         <span className='text-base font-[500] font-[dislay]'>Already Register- <span className='text-base font-[700] font-[dislay] text-[#E22E37] cursor-pointer'>Login</span> </span>
                     </div>
 

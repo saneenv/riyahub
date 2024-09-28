@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import { useMediaQuery } from 'react-responsive';
 import Navbar from '../components/Navbar'
 import Navbar2 from '../components/Navbar2'
@@ -15,6 +15,10 @@ import Footer from '../components/Footer';
 
 function Home() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+    const employeeId = sessionStorage.getItem('employeeId');
+    const [jobPosts, setJobPosts] = useState([]);
+
+  console.log(employeeId,"employeeId");
   
     const navigate = useNavigate();
     const HomePage = () => {
@@ -26,6 +30,23 @@ function Home() {
       const empreg2 = () => {
         navigate('/empreg'); 
       };
+
+      useEffect(() => {
+        // Fetch job posts from the API when the component mounts
+        fetch('http://localhost:5000/getjobposts')
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => {
+            setJobPosts(data);
+          })
+          .catch(error => {
+            console.error('Error fetching job posts:', error);
+          });
+      }, []);
      
 
     return (
@@ -65,12 +86,14 @@ function Home() {
             <div className='flex flex-col w-full lg:px-12 px-3 h-auto gap-12 mt-12 justify-center items-center pb-12 bg-[#FFFFFF]'>
                 <span className='text-3xl font-[600] font-[display]'>Latest Jobs</span>
                 <div className='grid lg:grid-cols-3 grid-cols-1 w-full gap-3'>
+                {jobPosts.map((job) => (
                     <div className='h-[292px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'>
+                   
                         <div className='w-full h-[30%] bg-[#E22E37] px-5 flex items-center justify-between'>
-                            <span className='text-[white] text-xl font-[700] font-[display]'>Resort Manager</span>
+                            <span className='text-[white] text-xl font-[700] font-[display]'>{job.job_title}</span>
                             <div className='flex flex-row gap-2 items-center justify-center border-2 border-[white] p-1 rounded-[40px]'>
                                 <img src={vector} alt="loc" />
-                                <span className='text-base font-[500] font-[display] text-[white]'>Kozhikode</span>
+                                <span className='text-base font-[500] font-[display] text-[white]'>{job.location}</span>
                             </div>
 
                         </div>
@@ -81,7 +104,7 @@ function Home() {
                                     <span className='text-base font-[display] font-[500]'>:</span>
                                 </div>
                                 <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>COMPANY DETAILS</span>
+                                    <span className='text-base font-[display] font-[500]'>COMPANY TYPE</span>
                                     <span className='text-base font-[display] font-[500]'>:</span>
                                 </div>
                                 <div className='flex items-center justify-between'>
@@ -100,19 +123,19 @@ function Home() {
                             </div>
                             <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-5'>
                                 <div className='flex items-center justify-between w-full'>
-                                    <span className='text-base font-[display] font-[500]'>1284453</span>
+                                    <span className='text-base font-[display] font-[500]'>{job.job_id}</span>
 
                                 </div>
                                 <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>Resort</span>
+                                    <span className='text-base font-[display] font-[500]'>{job.company_type}</span>
 
                                 </div>
                                 <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>Full Time</span>
+                                    <span className='text-base font-[display] font-[500]'>{job.job_type}</span>
 
                                 </div>
                                 <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>Male</span>
+                                    <span className='text-base font-[display] font-[500]'>{job.gender_type}</span>
 
                                 </div>
                                 <div className='flex items-center justify-center w-[80%] h-[38px] bg-[#0D2D3E] rounded-[10px] text-lg font-[600] font-[display] text-[white] cursor-pointer' onClick={details}>
@@ -123,296 +146,9 @@ function Home() {
                             </div>
                         </div>
                     </div>
-                    <div className='h-[292px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'>
-                        <div className='w-full h-[30%] bg-[#E22E37] px-5 flex items-center justify-between'>
-                            <span className='text-[white] text-xl font-[700] font-[display]'>Resort Manager</span>
-                            <div className='flex flex-row gap-2 items-center justify-center border-2 border-[white] p-1 rounded-[40px]'>
-                                <img src={vector} alt="loc" />
-                                <span className='text-base font-[500] font-[display] text-[white]'>Kozhikode</span>
-                            </div>
-
-                        </div>
-                        <div className='w-full h-[70%]  flex flex-row'>
-                            <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-5'>
-                                <div className='flex items-center justify-between w-full'>
-                                    <span className='text-base font-[display] font-[500]'>JOB ID</span>
-                                    <span className='text-base font-[display] font-[500]'>:</span>
-                                </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>COMPANY DETAILS</span>
-                                    <span className='text-base font-[display] font-[500]'>:</span>
-                                </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>JOB TYPE</span>
-                                    <span className='text-base font-[display] font-[500]'>:</span>
-                                </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>GENDER</span>
-                                    <span className='text-base font-[display] font-[500]'>:</span>
-                                </div>
-                                <div className='flex items-center justify-center w-[80%] h-[38px] bg-[#0D2D3E] rounded-[10px] text-lg font-[600] font-[display] text-[white]'>
-                                    Apply Now
-
-                                </div>
-
-                            </div>
-                            <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-5'>
-                                <div className='flex items-center justify-between w-full'>
-                                    <span className='text-base font-[display] font-[500]'>1284453</span>
-
-                                </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>Resort</span>
-
-                                </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>Full Time</span>
-
-                                </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>Male</span>
-
-                                </div>
-                                <div className='flex items-center justify-center w-[80%] h-[38px] bg-[#0D2D3E] rounded-[10px] text-lg font-[600] font-[display] text-[white]'>
-                                    Job Details
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div className='h-[292px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'>
-                        <div className='w-full h-[30%] bg-[#E22E37] px-5 flex items-center justify-between'>
-                            <span className='text-[white] text-xl font-[700] font-[display]'>Resort Manager</span>
-                            <div className='flex flex-row gap-2 items-center justify-center border-2 border-[white] p-1 rounded-[40px]'>
-                                <img src={vector} alt="loc" />
-                                <span className='text-base font-[500] font-[display] text-[white]'>Kozhikode</span>
-                            </div>
-
-                        </div>
-                        <div className='w-full h-[70%]  flex flex-row'>
-                            <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-5'>
-                                <div className='flex items-center justify-between w-full'>
-                                    <span className='text-base font-[display] font-[500]'>JOB ID</span>
-                                    <span className='text-base font-[display] font-[500]'>:</span>
-                                </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>COMPANY DETAILS</span>
-                                    <span className='text-base font-[display] font-[500]'>:</span>
-                                </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>JOB TYPE</span>
-                                    <span className='text-base font-[display] font-[500]'>:</span>
-                                </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>GENDER</span>
-                                    <span className='text-base font-[display] font-[500]'>:</span>
-                                </div>
-                                <div className='flex items-center justify-center w-[80%] h-[38px] bg-[#0D2D3E] rounded-[10px] text-lg font-[600] font-[display] text-[white]'>
-                                    Apply Now
-
-                                </div>
-
-                            </div>
-                            <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-5'>
-                                <div className='flex items-center justify-between w-full'>
-                                    <span className='text-base font-[display] font-[500]'>1284453</span>
-
-                                </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>Resort</span>
-
-                                </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>Full Time</span>
-
-                                </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>Male</span>
-
-                                </div>
-                                <div className='flex items-center justify-center w-[80%] h-[38px] bg-[#0D2D3E] rounded-[10px] text-lg font-[600] font-[display] text-[white]'>
-                                    Job Details
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div className='h-[292px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'>
-                        <div className='w-full h-[30%] bg-[#E22E37] px-5 flex items-center justify-between'>
-                            <span className='text-[white] text-xl font-[700] font-[display]'>Resort Manager</span>
-                            <div className='flex flex-row gap-2 items-center justify-center border-2 border-[white] p-1 rounded-[40px]'>
-                                <img src={vector} alt="loc" />
-                                <span className='text-base font-[500] font-[display] text-[white]'>Kozhikode</span>
-                            </div>
-
-                        </div>
-                        <div className='w-full h-[70%]  flex flex-row'>
-                            <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-5'>
-                                <div className='flex items-center justify-between w-full'>
-                                    <span className='text-base font-[display] font-[500]'>JOB ID</span>
-                                    <span className='text-base font-[display] font-[500]'>:</span>
-                                </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>COMPANY DETAILS</span>
-                                    <span className='text-base font-[display] font-[500]'>:</span>
-                                </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>JOB TYPE</span>
-                                    <span className='text-base font-[display] font-[500]'>:</span>
-                                </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>GENDER</span>
-                                    <span className='text-base font-[display] font-[500]'>:</span>
-                                </div>
-                                <div className='flex items-center justify-center w-[80%] h-[38px] bg-[#0D2D3E] rounded-[10px] text-lg font-[600] font-[display] text-[white]'>
-                                    Apply Now
-
-                                </div>
-
-                            </div>
-                            <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-5'>
-                                <div className='flex items-center justify-between w-full'>
-                                    <span className='text-base font-[display] font-[500]'>1284453</span>
-
-                                </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>Resort</span>
-
-                                </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>Full Time</span>
-
-                                </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>Male</span>
-
-                                </div>
-                                <div className='flex items-center justify-center w-[80%] h-[38px] bg-[#0D2D3E] rounded-[10px] text-lg font-[600] font-[display] text-[white]'>
-                                    Job Details
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div className='h-[292px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'>
-                        <div className='w-full h-[30%] bg-[#E22E37] px-5 flex items-center justify-between'>
-                            <span className='text-[white] text-xl font-[700] font-[display]'>Resort Manager</span>
-                            <div className='flex flex-row gap-2 items-center justify-center border-2 border-[white] p-1 rounded-[40px]'>
-                                <img src={vector} alt="loc" />
-                                <span className='text-base font-[500] font-[display] text-[white]'>Kozhikode</span>
-                            </div>
-
-                        </div>
-                        <div className='w-full h-[70%]  flex flex-row'>
-                            <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-5'>
-                                <div className='flex items-center justify-between w-full'>
-                                    <span className='text-base font-[display] font-[500]'>JOB ID</span>
-                                    <span className='text-base font-[display] font-[500]'>:</span>
-                                </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>COMPANY DETAILS</span>
-                                    <span className='text-base font-[display] font-[500]'>:</span>
-                                </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>JOB TYPE</span>
-                                    <span className='text-base font-[display] font-[500]'>:</span>
-                                </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>GENDER</span>
-                                    <span className='text-base font-[display] font-[500]'>:</span>
-                                </div>
-                                <div className='flex items-center justify-center w-[80%] h-[38px] bg-[#0D2D3E] rounded-[10px] text-lg font-[600] font-[display] text-[white]'>
-                                    Apply Now
-
-                                </div>
-
-                            </div>
-                            <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-5'>
-                                <div className='flex items-center justify-between w-full'>
-                                    <span className='text-base font-[display] font-[500]'>1284453</span>
-
-                                </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>Resort</span>
-
-                                </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>Full Time</span>
-
-                                </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>Male</span>
-
-                                </div>
-                                <div className='flex items-center justify-center w-[80%] h-[38px] bg-[#0D2D3E] rounded-[10px] text-lg font-[600] font-[display] text-[white]'>
-                                    Job Details
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div className='h-[292px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'>
-                        <div className='w-full h-[30%] bg-[#E22E37] px-5 flex items-center justify-between'>
-                            <span className='text-[white] text-xl font-[700] font-[display]'>Resort Manager</span>
-                            <div className='flex flex-row gap-2 items-center justify-center border-2 border-[white] p-1 rounded-[40px]'>
-                                <img src={vector} alt="loc" />
-                                <span className='text-base font-[500] font-[display] text-[white]'>Kozhikode</span>
-                            </div>
-
-                        </div>
-                        <div className='w-full h-[70%]  flex flex-row'>
-                            <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-5'>
-                                <div className='flex items-center justify-between w-full'>
-                                    <span className='text-base font-[display] font-[500]'>JOB ID</span>
-                                    <span className='text-base font-[display] font-[500]'>:</span>
-                                </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>COMPANY DETAILS</span>
-                                    <span className='text-base font-[display] font-[500]'>:</span>
-                                </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>JOB TYPE</span>
-                                    <span className='text-base font-[display] font-[500]'>:</span>
-                                </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>GENDER</span>
-                                    <span className='text-base font-[display] font-[500]'>:</span>
-                                </div>
-                                <div className='flex items-center justify-center w-[80%] h-[38px] bg-[#0D2D3E] rounded-[10px] text-lg font-[600] font-[display] text-[white]'>
-                                    Apply Now
-
-                                </div>
-
-                            </div>
-                            <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-5'>
-                                <div className='flex items-center justify-between w-full'>
-                                    <span className='text-base font-[display] font-[500]'>1284453</span>
-
-                                </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>Resort</span>
-
-                                </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>Full Time</span>
-
-                                </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>Male</span>
-
-                                </div>
-                                <div className='flex items-center justify-center w-[80%] h-[38px] bg-[#0D2D3E] rounded-[10px] text-lg font-[600] font-[display] text-[white]'>
-                                    Job Details
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
+                     ))}
+                  
+                  
                 </div>
                 <div className='w-full h-[355px] bg-[#E22E37] mt-12 flex flex-row'>
                     <div className='lg:w-[50%] w-[100%] lg:items-start items-center lg:justify-start justify-center lg:pl-12 lg:pr-[15%] pl-3 pr-[3%]  flex flex-col lg:text-left text-center  lg:gap-3 gap-6'>
