@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react'
 import { useMediaQuery } from 'react-responsive';
 import Navbar from '../components/Navbar'
 import Navbar2 from '../components/Navbar2'
-import abroad from '../images/mainPage/abroad.png'
+// import abroad from '../images/mainPage/abroad.png'
 import india from '../images/mainPage/india.png'
 import girl from '../images/home/girl.png'
 import NavbarMob from '../components/NavbarMob';
@@ -17,36 +17,40 @@ function Home() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
     const employeeId = sessionStorage.getItem('employeeId');
     const [jobPosts, setJobPosts] = useState([]);
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
   console.log(employeeId,"employeeId");
   
     const navigate = useNavigate();
-    const HomePage = () => {
-        navigate('/home');
-    };
-    const details = () => {
-        navigate('/details'); 
-      };
+    // const HomePage = () => {
+    //     navigate('/home');
+    // };
+  
       const empreg2 = () => {
         navigate('/empreg'); 
       };
 
-      useEffect(() => {
-        // Fetch job posts from the API when the component mounts
-        fetch('http://localhost:5000/getjobposts')
-          .then(response => {
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
-            }
-            return response.json();
-          })
-          .then(data => {
-            setJobPosts(data);
-          })
-          .catch(error => {
-            console.error('Error fetching job posts:', error);
-          });
-      }, []);
+    // Fetch job posts when component mounts
+  useEffect(() => {
+    fetch(`${apiBaseUrl}/getjobposts`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        setJobPosts(data); // Store job posts in state
+      })
+      .catch(error => {
+        console.error('Error fetching job posts:', error);
+      });
+  }, [apiBaseUrl]);
+
+  // Navigate to details page with job_id passed as state
+  const details = (jobId) => {
+    navigate('/details', { state: { jobId } }); // Pass job_id as state
+  };
      
 
     return (
@@ -115,7 +119,7 @@ function Home() {
                                     <span className='text-base font-[display] font-[500]'>GENDER</span>
                                     <span className='text-base font-[display] font-[500]'>:</span>
                                 </div>
-                                <div className='flex items-center justify-center w-[80%] h-[38px] bg-[#0D2D3E] rounded-[10px] text-lg font-[600] font-[display] text-[white] cursor-pointer' onClick={details}>
+                                <div className='flex items-center justify-center w-[80%] h-[38px] bg-[#0D2D3E] rounded-[10px] text-lg font-[600] font-[display] text-[white] cursor-pointer' onClick={() => details(job.job_id)}>
                                     Apply Now
 
                                 </div>
@@ -138,7 +142,7 @@ function Home() {
                                     <span className='text-base font-[display] font-[500]'>{job.gender_type}</span>
 
                                 </div>
-                                <div className='flex items-center justify-center w-[80%] h-[38px] bg-[#0D2D3E] rounded-[10px] text-lg font-[600] font-[display] text-[white] cursor-pointer' onClick={details}>
+                                <div className='flex items-center justify-center w-[80%] h-[38px] bg-[#0D2D3E] rounded-[10px] text-lg font-[600] font-[display] text-[white] cursor-pointer' onClick={() => details(job.job_id)}>
                                     Job Details
 
                                 </div>

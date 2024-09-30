@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react'
+import React,{useEffect,useState} from 'react'
 import { useMediaQuery } from 'react-responsive';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar'
@@ -7,6 +7,9 @@ import loc from '../images/details/loc.png'
 import dinner from '../images/details/Dinner.png'
 import rs from '../images/details/rs.png'
 import phone from '../images/details/phone.png'
+import id from '../images/details/ID.png'
+import suitecase from '../images/details/Suitcase.png'
+import company from '../images/details/Company.png'
 import lan from '../images/details/lan.png'
 import wa from '../images/details/whatsapp.png'
 import mail from '../images/details/mailpng.png'
@@ -16,10 +19,22 @@ import x from '../images/details/x.png'
 import telegram from '../images/details/telegram.png'
 import Footer from '../components/Footer';
 import Navbar2 from '../components/Navbar2';
+import { useLocation } from 'react-router-dom';
 
 
 function Details() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+    const employeeId = sessionStorage.getItem('employeeId');
+    console.log(employeeId);
+    const [jobDetails, setJobDetails] = useState(null); // State to store job details
+  const [error, setError] = useState(null); // State to handle errors
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL; // Assuming you have this in .env file
+
+    const location = useLocation();
+  const { jobId } = location.state || {}; // Extract jobId from state
+  console.log("jobId:",jobId);
+  
+    
     const navigate = useNavigate();
     const Packages = () => {
         navigate('/packages');
@@ -30,6 +45,34 @@ function Details() {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
+
+    useEffect(() => {
+        if (jobId) {
+          // Fetch the job details based on the jobId
+          fetch(`${apiBaseUrl}/getjobposts/${jobId}`)
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Network response was not ok');
+              }
+              return response.json();
+            })
+            .then(data => {
+              setJobDetails(data); // Set the fetched job details
+            })
+            .catch(error => {
+              setError('Error fetching job details. Please try again later.');
+              console.error('Error fetching job details:', error);
+            });
+        }
+      }, [jobId, apiBaseUrl]); // Rerun this effect when jobId changes
+    
+      if (error) {
+        return <div>{error}</div>; // Show error message
+      }
+    
+      if (!jobDetails) {
+        return <div>Loading job details...</div>; // Loading state
+      }
     return (
         <div className='min-h-screen flex flex-col '>
             {isMobile ? <NavbarMob /> : <Navbar />}
@@ -49,38 +92,57 @@ function Details() {
                 </div>
 
                 <div className='w-full flex flex-col gap-4'>
-                    <span className='text-2xl font-[700] font-[display] text-left'>Resort Manager</span>
-                    <span className='text-xl font-[400] font-[display] text-left'>Job Opening at Hill way Resort</span>
+                    <span className='text-2xl font-[700] font-[display] text-left'>{jobDetails.job}</span>
+                    <span className='text-xl font-[400] font-[display] text-left'>{jobDetails.job_title}</span>
                     <div className='flex flex-col w-full h-auto gap-2'>
+                    <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
+                            <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
+                                <img src={id} alt="loc" />
+                                <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Job Id</span>
+                            </div>
+                            <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-xl font-[500] font-[display]'>
+                            {jobDetails.job_id}
+                            </div>
+                        </div>
+                        <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
+                            <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
+                                <img src={company} alt="loc" />
+                                <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Company Type</span>
+                            </div>
+                            <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-xl font-[500] font-[display]'>
+                            {jobDetails.company_type}
+                            </div>
+                        </div>
+                        <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
+                            <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
+                                <img src={suitecase} alt="loc" />
+                                <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Job Type</span>
+                            </div>
+                            <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-xl font-[500] font-[display]'>
+                            {jobDetails.job_type}
+                            </div>
+                        </div>
                         <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
                             <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
                                 <img src={loc} alt="loc" />
                                 <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Location</span>
                             </div>
                             <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-xl font-[500] font-[display]'>
-                                900 Kandi Resort
+                            {jobDetails.location}
                             </div>
                         </div>
 
                         <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
                             <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
                                 <img src={loc} alt="loc" />
-                                <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>District</span>
+                                <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Address</span>
                             </div>
                             <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-xl font-[500] font-[display]'>
-                                Wayanad
+                            {jobDetails.address}
                             </div>
                         </div>
 
-                        <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
-                            <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
-                                <img src={loc} alt="loc" />
-                                <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>State</span>
-                            </div>
-                            <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-xl font-[500] font-[display]'>
-                                Kerala
-                            </div>
-                        </div>
+                  
 
                         <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
                             <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
@@ -88,51 +150,37 @@ function Details() {
                                 <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Food & Accomodation</span>
                             </div>
                             <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-xl font-[500] font-[display]'>
-                                yes
+                            {jobDetails.food_type}
                             </div>
                         </div>
 
                         <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
                             <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
                                 <img src={rs} alt="loc" />
-                                <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Salary</span>
+                                <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Monthly Salary</span>
                             </div>
                             <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-xl font-[500] font-[display]'>
-                                ₹ 20,000/-
+                                ₹ {jobDetails.min_salary} - ₹ {jobDetails.max_salary}
                             </div>
                         </div>
 
                         <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
                             <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
                                 <img src={phone} alt="loc" />
-                                <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Manager Number</span>
+                                <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Number</span>
                             </div>
                             <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-xl font-[500] font-[display]'>
-                                +91 9988774455
+                            {jobDetails.whatsapp_number}
                             </div>
                         </div>
 
-                        <div className='flex  lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
-                            <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
-                                <img src={lan} alt="loc" />
-                                <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Office Number</span>
-                            </div>
-                            <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-xl font-[500] font-[display]'>
-                                0495 987456
-                            </div>
-                        </div>
+                    
                     </div>
                 </div>
                 <ul className='border-2 border-[#E3EAF1]'></ul>
                 <div className='flex flex-col w-full gap-4'>
-                    <span className='text-2xl font-[700] font-[display] text-left'>Job Descscription</span>
-                    <span className='text-xl font-[500] font-[display] text-left'>As a resort manager, your job will include managing all
-                        aspects of a resort, including lodging, food and beverage management, human resources,
-                        housekeeping, attractions, and guest services. You'll be in charge of employees,
-                        finances, customer service, promotions, and quality control. Resort managers
-                        often have to work nights and weekends,
-                        putting in long hours to ensure the success of their
-                        establishment. However, your hours may vary greatly during high and low travel seasons.</span>
+                    <span className='text-2xl font-[700] font-[display] text-left'>Job Desccription</span>
+                    <span className='text-xl font-[500] font-[display] text-left'>{jobDetails.job_description}</span>
                 </div>
                 <span className='text-2xl font-[700] font-[display] text-left'>Requirements</span>
 
@@ -143,7 +191,7 @@ function Details() {
                             <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Required Gender</span>
                         </div>
                         <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-xl font-[500] font-[display]'>
-                            Male
+                        {jobDetails.gender_type}
                         </div>
                     </div>
 
@@ -153,24 +201,11 @@ function Details() {
                             <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Qualification</span>
                         </div>
                         <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-xl font-[500] font-[display]'>
-                            Same Field Experience Required
+                        {jobDetails.qualification}
                         </div>
                     </div>
                 </div>
-                <span className='text-2xl font-[700] font-[display] text-left'>Job Descriptions</span>
-                <div className='flex flex-col w-full h-auto gap-2'>
-                    <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
-                        <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
-
-                            <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Experience Required</span>
-                        </div>
-                        <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-xl font-[500] font-[display]'>
-                        1-2 Year Experience
-                        </div>
-                    </div>
-
-                   
-                </div>
+      
 
             </div>
             <div className='grid lg:grid-cols-6 grid-cols-3 w-full lg:px-12 px-3 gap-12 mt-12 pb-8'>
