@@ -16,6 +16,10 @@ import Footer from '../components/Footer';
 function Home() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
     const employeeId = sessionStorage.getItem('employeeId');
+    const companyName = sessionStorage.getItem('customerName');
+    console.log("company name:",companyName);
+    
+
     const [jobPosts, setJobPosts] = useState([]);
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 

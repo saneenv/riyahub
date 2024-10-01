@@ -1,12 +1,17 @@
-import React from 'react'
+import React,{useState} from 'react'
 import logo from '../images/navbar/logo.png'
 import search from '../images/navbar/Vector.png'
 import location from '../images/navbar/location.png'
 // import smallloc from '../images/navbar/smallloc.png'
 import { useNavigate } from 'react-router-dom'
+import EmpOptions from './EmpOptions'
 
 function Navbar() {
     const navigate = useNavigate();
+    const companyName = sessionStorage.getItem('customerName');
+    const [showOptions, setShowOptions] = useState(false); // State to track if options are shown
+
+
     const login = () => {
         navigate('/login');
       };
@@ -19,6 +24,15 @@ function Navbar() {
       const regchooses = () => {
         navigate('/regchoose');
       };
+
+         // Function to toggle the options component display
+    const toggleOptions = () => {
+        setShowOptions(!showOptions); // Toggle the state between true and false
+    };
+
+    const closeOptions = () => {
+        setShowOptions(false); // Close the options modal
+    };
     return (
         <div className='h-[100px] w-full  lg:px-12 px-3 flex items-center flex-row gap-5'>
 
@@ -46,16 +60,23 @@ function Navbar() {
             </div>
 
             <div className='w-[40%] h-[48px] flex flex-row gap-4'>
-                <div className='w-[30%] h-full flex justify-center items-center border-2 border-[#E22E37] rounded-[5px] text-sm font-[600] font-[display] cursor-pointer' onClick={login}>Login</div>
-                <div className='w-[30%] h-full flex justify-center items-center border-2 border-[#E22E37] rounded-[5px] text-sm font-[600] font-[display] cursor-pointer' onClick={regchooses}>Register</div>
-                <div className='w-[40%] h-full flex justify-center items-center border-2 border-[#E22E37] rounded-[5px] flex-row gap-4 cursor-pointer'  onClick={jobpost}>
-                     {/* <img src={smallloc} alt="smalllocation" /> */}
-                     <span className='text-base font-[600] font-[display] cursor-pointer'>FREE JOB POST</span>
-                </div>
-
+            <div className='w-[30%] h-full flex justify-center items-center border-2 border-[#E22E37] rounded-[5px] text-sm font-[600] font-[display] cursor-pointer' onClick={login}>Login</div>
+            <div className='w-[30%] h-full flex justify-center items-center border-2 border-[#E22E37] rounded-[5px] text-sm font-[600] font-[display] cursor-pointer' onClick={regchooses}>Register</div>
+                {companyName ? (
+                    
+                     <div className='w-[40%] h-full flex justify-center items-center border-2 border-[#E22E37] rounded-[5px] flex-row gap-4 cursor-pointer' onClick={toggleOptions}>
+                        <span className='text-sm font-[600] font-[display] cursor-pointer'>{companyName}</span>
+                    </div>
+                    
+                ) : (
+                    <>
+                        {/* <div className='w-[30%] h-full flex justify-center items-center border-2 border-[#E22E37] rounded-[5px] text-sm font-[600] font-[display] cursor-pointer' onClick={login}>Login</div>
+                        <div className='w-[30%] h-full flex justify-center items-center border-2 border-[#E22E37] rounded-[5px] text-sm font-[600] font-[display] cursor-pointer' onClick={regchooses}>Register</div> */}
+                    </>
+                )}
             </div>
 
-
+            {showOptions && <EmpOptions closeOptions={closeOptions} />}
         </div>
     )
 }

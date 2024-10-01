@@ -10,6 +10,8 @@ import EmployeeReg from './components/EmployeeReg';
 import Login from './components/Login';
 import Verify from './components/Verify';
 import RegChoose from './components/RegChoose';
+import PostedJobs from './components/PostedJobs';
+import EditJobPost from './components/EditJobPost';
 
 
 
@@ -29,6 +31,10 @@ function App() {
                 <Route path='/login' element={<Login/>}/>
                 <Route path='/verify' element={<Verify/>}/>
                 <Route path='/regchoose' element={<RegChoose/>}/>
+                <Route path='/postedjob' element={<PostedJobs/>}/>
+                <Route path='/editjobpost' element={<EditJobPost/>}/>
+
+
 
 
 

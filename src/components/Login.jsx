@@ -7,6 +7,7 @@ import logo from '../images/login/logo.png';
 import Navbar2 from './Navbar2';
 import { useNavigate } from 'react-router-dom';
 
+
 function Login() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
     const navigate = useNavigate();
@@ -34,6 +35,7 @@ function Login() {
                 if (data.success) {
                     // Store the employeeId in sessionStorage
                     sessionStorage.setItem('employeeId', data.employeeId);
+                    sessionStorage.setItem('customerName', data.customerName);
     
                     // Redirect to the verification page
                     navigate('/home');
