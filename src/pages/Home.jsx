@@ -97,7 +97,7 @@ function Home() {
                 {jobPosts.map((job) => (
                     <div className='h-[292px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'>
                    
-                        <div className='w-full h-[30%] bg-[#E22E37] px-5 flex items-center justify-between'>
+                        <div className='w-full h-[30%] bg-[#E22E37] px-1 flex items-center justify-between'>
                             <span className='text-[white] text-xl font-[700] font-[display]'>{job.job_title}</span>
                             <div className='flex flex-row gap-2 items-center justify-center border-2 border-[white] p-1 rounded-[40px]'>
                                 <img src={vector} alt="loc" />

@@ -12,6 +12,8 @@ import Verify from './components/Verify';
 import RegChoose from './components/RegChoose';
 import PostedJobs from './components/PostedJobs';
 import EditJobPost from './components/EditJobPost';
+import ViewProfile from './components/ViewProfile';
+import EditEmpReg from './components/EditEmpReg';
 
 
 
@@ -33,17 +35,8 @@ function App() {
                 <Route path='/regchoose' element={<RegChoose/>}/>
                 <Route path='/postedjob' element={<PostedJobs/>}/>
                 <Route path='/editjobpost' element={<EditJobPost/>}/>
-
-
-
-
-
-
-
-
-
-
-
+                <Route path='/viewprofile' element={<ViewProfile/>}/>
+                <Route path='/editempreg' element={<EditEmpReg/>}/>
 
 
               </Routes>

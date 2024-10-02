@@ -61,8 +61,10 @@ function Verify() {
                 alert('OTP Verified Successfully!');
                 setCode(new Array(6).fill('')); // Clear the input fields
                 // Store employeeId in sessionStorage
-                sessionStorage.setItem('employeeId', employeeId);
-                navigate('/jobpost'); // Navigate to the job post component // Navigate to the job post component
+                sessionStorage.removeItem('employeeId');
+                sessionStorage.removeItem('jobId');
+                  sessionStorage.removeItem('customerName');
+                navigate('/login'); // Navigate to the job post component // Navigate to the job post component
             } else {
                 alert('Invalid OTP. Please check the code and try again.');
             }

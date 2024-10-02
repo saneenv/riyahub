@@ -10,7 +10,7 @@ import jobs from '../json/jobs.json';
 import location from '../json/cities.json';
 import worktime from '../json/worktime.json';
 import endtime from '../json/endtime.json';
-import { useLocation } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 
 
 function EditJobPost() {
@@ -18,6 +18,7 @@ function EditJobPost() {
     const employeeId = sessionStorage.getItem('employeeId');
     const jobId = sessionStorage.getItem('jobId')
     console.log(jobId);
+    const navigate= useNavigate();
     
     const [jobTitle, setJobTitle] = useState('');
     const [minSalary, setMinSalary] = useState('');
@@ -42,6 +43,8 @@ function EditJobPost() {
     const [startOptions, setStartOptions] = useState([]);
     const [endCategory, setEndCategory] = useState('');
     const [endOptions, setEndOptions] = useState([]);
+    const [optionsLoaded, setOptionsLoaded] = useState(false);
+
 
     
   
@@ -64,175 +67,6 @@ function EditJobPost() {
         { value: 'Accomodationonly', label: 'Accomodation Only' },
         { value: 'Foodonly', label: 'Food Only' }
     ];
-
-//     const jobTypeOptions = [
-//     { value: 'fulltime', label: 'Full Time' },
-//     { value: 'parttime', label: 'Part Time' },
-//     { value: 'Remote/workathome', label: 'Remote/work at home' },
-//     // Adding the job titles from Kerala
-//     { value: 'accountant', label: 'Accountant' },
-//     { value: 'actor', label: 'Actor' },
-//     { value: 'actuary', label: 'Actuary' },
-//     { value: 'advertising_manager', label: 'Advertising Manager' },
-//     { value: 'aeronautical_engineer', label: 'Aeronautical Engineer' },
-//     { value: 'agricultural_engineer', label: 'Agricultural Engineer' },
-//     { value: 'air_traffic_controller', label: 'Air Traffic Controller' },
-//     { value: 'aircraft_mechanic', label: 'Aircraft Mechanic' },
-//     { value: 'airline_pilot', label: 'Airline Pilot' },
-//     { value: 'anesthesiologist', label: 'Anesthesiologist' },
-//     { value: 'animal_caretaker', label: 'Animal Caretaker' },
-//     { value: 'app_developer', label: 'App Developer' },
-//     { value: 'archaeologist', label: 'Archaeologist' },
-//     { value: 'architect', label: 'Architect' },
-//     { value: 'art_director', label: 'Art Director' },
-//     { value: 'artist', label: 'Artist' },
-//     { value: 'astronomer', label: 'Astronomer' },
-//     { value: 'athletic_trainer', label: 'Athletic Trainer' },
-//     { value: 'audiologist', label: 'Audiologist' },
-//     { value: 'automotive_engineer', label: 'Automotive Engineer' },
-//     { value: 'baker', label: 'Baker' },
-//     { value: 'bank_teller', label: 'Bank Teller' },
-//     { value: 'barber', label: 'Barber' },
-//     { value: 'bartender', label: 'Bartender' },
-//     { value: 'biochemist', label: 'Biochemist' },
-//     { value: 'biologist', label: 'Biologist' },
-//     { value: 'biomedical_engineer', label: 'Biomedical Engineer' },
-//     { value: 'blockchain_developer', label: 'Blockchain Developer' },
-//     { value: 'bookkeeper', label: 'Bookkeeper' },
-//     { value: 'brand_manager', label: 'Brand Manager' },
-//     { value: 'business_analyst', label: 'Business Analyst' },
-//     { value: 'business_consultant', label: 'Business Consultant' },
-//     { value: 'cabin_crew', label: 'Cabin Crew' },
-//     { value: 'cafeteria_worker', label: 'Cafeteria Worker' },
-//     { value: 'camera_operator', label: 'Camera Operator' },
-//     { value: 'carpenter', label: 'Carpenter' },
-//     { value: 'cartographer', label: 'Cartographer' },
-//     { value: 'chef', label: 'Chef' },
-//     { value: 'chemical_engineer', label: 'Chemical Engineer' },
-//     { value: 'chemist', label: 'Chemist' },
-//     { value: 'childcare_worker', label: 'Childcare Worker' },
-//     { value: 'chiropractor', label: 'Chiropractor' },
-//     { value: 'civil_engineer', label: 'Civil Engineer' },
-//     { value: 'claims_adjuster', label: 'Claims Adjuster' },
-//     { value: 'cloud_engineer', label: 'Cloud Engineer' },
-//     { value: 'computer_hardware_engineer', label: 'Computer Hardware Engineer' },
-//     { value: 'computer_programmer', label: 'Computer Programmer' },
-//     { value: 'content_creator', label: 'Content Creator' },
-//     { value: 'construction_manager', label: 'Construction Manager' },
-//     { value: 'copywriter', label: 'Copywriter' },
-//     { value: 'counselor', label: 'Counselor' },
-//     { value: 'customer_service_representative', label: 'Customer Service Representative' },
-//     { value: 'data_analyst', label: 'Data Analyst' },
-//     { value: 'data_engineer', label: 'Data Engineer' },
-//     { value: 'data_scientist', label: 'Data Scientist' },
-//     { value: 'database_administrator', label: 'Database Administrator' },
-//     { value: 'dentist', label: 'Dentist' },
-//     { value: 'dermatologist', label: 'Dermatologist' },
-//     { value: 'designer', label: 'Designer' },
-//     { value: 'dietitian', label: 'Dietitian' },
-//     { value: 'digital_marketing_specialist', label: 'Digital Marketing Specialist' },
-//     { value: 'director', label: 'Director' },
-//     { value: 'doctor', label: 'Doctor' },
-//     { value: 'drone_operator', label: 'Drone Operator' },
-//     { value: 'economist', label: 'Economist' },
-//     { value: 'editor', label: 'Editor' },
-//     { value: 'electrical_engineer', label: 'Electrical Engineer' },
-//     { value: 'electrician', label: 'Electrician' },
-//     { value: 'elementary_school_teacher', label: 'Elementary School Teacher' },
-//     { value: 'emergency_medical_technician', label: 'Emergency Medical Technician (EMT)' },
-//     { value: 'energy_consultant', label: 'Energy Consultant' },
-//     { value: 'environmental_engineer', label: 'Environmental Engineer' },
-//     { value: 'environmental_scientist', label: 'Environmental Scientist' },
-//     { value: 'event_planner', label: 'Event Planner' },
-//     { value: 'executive_assistant', label: 'Executive Assistant' },
-//     { value: 'fashion_designer', label: 'Fashion Designer' },
-//     { value: 'film_director', label: 'Film Director' },
-//     { value: 'financial_analyst', label: 'Financial Analyst' },
-//     { value: 'financial_planner', label: 'Financial Planner' },
-//     { value: 'firefighter', label: 'Firefighter' },
-//     { value: 'fitness_trainer', label: 'Fitness Trainer' },
-//     { value: 'flight_attendant', label: 'Flight Attendant' },
-//     { value: 'florist', label: 'Florist' },
-//     { value: 'food_scientist', label: 'Food Scientist' },
-//     { value: 'forensic_scientist', label: 'Forensic Scientist' },
-//     { value: 'game_designer', label: 'Game Designer' },
-//     { value: 'game_developer', label: 'Game Developer' },
-//     { value: 'gardener', label: 'Gardener' },
-//     { value: 'geologist', label: 'Geologist' },
-//     { value: 'graphic_designer', label: 'Graphic Designer' },
-//     { value: 'guidance_counselor', label: 'Guidance Counselor' },
-//     { value: 'hairdresser', label: 'Hairdresser' },
-//     { value: 'health_and_safety_officer', label: 'Health and Safety Officer' },
-//     { value: 'healthcare_administrator', label: 'Healthcare Administrator' },
-//     { value: 'home_health_aide', label: 'Home Health Aide' },
-//     { value: 'hotel_manager', label: 'Hotel Manager' },
-//     { value: 'human_resources_specialist', label: 'Human Resources Specialist' },
-//     { value: 'industrial_designer', label: 'Industrial Designer' },
-//     { value: 'industrial_engineer', label: 'Industrial Engineer' },
-//     { value: 'information_security_analyst', label: 'Information Security Analyst' },
-//     { value: 'interior_designer', label: 'Interior Designer' },
-//     { value: 'interpreter', label: 'Interpreter' },
-//     { value: 'investment_banker', label: 'Investment Banker' },
-//     { value: 'it_consultant', label: 'IT Consultant' },
-//     { value: 'journalist', label: 'Journalist' },
-//     { value: 'judge', label: 'Judge' },
-//     { value: 'kindergarten_teacher', label: 'Kindergarten Teacher' },
-//     { value: 'laboratory_technician', label: 'Laboratory Technician' },
-//     { value: 'land_surveyor', label: 'Land Surveyor' },
-//     { value: 'lawyer', label: 'Lawyer' },
-//     { value: 'librarian', label: 'Librarian' },
-//     { value: 'life_coach', label: 'Life Coach' },
-//     { value: 'logistics_manager', label: 'Logistics Manager' },
-//     { value: 'machine_learning_engineer', label: 'Machine Learning Engineer' },
-//     { value: 'magazine_editor', label: 'Magazine Editor' },
-//     { value: 'maintenance_worker', label: 'Maintenance Worker' },
-//     { value: 'management_consultant', label: 'Management Consultant' },
-//     { value: 'marketing_manager', label: 'Marketing Manager' },
-//     { value: 'mathematician', label: 'Mathematician' },
-//     { value: 'medical_assistant', label: 'Medical Assistant' },
-//     { value: 'medical_doctor', label: 'Medical Doctor' },
-//     { value: 'medical_technologist', label: 'Medical Technologist' },
-//     { value: 'merchandiser', label: 'Merchandiser' },
-//     { value: 'microbiologist', label: 'Microbiologist' },
-//     { value: 'mobile_app_developer', label: 'Mobile App Developer' },
-//     { value: 'nanny', label: 'Nanny' },
-//     { value: 'network_administrator', label: 'Network Administrator' },
-//     { value: 'nurse', label: 'Nurse' },
-//     { value: 'nutritionist', label: 'Nutritionist' },
-//     { value: 'occupational_therapist', label: 'Occupational Therapist' },
-//     { value: 'office_manager', label: 'Office Manager' },
-//     { value: 'operations_manager', label: 'Operations Manager' },
-//     { value: 'optometrist', label: 'Optometrist' },
-//     { value: 'painter', label: 'Painter' },
-//     { value: 'paramedic', label: 'Paramedic' },
-//     { value: 'patent_attorney', label: 'Patent Attorney' },
-//     { value: 'personal_assistant', label: 'Personal Assistant' },
-//     { value: 'pharmacist', label: 'Pharmacist' },
-//     { value: 'photographer', label: 'Photographer' },
-//     { value: 'physician', label: 'Physician' },
-//     { value: 'physiotherapist', label: 'Physiotherapist' },
-//     { value: 'plumber', label: 'Plumber' },
-//     { value: 'police_officer', label: 'Police Officer' },
-//     { value: 'project_manager', label: 'Project Manager' },
-//     { value: 'psychologist', label: 'Psychologist' },
-//     { value: 'real_estate_agent', label: 'Real Estate Agent' },
-//     { value: 'receptionist', label: 'Receptionist' },
-//     { value: 'restaurant_manager', label: 'Restaurant Manager' },
-//     { value: 'sales_associate', label: 'Sales Associate' },
-//     { value: 'sales_manager', label: 'Sales Manager' },
-//     { value: 'software_engineer', label: 'Software Engineer' },
-//     { value: 'software_tester', label: 'Software Tester' },
-//     { value: 'surgeon', label: 'Surgeon' },
-//     { value: 'teacher', label: 'Teacher' },
-//     { value: 'technical_writer', label: 'Technical Writer' },
-//     { value: 'telecommunications_engineer', label: 'Telecommunications Engineer' },
-//     { value: 'ux_designer', label: 'UX Designer' },
-//     { value: 'veterinarian', label: 'Veterinarian' },
-//     { value: 'web_developer', label: 'Web Developer' },
-//     { value: 'writer', label: 'Writer' },
-//     { value: 'zoologist', label: 'Zoologist' }
-// ];
-
 
 
 
@@ -266,7 +100,7 @@ function EditJobPost() {
 
     useEffect(() => {
         window.scrollTo(0, 0);
-
+    
         const fetchOptions = async () => {
             const districts = companies.states[0].districts.map(district => ({
                 value: district,
@@ -288,19 +122,20 @@ function EditJobPost() {
                 value: district,
                 label: district
             }));
-
+    
             setCategoryOptions(districts);
             setJobsOptions(job);
             setLocationOptions(locations);
             setStartOptions(workstart);
             setEndOptions(workend);
-        };
-
-        fetchOptions();
-    }, []);
-
     
-
+            // Set options loaded to true after fetching options
+            setOptionsLoaded(true);
+        };
+    
+        fetchOptions();
+    }, []); // Only runs once, on mount
+    
     useEffect(() => {
         const fetchJobData = async () => {
             try {
@@ -310,8 +145,7 @@ function EditJobPost() {
                 }
                 const data = await response.json();
                 console.log('Fetched Data:', data); 
-                
-
+    
                 // Populate state with fetched data
                 setJobTitle(data.job_title);
                 setMinSalary(data.min_salary);
@@ -333,25 +167,30 @@ function EditJobPost() {
                 console.error('There was a problem with the fetch operation:', error);
             }
         };
-
-        fetchJobData();
-    }, [jobId, apiBaseUrl]);
+    
+        // Fetch job data only when jobId changes and options are loaded
+        if (optionsLoaded && jobId) {
+            fetchJobData();
+        }
+    }, [jobId, apiBaseUrl, optionsLoaded]); // Watch for jobId and optionsLoaded
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+    
         const formData = {
             jobId,
             employeeId,
             jobTitle,
             jobType: jobType?.value,
             genderType: genderType?.value,
-            companyType: companyCategory,
-            job: jobsCategory,
-            location: locationCategory,
+            companyType: companyCategory?.value || '', // Extract 'value' for companyType
+            job: jobsCategory?.value || '',
+            location: locationCategory?.value || '',
             minSalary,
             maxSalary,
-            startTime: startCategory,
-            endTime: endCategory,
+            startTime: startCategory?.value || '',
+            endTime: endCategory?.value || '',
             qualification,
             jobDescription,
             foodType: foodType?.value,
@@ -359,29 +198,46 @@ function EditJobPost() {
             email,
             address,
         };
-
+    
+        console.log('Form Data:', formData); // Log formData for debugging
+    
         try {
             const response = await fetch(`${apiBaseUrl}/jobpost/${jobId}`, {
-                method: 'PUT', // Use PUT for updates
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(formData),
             });
-
+    
             const result = await response.json();
             if (result.success) {
                 alert('Job updated successfully!');
+                setCompanyCategory('');
+                setFoodType('');
+                setGenderType('');
+                setJobType('');
+                setJobDescription('');
+                setQualification('');
+                setMaxSalary('');
+                setMinSalary('');
+                setJobTitle('');
+                setEndCategory('');
+                setStartCategory('');
+                setLocationCategory('');
+                setJobsCategory('');
+                navigate('/postedjob')
                 // Optionally redirect or reset the form
             } else {
                 alert('Failed to update job.');
+               
             }
         } catch (error) {
             console.error('Error:', error);
             alert('An error occurred while updating the job.');
         }
     };
-
+    
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
 
     return (

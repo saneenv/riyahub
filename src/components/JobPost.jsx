@@ -483,7 +483,7 @@ function JobPost() {
                     </div>
 
                     <div className='flex flex-col gap-5 w-full px-12 justify-center items-center'>
-                        <div className='h-[56px] lg:w-[25%] w-[50%] bg-[#E22E37] rounded-[20px] flex justify-center items-center text-[white] text-xl font-[display] font-[600]' onClick={handleSubmit}>Job Post</div>
+                        <div className='h-[56px] lg:w-[25%] w-[50%] bg-[#E22E37] rounded-[20px] flex justify-center items-center text-[white] text-xl font-[display] font-[600] cursor-pointer' onClick={handleSubmit}>Job Post</div>
                         <span className='text-base font-[500] font-[dislay]'>Already Register- <span className='text-base font-[700] font-[dislay] text-[#E22E37] cursor-pointer'>Login</span> </span>
                     </div>
 

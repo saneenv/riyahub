@@ -7,27 +7,39 @@ import Footer from './Footer';
 import vector from '../images/home/Vector.png';
 import { useNavigate } from 'react-router-dom';
 
-
 function PostedJobs() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
     const [jobPosts, setJobPosts] = useState([]);
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
     const employeeId = sessionStorage.getItem('employeeId');
-    console.log(employeeId, "dd");
     const navigate = useNavigate();
 
-    const editjobpost= (jobId) => {
+    const editJobPost = (jobId) => {
         sessionStorage.setItem('jobId', jobId);
-        navigate('/editjobpost'); 
+        navigate('/editjobpost');
+    };
 
-      };
-
- 
+    const deleteJobPost = (jobId) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this job post?");
+        if (confirmDelete) {
+            fetch(`${apiBaseUrl}/jobpost/${jobId}`, {
+                method: 'DELETE',
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                // Update the jobPosts state to remove the deleted job post
+                setJobPosts(prevJobs => prevJobs.filter(job => job.job_id !== jobId));
+                alert('Job post deleted successfully');
+            })
+            .catch(error => {
+                console.error('Error deleting job post:', error);
+            });
+        }
+    };
 
     useEffect(() => {
-        const employeeId = sessionStorage.getItem('employeeId');
-        console.log("Employee ID from sessionStorage:", employeeId); // Log the retrieved employeeId
-    
         fetch(`${apiBaseUrl}/getjobposts`)
             .then(response => {
                 if (!response.ok) {
@@ -36,20 +48,13 @@ function PostedJobs() {
                 return response.json();
             })
             .then(data => {
-                console.log("Fetched Job Posts:", data); // Log the fetched data
-                const filteredJobs = data.filter(job => {
-                    console.log("Job Employee ID:", job.employee_id, "Session Employee ID:", employeeId); // Log both IDs
-                    return job.employee_id === Number(employeeId); // Compare after converting to number
-                });
-                console.log("Filtered Job Posts:", filteredJobs); // Log the filtered jobs
-                setJobPosts(filteredJobs); // Store filtered job posts in state
+                const filteredJobs = data.filter(job => job.employee_id === Number(employeeId));
+                setJobPosts(filteredJobs);
             })
             .catch(error => {
                 console.error('Error fetching job posts:', error);
             });
-    }, [apiBaseUrl]);
-    
-    
+    }, [apiBaseUrl, employeeId]);
 
     return (
         <div className='flex flex-col min-h-screen'>
@@ -62,7 +67,7 @@ function PostedJobs() {
                 <div className='grid lg:grid-cols-3 grid-cols-1 w-full gap-3'>
                     {jobPosts.map((job) => (
                         <div className='h-[292px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden' key={job.job_id}>
-                            <div className='w-full h-[30%] bg-[#E22E37] lg:px-5 px-1 flex items-center justify-between'>
+                            <div className='w-full h-[30%] bg-[#E22E37] px-1 flex items-center justify-between'>
                                 <span className='text-[white] text-xl font-[700] font-[display]'>{job.job_title}</span>
                                 <div className='flex flex-row gap-2 items-center justify-center border-2 border-[white] p-1 rounded-[40px]'>
                                     <img src={vector} alt="loc" />
@@ -87,7 +92,7 @@ function PostedJobs() {
                                         <span className='text-base font-[display] font-[500]'>GENDER</span>
                                         <span className='text-base font-[display] font-[500]'>:</span>
                                     </div>
-                                    <div className='flex items-center justify-center w-[80%] h-[38px] bg-[green] rounded-[10px] text-lg font-[600] font-[display] text-[white] cursor-pointer' onClick={() => editjobpost(job.job_id)} >
+                                    <div className='flex items-center justify-center w-[80%] h-[38px] bg-[green] rounded-[10px] text-lg font-[600] font-[display] text-[white] cursor-pointer' onClick={() => editJobPost(job.job_id)} >
                                         Edit
                                     </div>
                                 </div>
@@ -104,7 +109,7 @@ function PostedJobs() {
                                     <div className='flex items-center justify-between'>
                                         <span className='text-base font-[display] font-[500]'>{job.gender_type}</span>
                                     </div>
-                                    <div className='flex items-center justify-center w-[80%] h-[38px] bg-[red] rounded-[10px] text-lg font-[600] font-[display] text-[white] cursor-pointer'>
+                                    <div className='flex items-center justify-center w-[80%] h-[38px] bg-[red] rounded-[10px] text-lg font-[600] font-[display] text-[white] cursor-pointer' onClick={() => deleteJobPost(job.job_id)}>
                                         Delete
                                     </div>
                                 </div>

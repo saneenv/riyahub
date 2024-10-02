@@ -18,6 +18,10 @@ function EmpOptions({ closeOptions }) {
         navigate('/postedjob'); 
       };
 
+      const viewProfile = () => {
+        navigate('/viewprofile'); 
+      };
+
       const login = () => {
         // Remove session storage items
         sessionStorage.removeItem('employeeId');
@@ -38,11 +42,11 @@ function EmpOptions({ closeOptions }) {
         <ul className="space-y-4">
           {/* <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center" onClick={home}>Home</li> */}
           <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center" onClick={jobpost}>Post Job</li>
-          <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center" onClick={postedjob}>View All Jobs</li>
+          <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center" onClick={postedjob}>View Posted Jobs</li>
           <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center">Search Candidates</li>
           <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center">Selected Candidates</li>
           <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center">Applied Candidates</li>
-          <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center">View Profile</li>
+          <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center" onClick={viewProfile}>View Profile</li>
 
           <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center" onClick={login}>Logout</li>
         </ul>
