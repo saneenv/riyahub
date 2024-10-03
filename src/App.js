@@ -14,6 +14,7 @@ import PostedJobs from './components/PostedJobs';
 import EditJobPost from './components/EditJobPost';
 import ViewProfile from './components/ViewProfile';
 import EditEmpReg from './components/EditEmpReg';
+import ContactUs from './pages/ContactUs';
 
 
 
@@ -37,6 +38,8 @@ function App() {
                 <Route path='/editjobpost' element={<EditJobPost/>}/>
                 <Route path='/viewprofile' element={<ViewProfile/>}/>
                 <Route path='/editempreg' element={<EditEmpReg/>}/>
+                <Route path='/contact' element={<ContactUs/>}/>
+
 
 
               </Routes>

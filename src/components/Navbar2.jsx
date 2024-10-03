@@ -6,6 +6,9 @@ function Navbar2() {
   const home = () => {
     navigate('/home');
   };
+  const contactus = () => {
+    navigate('/contact');
+  };
   return (
     <div className='h-[48px] w-full bg-[#D22D3A] flex flex-row gap-12 justify-center items-center'>
       <span className='text-sm font-[600] font-[display] text-[white] cursor-pointer' onClick={home}>Home</span>
@@ -13,7 +16,7 @@ function Navbar2() {
       <span className='text-sm font-[600] font-[display] text-[white]'>Find Jobs</span>
       <span className='text-sm font-[600] font-[display] text-[white]'>Job By District</span>
       <span className='text-sm font-[600] font-[display] text-[white]'>Services</span>
-      <span className='text-sm font-[600] font-[display] text-[white]'>Contact Us</span>
+      <span className='text-sm font-[600] font-[display] text-[white] cursor-pointer' onClick={contactus}>Contact Us</span>
     </div>
   )
 }

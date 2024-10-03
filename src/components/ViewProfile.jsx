@@ -21,32 +21,65 @@ function ViewProfile() {
     navigate('/editempreg'); 
   };
 
+  const postjob = () => {
+    navigate('/jobpost'); 
+  };
+
+  const postedjobs = () => {
+    navigate('/postedjob'); 
+  };
+
   const handleDeleteProfile = async () => {
     const confirmDelete = window.confirm("Are you sure you want to delete your profile?");
     if (!confirmDelete) return;
-
+  
     try {
-      const response = await fetch(`${apiBaseUrl}/employee/delete/${employeeId}`, {
+      // First, delete all job posts related to the employee
+      const jobPostResponse = await fetch(`${apiBaseUrl}/jobposts/${employeeId}`, {
         method: 'DELETE',
       });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        alert(errorData.message || 'Error deleting employee');
+  
+      if (!jobPostResponse.ok) {
+        const jobPostErrorData = await jobPostResponse.json();
+        alert(jobPostErrorData.message || 'Error deleting job posts');
         return;
       }
-
-      const data = await response.json();
-      alert(data.message); // Show success message
-      // Optionally, redirect or update the UI as needed, e.g., navigate to another page
+  
+      alert('All job posts for this employee have been deleted'); // Show success message for job posts deletion
+  
+      // Then, proceed to delete the employee profile
+      const employeeResponse = await fetch(`${apiBaseUrl}/employee/delete/${employeeId}`, {
+        method: 'DELETE',
+      });
+  
+      if (!employeeResponse.ok) {
+        const employeeErrorData = await employeeResponse.json();
+        alert(employeeErrorData.message || 'Error deleting employee');
+        return;
+      }
+  
+      const employeeData = await employeeResponse.json();
+      alert(employeeData.message || 'Employee profile deleted successfully'); // Show success message for profile deletion
+  
+      // Clean up session and navigate away after successful deletion
       sessionStorage.removeItem('employeeId');
       sessionStorage.removeItem('jobId');
-        sessionStorage.removeItem('customerName');
-      navigate('/login'); // Redirect to the home page or another appropriate page
+      sessionStorage.removeItem('customerName');
+      navigate('/login'); // Redirect to the login page or another appropriate page
+  
     } catch (error) {
-      console.error('Error deleting employee:', error);
-      alert('An error occurred while deleting the employee.');
+      console.error('Error deleting profile or job posts:', error);
+      alert('An error occurred while deleting the profile or job posts.');
     }
+  };
+  
+  
+  // Function to generate logo text from company name
+  const generateLogoText = (companyName) => {
+    if (!companyName) return 'C';
+    const words = companyName.split(' ');
+    const logoLetters = words.length > 1 ? words.map(word => word.charAt(0)).join('') : companyName.charAt(0);
+    return logoLetters.toUpperCase();
   };
 
   // Fetch employee data when component mounts
@@ -88,16 +121,17 @@ function ViewProfile() {
           <span className='text-xl font-[600] font-[display] underline text-[#E22E37] cursor-pointer' onClick={handleDeleteProfile}>Delete Profile</span>
         </div>
         <div className='w-full flex flex-col justify-center items-center gap-3'>
-          <div className='h-[150px] w-[150px] rounded-full border-2 border-[#AEAEAE]'>
-            {/* You can add a profile image here if available */}
+          <div className='h-[150px] w-[150px] rounded-full border-2 border-[#E22E37] flex items-center justify-center text-[#E22E37]  text-4xl font-[600] font-[display]'>
+            {/* Displaying generated logo */}
+            {generateLogoText(employeeData?.company_name || 'Company Name')}
           </div>
           <span className='text-2xl font-[600] font-[display]'>{employeeData?.company_name || 'Company Name'}</span>
           <span className='text-xl font-[400] font-[display]'>{employeeData?.email || 'Employee Email'}</span>
           <div className='flex flex-row gap-3 w-[25%] h-[50px] '>
-            <div className='w-[50%] h-full flex justify-center items-center text-base font-[600] font-[display] text-[white] bg-[#E22E37] cursor-pointer'>
+            <div className='w-[50%] h-full flex justify-center items-center text-base font-[600] font-[display] text-[white] bg-[#E22E37] cursor-pointer' onClick={postjob}>
               POST NEW JOB
             </div>
-            <div className='w-[50%] h-full border-2 border-[#AEAEAE] flex justify-center items-center text-base font-[600] font-[display] cursor-pointer'>
+            <div className='w-[50%] h-full border-2 border-[#AEAEAE] flex justify-center items-center text-base font-[600] font-[display] cursor-pointer' onClick={postedjobs}>
               VIEW ALL JOB
             </div>
           </div>
