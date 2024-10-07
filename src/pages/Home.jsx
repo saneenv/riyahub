@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { useMediaQuery } from 'react-responsive';
 import Navbar from '../components/Navbar'
 import Navbar2 from '../components/Navbar2'
@@ -17,45 +17,52 @@ function Home() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
     const employeeId = sessionStorage.getItem('employeeId');
     const companyName = sessionStorage.getItem('customerName');
-    console.log("company name:",companyName);
-    
+    console.log("company name:", companyName);
+
+    const [visibleJobs, setVisibleJobs] = useState(9);
+
+    // Function to load more jobs
+    const loadMoreJobs = () => {
+        setVisibleJobs(prevVisibleJobs => prevVisibleJobs + 9);
+    };
+
 
     const [jobPosts, setJobPosts] = useState([]);
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
-  console.log(employeeId,"employeeId");
-  
+    console.log(employeeId, "employeeId");
+
     const navigate = useNavigate();
     // const HomePage = () => {
     //     navigate('/home');
     // };
-  
-      const empreg2 = () => {
-        navigate('/empreg'); 
-      };
+
+    const empreg2 = () => {
+        navigate('/empreg');
+    };
 
     // Fetch job posts when component mounts
-  useEffect(() => {
-    fetch(`${apiBaseUrl}/getjobposts`)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(data => {
-        setJobPosts(data); // Store job posts in state
-      })
-      .catch(error => {
-        console.error('Error fetching job posts:', error);
-      });
-  }, [apiBaseUrl]);
+    useEffect(() => {
+        fetch(`${apiBaseUrl}/getjobposts`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                setJobPosts(data); // Store job posts in state
+            })
+            .catch(error => {
+                console.error('Error fetching job posts:', error);
+            });
+    }, [apiBaseUrl]);
 
-  // Navigate to details page with job_id passed as state
-  const details = (jobId) => {
-    navigate('/details', { state: { jobId } }); // Pass job_id as state
-  };
-     
+    // Navigate to details page with job_id passed as state
+    const details = (jobId) => {
+        navigate('/details', { state: { jobId } }); // Pass job_id as state
+    };
+
 
     return (
         <div className='min-h-screen flex flex-col'>
@@ -68,7 +75,7 @@ function Home() {
                     Welcome to Riya Hub Jobs - Best Job Portal in Kerala
                 </div>
                 <div className='w-full h-[80%] flex justify-center items-center lg:px-12 px-3  lg:flex-row flex-col gap-5'>
-                    <div  className='lg:w-[50%] w-[100%] lg:h-[340px] md:h-[300px] h-[260px] rounded-[10px] bg-[white] flex flex-row justify-center items-center cursor-pointer'>
+                    <div className='lg:w-[50%] w-[100%] lg:h-[340px] md:h-[300px] h-[260px] rounded-[10px] bg-[white] flex flex-row justify-center items-center cursor-pointer'>
                         <div className='w-[60%] h-[80%]  flex flex-col gap-4 lg:px-12 px-3 justify-start items-start'>
                             <span className='lg:text-3xl md:text-2xl text-xl  font-[700] font-[display]'>I am a Candidate</span>
                             <span className='text-base   font-[600] font-[display]'>I Want a Job</span>
@@ -78,7 +85,7 @@ function Home() {
                             <img src={girl} alt="girl" />
                         </div>
                     </div>
-                    <div  className='lg:w-[50%] w-[100%] lg:h-[340px] md:h-[300px] h-[260px] rounded-[10px] bg-[#E22E37] flex flex-row justify-center items-center ' >
+                    <div className='lg:w-[50%] w-[100%] lg:h-[340px] md:h-[300px] h-[260px] rounded-[10px] bg-[#E22E37] flex flex-row justify-center items-center ' >
                         <div className='w-[60%] h-[80%]  flex flex-col gap-4 lg:px-12 px-3 justify-start items-start'>
                             <span className='lg:text-3xl md:text-2xl text-xl font-[700] font-[display] text-[white]'>I am an Employer</span>
                             <span className='text-base font-[600] font-[display] text-[white]'>I Want to Hire</span>
@@ -94,70 +101,72 @@ function Home() {
             <div className='flex flex-col w-full lg:px-12 px-3 h-auto gap-12 mt-12 justify-center items-center pb-12 bg-[#FFFFFF]'>
                 <span className='text-3xl font-[600] font-[display]'>Latest Jobs</span>
                 <div className='grid lg:grid-cols-3 grid-cols-1 w-full gap-3'>
-                {jobPosts.map((job) => (
-                    <div className='h-[292px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'>
-                   
-                        <div className='w-full h-[30%] bg-[#E22E37] px-1 flex items-center justify-between'>
-                            <span className='text-[white] text-xl font-[700] font-[display]'>{job.job_title}</span>
-                            <div className='flex flex-row gap-2 items-center justify-center border-2 border-[white] p-1 rounded-[40px]'>
-                                <img src={vector} alt="loc" />
-                                <span className='text-base font-[500] font-[display] text-[white]'>{job.location}</span>
+                    {jobPosts.slice(0, visibleJobs).map((job, index) => (
+                        <div
+                            key={index}
+                            className='h-[292px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'
+                        >
+                            <div className='w-full h-[30%] bg-[#E22E37] px-1 flex items-center justify-between'>
+                                <span className='text-[white] text-xl font-[700] font-[display]'>{job.job_title}</span>
+                                <div className='flex flex-row gap-2 items-center justify-center border-2 border-[white] p-1 rounded-[40px]'>
+                                    <img src={vector} alt="loc" />
+                                    <span className='text-base font-[500] font-[display] text-[white]'>{job.location}</span>
+                                </div>
                             </div>
-
-                        </div>
-                        <div className='w-full h-[70%]  flex flex-row'>
-                            <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-5'>
-                                <div className='flex items-center justify-between w-full'>
-                                    <span className='text-base font-[display] font-[500]'>JOB ID</span>
-                                    <span className='text-base font-[display] font-[500]'>:</span>
+                            <div className='w-full h-[70%] flex flex-row'>
+                                <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-5'>
+                                    <div className='flex items-center justify-between w-full'>
+                                        <span className='text-base font-[display] font-[500]'>JOB ID</span>
+                                        <span className='text-base font-[display] font-[500]'>:</span>
+                                    </div>
+                                    <div className='flex items-center justify-between'>
+                                        <span className='text-base font-[display] font-[500]'>COMPANY TYPE</span>
+                                        <span className='text-base font-[display] font-[500]'>:</span>
+                                    </div>
+                                    <div className='flex items-center justify-between'>
+                                        <span className='text-base font-[display] font-[500]'>JOB TYPE</span>
+                                        <span className='text-base font-[display] font-[500]'>:</span>
+                                    </div>
+                                    <div className='flex items-center justify-between'>
+                                        <span className='text-base font-[display] font-[500]'>GENDER</span>
+                                        <span className='text-base font-[display] font-[500]'>:</span>
+                                    </div>
+                                    <div className='flex items-center justify-center w-[80%] h-[38px] bg-[#0D2D3E] rounded-[10px] text-lg font-[600] font-[display] text-[white] cursor-pointer' onClick={() => details(job.job_id)}>
+                                        Apply Now
+                                    </div>
                                 </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>COMPANY TYPE</span>
-                                    <span className='text-base font-[display] font-[500]'>:</span>
+                                <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-5'>
+                                    <div className='flex items-center justify-between w-full'>
+                                        <span className='text-base font-[display] font-[500]'>{job.job_id}</span>
+                                    </div>
+                                    <div className='flex items-center justify-between'>
+                                        <span className='text-base font-[display] font-[500]'>{job.company_type}</span>
+                                    </div>
+                                    <div className='flex items-center justify-between'>
+                                        <span className='text-base font-[display] font-[500]'>{job.job_type}</span>
+                                    </div>
+                                    <div className='flex items-center justify-between'>
+                                        <span className='text-base font-[display] font-[500]'>{job.gender_type}</span>
+                                    </div>
+                                    <div className='flex items-center justify-center w-[80%] h-[38px] bg-[#0D2D3E] rounded-[10px] text-lg font-[600] font-[display] text-[white] cursor-pointer' onClick={() => details(job.job_id)}>
+                                        Job Details
+                                    </div>
                                 </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>JOB TYPE</span>
-                                    <span className='text-base font-[display] font-[500]'>:</span>
-                                </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>GENDER</span>
-                                    <span className='text-base font-[display] font-[500]'>:</span>
-                                </div>
-                                <div className='flex items-center justify-center w-[80%] h-[38px] bg-[#0D2D3E] rounded-[10px] text-lg font-[600] font-[display] text-[white] cursor-pointer' onClick={() => details(job.job_id)}>
-                                    Apply Now
-
-                                </div>
-
-                            </div>
-                            <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-5'>
-                                <div className='flex items-center justify-between w-full'>
-                                    <span className='text-base font-[display] font-[500]'>{job.job_id}</span>
-
-                                </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>{job.company_type}</span>
-
-                                </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>{job.job_type}</span>
-
-                                </div>
-                                <div className='flex items-center justify-between'>
-                                    <span className='text-base font-[display] font-[500]'>{job.gender_type}</span>
-
-                                </div>
-                                <div className='flex items-center justify-center w-[80%] h-[38px] bg-[#0D2D3E] rounded-[10px] text-lg font-[600] font-[display] text-[white] cursor-pointer' onClick={() => details(job.job_id)}>
-                                    Job Details
-
-                                </div>
-
                             </div>
                         </div>
-                    </div>
-                     ))}
-                  
-                  
+                    ))}
                 </div>
+                {/* Show "View More" button if there are more jobs to load */}
+                {visibleJobs < jobPosts.length && (
+                    <div className='flex justify-center mt-4'>
+                        <button
+                            className='bg-[#0D2D3E] text-white px-4 py-2 rounded-md text-lg font-semibold'
+                            onClick={loadMoreJobs}
+                        >
+                            View More
+                        </button>
+                    </div>
+                )}
                 <div className='w-full h-[355px] bg-[#E22E37] mt-12 flex flex-row'>
                     <div className='lg:w-[50%] w-[100%] lg:items-start items-center lg:justify-start justify-center lg:pl-12 lg:pr-[15%] pl-3 pr-[3%]  flex flex-col lg:text-left text-center  lg:gap-3 gap-6'>
                         <img src={bulb} alt="bulb" className='lg:flex hidden' />
@@ -165,7 +174,7 @@ function Home() {
                         <span className='text-sm font-[300] font-[display] text-white'>Unlock your potential with tailored job listings that
                             match your skills and aspirations. Start exploring opportunities that
                             bring you closer to your career goals.</span>
-                            <div className='w-[30%] bg-[white] h-[40px] rounded-[5px] justify-center items-center flex text-base font-[700] font-[display]'>Register Now</div>
+                        <div className='w-[30%] bg-[white] h-[40px] rounded-[5px] justify-center items-center flex text-base font-[700] font-[display]'>Register Now</div>
                     </div>
                     <div className='w-[50%]   lg:flex hidden justify-center items-end'>
                         <img src={girloffice} alt="girloffice" />
@@ -173,9 +182,9 @@ function Home() {
                 </div>
             </div>
             <div className='mt-12'>
-            <Footer/>
+                <Footer />
             </div>
-           
+
         </div>
     )
 }

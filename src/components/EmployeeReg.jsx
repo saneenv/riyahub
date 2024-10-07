@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import NavbarMob from './NavbarMob';
 import Navbar from './Navbar';
 import { useMediaQuery } from 'react-responsive';
@@ -23,6 +23,16 @@ function EmployeeReg() {
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
     const [districtOptions, setDistrictOptions] = useState([]);
 
+    // References for inputs
+    const companyNameRef = useRef(null);
+    const mobileNumberRef = useRef(null);
+    const whatsappNumberRef = useRef(null);
+    const emailRef = useRef(null);
+    const companyCategoryRef = useRef(null);
+    const companyDistrictRef = useRef(null);
+    const addressRef = useRef(null);
+    const passwordRef = useRef(null);
+
     useEffect(() => {
         window.scrollTo(0, 0);
 
@@ -35,7 +45,7 @@ function EmployeeReg() {
         setDistrictOptions(districts); // Set district options for the select
     }, []);
 
-    const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+    const isMobile = useMediaQuery({ query: '(max-inline-size: 768px)' });
 
     const handleDistrictChange = selectedOption => {
         setCompanyDistrict(selectedOption ? selectedOption.value : ''); // Set the selected district value
@@ -116,9 +126,20 @@ function EmployeeReg() {
             console.error('Request error:', err);
             alert('Error connecting to server');
         }
-     finally {
-        setIsLoading(false);
-    }
+        finally {
+            setIsLoading(false);
+        }
+    };
+
+
+    // Function to handle "Enter" key press and move to the next field
+    const handleKeyDown = (e, nextRef) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            if (nextRef && nextRef.current) {
+                nextRef.current.focus();
+            }
+        }
     };
 
 
@@ -136,57 +157,68 @@ function EmployeeReg() {
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-lg font-[500] font-[display]'>Company Name</span>
                             <input
+                              ref={companyNameRef}
                                 placeholder='Enter Company Name'
                                 type="text"
                                 value={companyName}
                                 onChange={(e) => setCompanyName(e.target.value)}
                                 className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                                onKeyDown={(e) => handleKeyDown(e, mobileNumberRef)} // Move to Mobile Number on "Enter"
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-lg font-[500] font-[display]'>Mobile Number</span>
                             <input
+                             ref={mobileNumberRef}
                                 placeholder='Enter Phone No'
-                                type="text"
+                                type="number"
                                 value={mobileNumber}
                                 onChange={(e) => setMobileNumber(e.target.value)}
                                 className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                                onKeyDown={(e) => handleKeyDown(e, whatsappNumberRef)} // Move to WhatsApp Number on "Enter"
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-lg font-[500] font-[display]'>Whatsapp Number</span>
                             <input
+                            ref={whatsappNumberRef}
                                 placeholder='Your Whatsapp No'
-                                type="text"
+                                type="number"
                                 value={whatsappNumber}
                                 onChange={(e) => setWhatsappNumber(e.target.value)}
                                 className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                                onKeyDown={(e) => handleKeyDown(e, emailRef)} // Move to Email on "Enter"
                             />
                         </div>
 
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-lg font-[500] font-[display]'>Email</span>
                             <input
+                            ref={emailRef}
                                 placeholder='Enter Email Address'
                                 type="text"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                                onKeyDown={(e) => handleKeyDown(e, companyCategoryRef)} // Move to Company Category on "Enter"
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-lg font-[500] font-[display]'>Company Category</span>
                             <input
+                            ref={companyCategoryRef}
                                 placeholder='Select Category'
                                 type="text"
                                 value={companyCategory}
                                 onChange={(e) => setCompanyCategory(e.target.value)}
                                 className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                                onKeyDown={(e) => handleKeyDown(e, companyDistrictRef)} // Move to Company District on "Enter"
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-lg font-[500] font-[display]'>Company District</span>
                             <Select
+                            ref={companyDistrictRef}
                                 options={districtOptions}
                                 onChange={handleDistrictChange}
                                 placeholder="Select District"
@@ -197,7 +229,7 @@ function EmployeeReg() {
                                 styles={{
                                     control: (base) => ({
                                         ...base,
-                                        height: '43px', // Match height with input fields
+                                        height: '43px', // Use 'height' instead of 'block-size' to match the input fields' height
                                         border: '2px solid #D7D7D7', // Match border with input fields
                                         borderRadius: '5px', // Match border radius with input fields
                                         padding: '0 10px', // Padding
@@ -233,6 +265,7 @@ function EmployeeReg() {
                                         padding: '10px', // Padding for options
                                     }),
                                 }}
+                                onKeyDown={(e) => handleKeyDown(e, addressRef)} // Move to Address on "Enter"
                             />
 
                         </div>
@@ -240,16 +273,19 @@ function EmployeeReg() {
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-lg font-[500] font-[display]'>Address</span>
                             <input
+                            ref={addressRef}
                                 placeholder='Company Address'
                                 type="text"
                                 value={address}
                                 onChange={(e) => setAddress(e.target.value)}
                                 className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                                onKeyDown={(e) => handleKeyDown(e, passwordRef)} // Move to Password on "Enter"
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-lg font-[500] font-[display]'>Create Password</span>
                             <input
+                             ref={passwordRef}
                                 placeholder='Create Password'
                                 type="password"
                                 value={password}
@@ -260,7 +296,7 @@ function EmployeeReg() {
                     </div>
 
                     <div className='flex flex-col gap-5 w-full px-12 justify-center items-center'>
-                    <button
+                        <button
                             onClick={handleSubmit}
                             className='h-[56px] lg:w-[25%] w-[50%] bg-[#E22E37] rounded-[20px] flex justify-center items-center text-[white] text-xl font-[display] font-[600]'
                             disabled={isLoading}

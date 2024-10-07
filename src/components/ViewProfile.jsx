@@ -115,10 +115,10 @@ function ViewProfile() {
       <div className='md:flex hidden'>
         <Navbar2 />
       </div>
-      <div className='px-12 w-full h-auto gap-6 flex flex-col'>
+      <div className='lg:px-12 px-3 w-full h-auto gap-6 flex flex-col'>
         <div className='w-full mt-6 flex flex-row justify-between'>
-          <span className='text-xl font-[600] font-[display] underline text-[#E22E37] cursor-pointer' onClick={editempreg}>Edit Profile</span>
-          <span className='text-xl font-[600] font-[display] underline text-[#E22E37] cursor-pointer' onClick={handleDeleteProfile}>Delete Profile</span>
+          <span className='lg:text-xl text-lg font-[600] font-[display] underline text-[#E22E37] cursor-pointer' onClick={editempreg}>Edit Profile</span>
+          <span className='lg:text-xl text-lg font-[600] font-[display] underline text-[#E22E37] cursor-pointer' onClick={handleDeleteProfile}>Delete Profile</span>
         </div>
         <div className='w-full flex flex-col justify-center items-center gap-3'>
           <div className='h-[150px] w-[150px] rounded-full border-2 border-[#E22E37] flex items-center justify-center text-[#E22E37]  text-4xl font-[600] font-[display]'>
@@ -127,48 +127,48 @@ function ViewProfile() {
           </div>
           <span className='text-2xl font-[600] font-[display]'>{employeeData?.company_name || 'Company Name'}</span>
           <span className='text-xl font-[400] font-[display]'>{employeeData?.email || 'Employee Email'}</span>
-          <div className='flex flex-row gap-3 w-[25%] h-[50px] '>
-            <div className='w-[50%] h-full flex justify-center items-center text-base font-[600] font-[display] text-[white] bg-[#E22E37] cursor-pointer' onClick={postjob}>
+          <div className='flex flex-row gap-3 lg:w-[25%] w-[80%] h-[50px] '>
+            <div className='w-[50%] h-full flex justify-center items-center lg:text-base text-sm font-[600] font-[display] text-[white] bg-[#E22E37] cursor-pointer' onClick={postjob}>
               POST NEW JOB
             </div>
-            <div className='w-[50%] h-full border-2 border-[#AEAEAE] flex justify-center items-center text-base font-[600] font-[display] cursor-pointer' onClick={postedjobs}>
+            <div className='w-[50%] h-full border-2 border-[#AEAEAE] flex justify-center items-center lg:text-base text-sm font-[600] font-[display] cursor-pointer' onClick={postedjobs}>
               VIEW ALL JOB
             </div>
           </div>
         </div>
 
         <div className='div w-full flex flex-col gap-3'>
-          <div className='flex flex-row h-[56px] border-2 border-[#E3EAF1] w-full rounded-[10px]'>
-            <div className='w-[30%] border-r-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
+          <div className='flex lg:flex-row flex-col h-[56px] border-2 border-[#E3EAF1] w-full rounded-[10px]'>
+            <div className='lg:w-[30%] w-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
               <img src={call} alt="call" />
               <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Mobile Number</span>
             </div>
-            <div className='w-[70%] flex px-5 items-center'>
+            <div className='lg:w-[70%] w-full  flex px-5 items-center'>
               {employeeData?.mobile_number || 'No mobile number available'}
             </div>
           </div>
-          <div className='flex flex-row h-[56px] border-2 border-[#E3EAF1] w-full rounded-[10px]'>
-            <div className='w-[30%] border-r-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
+          <div className='flex lg:flex-row flex-col h-[56px] border-2 border-[#E3EAF1] w-full rounded-[10px]'>
+            <div className='lg:w-[30%] w-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
               <img src={wa} alt="Whatsapp" />
               <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Whatsapp Number</span>
             </div>
-            <div className='w-[70%] flex px-5 items-center'>
+            <div className='lg:w-[70%] w-full flex px-5 items-center'>
               {employeeData?.whatsapp_number || 'No Whatsapp number available'}
             </div>
           </div>
-          <div className='flex flex-row h-[56px] border-2 border-[#E3EAF1] w-full rounded-[10px]'>
-            <div className='w-[30%] border-r-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
+          <div className='flex lg:flex-row flex-col h-[56px] border-2 border-[#E3EAF1] w-full rounded-[10px]'>
+            <div className='lg:w-[30%] w-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
               <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Company District</span>
             </div>
-            <div className='w-[70%] flex px-5 items-center'>
+            <div className='lg:w-[70%] w-full flex px-5 items-center'>
               {employeeData?.company_district || 'No district available'}
             </div>
           </div>
-          <div className='flex flex-row h-[56px] border-2 border-[#E3EAF1] w-full rounded-[10px]'>
-            <div className='w-[30%] border-r-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
+          <div className='flex lg:flex-row flex-col h-[56px] border-2 border-[#E3EAF1] w-full rounded-[10px]'>
+            <div className='lg:w-[30%] w-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
               <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Address</span>
             </div>
-            <div className='w-[70%] flex px-5 items-center'>
+            <div className='lg:w-[70%] w-full flex px-5 items-center'>
               {employeeData?.address || 'No address available'}
             </div>
           </div>
