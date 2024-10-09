@@ -228,8 +228,14 @@ function CandidateReg() {
 
             if (!response.ok) {
                 const errorData = await response.json(); // Attempt to parse error message
+                if (errorData.message === 'Mobile number already exists') {
+                    // Show an alert if the mobile number is already registered
+                    alert('Mobile number already exists.');
+                    return;
+                }
                 throw new Error(`Network response was not ok: ${errorData.message || 'Unknown error'}`);
             }
+    
             else {
                 alert('Registration Successful');
                 setName('');

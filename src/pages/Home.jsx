@@ -19,6 +19,11 @@ function Home() {
     const companyName = sessionStorage.getItem('customerName');
     console.log("company name:", companyName);
 
+    const customerType = sessionStorage.getItem('customerType');
+    console.log("customer Type:", customerType);
+
+
+
     const [visibleJobs, setVisibleJobs] = useState(9);
 
     // Function to load more jobs

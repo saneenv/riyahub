@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import NavbarMob from './NavbarMob';
 import Navbar from './Navbar';
@@ -7,20 +7,22 @@ import logo from '../images/login/logo.png';
 import Navbar2 from './Navbar2';
 import { useNavigate } from 'react-router-dom';
 
-
 function Login() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
     const navigate = useNavigate();
-    
-    // State variables for mobile number and password
     const [mobileNumber, setMobileNumber] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
+    // Combined function to handle both employee and candidate login
     const handleLogin = async () => {
         try {
+            // First, attempt employee login
             const response = await fetch(`${apiBaseUrl}/login`, {
                 method: 'POST',
                 headers: {
@@ -28,29 +30,64 @@ function Login() {
                 },
                 body: JSON.stringify({ mobileNumber, password }),
             });
-    
+
             const data = await response.json();
-    
+
             if (response.ok) {
                 if (data.success) {
-                    // Store the employeeId in sessionStorage
+                    // Store employee data in sessionStorage
                     sessionStorage.setItem('employeeId', data.employeeId);
                     sessionStorage.setItem('customerName', data.customerName);
-    
-                    // Redirect to the verification page
+                    sessionStorage.setItem('customerType', data.customerType);
                     navigate('/home');
                 } else {
-                    setErrorMessage(data.message); // Set error message if login fails
+                    // If employee login fails, attempt candidate login
+                    await attemptCandidateLogin();
                 }
             } else {
-                setErrorMessage('Login failed. Please check your credentials.'); // Handle non-2xx response
+                await attemptCandidateLogin();
+                // setErrorMessage('Login failed. Please check your credentials.');
+
             }
         } catch (error) {
             console.error('Login error:', error);
-            setErrorMessage('An error occurred. Please try again.'); // Set a generic error message
+            setErrorMessage('An error occurred. Please try again.');
         }
     };
-    
+
+    // Function to attempt candidate login
+    const attemptCandidateLogin = async () => {
+        try {
+            const response = await fetch(`${apiBaseUrl}/loginCandidate`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ mobile: mobileNumber, password }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                if (data.success) {
+                    // Store candidate data in sessionStorage
+                    sessionStorage.setItem('employeeId', data.candidate.CandidateID);
+                    sessionStorage.setItem('customerName', data.candidate.Name);
+                    sessionStorage.setItem('customerType', data.candidate.customerType);
+
+                    navigate('/home');
+                } else {
+                    setErrorMessage(data.message); // Set error message if candidate login fails
+                }
+            } else {
+                setErrorMessage(' login failed. Please check your credentials.');
+            }
+        } catch (error) {
+            console.error('Candidate login error:', error);
+            setErrorMessage('An error occurred during candidate login. Please try again.');
+        }
+    };
+
     return (
         <div className='flex flex-col min-h-screen'>
             {isMobile ? <NavbarMob /> : <Navbar />}
@@ -78,7 +115,7 @@ function Login() {
                         </div>
                         <div className='h-[56px] w-full px-12'>
                             <input
-                                type="password" // Change to password type for security
+                                type="password"
                                 className='border-2 border-[#000000] w-full h-full rounded-[12px] px-3'
                                 placeholder='Enter your password'
                                 value={password}
@@ -88,7 +125,7 @@ function Login() {
                         <div className='h-[56px] w-full px-12'>
                             <div
                                 className='w-full h-full bg-[#E22E37] rounded-[28px] flex justify-center items-center text-[white] text-base font-[600] font-[display] cursor-pointer'
-                                onClick={handleLogin}
+                                onClick={handleLogin} // This calls only handleLogin
                             >
                                 SUBMIT
                             </div>

@@ -15,6 +15,8 @@ import EditJobPost from './components/EditJobPost';
 import ViewProfile from './components/ViewProfile';
 import EditEmpReg from './components/EditEmpReg';
 import ContactUs from './pages/ContactUs';
+import ViewProfile2 from './components/ViewProfile2';
+import EditCanReg from './components/EditCanReg';
 
 
 
@@ -39,6 +41,9 @@ function App() {
                 <Route path='/viewprofile' element={<ViewProfile/>}/>
                 <Route path='/editempreg' element={<EditEmpReg/>}/>
                 <Route path='/contact' element={<ContactUs/>}/>
+                <Route path='/viewcandidate' element={<ViewProfile2/>}/>
+                <Route path='/editcanreg' element={<EditCanReg/>}/>
+
 
 
 

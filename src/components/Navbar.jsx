@@ -5,11 +5,14 @@ import location from '../images/navbar/location.png'
 // import smallloc from '../images/navbar/smallloc.png'
 import { useNavigate } from 'react-router-dom'
 import EmpOptions from './EmpOptions'
+import CandidateOpt from './CandidateOpt'
 
 function Navbar() {
     const navigate = useNavigate();
     const companyName = sessionStorage.getItem('customerName');
     const [showOptions, setShowOptions] = useState(false); // State to track if options are shown
+    const customerType = sessionStorage.getItem('customerType');
+    console.log("customer Type:", customerType);
 
 
     const login = () => {
@@ -76,7 +79,13 @@ function Navbar() {
                 )}
             </div>
 
-            {showOptions && <EmpOptions closeOptions={closeOptions} />}
+            {showOptions && (
+                customerType === 'employee' ? (
+                    <EmpOptions closeOptions={closeOptions} />
+                ) : customerType === 'candidate' ? (
+                    <CandidateOpt closeOptions={closeOptions} />
+                ) : null
+            )}
         </div>
     )
 }

@@ -32,7 +32,7 @@ function Packages() {
                <div className='w-full px-12 relative'>
                   <img src={banner} alt="banner" /> 
                   <div className='absolute inset-0 flex justify-end flex-col w-[100%] h-[100%] px-12 '>
-                    <div className='lg:text-2xl text-xl font-[500] font-[display] h-[75%]  lg:w-[16%] md:w-[15%] w-[35%]  flex text-[white] justify-center items-center'>₹ 250</div>
+                    <div className='lg:text-2xl text-xl font-[500] font-[display] h-[75%]  lg:w-[16%] md:w-[15%] w-[35%]  flex text-[white] justify-center items-center'>₹ 300</div>
                   </div>
                </div>
                <div className='w-full h-auto flex flex-col gap-3'>
@@ -42,18 +42,18 @@ function Packages() {
                    </div>
                    <div className='w-full h-[56px] border-2 border-[#E3EAF1] flex flex-row '>
                       <div className='w-[30%] border-r-2 border-[#E3EAF1] lg:px-6 px-3 flex items-center text-xl font-[500] font-[display] text-[#B3B3B3]'>Validity</div>
-                      <div className='w-[70%]  lg:px-6 px-3 text-xl font-[500] font-[display] flex items-center'>6 Months</div>
+                      <div className='w-[70%]  lg:px-6 px-3 text-xl font-[500] font-[display] flex items-center'>30 Days</div>
                    </div>
                    <div className='w-full h-[56px] border-2 border-[#E3EAF1] flex flex-row '>
                       <div className='w-[30%] border-r-2 border-[#E3EAF1] lg:px-6 px-3 flex items-center text-xl font-[500] font-[display] text-[#B3B3B3]'>Amount</div>
-                      <div className='w-[70%]  lg:px-6 px-3 text-xl font-[500] font-[display] flex items-center'>₹ 250</div>
+                      <div className='w-[70%]  lg:px-6 px-3 text-xl font-[500] font-[display] flex items-center'>₹ 300</div>
                    </div>
                    <div className='w-full h-[56px] border-2 border-[#E3EAF1] flex flex-row '>
                       <div className='w-[30%] border-r-2 border-[#E3EAF1] lg:px-6 px-3 flex items-center text-xl font-[500] font-[display] text-[#B3B3B3]'>Online Service</div>
                       <div className='w-[70%]  lg:px-6 px-3 text-xl font-[500] font-[display] flex items-center'><img src={tick} alt="tick" /></div>
                    </div>
                    <div className='w-full h-[56px] border-2 border-[#E3EAF1] flex flex-row '>
-                      <div className='w-[30%] border-r-2 border-[#E3EAF1] lg:px-6 px-3 flex items-center text-xl font-[500] font-[display] text-[#B3B3B3]'>Vaccancy</div>
+                      <div className='w-[30%] border-r-2 border-[#E3EAF1] lg:px-6 px-3 flex items-center text-xl font-[500] font-[display] text-[#B3B3B3]'>whatsapp Service</div>
                       <div className='w-[70%]  lg:px-6 px-3 text-xl font-[500] font-[display] flex items-center'><img src={tick} alt="tick" /></div>
                    </div>
 
@@ -66,7 +66,7 @@ function Packages() {
                <div className='w-full px-12 relative'>
                   <img src={banner} alt="banner" /> 
                   <div className='absolute inset-0 flex justify-end flex-col w-[100%] h-[100%] px-12 '>
-                    <div className='lg:text-2xl text-xl font-[500] font-[display] h-[75%] lg:w-[16%] md:w-[15%] w-[35%] flex text-[white] justify-center items-center'>₹ 250</div>
+                    <div className='lg:text-2xl text-xl font-[500] font-[display] h-[75%] lg:w-[16%] md:w-[15%] w-[35%] flex text-[white] justify-center items-center'>₹ 500</div>
                   </div>
                </div>
                <div className='w-full h-auto flex flex-col gap-3'>
@@ -76,18 +76,18 @@ function Packages() {
                    </div>
                    <div className='w-full h-[56px] border-2 border-[#E3EAF1] flex flex-row '>
                       <div className='w-[30%] border-r-2 border-[#E3EAF1] lg:px-6 px-3 flex items-center text-xl font-[500] font-[display] text-[#B3B3B3]'>Validity</div>
-                      <div className='w-[70%]  lg:px-6 px-3 text-xl font-[500] font-[display] flex items-center'>6 Months</div>
+                      <div className='w-[70%]  lg:px-6 px-3 text-xl font-[500] font-[display] flex items-center'>90 Days</div>
                    </div>
                    <div className='w-full h-[56px] border-2 border-[#E3EAF1] flex flex-row '>
                       <div className='w-[30%] border-r-2 border-[#E3EAF1] lg:px-6 px-3 flex items-center text-xl font-[500] font-[display] text-[#B3B3B3]'>Amount</div>
-                      <div className='w-[70%]  lg:px-6 px-3 text-xl font-[500] font-[display] flex items-center'>₹ 250</div>
+                      <div className='w-[70%]  lg:px-6 px-3 text-xl font-[500] font-[display] flex items-center'>₹ 500</div>
                    </div>
                    <div className='w-full h-[56px] border-2 border-[#E3EAF1] flex flex-row '>
                       <div className='w-[30%] border-r-2 border-[#E3EAF1] lg:px-6 px-3 flex items-center text-xl font-[500] font-[display] text-[#B3B3B3]'>Online Service</div>
                       <div className='w-[70%]  lg:px-6 px-3 text-xl font-[500] font-[display] flex items-center'><img src={tick} alt="tick" /></div>
                    </div>
                    <div className='w-full h-[56px] border-2 border-[#E3EAF1] flex flex-row '>
-                      <div className='w-[30%] border-r-2 border-[#E3EAF1] lg:px-6 px-3 flex items-center text-xl font-[500] font-[display] text-[#B3B3B3]'>Vaccancy</div>
+                      <div className='w-[30%] border-r-2 border-[#E3EAF1] lg:px-6 px-3 flex items-center text-xl font-[500] font-[display] text-[#B3B3B3]'>whatsapp Service</div>
                       <div className='w-[70%]  lg:px-6 px-3 text-xl font-[500] font-[display] flex items-center'><img src={tick} alt="tick" /></div>
                    </div>
 

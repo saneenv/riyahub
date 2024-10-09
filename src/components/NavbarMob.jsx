@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import logo from '../images/navbar/logo.png'
 import EmpOptions from './EmpOptions';
 import { useNavigate } from 'react-router-dom'
+import CandidateOpt from './CandidateOpt';
 
 // import smallloc from '../images/navbar/smallloc.png'
 
@@ -11,6 +12,7 @@ function NavbarMob() {
     const companyName = sessionStorage.getItem('customerName');
     const [showOptions, setShowOptions] = useState(false); // State to track if options are shown
     const navigate = useNavigate();
+    const customerType = sessionStorage.getItem('customerType');
 
 
 
@@ -101,7 +103,13 @@ function NavbarMob() {
                     </div>
                 </>
             )}
-            {showOptions && <EmpOptions closeOptions={closeOptions} />}
+            {showOptions && (
+                customerType === 'employee' ? (
+                    <EmpOptions closeOptions={closeOptions} />
+                ) : customerType === 'candidate' ? (
+                    <CandidateOpt closeOptions={closeOptions} />
+                ) : null
+            )}
         </div>
     )
 }
