@@ -92,7 +92,7 @@ function ViewProfile2() {
               <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>User ID</span>
             </div>
             <div className='lg:w-[70%] w-full  flex px-5 items-center'>
-              {employeeData?.Mobile || 'No mobile number available'}
+              {employeeData?.CandidateID || 'No mobile number available'}
             </div>
           </div>
           <div className='flex lg:flex-row flex-col h-[56px] border-2 border-[#E3EAF1] w-full rounded-[10px]'>

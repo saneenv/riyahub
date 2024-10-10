@@ -367,7 +367,7 @@ function CandidateReg() {
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Job Type</span>
+                            <span className='text-left text-lg font-[500] font-[display]'>Jobs</span>
                             <Select
                                 options={jobTypeOptions}
                                 isClearable={true}

@@ -1,205 +1,357 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Select from 'react-select';
+import statesAndDistricts2 from '../json/states-and-districts.json';
+import degree from '../json/degree.json';
+import jobs from '../json/jobs.json';
+import location from '../json/cities.json';
+import Footer from './Footer';
+import NavbarMob from './NavbarMob';
+import Navbar from './Navbar';
+import Navbar2 from './Navbar2';
+import { useMediaQuery } from 'react-responsive';
 import { useNavigate } from 'react-router-dom';
 
 
-
 const EditCanReg = () => {
-    const candidateID = parseInt(sessionStorage.getItem('employeeId'), 10);
-    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+  const [formData, setFormData] = useState({
+    name: '',
+    mobile: '',
+    whatsapp: '',
+    email: '',
+    password: '',
+    gender: '',
+    district: '',
+    degree: '',
+    jobType: '',
+    jobs: [],
+    locations: [],
+  });
 
- // State variables
- const [name, setName] = useState('');
- const [mobile, setMobile] = useState('');
- const [whatsapp, setWhatsapp] = useState('');
- const [email, setEmail] = useState('');
- const [password, setPassword] = useState('');
- const [gender, setGender] = useState('');
- const [companyDistrict, setCompanyDistrict] = useState('');
- const [candidateDegree, setCandidateDegree] = useState('');
- const [jobType, setJobType] = useState('');
- const [jobsCategory, setJobsCategory] = useState([]);
- const [locationCategory, setLocationCategory] = useState([]);
- const navigate = useNavigate();
- const [isLoading, setIsLoading] = useState(false);
+  const candidateID = parseInt(sessionStorage.getItem('employeeId'), 10);
+  const [districtOptions, setDistrictOptions] = useState([]);
+  const [degreeOptions, setDegreeOptions] = useState([]);
+  const [jobsOptions, setJobsOptions] = useState([]);
+  const [locationOptions, setLocationOptions] = useState([]);
+  const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+  const [errorMessage, setErrorMessage] = useState(null); // Initialize error state
+  const [loading, setLoading] = useState(false); // Initialize loading state
+  const navigate = useNavigate();
 
 
- useEffect(() => {
-     const fetchCandidateData = async () => {
-         try {
-             const response = await fetch(`${apiBaseUrl}/getCandidate/${candidateID}`);
-             if (!response.ok) {
-                 throw new Error('Failed to fetch candidate data');
-             }
-             const candidateData = await response.json();
-             // Set the state with fetched data
-             setName(candidateData.Name);
-             setMobile(candidateData.Mobile);
-             setWhatsapp(candidateData.WhatsApp);
-             setEmail(candidateData.Email);
-             setPassword(candidateData.Password);
-             setGender(candidateData.Gender);
-             setCompanyDistrict(candidateData.District);
-             setCandidateDegree(candidateData.Degree);
-             setJobType(candidateData.JobType);
-             setJobsCategory(candidateData.Jobs.split(',')); // Convert to array
-             setLocationCategory(candidateData.Locations.split(',')); // Convert to array
-         } catch (error) {
-             console.error('Error fetching candidate data:', error);
-         }
-     };
+  // Options for Job Type
+  const jobTypeOptions = [
+    { value: 'any', label: 'Any' },
+    { value: 'fulltime', label: 'Full-time' },
+    { value: 'parttime', label: 'Part-Time' },
+    { value: 'remote', label: 'Remote/Work at Home' }
+  ];
 
-     fetchCandidateData();
- }, [candidateID]); // Only run this effect when candidateID changes
+  // Options for Gender
+  const genderOptions = [
+    { value: 'male', label: 'Male' },
+    { value: 'female', label: 'Female' },
+    { value: 'other', label: 'Other' }
+  ];
 
- const handleUpdate = async () => {
-     // ... your existing validation and submit logic
-     const data = {
-         name,
-         mobile,
-         whatsapp,
-         email,
-         password,
-         gender,
-         district: companyDistrict,
-         degree: candidateDegree,
-         jobType,
-         jobs: jobsCategory.map(option => option.value), // Ensure this is an array
-         locations: locationCategory.map(option => option.value), // Ensure this is an array
-     };
+  // Fetch candidate data on load
+  useEffect(() => {
+    window.scrollTo(0, 0); // Reset the scroll position
 
-     try {
-         const response = await fetch(`${apiBaseUrl}/updateCandidate/${candidateID}`, { // Call update endpoint
-             method: 'PUT', // Change method to PUT for updates
-             headers: {
-                 'Content-Type': 'application/json',
-             },
-             body: JSON.stringify(data),
-         });
+    let isMounted = true; // track whether the component is mounted
+    setLoading(true); // Set loading state
+    fetch(`${apiBaseUrl}/getCandidate/${candidateID}`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (isMounted) {
+          console.log('Fetched candidate data:', data); // Log the fetched data
 
-         if (!response.ok) {
-             const errorData = await response.json();
-             alert(`Error: ${errorData.message}`);
-             return;
-         }
+          const {
+            Name, // Adjusted to match the API response
+            Mobile,
+            WhatsApp,
+            Email,
+            Password,
+            Gender,
+            District,
+            Degree,
+            JobType,
+            Jobs = "", // Default to empty string if undefined
+            Locations = "" // Default to empty string if undefined
+          } = data;
 
-         alert('Update Successful');
-         navigate('/login'); // Redirect after successful update
-     } catch (error) {
-         console.error('Error updating data:', error);
-     }
- };
+          setFormData({
+            name: Name,
+            mobile: Mobile,
+            whatsapp: WhatsApp,
+            email: Email,
+            password: Password,
+            gender: Gender,
+            district: District,
+            degree: Degree,
+            jobType: JobType,
+            jobs: Array.isArray(Jobs) ? Jobs : Jobs.split(','),
+            locations: Array.isArray(Locations) ? Locations : Locations.split(','),
+          });
+          setErrorMessage(null); // Clear any previous error
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching candidate data:', error);
+        if (isMounted) {
+          setErrorMessage("Failed to load candidate data."); // Update state for error
+        }
+      })
+      .finally(() => {
+        if (isMounted) {
+          setLoading(false); // Reset loading state
+        }
+      });
 
-    return (
-        <div className='flex flex-col min-h-screen'>
-            <div className='flex justify-center items-center bg-[#0D2D3E] min-h-screen'>
-                <div className='lg:w-[80%] w-[90%] h-[70%] bg-[white] flex flex-col items-center gap-12 py-12 lg:rounded-[20px] rounded-[5px]'>
-                    <span className='text-2xl font-[700] font-[display]'>Update Candidate</span>
-                    <div className='grid lg:grid-cols-3 grid-cols-1 gap-5 lg:px-12 px-3 w-full'>
-                        <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Name</span>
-                            <input
-                                type="text"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
-                            />
-                        </div>
-                        <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Mobile Number</span>
-                            <input
-                                type="text"
-                                value={mobile}
-                                onChange={(e) => setMobile(e.target.value)}
-                                className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
-                            />
-                        </div>
-                        <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Whatsapp Number</span>
-                            <input
-                                type="text"
-                                value={whatsapp}
-                                onChange={(e) => setWhatsapp(e.target.value)}
-                                className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
-                            />
-                        </div>
-                        <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Email</span>
-                            <input
-                                type="text"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
-                            />
-                        </div>
-                        <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Gender</span>
-                            <input
-                                type="text"
-                                value={gender}
-                                onChange={(e) => setGender(e.target.value)}
-                                className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
-                            />
-                        </div>
-                        <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>District</span>
-                            <input
-                                type="text"
-                                value={companyDistrict}
-                                onChange={(e) => setCompanyDistrict(e.target.value)}
-                                className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
-                            />
-                        </div>
-                        <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>District</span>
-                            <input
-                                type="text"
-                                value={jobsCategory}
-                                onChange={(e) => setJobsCategory(e.target.value)}
-                                className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
-                            />
-                        </div>
-                        <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Degree</span>
-                            <input
-                                type="text"
-                                value={candidateDegree}
-                                onChange={(e) => setCandidateDegree(e.target.value)}
-                                className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
-                            />
-                        </div>
-                        <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>New Password</span>
-                            <input
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
-                            />
-                        </div>
-                    </div>
-                    <div className='flex flex-col gap-5 w-full px-12 justify-center items-center'>
-                        <button
-                            onClick={handleUpdate}
-                            className='h-[56px] lg:w-[25%] w-[50%] bg-[#E22E37] rounded-[20px] flex justify-center items-center text-[white] text-xl font-[display] font-[600]'
-                            disabled={isLoading}
-                        >
-                            {isLoading ? (
-                                <div className="flex justify-center items-center">
-                                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                        <path className="opacity-75" fill="currentColor" d="M4 12c0-4.418 3.582-8 8-8v8H4z"></path>
-                                    </svg>
-                                    <span>Updating...</span>
-                                </div>
-                            ) : (
-                                'Update'
-                            )}
-                        </button>
-                    </div>
-                </div>
+    const districts = statesAndDistricts2.states[0].districts.map(district => ({
+      value: district,
+      label: district
+    }));
+
+    const degrees = degree.states[0].districts.map(district => ({
+      value: district,
+      label: district
+    }));
+
+    // Extract districts from the imported JSON data
+    const job = jobs.states[0].districts.map(district => ({
+      value: district,
+      label: district
+    }));
+
+    const locations = location.states[0].districts.map(district => ({
+      value: district,
+      label: district
+    }));
+
+
+    setDistrictOptions(districts);
+    setDegreeOptions(degrees);
+    setJobsOptions(job);
+    setLocationOptions(locations);
+
+    return () => { isMounted = false; }; // Cleanup function to set isMounted to false
+  }, [candidateID]);
+
+  // Handling input changes
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  // Handling select changes
+  const handleSelectChange = (selected, field) => {
+    if (field === 'degree') {
+      // Handle single select for degree
+      setFormData({
+        ...formData,
+        [field]: selected ? selected.value : '', // Use selected.value for single select
+      });
+    } else if (field === 'district' || field === 'jobType' || field === 'gender') {
+      // Handle single select for district and jobType
+      setFormData({
+        ...formData,
+        [field]: selected ? selected.value : '', // Use selected.value for single select
+      });
+    } else {
+      // Handle multi-select for jobs and locations
+      setFormData({
+        ...formData,
+        [field]: selected ? selected.map(option => option.value) : [], // For multi-select
+      });
+    }
+  };
+  
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const updatedData = {
+      ...formData,
+      jobs: formData.jobs.join(','), // Convert array to comma-separated string
+      locations: formData.locations.join(','), // Convert array to comma-separated string
+    };
+
+    fetch(`${apiBaseUrl}/updateCandidate/${candidateID}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedData),
+    })
+      .then(response => {
+        if (response.ok) {
+          alert('Candidate updated successfully!');
+          navigate('/viewcandidate')
+        } else {
+          return response.json().then(errorData => {
+            alert(`Error: ${errorData.message}`);
+          });
+        }
+      })
+      .catch(error => console.error('Error updating candidate:', error));
+  };
+
+  return (
+    <div className='flex flex-col min-h-screen'>
+      {isMobile ? <NavbarMob /> : <Navbar />}
+      <div className='md:flex hidden'>
+        <Navbar2 />
+      </div>
+      <div className='flex justify-center items-center bg-[#0D2D3E] py-12'>
+        <div className='lg:w-[80%] w-[90%] h-[70%] flex flex-col items-center bg-[white] gap-12 py-12 lg:rounded-[20px] rounded-[5px]'>
+          <span className='text-2xl font-[700] font-[display]'>Update Candidate</span>
+          <div className='grid lg:grid-cols-3 grid-cols-1 gap-5 lg:px-12 px-3 w-full'>
+            <div className='flex flex-col gap-3'>
+              <span className='text-left text-lg font-[500] font-[display]'>Name</span>
+              <input
+                type="text"
+                placeholder='Enter Full Name'
+                className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                value={formData.name}
+                name="name"
+                onChange={handleChange}
+              />
             </div>
+
+            <div className='flex flex-col gap-3'>
+              <span className='text-left text-lg font-[500] font-[display]'>Mobile Number</span>
+              <input
+                type="number"
+                placeholder='Enter Phone No'
+                className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                value={formData.mobile}
+                name="mobile"
+                onChange={handleChange}
+                readOnly
+              />
+            </div>
+
+            <div className='flex flex-col gap-3'>
+              <span className='text-left text-lg font-[500] font-[display]'>Whatsapp Number</span>
+              <input
+                type="number"
+                placeholder='Your Whatsapp No'
+                className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                value={formData.whatsapp}
+                name="whatsapp"
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className='flex flex-col gap-3'>
+              <span className='text-left text-lg font-[500] font-[display]'>Email</span>
+              <input
+                type="text"
+                placeholder='Enter Email Address'
+                className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                value={formData.email}
+                name="email"
+                onChange={handleChange}
+              />
+            </div>
+            <div className='flex flex-col gap-3'>
+              <span className='text-left text-lg font-[500] font-[display]'>Password</span>
+              <input
+                type="text"
+                placeholder='Enter Email Address'
+                className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                value={formData.password}
+                name="password"
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className='flex flex-col gap-3'>
+              <span className='text-left text-lg font-[500] font-[display]'>Gender</span>
+              <Select
+                options={genderOptions}
+                onChange={selected => handleSelectChange(selected, 'gender')}
+                placeholder="Select Gender"
+                value={formData.gender ? { value: formData.gender, label: formData.gender.charAt(0).toUpperCase() + formData.gender.slice(1) } : null}
+              />
+            </div>
+
+            <div className='flex flex-col gap-3'>
+              <span className='text-left text-lg font-[500] font-[display]'>District</span>
+              <Select
+                options={districtOptions}
+                onChange={selected => handleSelectChange(selected, 'district')}
+                placeholder="Select District"
+                value={formData.district ? { value: formData.district, label: formData.district } : null}
+              />
+
+            </div>
+
+            <div className='flex flex-col gap-3'>
+              <span className='text-left text-lg font-[500] font-[display]'>Degree</span>
+              <Select
+                options={degreeOptions}
+                onChange={selected => handleSelectChange(selected, 'degree')}
+                placeholder="Select Degree"
+                isMulti={false} // or remove this line for single select
+                value={formData.degree ? { value: formData.degree, label: formData.degree } : null}
+              />
+
+            </div>
+
+            <div className='flex flex-col gap-3'>
+              <span className='text-left text-lg font-[500] font-[display]'>Job Type</span>
+              <Select
+                options={jobTypeOptions}
+                onChange={selected => handleSelectChange(selected, 'jobType')}
+                placeholder="Select Job Type"
+                value={formData.jobType ? { value: formData.jobType, label: formData.jobType.charAt(0).toUpperCase() + formData.jobType.slice(1) } : null}
+              />
+            </div>
+
+            <div className='flex flex-col gap-3'>
+              <span className='text-left text-lg font-[500] font-[display]'>Select Jobs</span>
+              <Select
+                isMulti
+                options={jobsOptions}
+                onChange={selected => handleSelectChange(selected, 'jobs')}
+                placeholder="Select Jobs"
+                value={Array.isArray(formData.jobs) ? formData.jobs.map(job => ({ value: job, label: job })) : []}
+              />
+            </div>
+
+            <div className='flex flex-col gap-3'>
+              <span className='text-left text-lg font-[500] font-[display]'>Select Locations</span>
+              <Select
+                isMulti
+                options={locationOptions}
+                onChange={selected => handleSelectChange(selected, 'locations')}
+                placeholder="Select Locations"
+                value={Array.isArray(formData.locations) ? formData.locations.map(location => ({ value: location, label: location })) : []}
+              />
+            </div>
+          </div>
+
+          <button
+            onClick={handleSubmit}
+            className='bg-[#0D2D3E] text-white rounded-md py-2 px-4 mt-4'
+          >
+            Update
+          </button>
         </div>
-    );
+      </div>
+      <Footer />
+    </div>
+  );
 };
 
 export default EditCanReg;
