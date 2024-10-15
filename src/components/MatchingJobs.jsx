@@ -8,6 +8,8 @@ import filter from '../images/search/Filter.png'
 import Select from 'react-select'; // Importing react-select
 import jobs from '../json/jobs.json';
 import location from '../json/cities.json'
+import vector from '../images/home/Vector.png'
+
 
 
 
@@ -21,6 +23,9 @@ function MatchingJobs() {
     const [jobType, setJobType] = useState(null); // State for storing gender
     const [gender, setGender] = useState(null); // State for storing gender
     const [foodType, setFoodType] = useState(null); // State for storing gender
+    const [jobsApi, setJobsApi] = useState([]);
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
 
 
     useEffect(() => {
@@ -127,23 +132,57 @@ function MatchingJobs() {
         }),
     };
 
+    // Fetch data from the API
+    // Fetch data using fetch
+    useEffect(() => {
+        fetch(`${apiBaseUrl}/filterjobposts?job=Web Developer&location=Kochi&job_type=fulltime&gender_type=male&food_type=no`)
+            .then((response) => response.json())
+            .then((data) => {
+                setJobsApi(data); // Update the state with fetched data
+            })
+            .catch((error) => console.error('Error fetching data:', error));
+    }, [apiBaseUrl]);
+
+    const [visibleJobs, setVisibleJobs] = useState(6); // Initial number of jobs to display
+
+    // Handler to load more jobs
+    const loadMoreJobs = () => {
+        setVisibleJobs((prevVisible) => prevVisible + 6); // Increase the number of visible jobs by 9
+    };
+    const handleClearAll = () => {
+        setJobsCategory(null);  // Clear the job category selection
+        setLocationCategory(null);  // Clear the location selection
+        setJobType(null);  // Clear the job type selection
+        setGender(null);  // Clear the gender selection
+        setFoodType(null);  // Clear the food type selection
+    };
+    
+
+    const [isFilterVisible, setIsFilterVisible] = useState(false);
+
+    const toggleFilter = () => {
+        setIsFilterVisible(prev => !prev);
+    };
+
+
     return (
         <div className='flex flex-col min-h-screen'>
             {isMobile ? <NavbarMob /> : <Navbar />}
             <div className='md:flex hidden'>
                 <Navbar2 />
             </div>
-            <div className='flex w-full px-12 bg-[#eeebeb] flex-row gap-3 py-6'>
-                <div className='w-[25%] h-auto bg-[white] rounded-[10px] flex flex-col '>
-                    <div className='w-full h-[50px]  rounded-t-[10px] p-5 flex justify-between items-center border-b-2 border-[#d2d0d0]'>
+            <div className='flex w-full px-2 bg-[#eeebeb] lg:flex-row flex-col gap-3 py-6'>
+                <div className='lg:w-[25%] w-full lg:h-[600px] h-auto  rounded-[10px] flex flex-col '>
+                    <div className='w-full h-[50px] bg-[white]  rounded-t-[10px] p-5 flex justify-between items-center border-b-2 border-[#d2d0d0]'>
                         <div className=' flex flex-row gap-2'>
-                            <img src={filter} alt="filter" className='cursor-pointer' />
+                            <img src={filter} alt="filter" className='cursor-pointer'  onClick={toggleFilter} />
                             <span className='text-lg font-[500] font-[display]'>Search Job</span>
                         </div>
-                        <span className='text-base font-[500] font-[display] cursor-pointer'>clear all</span>
+                        <span className='text-base font-[500] font-[display] cursor-pointer'  onClick={handleClearAll}>clear all</span>
 
                     </div>
-                    <div className='p-5 flex flex-col gap-5 w-full'>
+                    {isFilterVisible && (
+                    <div className='p-5 flex flex-col gap-5 w-full bg-[white] rounded-b-[10px]'>
                         <div className='w-full flex flex-col gap-2'>
                             <span className='text-left font-[display] text-base font-[400]'>Select Preferred Job</span>
                             <Select
@@ -153,9 +192,10 @@ function MatchingJobs() {
                                 className='w-auto'
                                 classNamePrefix='select'
                                 isClearable={true}
-                                value={jobsCategory}
+                                value={jobsOptions.find(option => option.value === jobsCategory) || null}  // Match selected value
                                 styles={customStyles2}
                             />
+
                         </div>
                         <div className='w-full flex flex-col gap-2'>
                             <span className='text-left font-[display] text-base font-[400]'>Select Preferred Location</span>
@@ -166,9 +206,10 @@ function MatchingJobs() {
                                 className='w-full'
                                 classNamePrefix='select'
                                 isClearable={true}
-                                value={locationCategory} // Display selected options
+                                value={locationOptions.find(option => option.value === locationCategory) || null}  // Match selected value
                                 styles={customStyles2}
                             />
+
                         </div>
                         <div className='w-full flex flex-col gap-2'>
                             <span className='text-left font-[display] text-base font-[400]'>Select Job Type</span>
@@ -209,10 +250,87 @@ function MatchingJobs() {
 
 
                     </div>
+                    )}
 
                 </div>
-                <div className='w-[75%] h-auto bg-[white]  flex  p-5'>
-                     
+                <div className='lg:w-[75%] w-full h-auto bg-[white]  flex flex-col gap-3  lg:p-5 p-2'>
+                    <div className='grid lg:grid-cols-3 grid-cols-1 w-full gap-3'>
+                        {jobsApi.length > 0 ? (
+                            jobsApi.slice(0, visibleJobs).map((job) => (
+                                <div
+                                    key={job.job_id}
+                                    className='h-[292px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'
+                                >
+                                    <div className='w-full h-[30%] bg-[#E22E37] px-1 flex items-center justify-between'>
+                                        <span className='text-[white] text-xl font-[700] font-[display]'>{job.job_title}</span>
+                                        <div className='flex flex-row gap-1 items-center justify-center border-2 border-[white] p-2 rounded-[40px]'>
+                                            <img src={vector} alt="loc" />
+                                            <span className='text-sm font-[500] font-[display] text-[white]'>{job.location}</span>
+                                        </div>
+                                    </div>
+                                    <div className='w-full h-[70%] flex flex-row'>
+                                        <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-5'>
+                                            <div className='flex items-center justify-between w-full'>
+                                                <span className='text-base font-[display] font-[500]'>JOB ID</span>
+                                                <span className='text-base font-[display] font-[500]'>:</span>
+                                            </div>
+                                            <div className='flex items-center justify-between'>
+                                                <span className='text-base font-[display] font-[500]'>COMPANY TYPE</span>
+                                                <span className='text-base font-[display] font-[500]'>:</span>
+                                            </div>
+                                            <div className='flex items-center justify-between'>
+                                                <span className='text-base font-[display] font-[500]'>JOB TYPE</span>
+                                                <span className='text-base font-[display] font-[500]'>:</span>
+                                            </div>
+                                            <div className='flex items-center justify-between'>
+                                                <span className='text-base font-[display] font-[500]'>GENDER</span>
+                                                <span className='text-base font-[display] font-[500]'>:</span>
+                                            </div>
+                                            <div className='flex items-center justify-center w-[80%] h-[38px] bg-[#0D2D3E] rounded-[10px] text-lg font-[600] font-[display] text-[white] cursor-pointer' >
+                                                Apply Now
+                                            </div>
+                                        </div>
+                                        <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-5'>
+                                            <div className='flex items-center justify-between w-full'>
+                                                <span className='text-base font-[display] font-[500]'>{job.job_id}</span>
+                                            </div>
+                                            <div className='flex items-center justify-between'>
+                                                <span className='text-base font-[display] font-[500]'>{job.company_type}</span>
+                                            </div>
+                                            <div className='flex items-center justify-between'>
+                                                <span className='text-base font-[display] font-[500]'>{job.job_type}</span>
+                                            </div>
+                                            <div className='flex items-center justify-between'>
+                                                <span className='text-base font-[display] font-[500]'>{job.gender_type}</span>
+                                            </div>
+                                            <div className='flex items-center justify-center w-[80%] h-[38px] bg-[#0D2D3E] rounded-[10px] text-lg font-[600] font-[display] text-[white] cursor-pointer'>
+                                                Job Details
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <p>No jobs available</p>
+                        )}
+                        {/* Load More Button */}
+
+
+
+
+
+                    </div>
+                    {/* Load More Button */}
+                    {visibleJobs < jobsApi.length && (
+                        <div className='flex justify-center mt-4'>
+                            <button
+                                className='bg-[#0D2D3E] text-white px-4 py-2 rounded-md text-lg font-semibold'
+                                onClick={loadMoreJobs}
+                            >
+                                View More
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
             <Footer />
