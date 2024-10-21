@@ -74,6 +74,11 @@ function Login() {
                     sessionStorage.setItem('employeeId', data.candidate.CandidateID);
                     sessionStorage.setItem('customerName', data.candidate.Name);
                     sessionStorage.setItem('customerType', data.candidate.customerType);
+                    sessionStorage.setItem('preferredJob', data.candidate.Jobs);
+                    sessionStorage.setItem('preferredLocation', data.candidate.Locations);
+                    sessionStorage.setItem('jobType', data.candidate.JobType);
+                    sessionStorage.setItem('gender', data.candidate.Gender);
+
 
                     navigate('/home');
                 } else {

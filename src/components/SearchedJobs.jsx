@@ -10,8 +10,11 @@ import Select from 'react-select'; // Importing react-select
 import jobs from '../json/jobs.json';
 import location from '../json/cities.json'
 import vector from '../images/home/Vector.png'
+import { useLocation } from 'react-router-dom';
 
-function MatchingJobs() {
+
+
+function SearchedJobs() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
     const [jobsCategory, setJobsCategory] = useState('');
     const [jobsOptions, setJobsOptions] = useState([]);
@@ -22,22 +25,24 @@ function MatchingJobs() {
     const [foodType, setFoodType] = useState(null); // State for storing gender
     const [jobsApi, setJobsApi] = useState([]);
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
-    // Fetch values from sessionStorage when component mounts
-    useEffect(() => {
-        const preferredJob = sessionStorage.getItem('preferredJob') ? sessionStorage.getItem('preferredJob').split(",") : [];
-        const preferredLocation = sessionStorage.getItem('preferredLocation') ? sessionStorage.getItem('preferredLocation').split(",") : [];
+   
+   
+    
+    const location2 = useLocation();
+  
+  // Safely access the state object, providing defaults
+  const { job = '', location: jobLocation = '' } = location2.state || {};
 
-        const jobTypes = sessionStorage.getItem('jobType');
-        const genderType = sessionStorage.getItem('gender');
-        const storedFoodType = sessionStorage.getItem('foodType');
+  useEffect(() => {
+    if (job || jobLocation) {
+      console.log('Job:', job);
+      console.log('Location:', jobLocation);
+    } else {
+      console.log('No job or location data passed');
+    }
+  }, [job, jobLocation]);
 
-        setJobsCategory(preferredJob || null);
-        setLocationCategory(preferredLocation || null);
-        setJobType(jobTypes || null);
-        setGender(genderType || null);
-        setFoodType(storedFoodType || null);
-    }, []);
-    useEffect(() => {
+     useEffect(() => {
         window.scrollTo(0, 0);
 
         // Extract districts from the imported JSON data
@@ -61,16 +66,16 @@ function MatchingJobs() {
 
     }, []);
 
-    // Handle changes for multi-select
-    const handleJobsChange = (selectedOptions) => {
-        const selectedValues = selectedOptions ? selectedOptions.map(option => option.value) : [];
-        setJobsCategory(selectedValues);
+    const handleJobsChange = selectedOption => {
+        setJobsCategory(selectedOption ? selectedOption.value : ''); // Set the selected district value
     };
 
-    const handleLocationChange = (selectedOptions) => {
-        const selectedValues = selectedOptions ? selectedOptions.map(option => option.value) : [];
-        setLocationCategory(selectedValues);
+    const handleLocationChange = selectedOption => {
+
+        setLocationCategory(selectedOption ? selectedOption.value : ''); // Set the selected options
+
     };
+
     const handleJobTypeChange = (selectedOption) => {
         setJobType(selectedOption ? selectedOption.value : null);
     };
@@ -143,24 +148,24 @@ function MatchingJobs() {
 
     // Fetch data from the API
     // Fetch data using fetch
-    // Fetch data based on filter
-    useEffect(() => {
-        // Construct API URL with filter params
-        const fetchData = async () => {
-            try {
-                const response = await fetch(
-                    `${apiBaseUrl}/filterjobposts?job=${jobsCategory || ''}&location=${locationCategory || ''}&job_type=${jobType || ''}&gender_type=${gender || ''}&food_type=${foodType || ''}`
-                );
-                const data = await response.json();
-                setJobsApi(data);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
+   // Fetch data based on filter
+   useEffect(() => {
+    // Construct API URL with filter params
+    const fetchData = async () => {
+        try {
+            const response = await fetch(
+                `${apiBaseUrl}/filterjobposts?job=${jobsCategory || ''}&location=${locationCategory || ''}&job_type=${jobType || ''}&gender_type=${gender || ''}&food_type=${foodType || ''}`
+            );
+            const data = await response.json();
+            setJobsApi(data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
 
-        // Call the function whenever a filter value changes
-        fetchData();
-    }, [apiBaseUrl, jobsCategory, locationCategory, jobType, gender, foodType]);
+    // Call the function whenever a filter value changes
+    fetchData();
+}, [apiBaseUrl, jobsCategory, locationCategory, jobType, gender, foodType]);
 
     const [visibleJobs, setVisibleJobs] = useState(6); // Initial number of jobs to display
 
@@ -175,7 +180,7 @@ function MatchingJobs() {
         setGender(null);  // Clear the gender selection
         setFoodType(null);  // Clear the food type selection
     };
-
+    
 
     const [isFilterVisible, setIsFilterVisible] = useState(false);
 
@@ -185,10 +190,10 @@ function MatchingJobs() {
 
     const navigate = useNavigate();
     // const HomePage = () => {
-    // Navigate to details page with job_id passed as state
-    const details = (jobId) => {
-        navigate('/details', { state: { jobId } }); // Pass job_id as state
-    };
+        // Navigate to details page with job_id passed as state
+        const details = (jobId) => {
+            navigate('/details', { state: { jobId } }); // Pass job_id as state
+        };
 
     return (
         <div className='flex flex-col min-h-screen'>
@@ -200,81 +205,81 @@ function MatchingJobs() {
                 <div className='lg:w-[25%] w-full lg:h-[600px] h-auto  rounded-[10px] flex flex-col '>
                     <div className='w-full h-[50px] bg-[white]  rounded-t-[10px] p-5 flex justify-between items-center border-b-2 border-[#d2d0d0]'>
                         <div className=' flex flex-row gap-2'>
-                            <img src={filter} alt="filter" className='cursor-pointer' onClick={toggleFilter} />
+                            <img src={filter} alt="filter" className='cursor-pointer'  onClick={toggleFilter} />
                             <span className='text-lg font-[500] font-[display]'>Search Job</span>
                         </div>
-                        <span className='text-base font-[500] font-[display] cursor-pointer' onClick={handleClearAll}>clear all</span>
+                        <span className='text-base font-[500] font-[display] cursor-pointer'  onClick={handleClearAll}>clear all</span>
 
                     </div>
                     {isFilterVisible && (
-                        <div className='p-5 flex flex-col gap-5 w-full bg-[white] rounded-b-[10px]'>
-                            <div className='w-full flex flex-col gap-2'>
-                                <span className='text-left font-[display] text-base font-[400]'>Select Preferred Job</span>
-                                <Select
-                                    options={jobsOptions}
-                                    onChange={handleJobsChange}
-                                    placeholder="Select"
-                                    className='w-auto'
-                                    classNamePrefix='select'
-                                    isClearable={true}
-                                    isMulti={true}
-                                    value={jobsOptions.filter(option => jobsCategory.includes(option.value))}
-                                    styles={customStyles2}
-                                />
-                            </div>
-                            <div className='w-full flex flex-col gap-2'>
-                                <span className='text-left font-[display] text-base font-[400]'>Select Preferred Location</span>
-                                <Select
-                                    options={locationOptions}
-                                    onChange={handleLocationChange}
-                                    placeholder="Select Location"
-                                    className='w-full'
-                                    classNamePrefix='select'
-                                    isClearable={true}
-                                    isMulti={true}
-                                    value={locationOptions.filter(option => locationCategory.includes(option.value))}
-                                    styles={customStyles2}
-                                />
-                            </div>
-                            <div className='w-full flex flex-col gap-2'>
-                                <span className='text-left font-[display] text-base font-[400]'>Select Job Type</span>
-                                <Select
-                                    options={jobTypeOptions}
-                                    onChange={handleJobTypeChange}
-                                    placeholder="Select Job Type"
-                                    classNamePrefix="react-select"
-                                    isClearable={true}
-                                    value={jobTypeOptions.find(option => option.value === jobType) || null}
-                                    styles={customStyles2}
-                                />
-                            </div>
-                            <div className='w-full flex flex-col gap-2'>
-                                <span className='text-left font-[display] text-base font-[400]'>Male / Female</span>
-                                <Select
-                                    options={genderOptions}
-                                    onChange={handleGenderChange}
-                                    placeholder="Select Gender"
-                                    classNamePrefix="react-select"
-                                    isClearable={true}
-                                    value={genderOptions.find(option => option.value === gender) || null}
-                                    styles={customStyles2}
-                                />
-                            </div>
-                            <div className='w-full flex flex-col gap-2'>
-                                <span className='text-left font-[display] text-base font-[400]'>Food & Accommodation</span>
-                                <Select
-                                    options={foodTypeOptions}
-                                    onChange={handleFoodChange}
-                                    placeholder="Select Food Type"
-                                    classNamePrefix="react-select"
-                                    isClearable={true}
-                                    value={foodTypeOptions.find(option => option.value === foodType) || null}
-                                    styles={customStyles2}
-                                />
-                            </div>
-
+                    <div className='p-5 flex flex-col gap-5 w-full bg-[white] rounded-b-[10px]'>
+                        <div className='w-full flex flex-col gap-2'>
+                            <span className='text-left font-[display] text-base font-[400]'>Select Preferred Job</span>
+                            <Select
+                                options={jobsOptions}
+                                onChange={handleJobsChange}
+                                placeholder="Select job"
+                                className='w-auto'
+                                classNamePrefix='select'
+                                isClearable={true}
+                                value={jobsOptions.find(option => option.value === jobsCategory) || null}  // Match selected value
+                                styles={customStyles2}
+                            />
 
                         </div>
+                        <div className='w-full flex flex-col gap-2'>
+                            <span className='text-left font-[display] text-base font-[400]'>Select Preferred Location</span>
+                            <Select
+                                options={locationOptions}
+                                onChange={handleLocationChange}
+                                placeholder="Select Location"
+                                className='w-full'
+                                classNamePrefix='select'
+                                isClearable={true}
+                                value={locationOptions.find(option => option.value === locationCategory) || null}  // Match selected value
+                                styles={customStyles2}
+                            />
+
+                        </div>
+                        <div className='w-full flex flex-col gap-2'>
+                            <span className='text-left font-[display] text-base font-[400]'>Select Job Type</span>
+                            <Select
+                                options={jobTypeOptions}
+                                isClearable={true}
+                                placeholder="Select Job Type"
+                                classNamePrefix="react-select"
+                                styles={customStyles2}
+                                value={jobTypeOptions.find(option => option.value === jobType) || null} // Match the selected value
+                                onChange={handleJobTypeChange} // Handle job type change
+                            />
+                        </div>
+                        <div className='w-full flex flex-col gap-2'>
+                            <span className='text-left font-[display] text-base font-[400]'>Male / Female</span>
+                            <Select
+                                options={genderOptions}
+                                isClearable={true}
+                                placeholder="Select Gender"
+                                classNamePrefix="react-select"
+                                styles={customStyles2}
+                                value={genderOptions.find(option => option.value === gender) || null} // Match the selected value
+                                onChange={handleGenderChange} // Handle gender change
+                            />
+                        </div>
+                        <div className='w-full flex flex-col gap-2'>
+                            <span className='text-left font-[display] text-base font-[400]'>Food & Accomodation</span>
+                            <Select
+                                options={foodTypeOptions}
+                                isClearable={true}
+                                placeholder="Select Food Type"
+                                classNamePrefix="react-select"
+                                styles={customStyles2}
+                                value={foodTypeOptions.find(option => option.value === foodType) || null} // Match the selected value
+                                onChange={handleFoodChange} // Handle gender change
+                            />
+                        </div>
+
+
+                    </div>
                     )}
 
                 </div>
@@ -363,4 +368,4 @@ function MatchingJobs() {
     )
 }
 
-export default MatchingJobs
+export default SearchedJobs

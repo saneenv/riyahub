@@ -10,6 +10,9 @@ import CandidateOpt from './CandidateOpt'
 function Navbar() {
     const navigate = useNavigate();
     const companyName = sessionStorage.getItem('customerName');
+      // State to store job and location values
+      const [job, setJob] = useState('');
+      const [locationInput, setLocationInput] = useState('');
     const [showOptions, setShowOptions] = useState(false); // State to track if options are shown
     const customerType = sessionStorage.getItem('customerType');
     console.log("customer Type:", customerType);
@@ -27,6 +30,12 @@ function Navbar() {
       const regchooses = () => {
         navigate('/regchoose');
       };
+
+
+    // Function to handle navigation with state
+    const findJob = () => {
+        navigate('/searchedjobs', { state: { job, location: locationInput } }); // Passing job and location as state
+    };
 
          // Function to toggle the options component display
     const toggleOptions = () => {
@@ -46,7 +55,12 @@ function Navbar() {
                         <img src={search} alt="vector" />
                     </div>
                     <div className='h-full w-[80%]'>
-                        <input className='w-full h-full focus:outline-none focus:ring-0' placeholder='Search Job...' />
+                        <input
+                            className='w-full h-full focus:outline-none focus:ring-0'
+                            placeholder='Search Job...'
+                            value={job} // Controlled input for job
+                            onChange={(e) => setJob(e.target.value)} // Set job value
+                        />
                     </div>
                 </div>
                 <div className='h-full w-[40%]  flex flex-row'>
@@ -54,11 +68,16 @@ function Navbar() {
                         <img src={location} alt="location" />
                     </div>
                     <div className='h-full w-[80%]'>
-                        <input className='w-full h-full focus:outline-none focus:ring-0' placeholder='Search Location...' />
+                        <input
+                            className='w-full h-full focus:outline-none focus:ring-0'
+                            placeholder='Search Location...'
+                            value={locationInput} // Controlled input for location
+                            onChange={(e) => setLocationInput(e.target.value)} // Set location value
+                        />
                     </div>
                 </div>
                 <div className='h-[70%] w-[20%] flex justify-center items-center'>
-                    <div className='h-full w-[80%] rounded-[10px] bg-[#E22E37] flex justify-center items-center text-[white] cursor-pointer text-sm font-[600] font-[display]'>Find Job</div>
+                    <div className='h-full w-[80%] rounded-[10px] bg-[#E22E37] flex justify-center items-center text-[white] cursor-pointer text-sm font-[600] font-[display]' onClick={findJob}>Find Job</div>
                 </div>
             </div>
 

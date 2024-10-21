@@ -18,6 +18,7 @@ import ContactUs from './pages/ContactUs';
 import ViewProfile2 from './components/ViewProfile2';
 import EditCanReg from './components/EditCanReg';
 import MatchingJobs from './components/MatchingJobs';
+import SearchedJobs from './components/SearchedJobs';
 
 
 
@@ -45,6 +46,7 @@ function App() {
                 <Route path='/viewcandidate' element={<ViewProfile2/>}/>
                 <Route path='/editcanreg' element={<EditCanReg/>}/>
                 <Route path='/matchingjobs' element={<MatchingJobs/>}/>
+                <Route path='/searchedjobs' element={<SearchedJobs/>}/>
 
 
 

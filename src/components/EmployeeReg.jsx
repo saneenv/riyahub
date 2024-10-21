@@ -45,7 +45,7 @@ function EmployeeReg() {
         setDistrictOptions(districts); // Set district options for the select
     }, []);
 
-    const isMobile = useMediaQuery({ query: '(max-inline-size: 768px)' });
+    const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
 
     const handleDistrictChange = selectedOption => {
         setCompanyDistrict(selectedOption ? selectedOption.value : ''); // Set the selected district value
