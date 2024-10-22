@@ -45,6 +45,9 @@ function Home() {
     const empreg2 = () => {
         navigate('/empreg');
     };
+    const canreg2 = () => {
+        navigate('/canreg');
+    };
 
     // Fetch job posts when component mounts
     useEffect(() => {
@@ -84,7 +87,7 @@ function Home() {
                         <div className='w-[60%] h-[80%]  flex flex-col gap-4 lg:px-12 px-3 justify-start items-start'>
                             <span className='lg:text-3xl md:text-2xl text-xl  font-[700] font-[display]'>I am a Candidate</span>
                             <span className='text-base   font-[600] font-[display]'>I Want a Job</span>
-                            <div className='h-[42px] lg:w-[30%] w-[50%] bg-[#E22E37] rounded-[5px] flex justify-center items-center lg:text-sm text-xs font-[600] font-[display] text-[white] cursor-pointer'>Register Now</div>
+                            <div className='h-[42px] lg:w-[30%] w-[50%] bg-[#E22E37] rounded-[5px] flex justify-center items-center lg:text-sm text-xs font-[600] font-[display] text-[white] cursor-pointer' onClick={canreg2}>Register Now</div>
                         </div>
                         <div className='w-[40%] h-full flex justify-center items-end'>
                             <img src={girl} alt="girl" />

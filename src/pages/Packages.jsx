@@ -20,11 +20,11 @@ function Packages() {
       <div className='md:flex hidden'>
                 <Navbar2 />
             </div>
-      <div className='flex flex-row gap-3 lg:px-12 px-3'>
+      {/* <div className='flex flex-row gap-3 lg:px-12 px-3'>
         <span className='text-lg font-[500] font-[display] text-[#828282] cursor-pointer' onClick={HomePage}>Home</span>
         <span className='text-lg font-[500] font-[display]'>{">"}</span>
         <span className='text-lg font-[500] font-[display]'>Packages</span>
-      </div>
+      </div> */}
       <div className='flex flex-col py-12 w-full lg:px-12 px-3 justify-center items-center gap-12'>
         <span className='text-2xl font-[700] font-[display]'>Choose a plan that’s right for you.</span>
         <div className='grid lg:grid-cols-2 grid-cols-1 h-auto w-full gap-3'>
@@ -59,7 +59,7 @@ function Packages() {
 
                </div>
                <div className='w-full h-[50px] flex justify-center items-center'>
-                   <div className='h-full w-[40%] bg-[#E22E37] rounded-[20px] flex justify-center items-center text-[white] text-xl font-[600] font-[display]'>Purchase Now</div>
+                   <div className='h-full w-[40%] bg-[#E22E37] rounded-[20px] flex justify-center items-center text-[white] text-xl font-[600] font-[display] cursor-pointer'>Purchase Now</div>
                </div>
           </div>
           <div className='h-[538px] w-full border-2 border-[#E22E37] rounded-[10px] flex flex-col gap-5'>
@@ -93,7 +93,7 @@ function Packages() {
 
                </div>
                <div className='w-full h-[50px] flex justify-center items-center'>
-                   <div className='h-full w-[40%] bg-[#E22E37] rounded-[20px] flex justify-center items-center text-[white] text-xl font-[600] font-[display]'>Purchase Now</div>
+                   <div className='h-full w-[40%] bg-[#E22E37] rounded-[20px] flex justify-center items-center text-[white] text-xl font-[600] font-[display] cursor-pointer'>Purchase Now</div>
                </div>
           </div>
         </div>

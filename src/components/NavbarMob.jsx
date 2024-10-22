@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import logo from '../images/navbar/logo.png'
 import EmpOptions from './EmpOptions';
 import { useNavigate } from 'react-router-dom'
 import CandidateOpt from './CandidateOpt';
+import jobs from '../json/jobs.json'; // Import jobs
+import locationData from '../json/cities.json'; // Import location data
 
 // import smallloc from '../images/navbar/smallloc.png'
 
@@ -13,6 +15,35 @@ function NavbarMob() {
     const [showOptions, setShowOptions] = useState(false); // State to track if options are shown
     const navigate = useNavigate();
     const customerType = sessionStorage.getItem('customerType');
+    const [job, setJob] = useState('');
+    const [locationInput, setLocationInput] = useState('');
+    const [jobsOptions, setJobsOptions] = useState([]);
+    const [locationOptions, setLocationOptions] = useState([]);
+
+    // Load job and location options on component mount
+    useEffect(() => {
+
+        // Extract job and location data from the JSON files
+        const jobOptions = jobs.states[0].districts.map(district => ({
+            value: district,
+            label: district
+        }));
+
+        const locationOptionsData = locationData.states[0].districts.map(district => ({
+            value: district,
+            label: district
+        }));
+
+        setJobsOptions(jobOptions); // Set job options for the select
+        setLocationOptions(locationOptionsData); // Set location options for the select
+    }, []);
+
+
+    // Function to handle navigation with state
+    const findJob = () => {
+        navigate('/searchedjobs', { state: { job, location: locationInput } }); // Passing job and location as state
+    };
+
 
 
 
@@ -32,25 +63,33 @@ function NavbarMob() {
 
     const home = () => {
         navigate('/home');
-      };
+    };
 
-      const login = () => {
+    const login = () => {
         navigate('/login');
-      };
+    };
 
-      const regchooses = () => {
+    const regchooses = () => {
         navigate('/regchoose');
-      };
+    };
 
-     
-      const contactus = () => {
+
+    const contactus = () => {
         navigate('/contact');
+    };
+
+    const findjob = () => {
+        navigate('/searchedjobs');
+      };
+    
+      const jobcategories = () => {
+        navigate('/jobcategories');
       };
 
     return (
         <div className='w-full h-[180px]  flex flex-col px-3 gap-3'>
             <div className='w-full flex flex-row gap-3 mt-3 justify-between items-center '>
-                <img src={logo} alt="logo" className='w-[45%] h-[80%]' onClick={home}/>
+                <img src={logo} alt="logo" className='w-[45%] h-[80%]' onClick={home} />
                 <span className='text-base font-[500] font-[display] text-[#E22E37]' onClick={login}>Login</span>
                 <span className='text-base font-[500] font-[display] text-[#E22E37]' onClick={regchooses}>Register</span>
                 <button onClick={toggleSidebar} className="text-gray-700 hover:text-blue-500 focus:outline-none">
@@ -60,11 +99,29 @@ function NavbarMob() {
                 </button>
             </div>
             <div className='w-full h-[40px] border-2 border-[gray] rounded-[5px]'>
-                <input placeholder='Search Job...' className='w-full h-full px-2 rounded-[5px]' />
+                <select
+                    className='w-full h-full px-2 rounded-[5px] appearance-none'
+                    value={job}
+                    onChange={(e) => setJob(e.target.value)} // Set selected job
+                >
+                    <option value="">Select Job...</option>
+                    {jobsOptions.map((jobOption, index) => (
+                        <option key={index} value={jobOption.value}>{jobOption.label}</option>
+                    ))}
+                </select>
             </div>
             <div className='w-full flex flex-row h-[40px] border-2 border-[gray] rounded-[5px]'>
-                <input placeholder='Search Location...' className='w-[70%] h-full px-2 ' />
-                <div className='w-[30%] bg-[#E22E37] h-full flex justify-center items-center text-[white] text-base font-[700] font-[display] cursor-pointer'>Find Job</div>
+                <select
+                    className='w-[70%] h-full px-2  appearance-none'
+                    value={locationInput}
+                    onChange={(e) => setLocationInput(e.target.value)} // Set selected location
+                >
+                    <option value="">Select Location...</option>
+                    {locationOptions.map((locationOption, index) => (
+                        <option key={index} value={locationOption.value}>{locationOption.label}</option>
+                    ))}
+                </select>
+                <div className='w-[30%] bg-[#E22E37] h-full flex justify-center items-center text-[white] text-base font-[700] font-[display] cursor-pointer' onClick={findJob}>Find Job</div>
             </div>
             {/* Sidebar Component */}
             {isSidebarOpen && (
@@ -80,18 +137,18 @@ function NavbarMob() {
                         </button>
                         <ul className='mt-5'>
                             <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={home}>Home</li>
-                            <li className='p-4 hover:bg-gray-700 cursor-pointer'>Job By Categories</li>
-                            <li className='p-4 hover:bg-gray-700 cursor-pointer'>Find Jobs</li>
+                            <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={jobcategories}>Job By Categories</li>
+                            <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={findjob}>Find Jobs</li>
                             <li className='p-4 hover:bg-gray-700 cursor-pointer'>Job By District</li>
                             <li className='p-4 hover:bg-gray-700 cursor-pointer'>Services</li>
                             <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={contactus}>Contact Us</li>
                         </ul>
                         <div className='w-[full] h-[8%] flex justify-center items-center mt-5'>
-                        {companyName ? (
-                            <div className='w-[60%] h-full border-2 border-[#E22E37] bg-[white] rounded-[5px] flex flex-row gap-4 cursor-pointer justify-center items-center' onClick={toggleOptions}>
-                                <span className='text-sm font-[600] font-[display] text-[black]'>{companyName}</span>
+                            {companyName ? (
+                                <div className='w-[60%] h-full border-2 border-[#E22E37] bg-[white] rounded-[5px] flex flex-row gap-4 cursor-pointer justify-center items-center' onClick={toggleOptions}>
+                                    <span className='text-sm font-[600] font-[display] text-[black]'>{companyName}</span>
 
-                            </div>
+                                </div>
                             ) : (
                                 <>
                                     {/* <div className='w-[30%] h-full flex justify-center items-center border-2 border-[#E22E37] rounded-[5px] text-sm font-[600] font-[display] cursor-pointer' onClick={login}>Login</div>
