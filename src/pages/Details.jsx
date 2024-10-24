@@ -37,8 +37,9 @@ function Details() {
     
     const navigate = useNavigate();
     const Packages = () => {
-        navigate('/packages');
+        navigate('/packages', { state: { job: jobDetails.job, jobId: jobDetails.job_id, location: jobDetails.location } });
     };
+    
     const HomePage = () => {
         navigate('/home');
       };

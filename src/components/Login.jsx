@@ -70,6 +70,9 @@ function Login() {
 
             if (response.ok) {
                 if (data.success) {
+
+                   
+
                     // Store candidate data in sessionStorage
                     sessionStorage.setItem('employeeId', data.candidate.CandidateID);
                     sessionStorage.setItem('customerName', data.candidate.Name);
@@ -78,6 +81,12 @@ function Login() {
                     sessionStorage.setItem('preferredLocation', data.candidate.Locations);
                     sessionStorage.setItem('jobType', data.candidate.JobType);
                     sessionStorage.setItem('gender', data.candidate.Gender);
+                    sessionStorage.setItem('mobileNumber', data.candidate.Mobile);
+                    console.log('Mobile number stored in sessionStorage:', sessionStorage.getItem('mobileNumber'));
+                    
+                    sessionStorage.setItem('whatsappNumber', data.candidate.WhatsApp);
+                    console.log('WhatsApp number stored in sessionStorage:', sessionStorage.getItem('whatsappNumber'));
+
 
 
                     navigate('/home');

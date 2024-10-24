@@ -140,7 +140,7 @@ function NavbarMob() {
                             <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={jobcategories}>Job By Categories</li>
                             <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={findjob}>Find Jobs</li>
                             <li className='p-4 hover:bg-gray-700 cursor-pointer'>Job By District</li>
-                            <li className='p-4 hover:bg-gray-700 cursor-pointer'>Services</li>
+                            {/* <li className='p-4 hover:bg-gray-700 cursor-pointer'>Services</li> */}
                             <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={contactus}>Contact Us</li>
                         </ul>
                         <div className='w-[full] h-[8%] flex justify-center items-center mt-5'>

@@ -23,7 +23,7 @@ function Navbar2() {
       <span className='text-sm font-[600] font-[display] text-[white] cursor-pointer' onClick={jobcategories}>Job By Categories</span>
       <span className='text-sm font-[600] font-[display] text-[white] cursor-pointer' onClick={findjob}>Find Jobs</span>
       <span className='text-sm font-[600] font-[display] text-[white]'>Job By District</span>
-      <span className='text-sm font-[600] font-[display] text-[white]'>Services</span>
+      {/* <span className='text-sm font-[600] font-[display] text-[white]'>Services</span> */}
       <span className='text-sm font-[600] font-[display] text-[white] cursor-pointer' onClick={contactus}>Contact Us</span>
     </div>
   )
