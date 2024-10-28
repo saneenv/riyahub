@@ -2,34 +2,38 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function EmpOptions({ closeOptions }) {
-    const navigate= useNavigate();
-    const companyName = sessionStorage.getItem('customerName');
+  const navigate = useNavigate();
+  const companyName = sessionStorage.getItem('customerName');
   const employeeId = sessionStorage.getItem('employeeId');
-    
-    // const home = () => {
-    //     navigate('/home'); 
-    //   };
 
-      const jobpost = () => {
-        navigate('/jobpost'); 
-      };
+  // const home = () => {
+  //     navigate('/home'); 
+  //   };
 
-      const postedjob = () => {
-        navigate('/postedjob'); 
-      };
+  const jobpost = () => {
+    navigate('/jobpost');
+  };
 
-      const viewProfile = () => {
-        navigate('/viewprofile'); 
-      };
+  const postedjob = () => {
+    navigate('/postedjob');
+  };
 
-      const login = () => {
-        // Remove session storage items
-        sessionStorage.removeItem('employeeId');
-        sessionStorage.removeItem('customerName');
-    
-        // Navigate to login page
-        navigate('/login');
-      };
+  const viewProfile = () => {
+    navigate('/viewprofile');
+  };
+
+  const enablePage = () => {
+    navigate('/enablepackage');
+  };
+
+  const login = () => {
+    // Remove session storage items
+    sessionStorage.removeItem('employeeId');
+    sessionStorage.removeItem('customerName');
+
+    // Navigate to login page
+    navigate('/login');
+  };
 
 
   return (
@@ -47,7 +51,9 @@ function EmpOptions({ closeOptions }) {
           <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center">Selected Candidates</li>
           <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center">Applied Candidates</li>
           <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center" onClick={viewProfile}>View Profile</li>
-
+          {companyName === 'ADMIN' && (
+            <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center" onClick={enablePage}>Enable Package</li>
+          )}
           <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center" onClick={login}>Logout</li>
         </ul>
       </div>

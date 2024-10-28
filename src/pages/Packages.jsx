@@ -15,8 +15,8 @@ function Packages() {
   const location = useLocation();
   const { job, jobId, location: jobLocation } = location.state || {};
 
- 
-  
+
+
   const handlePurchase300 = async () => {
     // Retrieve sessionStorage data
     const preferredJob = sessionStorage.getItem('preferredJob') ? sessionStorage.getItem('preferredJob').split(",") : [];
@@ -24,7 +24,13 @@ function Packages() {
     const customerName = sessionStorage.getItem('customerName');
     const mobileNumber = sessionStorage.getItem('mobileNumber');
     const whatsappNumber = sessionStorage.getItem('whatsappNumber');
-    
+
+    // Check if any of the required session values are null
+    if (!customerName || !mobileNumber || !whatsappNumber) {
+      alert("Please log in first");
+      return; // Exit the function if any value is missing
+    }
+
 
     // Create the message bodys
     const message = `
@@ -39,7 +45,7 @@ function Packages() {
       Whatsapp Number: ${whatsappNumber},
 
     `;
-  
+
     try {
       const response = await fetch(`${apiBaseUrl}/send-whatsapp`, {
         method: 'POST',
@@ -51,14 +57,14 @@ function Packages() {
           message: message.trim(), // Pass the constructed message text
         }),
       });
-  
+
       const data = await response.json(); // Parse the JSON response
-  
+
       if (response.ok) {
         alert('Message sent successfully');
       } else {
         // Log the full response to help debug the issue
-        
+
         console.error('Response from server:', data);
         alert(`Your interest has been noted, and our team will contact you shortly.`);
       }
@@ -75,7 +81,13 @@ function Packages() {
     const customerName = sessionStorage.getItem('customerName');
     const mobileNumber = sessionStorage.getItem('mobileNumber');
     const whatsappNumber = sessionStorage.getItem('whatsappNumber');
-    
+
+    // Check if any of the required session values are null
+    if (!customerName || !mobileNumber || !whatsappNumber) {
+      alert("Please log in first");
+      return; // Exit the function if any value is missing
+    }
+
 
     // Create the message bodys
     const message = `
@@ -89,7 +101,7 @@ function Packages() {
       Mobile Number: ${mobileNumber}, 
       Whatsapp Number: ${whatsappNumber}
     `;
-  
+
     try {
       const response = await fetch(`${apiBaseUrl}/send-whatsapp`, {
         method: 'POST',
@@ -101,9 +113,9 @@ function Packages() {
           message: message.trim(), // Pass the constructed message text
         }),
       });
-  
+
       const data = await response.json(); // Parse the JSON response
-  
+
       if (response.ok) {
         alert('Message sent successfully');
       } else {

@@ -86,6 +86,10 @@ function NavbarMob() {
         navigate('/jobcategories');
       };
 
+      const jobidpage = () => {
+        navigate('/jobid');
+      };
+
     return (
         <div className='w-full h-[180px]  flex flex-col px-3 gap-3'>
             <div className='w-full flex flex-row gap-3 mt-3 justify-between items-center '>
@@ -137,9 +141,10 @@ function NavbarMob() {
                         </button>
                         <ul className='mt-5'>
                             <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={home}>Home</li>
-                            <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={jobcategories}>Job By Categories</li>
                             <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={findjob}>Find Jobs</li>
-                            <li className='p-4 hover:bg-gray-700 cursor-pointer'>Job By District</li>
+                            <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={jobcategories}>Job By Categories</li>
+                            
+                            <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={jobidpage}>Job ID Search</li>
                             {/* <li className='p-4 hover:bg-gray-700 cursor-pointer'>Services</li> */}
                             <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={contactus}>Contact Us</li>
                         </ul>

@@ -30,10 +30,22 @@ function CandidateOpt({ closeOptions }) {
         // Remove session storage items
         sessionStorage.removeItem('employeeId');
         sessionStorage.removeItem('customerName');
+        sessionStorage.removeItem('customerType');
+        sessionStorage.removeItem('preferredJob');
+        sessionStorage.removeItem('preferredLocation');
+        sessionStorage.removeItem('jobType');
+        sessionStorage.removeItem('preferredLocation');
+        sessionStorage.removeItem('gender');
+        sessionStorage.removeItem('mobileNumber');
+        sessionStorage.removeItem('whatsappNumber');
+
+
 
         // Navigate to login page
         navigate('/login');
     };
+
+   
 
 
     return (
@@ -47,10 +59,9 @@ function CandidateOpt({ closeOptions }) {
                     {/* <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center" onClick={home}>Home</li> */}
                     <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center" onClick={matchjob}>Matching Jobs</li>
                     <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center" onClick={postedjob}>Applied Jobs</li>
-                    <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center">Viewed Jobs</li>
+                    {/* <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center">Viewed Jobs</li> */}
                     <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center" onClick={packages}>Packages</li>
                     <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center" onClick={viewProfile}>View Profile</li>
-
                     <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center" onClick={login}>Logout</li>
                 </ul>
             </div>

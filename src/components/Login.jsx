@@ -87,6 +87,8 @@ function Login() {
                     sessionStorage.setItem('whatsappNumber', data.candidate.WhatsApp);
                     console.log('WhatsApp number stored in sessionStorage:', sessionStorage.getItem('whatsappNumber'));
 
+                    sessionStorage.setItem('selectedPlan', data.candidate.SelectedPlan);
+
 
 
                     navigate('/home');

@@ -21,8 +21,9 @@ import MatchingJobs from './components/MatchingJobs';
 import SearchedJobs from './components/SearchedJobs';
 import JobCategory from './pages/JobCategory';
 import Jobs from './pages/Jobs';
-
-
+import JobId from './pages/JobId';
+import EnablePackage from './pages/EnablePackage';
+import CompanyDetails from './pages/CompanyDetails';
 
 
 function App() {
@@ -51,6 +52,12 @@ function App() {
                 <Route path='/searchedjobs' element={<SearchedJobs/>}/>
                 <Route path='/jobcategories' element={<JobCategory/>}/>
                 <Route path='/jobs' element={<Jobs/>}/>
+                <Route path='/jobid' element={<JobId/>}/>
+                <Route path='/enablepackage' element={<EnablePackage/>}/>
+                <Route path='/companydetails' element={<CompanyDetails/>}/>
+
+
+
 
                 
              </Routes>

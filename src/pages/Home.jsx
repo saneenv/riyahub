@@ -22,6 +22,10 @@ function Home() {
     const customerType = sessionStorage.getItem('customerType');
     console.log("customer Type:", customerType);
 
+    const selectedPlan = sessionStorage.getItem('selectedPlan');
+    console.log("selectedPlan:", selectedPlan);
+
+
 
 
     const [visibleJobs, setVisibleJobs] = useState(9);

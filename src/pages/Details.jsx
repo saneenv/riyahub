@@ -24,8 +24,7 @@ import { useLocation } from 'react-router-dom';
 
 function Details() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
-    const employeeId = sessionStorage.getItem('employeeId');
-    console.log(employeeId);
+
     const [jobDetails, setJobDetails] = useState(null); // State to store job details
   const [error, setError] = useState(null); // State to handle errors
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL; // Assuming you have this in .env file
@@ -35,8 +34,24 @@ function Details() {
   console.log("jobId:",jobId);
   
     
+ 
+  
+
     const navigate = useNavigate();
-    const Packages = () => {
+    const selectedPlan = sessionStorage.getItem('selectedPlan');
+    // const employeeId = sessionStorage.getItem('employeeId');
+    console.log("selectedPlan:", selectedPlan);
+    // console.log("employeeId:", employeeId);
+  
+    const handlePackageClick = () => {
+      if (selectedPlan === '300' || selectedPlan === '500') {
+        navigate('/companydetails', { state: { employeeId: jobDetails.employee_id } });
+      } else {
+        navigate('/packages', { state: { job: jobDetails.job, jobId: jobDetails.job_id, location: jobDetails.location } });
+      }
+    };
+
+    const Packages2 = () => {
         navigate('/packages', { state: { job: jobDetails.job, jobId: jobDetails.job_id, location: jobDetails.location } });
     };
     
@@ -80,16 +95,16 @@ function Details() {
             <div className='md:flex hidden'>
                 <Navbar2 />
             </div>
-            <div className='flex flex-row gap-3 lg:px-12 px-3'>
+            {/* <div className='flex flex-row gap-3 lg:px-12 px-3'>
                 <span className='text-lg font-[500] font-[display] text-[#828282] cursor-pointer' onClick={HomePage}>Home</span>
                 <span className='text-lg font-[500] font-[display]'>{">"}</span>
                 <span className='text-lg font-[500] font-[display]'>Details</span>
-            </div>
+            </div> */}
             <div className='flex flex-col gap-8 lg:px-12 px-3 mt-12 pb-12'>
 
                 <div className='flex flex-row justify-between w-full'>
-                    <div className='h-[38px] lg:w-[10%] w-[40%] bg-[#3B3D3B] rounded-[10px] flex justify-center items-center text-base font-[600] font-[display] text-[white] cursor-pointer'>Back to Jobs</div>
-                    <div className='h-[38px] lg:w-[10%] w-[40%] bg-[#339030] rounded-[10px] flex justify-center items-center text-base font-[600] font-[display] text-[white] cursor-pointer' onClick={Packages}>Apply Now</div>
+                    <div className='h-[38px] lg:w-[10%] w-[40%] bg-[#3B3D3B] rounded-[10px] flex justify-center items-center text-base font-[600] font-[display] text-[white] cursor-pointer' onClick={handlePackageClick}>Company Details</div>
+                    <div className='h-[38px] lg:w-[10%] w-[40%] bg-[#339030] rounded-[10px] flex justify-center items-center text-base font-[600] font-[display] text-[white] cursor-pointer' onClick={Packages2}>Apply Now</div>
                 </div>
 
                 <div className='w-full flex flex-col gap-4'>
@@ -165,16 +180,17 @@ function Details() {
                             </div>
                         </div>
 
-                        <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
-                            <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
-                                <img src={phone} alt="loc" />
-                                <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Number</span>
-                            </div>
-                            <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-xl font-[500] font-[display]'>
-                            {jobDetails.whatsapp_number}
-                            </div>
-                        </div>
-
+                        {(selectedPlan === '300' || selectedPlan === '500') && (
+            <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
+                <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
+                    <img src={phone} alt="loc" />
+                    <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Number</span>
+                </div>
+                <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-xl font-[500] font-[display]'>
+                    {jobDetails.whatsapp_number}
+                </div>
+            </div>
+        )}
                     
                     </div>
                 </div>
