@@ -25,7 +25,9 @@ function Home() {
     const selectedPlan = sessionStorage.getItem('selectedPlan');
     console.log("selectedPlan:", selectedPlan);
 
-
+    const mobileNumber = sessionStorage.getItem('mobileNumber');
+    const whatsappNumber = sessionStorage.getItem('whatsappNumber');
+    const Email = sessionStorage.getItem('Email');
 
 
     const [visibleJobs, setVisibleJobs] = useState(9);
@@ -75,6 +77,45 @@ function Home() {
         navigate('/details', { state: { jobId } }); // Pass job_id as state
     };
 
+// Updated Packages2 function to take job details as a parameter
+const Packages2 = async (job) => {
+    if (selectedPlan === '300' || selectedPlan === '500') {
+        try {
+            // Prepare data with job details to send to the backend
+            const payload = {
+                employeeId: job.employee_id,
+                customerName: companyName,
+                jobId: job.job_id,
+                whatsappNumber: whatsappNumber,
+                mobileNumber: mobileNumber,
+                Email: Email
+            };
+
+            // Send data to backend
+            const response = await fetch(`${apiBaseUrl}/savePackageSelection`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (response.ok) {
+                console.log('Data saved successfully');
+                alert('Applied successfully'); // Success alert
+            } else {
+                console.error('Failed to save data');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    } else {
+        navigate('/packages', { state: { job: job.job, jobId: job.job_id, location: job.location } });
+    }
+};
+
+
+    
 
     return (
         <div className='min-h-screen flex flex-col'>
@@ -143,7 +184,7 @@ function Home() {
                                         <span className='text-base font-[display] font-[500]'>GENDER</span>
                                         <span className='text-base font-[display] font-[500]'>:</span>
                                     </div>
-                                    <div className='flex items-center justify-center w-[80%] h-[38px] bg-[#0D2D3E] rounded-[10px] text-lg font-[600] font-[display] text-[white] cursor-pointer' onClick={() => details(job.job_id)}>
+                                    <div className='flex items-center justify-center w-[80%] h-[38px] bg-[#0D2D3E] rounded-[10px] text-lg font-[600] font-[display] text-[white] cursor-pointer' onClick={() => Packages2(job)}>
                                         Apply Now
                                     </div>
                                 </div>

@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { useMediaQuery } from 'react-responsive';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar'
@@ -26,69 +26,113 @@ function Details() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
 
     const [jobDetails, setJobDetails] = useState(null); // State to store job details
-  const [error, setError] = useState(null); // State to handle errors
-  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL; // Assuming you have this in .env file
+    const [error, setError] = useState(null); // State to handle errors
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL; // Assuming you have this in .env file
 
     const location = useLocation();
-  const { jobId } = location.state || {}; // Extract jobId from state
-  console.log("jobId:",jobId);
-  
-    
- 
-  
+    const { jobId } = location.state || {}; // Extract jobId from state
+    console.log("jobId:", jobId);
+
+
+
+
 
     const navigate = useNavigate();
     const selectedPlan = sessionStorage.getItem('selectedPlan');
+    const companyName = sessionStorage.getItem('customerName');
+    const mobileNumber = sessionStorage.getItem('mobileNumber');
+    const whatsappNumber = sessionStorage.getItem('whatsappNumber');
+    const Email = sessionStorage.getItem('Email');
+
+
     // const employeeId = sessionStorage.getItem('employeeId');
     console.log("selectedPlan:", selectedPlan);
     // console.log("employeeId:", employeeId);
-  
+
     const handlePackageClick = () => {
-      if (selectedPlan === '300' || selectedPlan === '500') {
-        navigate('/companydetails', { state: { employeeId: jobDetails.employee_id } });
-      } else {
-        navigate('/packages', { state: { job: jobDetails.job, jobId: jobDetails.job_id, location: jobDetails.location } });
-      }
+        if (selectedPlan === '300' || selectedPlan === '500') {
+            navigate('/companydetails', { state: { employeeId: jobDetails.employee_id } });
+        } else {
+            navigate('/packages', { state: { job: jobDetails.job, jobId: jobDetails.job_id, location: jobDetails.location } });
+        }
     };
 
-    const Packages2 = () => {
+  // Assuming 'selectedPlan', 'jobDetails', and 'customerName' are available in the component's scope
+const Packages2 = async () => {
+    if (selectedPlan === '300' || selectedPlan === '500') {
+        try {
+            // Prepare data to send to the backend
+            const payload = {
+                employeeId: jobDetails.employee_id,
+                customerName: companyName, 
+                jobId: jobDetails.job_id,
+                whatsappNumber: whatsappNumber,
+                mobileNumber: mobileNumber,
+                Email: Email
+            };
+
+            // Send data to backend
+            const response = await fetch(`${apiBaseUrl}/savePackageSelection`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (response.ok) {
+                console.log('Data saved successfully');
+                alert('Applied successfully'); // Success alert
+                // Handle success (e.g., display a success message)
+            } else {
+                console.error('Failed to save data');
+                // Handle failure (e.g., display an error message)
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            // Handle error
+        }
+    } else {
         navigate('/packages', { state: { job: jobDetails.job, jobId: jobDetails.job_id, location: jobDetails.location } });
-    };
-    
+    }
+};
+
+
     const HomePage = () => {
         navigate('/home');
-      };
+    };
+
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
 
     useEffect(() => {
         if (jobId) {
-          // Fetch the job details based on the jobId
-          fetch(`${apiBaseUrl}/getjobposts/${jobId}`)
-            .then(response => {
-              if (!response.ok) {
-                throw new Error('Network response was not ok');
-              }
-              return response.json();
-            })
-            .then(data => {
-              setJobDetails(data); // Set the fetched job details
-            })
-            .catch(error => {
-              setError('Error fetching job details. Please try again later.');
-              console.error('Error fetching job details:', error);
-            });
+            // Fetch the job details based on the jobId
+            fetch(`${apiBaseUrl}/getjobposts/${jobId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    setJobDetails(data); // Set the fetched job details
+                })
+                .catch(error => {
+                    setError('Error fetching job details. Please try again later.');
+                    console.error('Error fetching job details:', error);
+                });
         }
-      }, [jobId, apiBaseUrl]); // Rerun this effect when jobId changes
-    
-      if (error) {
+    }, [jobId, apiBaseUrl]); // Rerun this effect when jobId changes
+
+    if (error) {
         return <div>{error}</div>; // Show error message
-      }
-    
-      if (!jobDetails) {
+    }
+
+    if (!jobDetails) {
         return <div>Loading job details...</div>; // Loading state
-      }
+    }
     return (
         <div className='min-h-screen flex flex-col '>
             {isMobile ? <NavbarMob /> : <Navbar />}
@@ -111,13 +155,13 @@ function Details() {
                     <span className='text-2xl font-[700] font-[display] text-left'>{jobDetails.job}</span>
                     <span className='text-xl font-[400] font-[display] text-left'>{jobDetails.job_title}</span>
                     <div className='flex flex-col w-full h-auto gap-2'>
-                    <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
+                        <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
                             <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
                                 <img src={id} alt="loc" />
                                 <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Job Id</span>
                             </div>
                             <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-xl font-[500] font-[display]'>
-                            {jobDetails.job_id}
+                                {jobDetails.job_id}
                             </div>
                         </div>
                         <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
@@ -126,7 +170,7 @@ function Details() {
                                 <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Company Type</span>
                             </div>
                             <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-xl font-[500] font-[display]'>
-                            {jobDetails.company_type}
+                                {jobDetails.company_type}
                             </div>
                         </div>
                         <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
@@ -135,7 +179,7 @@ function Details() {
                                 <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Job Type</span>
                             </div>
                             <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-xl font-[500] font-[display]'>
-                            {jobDetails.job_type}
+                                {jobDetails.job_type}
                             </div>
                         </div>
                         <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
@@ -144,7 +188,7 @@ function Details() {
                                 <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Location</span>
                             </div>
                             <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-xl font-[500] font-[display]'>
-                            {jobDetails.location}
+                                {jobDetails.location}
                             </div>
                         </div>
 
@@ -154,11 +198,11 @@ function Details() {
                                 <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Address</span>
                             </div>
                             <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-xl font-[500] font-[display]'>
-                            {jobDetails.address}
+                                {jobDetails.address}
                             </div>
                         </div>
 
-                  
+
 
                         <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
                             <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
@@ -166,7 +210,7 @@ function Details() {
                                 <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Food & Accomodation</span>
                             </div>
                             <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-xl font-[500] font-[display]'>
-                            {jobDetails.food_type}
+                                {jobDetails.food_type}
                             </div>
                         </div>
 
@@ -181,17 +225,17 @@ function Details() {
                         </div>
 
                         {(selectedPlan === '300' || selectedPlan === '500') && (
-            <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
-                <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
-                    <img src={phone} alt="loc" />
-                    <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Number</span>
-                </div>
-                <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-xl font-[500] font-[display]'>
-                    {jobDetails.whatsapp_number}
-                </div>
-            </div>
-        )}
-                    
+                            <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
+                                <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
+                                    <img src={phone} alt="loc" />
+                                    <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Number</span>
+                                </div>
+                                <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-xl font-[500] font-[display]'>
+                                    {jobDetails.whatsapp_number}
+                                </div>
+                            </div>
+                        )}
+
                     </div>
                 </div>
                 <ul className='border-2 border-[#E3EAF1]'></ul>
@@ -208,7 +252,7 @@ function Details() {
                             <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Required Gender</span>
                         </div>
                         <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-xl font-[500] font-[display]'>
-                        {jobDetails.gender_type}
+                            {jobDetails.gender_type}
                         </div>
                     </div>
 
@@ -218,11 +262,11 @@ function Details() {
                             <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Qualification</span>
                         </div>
                         <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-xl font-[500] font-[display]'>
-                        {jobDetails.qualification}
+                            {jobDetails.qualification}
                         </div>
                     </div>
                 </div>
-      
+
 
             </div>
             <div className='grid lg:grid-cols-6 grid-cols-3 w-full lg:px-12 px-3 gap-12 mt-12 pb-8'>
@@ -230,24 +274,24 @@ function Details() {
                     <img src={wa} alt="wa" />
                 </div>
                 <div className='h-[56px] w-full bg-[#DCE6EA] rounde-[10px] flex justify-center items-center rounded-[10px]'>
-                <img src={mail} alt="wa" />
+                    <img src={mail} alt="wa" />
                 </div>
-               
+
                 <div className='h-[56px] w-full bg-[#1877F2] rounde-[10px] flex justify-center items-center rounded-[10px]'>
-                <img src={fb} alt="wa" />
+                    <img src={fb} alt="wa" />
                 </div>
                 <div className='h-[56px] w-full bg-gradient-to-r from-[#f9ce34] via-[#ee2a7b] to-[#6228d7]  rounde-[10px] flex justify-center items-center rounded-[10px]'>
-                <img src={insta} alt="wa" />
+                    <img src={insta} alt="wa" />
                 </div>
                 <div className='h-[56px] w-full bg-[#000000] rounde-[10px] flex justify-center items-center rounded-[10px]'>
-                <img src={x} alt="wa" />
+                    <img src={x} alt="wa" />
                 </div>
                 <div className='h-[56px] w-full bg-[#239CD7] rounde-[10px] flex justify-center items-center rounded-[10px]'>
-                <img src={telegram} alt="wa" />
+                    <img src={telegram} alt="wa" />
                 </div>
             </div>
             <div className='mt-12'>
-            <Footer/>
+                <Footer />
             </div>
         </div>
     )

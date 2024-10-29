@@ -5,6 +5,9 @@ import { useNavigate } from 'react-router-dom'
 
 function Footer() {
     const navigate= useNavigate();
+    const customerType = sessionStorage.getItem('customerType');
+// console.log(customerType);
+
     const empreg = () => {
         navigate('/empreg');
       };
@@ -14,6 +17,14 @@ function Footer() {
      
       const jobpost = () => {
         navigate('/jobpost');
+      };
+
+      const login = () => {
+        navigate('/login');
+      };
+
+      const homePage = () => {
+        navigate('/home');
       };
     return (
         <div className='flex flex-col'>
@@ -26,7 +37,7 @@ function Footer() {
                         <span className='text-base font-[500] font-[display] text-[white]'>COMPANY</span>
                         <span className='flex flex-row justify-start items-center gap-1 '>
                             <img src={polygon} alt="polygon" className='w-[10%] h-[10%]' />
-                            <span className='text-sm font-[400] font-[display] text-[white]'>Home</span>
+                            <span className='text-sm font-[400] font-[display] text-[white] cursor-pointer' onClick={homePage}>Home</span>
                         </span>
                         <span className='flex flex-row justify-start items-center gap-1 '>
                             <img src={polygon} alt="polygon" className='w-[10%] h-[10%]' />
@@ -48,13 +59,13 @@ function Footer() {
                             <img src={polygon} alt="polygon" className='w-[6%] h-[6%]' />
                             <span className='text-sm font-[400] font-[display] text-[white] cursor-pointer' onClick={empreg}>Registration</span>
                         </span>
-                        <span className='flex flex-row justify-start items-center gap-1 '>
+                        {/* <span className='flex flex-row justify-start items-center gap-1 '>
                             <img src={polygon} alt="polygon" className='w-[6%] h-[6%]' />
                             <span className='text-sm font-[400] font-[display] text-[white] cursor-pointer' onClick={jobpost} >Job Post</span>
-                        </span>
+                        </span> */}
                         <span className='flex flex-row justify-start items-center gap-1 '>
                             <img src={polygon} alt="polygon" className='w-[6%] h-[6%]' />
-                            <span className='text-sm font-[400] font-[display] text-[white]'>Employer Login</span>
+                            <span className='text-sm font-[400] font-[display] text-[white] cursor-pointer' onClick={login}>Employer Login</span>
                         </span>
 
                     </div>
@@ -67,12 +78,12 @@ function Footer() {
                         </span>
                         <span className='flex flex-row justify-start items-center gap-1 '>
                             <img src={polygon} alt="polygon" className='w-[6%] h-[6%]' />
-                            <span className='text-sm font-[400] font-[display] text-[white]'>Candidate Login</span>
+                            <span className='text-sm font-[400] font-[display] text-[white] cursor-pointer' onClick={login}>Candidate Login</span>
                         </span>
-                        <span className='flex flex-row justify-start items-center gap-1 '>
+                        {/* <span className='flex flex-row justify-start items-center gap-1 '>
                             <img src={polygon} alt="polygon" className='w-[6%] h-[6%]' />
                             <span className='text-sm font-[400] font-[display] text-[white]'>Find Jobs</span>
-                        </span>
+                        </span> */}
 
                     </div>
                 </div>

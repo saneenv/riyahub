@@ -19,24 +19,38 @@ function EnablePackage() {
             try {
                 const response = await fetch(`${apiBaseUrl}/getCandidates`);
                 const data = await response.json();
-
+    
                 if (data.success) {
-                    // Extract only the names
-                    const customerNames = data.candidates.map(candidate => ({
-                        id: candidate.CandidateID,
-                        name: candidate.Name,
-                        selectedPlan: candidate.SelectedPlan // Store the selected plan
-                    }));
+                    const currentDate = new Date();
+    
+                    const customerNames = data.candidates.map(candidate => {
+                        const selectionDate = new Date(candidate.SelectionDate);
+                        let selectedPlan = candidate.SelectedPlan;
+    
+                        // Reset selectedPlan if 30 or 90 days have passed
+                        if (selectedPlan === '300' && (currentDate - selectionDate) / (1000 * 60 * 60 * 24) >= 30) {
+                            selectedPlan = null; // Reset to null if 30 days passed
+                        } else if (selectedPlan === '500' && (currentDate - selectionDate) / (1000 * 60 * 60 * 24) >= 90) {
+                            selectedPlan = null; // Reset to null if 90 days passed
+                        }
+    
+                        return {
+                            id: candidate.CandidateID,
+                            name: candidate.Name,
+                            selectedPlan, // Store the potentially updated selected plan
+                        };
+                    });
+    
                     setCustomers(customerNames);
                 }
             } catch (error) {
                 console.error("Error fetching customer data:", error);
             }
         };
-
+    
         fetchCustomers();
-    }, []); // Empty dependency array to run only once when the component mounts
-
+    }, []);
+    
     // Filtered customers based on search term
     const filteredCustomers = customers.filter(customer =>
         customer.name.toLowerCase().includes(searchTerm.toLowerCase())

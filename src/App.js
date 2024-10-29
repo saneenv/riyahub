@@ -24,6 +24,7 @@ import Jobs from './pages/Jobs';
 import JobId from './pages/JobId';
 import EnablePackage from './pages/EnablePackage';
 import CompanyDetails from './pages/CompanyDetails';
+import AppliedCan from './components/AppliedCan';
 
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
                 <Route path='/jobid' element={<JobId/>}/>
                 <Route path='/enablepackage' element={<EnablePackage/>}/>
                 <Route path='/companydetails' element={<CompanyDetails/>}/>
+                <Route path='/appliedcan' element={<AppliedCan/>}/>
 
 
 

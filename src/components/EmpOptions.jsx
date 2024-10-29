@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom';
 function EmpOptions({ closeOptions }) {
   const navigate = useNavigate();
   const companyName = sessionStorage.getItem('customerName');
+  const address = sessionStorage.getItem('address');
+
+  
   const employeeId = sessionStorage.getItem('employeeId');
 
   // const home = () => {
@@ -26,11 +29,15 @@ function EmpOptions({ closeOptions }) {
     navigate('/enablepackage');
   };
 
+  const appliedCandidates = () => {
+    navigate('/appliedcan');
+  };
+
   const login = () => {
     // Remove session storage items
     sessionStorage.removeItem('employeeId');
     sessionStorage.removeItem('customerName');
-
+    
     // Navigate to login page
     navigate('/login');
   };
@@ -47,11 +54,11 @@ function EmpOptions({ closeOptions }) {
           {/* <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center" onClick={home}>Home</li> */}
           <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center" onClick={jobpost}>Post Job</li>
           <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center" onClick={postedjob}>View Posted Jobs</li>
-          <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center">Search Candidates</li>
-          <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center">Selected Candidates</li>
-          <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center">Applied Candidates</li>
+          {/* <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center">Search Candidates</li> */}
+          {/* <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center">Selected Candidates</li> */}
+          <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center" onClick={appliedCandidates}>Applied Candidates</li>
           <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center" onClick={viewProfile}>View Profile</li>
-          {companyName === 'ADMIN' && (
+          {address === 'ADMIN' && (
             <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center" onClick={enablePage}>Enable Package</li>
           )}
           <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center" onClick={login}>Logout</li>

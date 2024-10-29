@@ -39,6 +39,8 @@ function Login() {
                     sessionStorage.setItem('employeeId', data.employeeId);
                     sessionStorage.setItem('customerName', data.customerName);
                     sessionStorage.setItem('customerType', data.customerType);
+                    sessionStorage.setItem('address', data.address);
+
                     navigate('/home');
                 } else {
                     // If employee login fails, attempt candidate login
@@ -81,6 +83,8 @@ function Login() {
                     sessionStorage.setItem('preferredLocation', data.candidate.Locations);
                     sessionStorage.setItem('jobType', data.candidate.JobType);
                     sessionStorage.setItem('gender', data.candidate.Gender);
+                    sessionStorage.setItem('Email', data.candidate.Email);
+
                     sessionStorage.setItem('mobileNumber', data.candidate.Mobile);
                     console.log('Mobile number stored in sessionStorage:', sessionStorage.getItem('mobileNumber'));
                     
