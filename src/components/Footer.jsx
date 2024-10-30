@@ -26,6 +26,10 @@ function Footer() {
       const homePage = () => {
         navigate('/home');
       };
+
+      const staffregpage = () => {
+        navigate('/staffreg');
+      };
     return (
         <div className='flex flex-col'>
             <div className='h-auto w-full bg-[#3D3B3B] flex lg:flex-row flex-col lg:p-12 p-3 lg:gap-0 gap-5'>
@@ -41,16 +45,13 @@ function Footer() {
                         </span>
                         <span className='flex flex-row justify-start items-center gap-1 '>
                             <img src={polygon} alt="polygon" className='w-[10%] h-[10%]' />
-                            <span className='text-sm font-[400] font-[display] text-[white]'>About</span>
+                            <span className='text-sm font-[400] font-[display] text-[white] cursor-pointer'>About</span>
                         </span>
                         <span className='flex flex-row justify-start items-center gap-1 '>
                             <img src={polygon} alt="polygon" className='w-[10%] h-[10%]' />
-                            <span className='text-sm font-[400] font-[display] text-[white]'>Job Post</span>
+                            <span className='text-sm font-[400] font-[display] text-[white] cursor-pointer' onClick={staffregpage}>Staff Reg</span>
                         </span>
-                        <span className='flex flex-row justify-start items-center gap-1 '>
-                            <img src={polygon} alt="polygon" className='w-[10%] h-[10%]' />
-                            <span className='text-sm font-[400] font-[display] text-[white]'>Find Jobs</span>
-                        </span>
+                      
                     </div>
 
                     <div className='flex flex-col lg:gap-6 gap-3'>

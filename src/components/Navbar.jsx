@@ -1,4 +1,4 @@
-import React, { useState , useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import logo from '../images/navbar/logo.png'
 import search from '../images/navbar/Vector.png'
 import location from '../images/navbar/location.png'
@@ -8,6 +8,7 @@ import EmpOptions from './EmpOptions'
 import CandidateOpt from './CandidateOpt'
 import jobs from '../json/jobs.json'; // Import jobs
 import locationData from '../json/cities.json'; // Import location data
+import StaffOptions from './StaffOptions'
 
 function Navbar() {
     const navigate = useNavigate();
@@ -25,7 +26,7 @@ function Navbar() {
 
     // Load job and location options on component mount
     useEffect(() => {
-        
+
         // Extract job and location data from the JSON files
         const jobOptions = jobs.states[0].districts.map(district => ({
             value: district,
@@ -75,7 +76,7 @@ function Navbar() {
 
             <img src={logo} alt="logo" className='w-[15%] h-[60%] cursor-pointer' onClick={home} />
             <div className='h-[48px] w-[45%] flex flex-row justify-center items-center border-[#edebeb] border-2'>
-            <div className='h-full w-[40%] flex flex-row border-r-2 border-[#edebeb]'>
+                <div className='h-full w-[40%] flex flex-row border-r-2 border-[#edebeb]'>
                     <div className='h-full w-[20%] flex justify-center items-center'>
                         <img src={search} alt="vector" />
                     </div>
@@ -134,12 +135,15 @@ function Navbar() {
             </div>
 
             {showOptions && (
-                customerType === 'employee' ? (
+                customerType === 'admin' ? (
+                    <StaffOptions closeOptions={closeOptions} />
+                ) : customerType === 'employee' ? (
                     <EmpOptions closeOptions={closeOptions} />
                 ) : customerType === 'candidate' ? (
                     <CandidateOpt closeOptions={closeOptions} />
                 ) : null
             )}
+
         </div>
     )
 }

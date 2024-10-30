@@ -36,20 +36,22 @@ function Login() {
             if (response.ok) {
                 if (data.success) {
                     // Store employee data in sessionStorage
-                    sessionStorage.setItem('employeeId', data.employeeId);
-                    sessionStorage.setItem('customerName', data.customerName);
-                    sessionStorage.setItem('customerType', data.customerType);
-                    sessionStorage.setItem('address', data.address);
-
+                    storeEmployeeData(data);
                     navigate('/home');
                 } else {
                     // If employee login fails, attempt candidate login
-                    await attemptCandidateLogin();
+                    const candidateLoginSuccess = await attemptCandidateLogin();
+                    if (!candidateLoginSuccess) {
+                        // If candidate login also fails, attempt staff login
+                        await attemptStaffLogin();
+                    }
                 }
             } else {
-                await attemptCandidateLogin();
-                // setErrorMessage('Login failed. Please check your credentials.');
-
+                const candidateLoginSuccess = await attemptCandidateLogin();
+                if (!candidateLoginSuccess) {
+                    // If candidate login also fails, attempt staff login
+                    await attemptStaffLogin();
+                }
             }
         } catch (error) {
             console.error('Login error:', error);
@@ -72,40 +74,83 @@ function Login() {
 
             if (response.ok) {
                 if (data.success) {
-
-                   
-
-                    // Store candidate data in sessionStorage
-                    sessionStorage.setItem('employeeId', data.candidate.CandidateID);
-                    sessionStorage.setItem('customerName', data.candidate.Name);
-                    sessionStorage.setItem('customerType', data.candidate.customerType);
-                    sessionStorage.setItem('preferredJob', data.candidate.Jobs);
-                    sessionStorage.setItem('preferredLocation', data.candidate.Locations);
-                    sessionStorage.setItem('jobType', data.candidate.JobType);
-                    sessionStorage.setItem('gender', data.candidate.Gender);
-                    sessionStorage.setItem('Email', data.candidate.Email);
-
-                    sessionStorage.setItem('mobileNumber', data.candidate.Mobile);
-                    console.log('Mobile number stored in sessionStorage:', sessionStorage.getItem('mobileNumber'));
-                    
-                    sessionStorage.setItem('whatsappNumber', data.candidate.WhatsApp);
-                    console.log('WhatsApp number stored in sessionStorage:', sessionStorage.getItem('whatsappNumber'));
-
-                    sessionStorage.setItem('selectedPlan', data.candidate.SelectedPlan);
-
-
-
+                    storeCandidateData(data);
                     navigate('/home');
+                    return true; // Login successful
                 } else {
                     setErrorMessage(data.message); // Set error message if candidate login fails
+                    return false; // Login failed
                 }
             } else {
-                setErrorMessage(' login failed. Please check your credentials.');
+                setErrorMessage('Candidate login failed. Please check your credentials.');
+                return false; // Login failed
             }
         } catch (error) {
             console.error('Candidate login error:', error);
             setErrorMessage('An error occurred during candidate login. Please try again.');
+            return false; // Login failed
         }
+    };
+
+    // Function to attempt staff login
+    const attemptStaffLogin = async () => {
+        try {
+            const response = await fetch(`${apiBaseUrl}/loginstaff`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ mobileNumber, password }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                if (data.success) {
+                    storeStaffData(data);
+                    navigate('/home');
+                } else {
+                    setErrorMessage(data.message); // Set error message if staff login fails
+                }
+            } else {
+                setErrorMessage('Staff login failed. Please check your credentials.');
+            }
+        } catch (error) {
+            console.error('Staff login error:', error);
+            setErrorMessage('An error occurred during staff login. Please try again.');
+        }
+    };
+
+    // Helper function to store employee data
+    const storeEmployeeData = (data) => {
+        sessionStorage.setItem('employeeId', data.employeeId);
+        sessionStorage.setItem('customerName', data.customerName);
+        sessionStorage.setItem('customerType', data.customerType);
+        sessionStorage.setItem('address', data.address);
+    };
+
+    // Helper function to store candidate data
+    const storeCandidateData = (data) => {
+        sessionStorage.setItem('employeeId', data.candidate.CandidateID);
+        sessionStorage.setItem('customerName', data.candidate.Name);
+        sessionStorage.setItem('customerType', data.candidate.customerType);
+        sessionStorage.setItem('preferredJob', data.candidate.Jobs);
+        sessionStorage.setItem('preferredLocation', data.candidate.Locations);
+        sessionStorage.setItem('jobType', data.candidate.JobType);
+        sessionStorage.setItem('gender', data.candidate.Gender);
+        sessionStorage.setItem('Email', data.candidate.Email);
+        sessionStorage.setItem('mobileNumber', data.candidate.Mobile);
+        sessionStorage.setItem('whatsappNumber', data.candidate.WhatsApp);
+        sessionStorage.setItem('selectedPlan', data.candidate.SelectedPlan);
+    };
+
+    // Helper function to store staff data
+    const storeStaffData = (data) => {
+        // Store the necessary staff data in sessionStorage
+        sessionStorage.setItem('customerType', data.candidate.customerType);
+        sessionStorage.setItem('customerName', data.candidate.companyName);
+        sessionStorage.setItem('employeeId', data.candidate.staffId);
+        // Add any other relevant data here
     };
 
     return (
@@ -145,7 +190,7 @@ function Login() {
                         <div className='h-[56px] w-full px-12'>
                             <div
                                 className='w-full h-full bg-[#E22E37] rounded-[28px] flex justify-center items-center text-[white] text-base font-[600] font-[display] cursor-pointer'
-                                onClick={handleLogin} // This calls only handleLogin
+                                onClick={handleLogin}
                             >
                                 SUBMIT
                             </div>

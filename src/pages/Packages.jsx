@@ -33,18 +33,17 @@ function Packages() {
 
 
     // Create the message bodys
-    const message = `
-      Hello, I am interested in the 300 plan. 
-      Applying Job ID: ${jobId},
-      Applying Job: ${job},
-      Applying Job Location: ${jobLocation},
-      Preferred Job: ${preferredJob.join(', ')}, 
-      Preferred Location: ${preferredLocation.join(', ')}, 
-      Customer Name: ${customerName}, 
-      Mobile Number: ${mobileNumber}, 
-      Whatsapp Number: ${whatsappNumber},
+    // Create the message bodys
+    const message = `Hello, I am interested in the *300* plan. 
+    Applying Job ID: *${jobId}*, 
+    Applying Job: *${job}*, 
+    Applying Job Location: *${jobLocation}*, 
+    Preferred Job: *${preferredJob.join(', ')}*, 
+    Preferred Location: *${preferredLocation.join(', ')}*, 
+    Customer Name: *${customerName}*, 
+    Mobile Number: ${mobileNumber}, 
+    Whatsapp Number: ${whatsappNumber}`;
 
-    `;
 
     try {
       const response = await fetch(`${apiBaseUrl}/send-whatsapp`, {
@@ -90,17 +89,15 @@ function Packages() {
 
 
     // Create the message bodys
-    const message = `
-      Hello, I am interested in the 500 plan. 
-      Applying Job ID: ${jobId},
-      Applying Job: ${job},
-      Applying Job Location: ${jobLocation},
-      Preferred Job: ${preferredJob.join(', ')}, 
-      Preferred Location: ${preferredLocation.join(', ')}, 
-      Customer Name: ${customerName}, 
-      Mobile Number: ${mobileNumber}, 
-      Whatsapp Number: ${whatsappNumber}
-    `;
+    const message = `Hello, I am interested in the *500* plan. 
+    Applying Job ID: *${jobId}*, 
+    Applying Job: *${job}*, 
+    Applying Job Location: *${jobLocation}*, 
+    Preferred Job: *${preferredJob.join(', ')}*, 
+    Preferred Location: *${preferredLocation.join(', ')}*, 
+    Customer Name: *${customerName}*, 
+    Mobile Number: ${mobileNumber}, 
+    Whatsapp Number: ${whatsappNumber}`;
 
     try {
       const response = await fetch(`${apiBaseUrl}/send-whatsapp`, {

@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import CandidateOpt from './CandidateOpt';
 import jobs from '../json/jobs.json'; // Import jobs
 import locationData from '../json/cities.json'; // Import location data
+import StaffOptions from './StaffOptions';
 
 // import smallloc from '../images/navbar/smallloc.png'
 
@@ -80,15 +81,15 @@ function NavbarMob() {
 
     const findjob = () => {
         navigate('/searchedjobs');
-      };
-    
-      const jobcategories = () => {
-        navigate('/jobcategories');
-      };
+    };
 
-      const jobidpage = () => {
+    const jobcategories = () => {
+        navigate('/jobcategories');
+    };
+
+    const jobidpage = () => {
         navigate('/jobid');
-      };
+    };
 
     return (
         <div className='w-full h-[180px]  flex flex-col px-3 gap-3'>
@@ -143,7 +144,7 @@ function NavbarMob() {
                             <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={home}>Home</li>
                             <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={findjob}>Find Jobs</li>
                             <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={jobcategories}>Job By Categories</li>
-                            
+
                             <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={jobidpage}>Job ID Search</li>
                             {/* <li className='p-4 hover:bg-gray-700 cursor-pointer'>Services</li> */}
                             <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={contactus}>Contact Us</li>
@@ -166,12 +167,15 @@ function NavbarMob() {
                 </>
             )}
             {showOptions && (
-                customerType === 'employee' ? (
+                customerType === 'admin' ? (
+                    <StaffOptions closeOptions={closeOptions} />
+                ) : customerType === 'employee' ? (
                     <EmpOptions closeOptions={closeOptions} />
                 ) : customerType === 'candidate' ? (
                     <CandidateOpt closeOptions={closeOptions} />
                 ) : null
             )}
+
         </div>
     )
 }

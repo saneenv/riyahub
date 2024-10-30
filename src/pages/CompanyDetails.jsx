@@ -26,22 +26,37 @@ function CompanyDetails() {
 
     // Fetch employee data when component mounts
     useEffect(() => {
-        fetch(`${apiBaseUrl}/employee/${employeeId}`)
-            .then((response) => {
+        const fetchEmployeeData = async () => {
+            try {
+                // First, try the primary API endpoint
+                const response = await fetch(`${apiBaseUrl}/employee/${employeeId}`);
                 if (!response.ok) {
-                    throw new Error('Employee not found');
+                    throw new Error('Employee not found in primary API');
                 }
-                return response.json();
-            })
-            .then((data) => {
+                const data = await response.json();
                 setEmployeeData(data.employee);
+            } catch (error) {
+                console.log("Primary API failed:", error.message);
+                // If primary API fails, try the fallback API
+                try {
+                    const fallbackResponse = await fetch(`${apiBaseUrl}/staff/${employeeId}`);
+                    if (!fallbackResponse.ok) {
+                        throw new Error('Employee not found in fallback API');
+                    }
+                    const fallbackData = await fallbackResponse.json();
+                    setEmployeeData(fallbackData.employee);
+                } catch (fallbackError) {
+                    console.log("Fallback API failed:", fallbackError.message);
+                    setError(fallbackError.message);
+                }
+            } finally {
                 setLoading(false);
-            })
-            .catch((err) => {
-                setError(err.message);
-                setLoading(false);
-            });
+            }
+        };
+    
+        fetchEmployeeData();
     }, [employeeId]);
+    
 
     if (loading) {
         return <div>Loading...</div>;
@@ -65,7 +80,7 @@ function CompanyDetails() {
                             <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Company Name</span>
                         </div>
                         <div className='lg:w-[70%] w-full  flex px-5 items-center'>
-                            {employeeData?.company_name || 'No mobile number available'}
+                            {employeeData?.company_name || employeeData?.companyName}
                         </div>
                     </div>
                     <div className='flex lg:flex-row flex-col h-[56px] border-2 border-[#E3EAF1] w-full rounded-[10px]'>
@@ -83,7 +98,7 @@ function CompanyDetails() {
                             <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Mobile Number</span>
                         </div>
                         <div className='lg:w-[70%] w-full  flex px-5 items-center'>
-                            {employeeData?.mobile_number || 'No mobile number available'}
+                            {employeeData?.mobile_number || employeeData?.mobileNumber}
                         </div>
                     </div>
                     <div className='flex lg:flex-row flex-col h-[56px] border-2 border-[#E3EAF1] w-full rounded-[10px]'>
@@ -92,17 +107,17 @@ function CompanyDetails() {
                             <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Whatsapp Number</span>
                         </div>
                         <div className='lg:w-[70%] w-full flex px-5 items-center'>
-                            {employeeData?.whatsapp_number || 'No Whatsapp number available'}
+                            {employeeData?.whatsapp_number || employeeData?.whatsappNumber}
                         </div>
                     </div>
-                    <div className='flex lg:flex-row flex-col h-[56px] border-2 border-[#E3EAF1] w-full rounded-[10px]'>
+                    {/* <div className='flex lg:flex-row flex-col h-[56px] border-2 border-[#E3EAF1] w-full rounded-[10px]'>
                         <div className='lg:w-[30%] w-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
                             <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Company District</span>
                         </div>
                         <div className='lg:w-[70%] w-full flex px-5 items-center'>
                             {employeeData?.company_district || 'No district available'}
                         </div>
-                    </div>
+                    </div> */}
                     <div className='flex lg:flex-row flex-col h-[56px] border-2 border-[#E3EAF1] w-full rounded-[10px]'>
                         <div className='lg:w-[30%] w-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
                             <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Address</span>

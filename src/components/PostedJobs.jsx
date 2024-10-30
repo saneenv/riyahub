@@ -40,7 +40,7 @@ function PostedJobs() {
     };
 
     useEffect(() => {
-        fetch(`${apiBaseUrl}/getjobposts`)
+        fetch(`${apiBaseUrl}/getjobposts${employeeId ? `?employeeId=${employeeId}` : ''}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -48,13 +48,13 @@ function PostedJobs() {
                 return response.json();
             })
             .then(data => {
-                const filteredJobs = data.filter(job => job.employee_id === Number(employeeId));
-                setJobPosts(filteredJobs);
+                setJobPosts(data); // Backend already filters, so no further filtering is needed here
             })
             .catch(error => {
                 console.error('Error fetching job posts:', error);
             });
     }, [apiBaseUrl, employeeId]);
+    
 
     return (
         <div className='flex flex-col min-h-screen'>
@@ -67,7 +67,7 @@ function PostedJobs() {
                 <div className='grid lg:grid-cols-3 grid-cols-1 w-full gap-3'>
                     {jobPosts.map((job) => (
                         <div className='h-[292px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden' key={job.job_id}>
-                            <div className='w-full h-[30%] bg-[#E22E37] px-1 flex items-center justify-between'>
+                            <div className='w-full h-[30%] bg-[#E22E37] p-2 gap-2 flex justify-center items-center flex-col'>
                                 <span className='text-[white] text-xl font-[700] font-[display]'>{job.job_title}</span>
                                 <div className='flex flex-row gap-2 items-center justify-center border-2 border-[white] p-1 rounded-[40px]'>
                                     <img src={vector} alt="loc" />

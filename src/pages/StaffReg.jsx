@@ -1,0 +1,253 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { useMediaQuery } from 'react-responsive';
+import { useNavigate } from 'react-router-dom';
+import NavbarMob from '../components/NavbarMob';
+import Navbar from '../components/Navbar';
+import Navbar2 from '../components/Navbar2';
+import Footer from '../components/Footer';
+
+function StaffReg() {
+    const [companyName, setCompanyName] = useState('');
+    const [mobileNumber, setMobileNumber] = useState('');
+    const [whatsappNumber, setWhatsappNumber] = useState('');
+    const [email, setEmail] = useState('');
+    const [address, setAddress] = useState('');
+    const [password, setPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(false); // New loading state
+    const navigate = useNavigate();
+
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
+    // References for inputs
+    const companyNameRef = useRef(null);
+    const mobileNumberRef = useRef(null);
+    const whatsappNumberRef = useRef(null);
+    const emailRef = useRef(null);
+    const addressRef = useRef(null);
+    const passwordRef = useRef(null);
+
+ 
+
+    const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+
+    const login = () => {
+        navigate('/login');
+    };
+
+    const handleSubmit = async () => {
+        // Define the hardcoded password
+        const hardcodedPassword = 'saneen'; // Change this to your desired password
+    
+        // Ask for the password
+        const enteredPassword = prompt('Please enter the password to continue:');
+    
+        // Check if the entered password is correct
+        if (enteredPassword !== hardcodedPassword) {
+            alert('Incorrect password. Registration aborted.');
+            return; // Stop the function if the password is incorrect
+        }
+    
+        // Validation checks
+        const mobilePattern = /^[0-9]{10}$/;
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+        // Check for empty fields
+        if (!companyName || !mobileNumber || !whatsappNumber || !email || !address || !password) {
+            alert('Please fill in all fields.');
+            return; // Stop the function if any field is empty
+        }
+    
+        // Validate mobile and WhatsApp numbers
+        if (!mobilePattern.test(mobileNumber)) {
+            alert('Mobile Number must be 10 digits.');
+            return; // Stop the function if validation fails
+        }
+    
+        if (!mobilePattern.test(whatsappNumber)) {
+            alert('WhatsApp Number must be 10 digits.');
+            return; // Stop the function if validation fails
+        }
+    
+        // Validate email format
+        if (!emailPattern.test(email)) {
+            alert('Please enter a valid email address.');
+            return; // Stop the function if validation fails
+        }
+    
+        const formData = {
+            companyName,
+            mobileNumber,
+            whatsappNumber,
+            email,
+            address,
+            password,
+        };
+    
+        console.log(formData);
+    
+        setIsLoading(true); // Set loading state to true
+    
+        try {
+            const response = await fetch(`${apiBaseUrl}/registerstaff`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+    
+            const data = await response.json();
+    
+            if (response.ok) {
+                alert('Registration Successful');
+    
+                // Clear all input fields
+                setCompanyName('');
+                setMobileNumber('');
+                setWhatsappNumber('');
+                setEmail('');
+                setAddress('');
+                setPassword('');
+            } else {
+                console.log('Response error:', data);
+                alert('Error in registration');
+            }
+        } catch (err) {
+            console.error('Request error:', err);
+            alert('Error connecting to server');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+    
+
+    // Function to handle "Enter" key press and move to the next field
+    const handleKeyDown = (e, nextRef) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            if (nextRef && nextRef.current) {
+                nextRef.current.focus();
+            }
+        }
+    };
+
+
+
+    return (
+        <div className='flex flex-col min-h-screen'>
+            {isMobile ? <NavbarMob /> : <Navbar />}
+            <div className='md:flex hidden'>
+                <Navbar2 />
+            </div>
+            <div className='flex justify-center items-center bg-[#0D2D3E] py-12'>
+                <div className='lg:w-[80%] w-[90%] h-[70%] bg-[white] flex flex-col items-center gap-12 py-12 lg:rounded-[20px] rounded-[5px]'>
+                    <span className='text-2xl font-[700] font-[display]'>Staff Register</span>
+                    <div className='grid lg:grid-cols-3 grid-cols-1 gap-5 lg:px-12 px-3 w-full'>
+                        <div className='flex flex-col gap-3'>
+                            <span className='text-left text-lg font-[500] font-[display]'>Staff Name</span>
+                            <input
+                              ref={companyNameRef}
+                                placeholder='Enter Staff Name'
+                                type="text"
+                                value={companyName}
+                                onChange={(e) => setCompanyName(e.target.value)}
+                                className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                                onKeyDown={(e) => handleKeyDown(e, mobileNumberRef)} // Move to Mobile Number on "Enter"
+                            />
+                        </div>
+                        <div className='flex flex-col gap-3'>
+                            <span className='text-left text-lg font-[500] font-[display]'>Mobile Number</span>
+                            <input
+                             ref={mobileNumberRef}
+                                placeholder='Enter Phone No'
+                                type="number"
+                                value={mobileNumber}
+                                onChange={(e) => setMobileNumber(e.target.value)}
+                                className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                                onKeyDown={(e) => handleKeyDown(e, whatsappNumberRef)} // Move to WhatsApp Number on "Enter"
+                            />
+                        </div>
+                        <div className='flex flex-col gap-3'>
+                            <span className='text-left text-lg font-[500] font-[display]'>Whatsapp Number</span>
+                            <input
+                            ref={whatsappNumberRef}
+                                placeholder='Your Whatsapp No'
+                                type="number"
+                                value={whatsappNumber}
+                                onChange={(e) => setWhatsappNumber(e.target.value)}
+                                className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                                onKeyDown={(e) => handleKeyDown(e, emailRef)} // Move to Email on "Enter"
+                            />
+                        </div>
+
+                        <div className='flex flex-col gap-3'>
+                            <span className='text-left text-lg font-[500] font-[display]'>Email</span>
+                            <input
+                            ref={emailRef}
+                                placeholder='Enter Email Address'
+                                type="text"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                                onKeyDown={(e) => handleKeyDown(e, addressRef)} // Move to Company Category on "Enter"
+                            />
+                        </div>
+                    
+                     
+
+                        <div className='flex flex-col gap-3'>
+                            <span className='text-left text-lg font-[500] font-[display]'>Address</span>
+                            <input
+                            ref={addressRef}
+                                placeholder='Enter Address'
+                                type="text"
+                                value={address}
+                                onChange={(e) => setAddress(e.target.value)}
+                                className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                                onKeyDown={(e) => handleKeyDown(e, passwordRef)} // Move to Password on "Enter"
+                            />
+                        </div>
+                        <div className='flex flex-col gap-3'>
+                            <span className='text-left text-lg font-[500] font-[display]'>Create Password</span>
+                            <input
+                             ref={passwordRef}
+                                placeholder='Create Password'
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                            />
+                        </div>
+                    </div>
+
+                    <div className='flex flex-col gap-5 w-full px-12 justify-center items-center'>
+                        <button
+                            onClick={handleSubmit}
+                            className='h-[56px] lg:w-[25%] w-[50%] bg-[#E22E37] rounded-[20px] flex justify-center items-center text-[white] text-xl font-[display] font-[600]'
+                            disabled={isLoading}
+                        >
+                            {isLoading ? (
+                                <div className="flex justify-center items-center">
+                                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                        <path className="opacity-75" fill="currentColor" d="M4 12c0-4.418 3.582-8 8-8v8H4z"></path>
+                                    </svg>
+                                    <span>Register</span>
+                                </div>
+                            ) : (
+                                'Register'
+                            )}
+                        </button>
+                        <span className='text-base font-[500] font-[dislay]'>
+                            Already Registered? -
+                            <span className='text-base font-[700] font-[dislay] text-[#E22E37] cursor-pointer' onClick={login}> Login</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <Footer />
+        </div>
+    );
+}
+
+export default StaffReg;

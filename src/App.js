@@ -25,6 +25,9 @@ import JobId from './pages/JobId';
 import EnablePackage from './pages/EnablePackage';
 import CompanyDetails from './pages/CompanyDetails';
 import AppliedCan from './components/AppliedCan';
+import StaffReg from './pages/StaffReg';
+import ViewProfile3 from './components/ViewProfile3';
+import CanApplied from './components/CanApplied';
 
 
 function App() {
@@ -57,11 +60,11 @@ function App() {
                 <Route path='/enablepackage' element={<EnablePackage/>}/>
                 <Route path='/companydetails' element={<CompanyDetails/>}/>
                 <Route path='/appliedcan' element={<AppliedCan/>}/>
+                <Route path='/staffreg' element={<StaffReg/>}/>
+                <Route path='/viewstaff' element={<ViewProfile3/>}/>
+                <Route path='/canapplied' element={<CanApplied/>}/>
 
 
-
-
-                
              </Routes>
         </BrowserRouter>
     </div>

@@ -159,14 +159,14 @@ const Packages2 = async (job) => {
                             key={index}
                             className='h-[292px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'
                         >
-                            <div className='w-full h-[30%] bg-[#E22E37] px-1 flex items-center justify-between'>
+                            <div className='w-full h-[30%] bg-[#E22E37] p-2 gap-2 flex justify-center items-center flex-col'>
                                 <span className='text-[white] text-xl font-[700] font-[display]'>{job.job_title}</span>
-                                <div className='flex flex-row gap-2 items-center justify-center border-2 border-[white] p-1 rounded-[40px]'>
+                                <div className='flex flex-row gap-2 items-center justify-center  '>
                                     <img src={vector} alt="loc" />
                                     <span className='text-base font-[500] font-[display] text-[white]'>{job.location}</span>
                                 </div>
                             </div>
-                            <div className='w-full h-[70%] flex flex-row'>
+                            <div className='w-full h-[70%] flex flex-row '>
                                 <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-5'>
                                     <div className='flex items-center justify-between w-full'>
                                         <span className='text-base font-[display] font-[500]'>JOB ID</span>
