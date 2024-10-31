@@ -16,6 +16,10 @@ function StaffReg() {
     const [isLoading, setIsLoading] = useState(false); // New loading state
     const navigate = useNavigate();
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
     // References for inputs

@@ -30,6 +30,20 @@ function Footer() {
       const staffregpage = () => {
         navigate('/staffreg');
       };
+
+      const aboutus = () => {
+        navigate('/about');
+      };
+
+      const termsandconditons = () => {
+        navigate('/terms');
+      };
+
+      const privacypolicy = () => {
+        navigate('/privacy');
+      };
+
+
     return (
         <div className='flex flex-col'>
             <div className='h-auto w-full bg-[#3D3B3B] flex lg:flex-row flex-col lg:p-12 p-3 lg:gap-0 gap-5'>
@@ -45,7 +59,7 @@ function Footer() {
                         </span>
                         <span className='flex flex-row justify-start items-center gap-1 '>
                             <img src={polygon} alt="polygon" className='w-[10%] h-[10%]' />
-                            <span className='text-sm font-[400] font-[display] text-[white] cursor-pointer'>About</span>
+                            <span className='text-sm font-[400] font-[display] text-[white] cursor-pointer' onClick={aboutus}>About Us</span>
                         </span>
                         <span className='flex flex-row justify-start items-center gap-1 '>
                             <img src={polygon} alt="polygon" className='w-[10%] h-[10%]' />
@@ -92,8 +106,8 @@ function Footer() {
             <div className='w-full h-[40px]  flex flex-row lg:px-4 px-1 '>
                 <div className='w-[50%] text-start h-full flex  items-center lg:text-sm text-xs font-[400] font-[display]'>© SherSoft Software Company</div>
                 <div className='w-[50%] h-full flex  items-center justify-end flex-row gap-8'>
-                    <span className='lg:text-sm text-xs font-[400] font-[display] cursor-pointer' >Terms & Conditions</span>
-                    <span className='lg:text-sm text-xs font-[400] font-[display] cursor-pointer' >Privacy Policy</span>
+                    <span className='lg:text-sm text-xs font-[400] font-[display] cursor-pointer' onClick={termsandconditons}>Terms & Conditions</span>
+                    <span className='lg:text-sm text-xs font-[400] font-[display] cursor-pointer' onClick={privacypolicy}>Privacy Policy</span>
                 </div>
             </div>
         </div>

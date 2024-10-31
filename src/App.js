@@ -28,6 +28,9 @@ import AppliedCan from './components/AppliedCan';
 import StaffReg from './pages/StaffReg';
 import ViewProfile3 from './components/ViewProfile3';
 import CanApplied from './components/CanApplied';
+import About from './pages/About';
+import Terms from './pages/Terms';
+import Privacy from './pages/Privacy';
 
 
 function App() {
@@ -63,6 +66,10 @@ function App() {
                 <Route path='/staffreg' element={<StaffReg/>}/>
                 <Route path='/viewstaff' element={<ViewProfile3/>}/>
                 <Route path='/canapplied' element={<CanApplied/>}/>
+                <Route path='/about' element={<About/>}/>
+                <Route path='/terms' element={<Terms/>}/>
+                <Route path='/privacy' element={<Privacy/>}/>
+
 
 
              </Routes>
