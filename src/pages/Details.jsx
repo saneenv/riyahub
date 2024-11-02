@@ -20,7 +20,7 @@ import telegram from '../images/details/telegram.png'
 import Footer from '../components/Footer';
 import Navbar2 from '../components/Navbar2';
 import { useLocation } from 'react-router-dom';
-
+import QRCode from 'qrcode';
 import html2canvas from 'html2canvas';
 
 
@@ -30,6 +30,7 @@ function Details() {
     const [jobDetails, setJobDetails] = useState(null); // State to store job details
     const [error, setError] = useState(null); // State to handle errors
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL; // Assuming you have this in .env file
+    const [qrCodeSrc, setQrCodeSrc] = useState('');
 
     const location = useLocation();
     const { jobId } = location.state || {}; // Extract jobId from state
@@ -221,6 +222,7 @@ function Details() {
         });
     };
 
+    
 
 
     if (error) {

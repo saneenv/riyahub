@@ -51,6 +51,10 @@ function Home() {
     const empreg2 = () => {
         navigate('/empreg');
     };
+
+    const regchoose = () => {
+        navigate('/regchoose');
+    };
     const canreg2 = () => {
         navigate('/canreg');
     };
@@ -227,7 +231,7 @@ const Packages2 = async (job) => {
                         <span className='text-sm font-[300] font-[display] text-white'>Unlock your potential with tailored job listings that
                             match your skills and aspirations. Start exploring opportunities that
                             bring you closer to your career goals.</span>
-                        <div className='w-[30%] bg-[white] h-[40px] rounded-[5px] justify-center items-center flex text-base font-[700] font-[display]'>Register Now</div>
+                        <div className='w-[30%] bg-[white] h-[40px] rounded-[5px] justify-center items-center flex text-base font-[700] font-[display] cursor-pointer' onClick={regchoose}>Register Now</div>
                     </div>
                     <div className='w-[50%]   lg:flex hidden justify-center items-end'>
                         <img src={girloffice} alt="girloffice" />
