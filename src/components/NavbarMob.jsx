@@ -136,7 +136,7 @@ function NavbarMob() {
                         className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-[2px] z-40"
                         onClick={toggleSidebar}  // Clicking outside the sidebar will close it
                     ></div>
-                    <div className={`fixed top-0 left-0 w-[250px] h-full bg-[#0D2D3E] text-white z-50 transition-transform duration-300 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+                    <div className={`fixed top-0 left-0 w-[250px] h-full bg-[black] text-white z-50 transition-transform duration-300 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
                         <button onClick={toggleSidebar} className="text-white w-full p-2 flex justify-end items-end mt-2">
                             <div className='border-2 border-[white] px-1 bg-[#E22E37] hover:bg-gray-700'>X</div>
                         </button>

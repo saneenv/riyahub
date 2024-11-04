@@ -311,7 +311,7 @@ function MatchingJobs() {
                                                 <span className='text-base font-[display] font-[500]'>GENDER</span>
                                                 <span className='text-base font-[display] font-[500]'>:</span>
                                             </div>
-                                            <div className='flex items-center justify-center w-[80%] h-[38px] bg-[#0D2D3E] rounded-[10px] text-lg font-[600] font-[display] text-[white] cursor-pointer' onClick={() => details(job.job_id)}>
+                                            <div className='flex items-center justify-center w-[80%] h-[38px] bg-[black] rounded-[10px] text-lg font-[600] font-[display] text-[white] cursor-pointer' onClick={() => details(job.job_id)}>
                                                 Apply Now
                                             </div>
                                         </div>
@@ -328,7 +328,7 @@ function MatchingJobs() {
                                             <div className='flex items-center justify-between'>
                                                 <span className='text-base font-[display] font-[500]'>{job.gender_type}</span>
                                             </div>
-                                            <div className='flex items-center justify-center w-[80%] h-[38px] bg-[#0D2D3E] rounded-[10px] text-lg font-[600] font-[display] text-[white] cursor-pointer' onClick={() => details(job.job_id)}>
+                                            <div className='flex items-center justify-center w-[80%] h-[38px] bg-[black] rounded-[10px] text-lg font-[600] font-[display] text-[white] cursor-pointer' onClick={() => details(job.job_id)}>
                                                 Job Details
                                             </div>
                                         </div>
@@ -349,7 +349,7 @@ function MatchingJobs() {
                     {visibleJobs < jobsApi.length && (
                         <div className='flex justify-center mt-4'>
                             <button
-                                className='bg-[#0D2D3E] text-white px-4 py-2 rounded-md text-lg font-semibold'
+                                className='bg-[black] text-white px-4 py-2 rounded-md text-lg font-semibold'
                                 onClick={loadMoreJobs}
                             >
                                 View More

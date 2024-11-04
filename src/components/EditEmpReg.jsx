@@ -88,7 +88,7 @@ const EditEmpReg = () => {
 
   return (
     <div className='flex flex-col min-h-screen'>
-      <div className='flex justify-center items-center bg-[#0D2D3E] min-h-screen'>
+      <div className='flex justify-center items-center bg-[black] min-h-screen'>
         <div className='lg:w-[80%] w-[90%] h-[70%] bg-[white] flex flex-col items-center gap-12 py-12 lg:rounded-[20px] rounded-[5px]'>
           <span className='text-2xl font-[700] font-[display]'>Update Employee</span>
           <div className='grid lg:grid-cols-3 grid-cols-1 gap-5 lg:px-12 px-3 w-full'>

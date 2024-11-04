@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useMediaQuery } from 'react-responsive';
 import NavbarMob from '../components/NavbarMob';
 import Navbar from '../components/Navbar';
@@ -13,6 +13,41 @@ import arrow from '../images/contactus/arrow.png'
 
 function ContactUs() {
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    mobileNumber: '',
+    message: ''
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
+  const handleSendEmail = () => {
+    const recipientEmail = 'saneen577@gmail.com'; // Update with the recipient's email address
+    const subject = 'New Message from contact us page';
+    const body = `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.mobileNumber}\nMessage: ${formData.message}`;
+
+    // Open default email client with pre-filled email template
+    window.open(`mailto:${recipientEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
+
+    // Clear form data
+    setFormData({
+      name: '',
+      email: '',
+      mobileNumber: '',
+      message: ''
+    });
+
+    // Optionally, you can redirect or perform any other action after sending the email
+  };
+
 
 
   return (
@@ -55,56 +90,57 @@ function ContactUs() {
               <div className='flex flex-row gap-3'>
 
                 <div className='w-[30px] h-[30px] rounded-full bg-[white] flex justify-center items-center'>
-                 <img src={twitter} alt="twitter" />
+                  <img src={twitter} alt="twitter" />
                 </div>
                 <div className='w-[30px] h-[30px] rounded-full bg-[white] flex justify-center items-center'>
                   <img src={insta} alt="insta" />
                 </div>
-               
+
               </div>
-            
+
             </div>
           </div>
           <div className='lg:w-[60%]  w-[100%]  h-full  lg:p-12 p-3  flex flex-col items-start text-left rounded-[10px] gap-12'>
-             <div className='w-full flex flex-row gap-3'>
-                <div className='flex flex-col w-[50%] gap-6'>
-                   <span className='text-sm font-[500] font-[display]'>First Name</span>
-                   <input type="text" className='w-full border-b-2 border-[#8D8D8D] focus:outline-none focus:ring-0' />
-                </div>
-                <div className='flex flex-col w-[50%] gap-6'>
-                   <span className='text-sm font-[500] font-[display]'>Last Name</span>
-                   <input type="text" className='w-full border-b-2 border-[#8D8D8D] focus:outline-none focus:ring-0' />
-                </div>
-             </div>
-             <div className='w-full flex flex-row gap-3'>
-                <div className='flex flex-col w-[50%] gap-6'>
-                   <span className='text-sm font-[500] font-[display]'>Email</span>
-                   <input type="text" className='w-full border-b-2 border-[#8D8D8D] focus:outline-none focus:ring-0' />
-                </div>
-                <div className='flex flex-col w-[50%] gap-6'>
-                   <span className='text-sm font-[500] font-[display]'>Phone Number</span>
-                   <input type="text" className='w-full border-b-2 border-[#8D8D8D] focus:outline-none focus:ring-0' />
-                </div>
-             </div>
-             <div className='w-full flex flex-row gap-3'>
-                <div className='flex flex-col w-[100%] gap-6'>
-                   <span className='text-sm font-[500] font-[display]'>Message</span>
-                   <input placeholder='write your message' type="text" className='w-full border-b-2 border-[#8D8D8D] focus:outline-none focus:ring-0' />
-                </div>
-             
-             </div>
-             <div className='w-full flex flex-col'>
+            <div className='w-full flex flex-row gap-3'>
+
+              <div className='flex flex-col w-[100%] gap-6'>
+                <span className='text-sm font-[500] font-[display]'>Full Name</span>
+                <input type="text" className='w-full border-b-2 border-[#8D8D8D] focus:outline-none focus:ring-0' name='name' value={formData.name}
+                  onChange={handleChange} />
+              </div>
+            </div>
+            <div className='w-full flex flex-row gap-3'>
+              <div className='flex flex-col w-[50%] gap-6'>
+                <span className='text-sm font-[500] font-[display]'>Email</span>
+                <input type="text" className='w-full border-b-2 border-[#8D8D8D] focus:outline-none focus:ring-0' name='email' value={formData.email}
+                  onChange={handleChange} />
+              </div>
+              <div className='flex flex-col w-[50%] gap-6'>
+                <span className='text-sm font-[500] font-[display]'>Phone Number</span>
+                <input type="text" className='w-full border-b-2 border-[#8D8D8D] focus:outline-none focus:ring-0' name='mobileNumber' value={formData.mobileNumber}
+                  onChange={handleChange} />
+              </div>
+            </div>
+            <div className='w-full flex flex-row gap-3'>
+              <div className='flex flex-col w-[100%] gap-6'>
+                <span className='text-sm font-[500] font-[display]'>Message</span>
+                <input placeholder='write your message' type="text" className='w-full border-b-2 border-[#8D8D8D] focus:outline-none focus:ring-0' name='message' value={formData.message}
+                  onChange={handleChange} />
+              </div>
+
+            </div>
+            <div className='w-full flex flex-col'>
               <div className='flex w-full justify-end items-end'>
-              <div className='h-[50px] lg:w-[20%] w-[50%] bg-[#E22E37] rounded-[10px] flex flex-end text-[white] justify-center items-center text-base font-[500] font-[display]'>Send Message</div>
+                <div className='h-[50px] lg:w-[20%] w-[50%] bg-[#E22E37] rounded-[10px] flex flex-end text-[white] justify-center items-center text-base font-[500] font-[display] cursor-pointer' onClick={handleSendEmail}>Send Mail</div>
               </div>
               <div className='flex w-full h-[120px]  justify-center items-center'>
-                   <div className='h-full w-[40%] '>
-                    <img src={arrow} alt="arrow" className='w-full h-full' />
-                   </div>
+                <div className='h-full w-[40%] '>
+                  <img src={arrow} alt="arrow" className='w-full h-full' />
+                </div>
               </div>
 
 
-             </div>
+            </div>
           </div>
         </div>
 

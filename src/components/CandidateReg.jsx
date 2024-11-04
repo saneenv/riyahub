@@ -267,7 +267,7 @@ function CandidateReg() {
             <div className='md:flex hidden'>
                 <Navbar2 />
             </div>
-            <div className=' flex justify-center items-center bg-[#0D2D3E] py-12'>
+            <div className=' flex justify-center items-center bg-[black] py-12'>
                 <div className='lg:w-[80%] w-[90%] h-[70%]  flex flex-col items-center bg-[white]  gap-12 py-12 lg:rounded-[20px] rounded-[5px]'>
                     <span className='text-2xl font-[700] font-[display]'>Candidate Register</span>
                     <div className='grid lg:grid-cols-3 grid-cols-1 gap-5 lg:px-12 px-3 w-full'>
@@ -367,7 +367,7 @@ function CandidateReg() {
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Jobs</span>
+                            <span className='text-left text-lg font-[500] font-[display]'>Job Type</span>
                             <Select
                                 options={jobTypeOptions}
                                 isClearable={true}

@@ -289,11 +289,11 @@ function SearchedJobs() {
                                     key={job.job_id}
                                     className='h-[292px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'
                                 >
-                                    <div className='w-full h-[30%] bg-[#E22E37] p-2 gap-2 flex justify-center items-center flex-col'>
-                                        <span className='text-[white] text-xl font-[700] font-[display]'>{job.job_title}</span>
+                                    <div className='w-full h-[30%]  p-2 gap-2 flex border-b-2 border-[#C5C5C5] justify-center items-center flex-col'>
+                                        <span className=' text-2xl font-[700] font-[display]'>{job.job_title}</span>
                                         <div className='flex flex-row gap-1 items-center justify-center '>
                                             <img src={vector} alt="loc" />
-                                            <span className='text-sm font-[500] font-[display] text-[white]'>{job.location}</span>
+                                            <span className='text-sm font-[500] font-[display] '>{job.location}</span>
                                         </div>
                                     </div>
                                     <div className='w-full h-[70%] flex flex-row'>
@@ -314,7 +314,7 @@ function SearchedJobs() {
                                                 <span className='text-base font-[display] font-[500]'>GENDER</span>
                                                 <span className='text-base font-[display] font-[500]'>:</span>
                                             </div>
-                                            <div className='flex items-center justify-center w-[80%] h-[38px] bg-[#0D2D3E] rounded-[10px] text-lg font-[600] font-[display] text-[white] cursor-pointer' onClick={() => details(job.job_id)}>
+                                            <div className='flex items-center justify-center w-[80%] h-[38px] bg-[black] rounded-[10px] text-lg font-[600] font-[display] text-[white] cursor-pointer' onClick={() => details(job.job_id)}>
                                                 Apply Now
                                             </div>
                                         </div>
@@ -331,7 +331,7 @@ function SearchedJobs() {
                                             <div className='flex items-center justify-between'>
                                                 <span className='text-base font-[display] font-[500]'>{job.gender_type}</span>
                                             </div>
-                                            <div className='flex items-center justify-center w-[80%] h-[38px] bg-[#0D2D3E] rounded-[10px] text-lg font-[600] font-[display] text-[white] cursor-pointer' onClick={() => details(job.job_id)}>
+                                            <div className='flex items-center justify-center w-[80%] h-[38px] bg-[black] rounded-[10px] text-lg font-[600] font-[display] text-[white] cursor-pointer' onClick={() => details(job.job_id)}>
                                                 Job Details
                                             </div>
                                         </div>
@@ -352,7 +352,7 @@ function SearchedJobs() {
                     {visibleJobs < jobsApi.length && (
                         <div className='flex justify-center mt-4'>
                             <button
-                                className='bg-[#0D2D3E] text-white px-4 py-2 rounded-md text-lg font-semibold'
+                                className='bg-[black] text-white px-4 py-2 rounded-md text-lg font-semibold'
                                 onClick={loadMoreJobs}
                             >
                                 View More

@@ -80,7 +80,7 @@ function Verify() {
             <div className='md:flex hidden'>
                 <Navbar2 />
             </div>
-            <div className='flex justify-center items-center bg-[#0D2D3E] py-7'>
+            <div className='flex justify-center items-center bg-[black] py-7'>
                 <div className='lg:w-[60%] w-[90%] h-[70%] bg-[white] flex flex-col items-center gap-6 py-12 lg:rounded-[20px] rounded-[5px]'>
                     <div className='flex flex-col justify-center items-center gap-3 px-12'>
                         <span className='text-2xl font-[600] font-[display]'>Enter the code</span>

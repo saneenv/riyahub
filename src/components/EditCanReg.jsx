@@ -211,7 +211,7 @@ const EditCanReg = () => {
       <div className='md:flex hidden'>
         <Navbar2 />
       </div>
-      <div className='flex justify-center items-center bg-[#0D2D3E] py-12'>
+      <div className='flex justify-center items-center bg-[black] py-12'>
         <div className='lg:w-[80%] w-[90%] h-[70%] flex flex-col items-center bg-[white] gap-12 py-12 lg:rounded-[20px] rounded-[5px]'>
           <span className='text-2xl font-[700] font-[display]'>Update Candidate</span>
           <div className='grid lg:grid-cols-3 grid-cols-1 gap-5 lg:px-12 px-3 w-full'>
@@ -343,7 +343,7 @@ const EditCanReg = () => {
 
           <button
             onClick={handleSubmit}
-            className='bg-[#0D2D3E] text-white rounded-md py-2 px-4 mt-4'
+            className='bg-[black] text-white rounded-md py-2 px-4 mt-4'
           >
             Update
           </button>

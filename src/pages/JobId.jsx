@@ -40,7 +40,7 @@ function JobId() {
                             onChange={(e) => setJobId(e.target.value)} 
                         />
                     </div>
-                    <div className='flex flex-col w-full h-[50px] rounded-[5px] bg-[#0D2D3E]  justify-center items-center text-[white] font-[600] font-[display] text-lg cursor-pointer' onClick={details}>
+                    <div className='flex flex-col w-full h-[50px] rounded-[5px] bg-[black]  justify-center items-center text-[white] font-[600] font-[display] text-lg cursor-pointer' onClick={details}>
                         Submit
                     </div>
                 </div>

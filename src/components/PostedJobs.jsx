@@ -67,11 +67,11 @@ function PostedJobs() {
                 <div className='grid lg:grid-cols-3 grid-cols-1 w-full gap-3'>
                     {jobPosts.map((job) => (
                         <div className='h-[292px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden' key={job.job_id}>
-                            <div className='w-full h-[30%] bg-[#E22E37] p-2 gap-2 flex justify-center items-center flex-col'>
-                                <span className='text-[white] text-xl font-[700] font-[display]'>{job.job_title}</span>
-                                <div className='flex flex-row gap-2 items-center justify-center border-2 border-[white] p-1 rounded-[40px]'>
+                            <div className='w-full h-[30%]  p-2 gap-2 flex justify-center border-b-2 border-[#C5C5C5] items-center flex-col'>
+                                <span className=' text-2xl font-[700] font-[display]'>{job.job_title}</span>
+                                <div className='flex flex-row gap-2 items-center justify-center '>
                                     <img src={vector} alt="loc" />
-                                    <span className='text-base font-[500] font-[display] text-[white]'>{job.location}</span>
+                                    <span className='text-base font-[500] font-[display] '>{job.location}</span>
                                 </div>
                             </div>
                             <div className='w-full h-[70%] flex flex-row'>
