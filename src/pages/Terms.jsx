@@ -67,6 +67,17 @@ function Terms() {
                             </div>
 
 
+                            <div className='flex lg:flex-row flex-col'>
+
+                                <span className='font-[800]'>Employers</span> :  Employers should understand that the candidates who apply 
+                                for job postings are not representatives, agents, or 
+                                affiliated with our platform in any way. Candidates are independent
+                                 applicants, and our platform does not take responsibility
+                                  for their actions, qualifications, or any representations they may make.
+
+                            </div>
+
+
 
                         </div>
                     </div>

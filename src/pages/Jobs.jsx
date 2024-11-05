@@ -49,6 +49,18 @@ function Jobs() {
         navigate('/details', { state: { jobId } }); // Pass job_id as state
     };
 
+    function formatJobTitle(title) {
+        const lowercaseWords = ["at", "in", "of", "for", "to", "and", "on", "by", "with"];
+        return title
+            .split(" ")
+            .map((word, index) => 
+                lowercaseWords.includes(word.toLowerCase()) && index !== 0
+                    ? word.toLowerCase()
+                    : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+            )
+            .join(" ");
+    }
+
     return (
         <div className='min-h-screen flex flex-col'>
             {isMobile ? <NavbarMob /> : <Navbar />}
@@ -71,7 +83,7 @@ function Jobs() {
                                 className='h-[292px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'
                             >
                                 <div className='w-full h-[30%] bg-[white]  p-2 gap-2 flex border-b-2 border-[#C5C5C5] justify-center items-center flex-col'>
-                                    <span className=' text-2xl font-[700] font-[display]'>{job.job_title}</span>
+                                    <span className=' text-2xl font-[700] font-[display]'>{formatJobTitle(job.job_title)}</span>
                                     <div className='flex flex-row gap-2 items-center justify-center '>
                                         <img src={vector} alt="loc" />
                                         <span className='text-base font-[500] font-[display] '>{job.location}</span>

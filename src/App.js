@@ -38,7 +38,7 @@ function App() {
     <div className="App">
         <BrowserRouter>
               <Routes>
-                <Route path='/' element={<Main/>}/>
+                <Route path='/' element={<Home/>}/>
                 <Route path='/Home' element={<Home/>}/>
                 <Route path='/details' element={<Details/>}/>
                 <Route path='/packages' element={<Packages/>}/>

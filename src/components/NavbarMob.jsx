@@ -95,8 +95,8 @@ function NavbarMob() {
         <div className='w-full h-[180px]  flex flex-col px-3 gap-3'>
             <div className='w-full flex flex-row gap-3 mt-3 justify-between items-center '>
                 <img src={logo} alt="logo" className='w-[45%] h-[80%]' onClick={home} />
-                <span className='text-base font-[500] font-[display] text-[#E22E37]' onClick={login}>Login</span>
-                <span className='text-base font-[500] font-[display] text-[#E22E37]' onClick={regchooses}>Register</span>
+                <span className='text-base font-[500] font-display text-[#E22E37]' onClick={login}>Login</span>
+                <span className='text-base font-[500] font-display text-[#E22E37]' onClick={regchooses}>Register</span>
                 <button onClick={toggleSidebar} className="text-gray-700 hover:text-blue-500 focus:outline-none">
                     <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
@@ -126,7 +126,7 @@ function NavbarMob() {
                         <option key={index} value={locationOption.value}>{locationOption.label}</option>
                     ))}
                 </select>
-                <div className='w-[30%] bg-[#E22E37] h-full flex justify-center items-center text-[white] text-base font-[700] font-[display] cursor-pointer' onClick={findJob}>Find Job</div>
+                <div className='w-[30%] bg-[#E22E37] h-full flex justify-center items-center text-[white] text-base font-[700] font-display cursor-pointer' onClick={findJob}>Find Job</div>
             </div>
             {/* Sidebar Component */}
             {isSidebarOpen && (
@@ -152,13 +152,13 @@ function NavbarMob() {
                         <div className='w-[full] h-[8%] flex justify-center items-center mt-5'>
                             {companyName ? (
                                 <div className='w-[60%] h-full border-2 border-[#E22E37] bg-[white] rounded-[5px] flex flex-row gap-4 cursor-pointer justify-center items-center' onClick={toggleOptions}>
-                                    <span className='text-sm font-[600] font-[display] text-[black]'>{companyName}</span>
+                                    <span className='text-sm font-[600] font-display text-[black]'>{companyName}</span>
 
                                 </div>
                             ) : (
                                 <>
-                                    {/* <div className='w-[30%] h-full flex justify-center items-center border-2 border-[#E22E37] rounded-[5px] text-sm font-[600] font-[display] cursor-pointer' onClick={login}>Login</div>
-                                    <div className='w-[30%] h-full flex justify-center items-center border-2 border-[#E22E37] rounded-[5px] text-sm font-[600] font-[display] cursor-pointer' onClick={regchooses}>Register</div> */}
+                                    {/* <div className='w-[30%] h-full flex justify-center items-center border-2 border-[#E22E37] rounded-[5px] text-sm font-[600] font-display cursor-pointer' onClick={login}>Login</div>
+                                    <div className='w-[30%] h-full flex justify-center items-center border-2 border-[#E22E37] rounded-[5px] text-sm font-[600] font-display cursor-pointer' onClick={regchooses}>Register</div> */}
                                 </>
                             )}
 

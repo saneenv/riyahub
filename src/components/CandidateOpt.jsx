@@ -57,12 +57,12 @@ function CandidateOpt({ closeOptions }) {
                 </div>
                 <ul className="space-y-4">
                     {/* <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center" onClick={home}>Home</li> */}
-                    <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center" onClick={matchjob}>Matching Jobs</li>
-                    <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center" onClick={canapplied}>Applied Jobs</li>
+                    <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400]" onClick={matchjob}>Matching Jobs</li>
+                    <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400]" onClick={canapplied}>Applied Jobs</li>
                     {/* <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center">Viewed Jobs</li> */}
-                    <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center" onClick={packages}>Packages</li>
-                    <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center" onClick={viewProfile}>View Profile</li>
-                    <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center" onClick={login}>Logout</li>
+                    <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400]" onClick={packages}>Packages</li>
+                    <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400]" onClick={viewProfile}>View Profile</li>
+                    <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400]" onClick={login}>Logout</li>
                 </ul>
             </div>
         </div>

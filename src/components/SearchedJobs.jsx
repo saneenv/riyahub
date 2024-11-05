@@ -194,6 +194,19 @@ function SearchedJobs() {
         navigate('/details', { state: { jobId } }); // Pass job_id as state
     };
 
+
+    function formatJobTitle(title) {
+        const lowercaseWords = ["at", "in", "of", "for", "to", "and", "on", "by", "with"];
+        return title
+            .split(" ")
+            .map((word, index) => 
+                lowercaseWords.includes(word.toLowerCase()) && index !== 0
+                    ? word.toLowerCase()
+                    : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+            )
+            .join(" ");
+    }
+
     return (
         <div className='flex flex-col min-h-screen'>
             {isMobile ? <NavbarMob /> : <Navbar />}
@@ -213,7 +226,7 @@ function SearchedJobs() {
                     {isFilterVisible && (
                         <div className='p-5 flex flex-col gap-5 w-full bg-[white] rounded-b-[10px]'>
                             <div className='w-full flex flex-col gap-2'>
-                                <span className='text-left font-[display] text-base font-[400]'>Select Preferred Job</span>
+                                <span className='text-left font-[display] text-base font-[600]'>Select Preferred Job</span>
                                 <Select
                                     options={jobsOptions}
                                     onChange={handleJobsChange}
@@ -226,7 +239,7 @@ function SearchedJobs() {
                                 />
                             </div>
                             <div className='w-full flex flex-col gap-2'>
-                                <span className='text-left font-[display] text-base font-[400]'>Select Preferred Location</span>
+                                <span className='text-left font-[display] text-base font-[600]'>Select Preferred Location</span>
                                 <Select
                                     options={locationOptions}
                                     onChange={handleLocationChange}
@@ -240,7 +253,7 @@ function SearchedJobs() {
 
                             </div>
                             <div className='w-full flex flex-col gap-2'>
-                                <span className='text-left font-[display] text-base font-[400]'>Select Job Type</span>
+                                <span className='text-left font-[display] text-base font-[600]'>Select Job Type</span>
                                 <Select
                                     options={jobTypeOptions}
                                     isClearable={true}
@@ -252,7 +265,7 @@ function SearchedJobs() {
                                 />
                             </div>
                             <div className='w-full flex flex-col gap-2'>
-                                <span className='text-left font-[display] text-base font-[400]'>Male / Female</span>
+                                <span className='text-left font-[display] text-base font-[600]'>Male / Female</span>
                                 <Select
                                     options={genderOptions}
                                     isClearable={true}
@@ -264,7 +277,7 @@ function SearchedJobs() {
                                 />
                             </div>
                             <div className='w-full flex flex-col gap-2'>
-                                <span className='text-left font-[display] text-base font-[400]'>Food & Accomodation</span>
+                                <span className='text-left font-[display] text-base font-[600]'>Food & Accomodation</span>
                                 <Select
                                     options={foodTypeOptions}
                                     isClearable={true}
@@ -290,7 +303,7 @@ function SearchedJobs() {
                                     className='h-[292px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'
                                 >
                                     <div className='w-full h-[30%]  p-2 gap-2 flex border-b-2 border-[#C5C5C5] justify-center items-center flex-col'>
-                                        <span className=' text-2xl font-[700] font-[display]'>{job.job_title}</span>
+                                        <span className=' text-2xl font-[700] font-[display]'>{formatJobTitle(job.job_title)}</span>
                                         <div className='flex flex-row gap-1 items-center justify-center '>
                                             <img src={vector} alt="loc" />
                                             <span className='text-sm font-[500] font-[display] '>{job.location}</span>

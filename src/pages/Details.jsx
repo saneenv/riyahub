@@ -167,10 +167,10 @@ function Details() {
             <div className='flex flex-col gap-8 lg:px-12 px-3 mt-12 pb-12'>
 
                 <div className='flex flex-row justify-between w-full'>
-                    <div className='h-[38px] lg:w-[10%] w-[40%] bg-[#3B3D3B] rounded-[10px] flex justify-center items-center text-base font-[600] font-[display] text-[white] cursor-pointer' onClick={handlePackageClick}>Company Details</div>
-                    <div className='h-[38px] lg:w-[10%] w-[40%] bg-[#339030] rounded-[10px] flex justify-center items-center text-base font-[600] font-[display] text-[white] cursor-pointer' onClick={Packages2}>Apply Now</div>
+                    <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#3B3D3B] rounded-[10px] flex justify-center items-center text-lg font-[600] font-[display] text-[white] cursor-pointer' onClick={handlePackageClick}>Company Details</div>
+                    <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#339030] rounded-[10px] flex justify-center items-center text-lg font-[600] font-[display] text-[white] cursor-pointer' onClick={Packages2}>Apply Now</div>
                     {customerType === 'admin' && (
-                        <div className='h-[38px] lg:w-[10%] w-[40%] bg-[#282d55] rounded-[10px] flex justify-center items-center text-base font-[600] font-[display] text-[white] cursor-pointer' onClick={downloadStyledImage}>download</div>
+                        <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#282d55] rounded-[10px] flex justify-center items-center text-lg font-[600] font-[display] text-[white] cursor-pointer' onClick={downloadStyledImage}>download</div>
                     )}
                 </div>
 

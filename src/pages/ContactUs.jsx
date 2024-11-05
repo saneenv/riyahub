@@ -60,30 +60,30 @@ function ContactUs() {
       <div className='lg:px-12 px-3 w-full gap-12 mt-6 flex flex-col '>
         <div className='w-full gap-3 flex flex-col'>
           <span className='lg:text-4xl text-2xl font-[700] font-[display] text-[#E22E37]'>Contact Us</span>
-          <span className='lg:text-lg text-base font-[500] font-[display]'>Any question or remarks? Just write us a message!</span>
+          <span className='lg:text-xl text-lg font-[600] font-[display]'>Any question or remarks? Just write us a message!</span>
         </div>
         <div className='w-full flex lg:flex-row flex-col gap-3 lg:h-[550px] h-auto'>
           <div className='lg:w-[40%] w-[100%] h-full  bg-[#E22E37] lg:p-12 p-3  flex flex-col items-start text-left rounded-[10px]  justify-center lg:gap-12 gap-8'>
             <div className='flex flex-col gap-6'>
               <span className='lg:text-3xl text-xl font-[600] font-[display]  text-white'>Contact Information</span>
-              <span className='lg:text-lg text-base font-[400] font-[display]  text-[#C9C9C9]'>Say something to start a live chat!</span>
+              <span className='lg:text-xl text-base font-[400] font-[display]  text-[#C9C9C9]'>Say something to start a live chat!</span>
             </div>
 
             <div className='flex flex-col gap-6'>
               <div className='flex flex-row gap-3'>
 
                 <img src={call} alt="call" />
-                <span className='lg:text-base text-sm font-[400] font-[display] text-[white]'>+91 9988774455</span>
+                <span className='lg:text-lg text-sm font-[400] font-[display] text-[white]'>+91 9988774455</span>
               </div>
               <div className='flex flex-row gap-3'>
 
                 <img src={email} alt="call" />
-                <span className='lg:text-base text-sm font-[400] font-[display] text-[white]'>Riyahubjobs@gmail.com</span>
+                <span className='lg:text-lg text-sm font-[400] font-[display] text-[white]'>Riyahubjobs@gmail.com</span>
               </div>
               <div className='flex flex-row gap-3'>
 
                 <img src={location} alt="call" />
-                <span className='lg:text-base text-sm font-[400] font-[display] text-[white]'>jdsbvhsbvsbvzvbjdbvjhhdbnhvnjvnjvnjdakjvjhh</span>
+                <span className='lg:text-lg text-sm font-[400] font-[display] text-[white]'>jdsbvhsbvsbvzvbjd</span>
               </div>
             </div>
             <div className='flex flex-col gap-6'>
@@ -104,26 +104,26 @@ function ContactUs() {
             <div className='w-full flex flex-row gap-3'>
 
               <div className='flex flex-col w-[100%] gap-6'>
-                <span className='text-sm font-[500] font-[display]'>Full Name</span>
+                <span className='text-lg font-[500] font-[display]'>Full Name</span>
                 <input type="text" className='w-full border-b-2 border-[#8D8D8D] focus:outline-none focus:ring-0' name='name' value={formData.name}
                   onChange={handleChange} />
               </div>
             </div>
             <div className='w-full flex flex-row gap-3'>
               <div className='flex flex-col w-[50%] gap-6'>
-                <span className='text-sm font-[500] font-[display]'>Email</span>
+                <span className='text-lg font-[500] font-[display]'>Email</span>
                 <input type="text" className='w-full border-b-2 border-[#8D8D8D] focus:outline-none focus:ring-0' name='email' value={formData.email}
                   onChange={handleChange} />
               </div>
               <div className='flex flex-col w-[50%] gap-6'>
-                <span className='text-sm font-[500] font-[display]'>Phone Number</span>
+                <span className='text-lg font-[500] font-[display]'>Phone Number</span>
                 <input type="text" className='w-full border-b-2 border-[#8D8D8D] focus:outline-none focus:ring-0' name='mobileNumber' value={formData.mobileNumber}
                   onChange={handleChange} />
               </div>
             </div>
             <div className='w-full flex flex-row gap-3'>
               <div className='flex flex-col w-[100%] gap-6'>
-                <span className='text-sm font-[500] font-[display]'>Message</span>
+                <span className='text-lg font-[500] font-[display]'>Message</span>
                 <input placeholder='write your message' type="text" className='w-full border-b-2 border-[#8D8D8D] focus:outline-none focus:ring-0' name='message' value={formData.message}
                   onChange={handleChange} />
               </div>
@@ -131,7 +131,7 @@ function ContactUs() {
             </div>
             <div className='w-full flex flex-col'>
               <div className='flex w-full justify-end items-end'>
-                <div className='h-[50px] lg:w-[20%] w-[50%] bg-[#E22E37] rounded-[10px] flex flex-end text-[white] justify-center items-center text-base font-[500] font-[display] cursor-pointer' onClick={handleSendEmail}>Send Mail</div>
+                <div className='h-[50px] lg:w-[20%] w-[50%] bg-[#E22E37] rounded-[10px] flex flex-end text-[white] justify-center items-center text-xl font-[500] font-[display] cursor-pointer' onClick={handleSendEmail}>Send Mail</div>
               </div>
               <div className='flex w-full h-[120px]  justify-center items-center'>
                 <div className='h-full w-[40%] '>
