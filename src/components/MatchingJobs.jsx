@@ -201,15 +201,15 @@ function MatchingJobs() {
                     <div className='w-full h-[50px] bg-[white]  rounded-t-[10px] p-5 flex justify-between items-center border-b-2 border-[#d2d0d0]'>
                         <div className=' flex flex-row gap-2'>
                             <img src={filter} alt="filter" className='cursor-pointer' onClick={toggleFilter} />
-                            <span className='text-lg font-[500] font-[display]'>Search Job</span>
+                            <span className='text-lg font-[500] font-display'>Search Job</span>
                         </div>
-                        <span className='text-base font-[500] font-[display] cursor-pointer' onClick={handleClearAll}>clear all</span>
+                        {/* <span className='text-base font-[500] font-display cursor-pointer hover:text-[#E22E37]' onClick={handleClearAll}>clear all</span> */}
 
                     </div>
                     {isFilterVisible && (
                         <div className='p-5 flex flex-col gap-5 w-full bg-[white] rounded-b-[10px]'>
                             <div className='w-full flex flex-col gap-2'>
-                                <span className='text-left font-[display] text-base font-[400]'>Select Preferred Job</span>
+                                <span className='text-left font-display text-base font-[500]'>Select Preferred Job</span>
                                 <Select
                                     options={jobsOptions}
                                     onChange={handleJobsChange}
@@ -223,7 +223,7 @@ function MatchingJobs() {
                                 />
                             </div>
                             <div className='w-full flex flex-col gap-2'>
-                                <span className='text-left font-[display] text-base font-[400]'>Select Preferred Location</span>
+                                <span className='text-left font-display text-base font-[500]'>Select Preferred Location</span>
                                 <Select
                                     options={locationOptions}
                                     onChange={handleLocationChange}
@@ -237,7 +237,7 @@ function MatchingJobs() {
                                 />
                             </div>
                             <div className='w-full flex flex-col gap-2'>
-                                <span className='text-left font-[display] text-base font-[400]'>Select Job Type</span>
+                                <span className='text-left font-display text-base font-[500]'>Select Job Type</span>
                                 <Select
                                     options={jobTypeOptions}
                                     onChange={handleJobTypeChange}
@@ -249,7 +249,7 @@ function MatchingJobs() {
                                 />
                             </div>
                             <div className='w-full flex flex-col gap-2'>
-                                <span className='text-left font-[display] text-base font-[400]'>Male / Female</span>
+                                <span className='text-left font-display text-base font-[500]'>Male / Female</span>
                                 <Select
                                     options={genderOptions}
                                     onChange={handleGenderChange}
@@ -261,7 +261,7 @@ function MatchingJobs() {
                                 />
                             </div>
                             <div className='w-full flex flex-col gap-2'>
-                                <span className='text-left font-[display] text-base font-[400]'>Food & Accommodation</span>
+                                <span className='text-left font-display text-base font-[500]'>Food & Accommodation</span>
                                 <Select
                                     options={foodTypeOptions}
                                     onChange={handleFoodChange}
@@ -286,49 +286,49 @@ function MatchingJobs() {
                                     key={job.job_id}
                                     className='h-[292px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'
                                 >
-                                    <div className='w-full h-[30%] bg-[#E22E37] p-2 gap-2 flex justify-center items-center flex-col'>
-                                        <span className='text-[white] text-xl font-[700] font-[display]'>{job.job_title}</span>
+                                    <div className='w-full h-[30%] bg-[white] border-b-2 border-[#C5C5C5] p-2 gap-2 flex justify-center items-center flex-col'>
+                                        <span className='text-[black] text-xl font-[700] font-display'>{job.job_title}</span>
                                         <div className='flex flex-row gap-1 items-center justify-center '>
                                             <img src={vector} alt="loc" />
-                                            <span className='text-sm font-[500] font-[display] text-[white]'>{job.location}</span>
+                                            <span className='text-sm font-[500] font-display text-[black]'>{job.location}</span>
                                         </div>
                                     </div>
                                     <div className='w-full h-[70%] flex flex-row'>
                                         <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-5'>
                                             <div className='flex items-center justify-between w-full'>
-                                                <span className='text-base font-[display] font-[500]'>JOB ID</span>
-                                                <span className='text-base font-[display] font-[500]'>:</span>
+                                                <span className='text-sm font-display font-[600]'>JOB ID</span>
+                                                <span className='text-sm font-display font-[600]'>:</span>
                                             </div>
                                             <div className='flex items-center justify-between'>
-                                                <span className='text-base font-[display] font-[500]'>COMPANY TYPE</span>
-                                                <span className='text-base font-[display] font-[500]'>:</span>
+                                                <span className='text-sm font-display font-[600]'>COMPANY TYPE</span>
+                                                <span className='text-sm font-display font-[600]'>:</span>
                                             </div>
                                             <div className='flex items-center justify-between'>
-                                                <span className='text-base font-[display] font-[500]'>JOB TYPE</span>
-                                                <span className='text-base font-[display] font-[500]'>:</span>
+                                                <span className='text-sm font-display font-[600]'>JOB TYPE</span>
+                                                <span className='text-sm font-display font-[600]'>:</span>
                                             </div>
                                             <div className='flex items-center justify-between'>
-                                                <span className='text-base font-[display] font-[500]'>GENDER</span>
-                                                <span className='text-base font-[display] font-[500]'>:</span>
+                                                <span className='text-sm font-display font-[600]'>GENDER</span>
+                                                <span className='text-sm font-display font-[600]'>:</span>
                                             </div>
-                                            <div className='flex items-center justify-center w-[80%] h-[38px] bg-[black] rounded-[10px] text-lg font-[600] font-[display] text-[white] cursor-pointer' onClick={() => details(job.job_id)}>
+                                            <div className='flex items-center justify-center w-[80%] h-[38px] bg-[black] rounded-[10px] text-base font-[600] font-display text-[white] cursor-pointer hover:bg-[#E22E37]' onClick={() => details(job.job_id)}>
                                                 Apply Now
                                             </div>
                                         </div>
-                                        <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-5'>
+                                        <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-2'>
                                             <div className='flex items-center justify-between w-full'>
-                                                <span className='text-base font-[display] font-[500]'>{job.job_id}</span>
+                                                <span className='text-sm font-display font-[500]'>{job.job_id}</span>
                                             </div>
                                             <div className='flex items-center justify-between'>
-                                                <span className='text-base font-[display] font-[500]'>{job.company_type}</span>
+                                                <span className='text-sm font-display font-[500]'>{job.company_type}</span>
                                             </div>
                                             <div className='flex items-center justify-between'>
-                                                <span className='text-base font-[display] font-[500]'>{job.job_type}</span>
+                                                <span className='text-sm font-display font-[500]'>{job.job_type}</span>
                                             </div>
                                             <div className='flex items-center justify-between'>
-                                                <span className='text-base font-[display] font-[500]'>{job.gender_type}</span>
+                                                <span className='text-sm font-display font-[500]'>{job.gender_type}</span>
                                             </div>
-                                            <div className='flex items-center justify-center w-[80%] h-[38px] bg-[black] rounded-[10px] text-lg font-[600] font-[display] text-[white] cursor-pointer' onClick={() => details(job.job_id)}>
+                                            <div className='flex items-center justify-center w-[80%] h-[38px] bg-[black] rounded-[10px] text-base font-[600] font-display text-[white] cursor-pointer hover:bg-[#E22E37]' onClick={() => details(job.job_id)}>
                                                 Job Details
                                             </div>
                                         </div>
@@ -349,7 +349,7 @@ function MatchingJobs() {
                     {visibleJobs < jobsApi.length && (
                         <div className='flex justify-center mt-4'>
                             <button
-                                className='bg-[black] text-white px-4 py-2 rounded-md text-lg font-semibold'
+                                className='bg-[black] text-white px-4 py-2 rounded-md text-lg font-semibold hover:bg-[#E22E37]'
                                 onClick={loadMoreJobs}
                             >
                                 View More

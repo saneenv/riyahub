@@ -51,7 +51,7 @@ function CanApplied() {
                     {packageSelections.map((item) => (
                         <div key={item.id} className="bg-white rounded-lg shadow-lg p-6">
                             {/* <h2 className="text-lg font-bold mb-2">{item.customerName}</h2> */}
-                            <p className="text-gray-600 font-[900]">Job ID: {item.jobId}</p>
+                            <p className=" font-[700] font-display">Job ID: {item.jobId}</p>
                             {/* <p className="text-gray-500">Mobile Number: {item.mobileNumber}</p>
                             <p className="text-gray-500">Whatsapp Number: {item.whatsappNumber}</p>
                             <p className="text-gray-500">Email: {item.Email}</p> */}

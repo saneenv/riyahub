@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Navbar2 from './Navbar2';
+import NavbarMob from './NavbarMob';
+import Navbar from './Navbar';
+import { useMediaQuery } from 'react-responsive';
+import Footer from './Footer';
+
 
 
 const EditEmpReg = () => {
     const employeeId = parseInt(sessionStorage.getItem('employeeId'), 10);
+    const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
     console.log(employeeId);
   const [companyName, setCompanyName] = useState('');
@@ -88,12 +96,16 @@ const EditEmpReg = () => {
 
   return (
     <div className='flex flex-col min-h-screen'>
+            {isMobile ? <NavbarMob /> : <Navbar />}
+            <div className='md:flex hidden'>
+                <Navbar2/>
+            </div>
       <div className='flex justify-center items-center bg-[black] min-h-screen'>
         <div className='lg:w-[80%] w-[90%] h-[70%] bg-[white] flex flex-col items-center gap-12 py-12 lg:rounded-[20px] rounded-[5px]'>
-          <span className='text-2xl font-[700] font-[display]'>Update Employee</span>
+          <span className='text-xl font-[700] font-display'>Update Employee</span>
           <div className='grid lg:grid-cols-3 grid-cols-1 gap-5 lg:px-12 px-3 w-full'>
             <div className='flex flex-col gap-3'>
-              <span className='text-left text-lg font-[500] font-[display]'>Company Name</span>
+              <span className='text-left text-base font-[500] font-display'>Company Name</span>
               <input
                 type="text"
                 value={companyName}
@@ -102,7 +114,7 @@ const EditEmpReg = () => {
               />
             </div>
             <div className='flex flex-col gap-3'>
-              <span className='text-left text-lg font-[500] font-[display]'>Mobile Number</span>
+              <span className='text-left text-base font-[500] font-display'>Mobile Number</span>
               <input
                 type="text"
                 value={mobileNumber}
@@ -111,7 +123,7 @@ const EditEmpReg = () => {
               />
             </div>
             <div className='flex flex-col gap-3'>
-              <span className='text-left text-lg font-[500] font-[display]'>Whatsapp Number</span>
+              <span className='text-left text-base font-[500] font-display'>Whatsapp Number</span>
               <input
                 type="text"
                 value={whatsappNumber}
@@ -120,7 +132,7 @@ const EditEmpReg = () => {
               />
             </div>
             <div className='flex flex-col gap-3'>
-              <span className='text-left text-lg font-[500] font-[display]'>Email</span>
+              <span className='text-left text-base font-[500] font-display'>Email</span>
               <input
                 type="text"
                 value={email}
@@ -129,7 +141,7 @@ const EditEmpReg = () => {
               />
             </div>
             <div className='flex flex-col gap-3'>
-              <span className='text-left text-lg font-[500] font-[display]'>Company Category</span>
+              <span className='text-left text-base font-[500] font-display'>Company Category</span>
               <input
                 type="text"
                 value={companyCategory}
@@ -138,7 +150,7 @@ const EditEmpReg = () => {
               />
             </div>
             <div className='flex flex-col gap-3'>
-              <span className='text-left text-lg font-[500] font-[display]'>Company District</span>
+              <span className='text-left text-base font-[500] font-display'>Company District</span>
               <input
                 type="text"
                 value={companyDistrict}
@@ -147,7 +159,7 @@ const EditEmpReg = () => {
               />
             </div>
             <div className='flex flex-col gap-3'>
-              <span className='text-left text-lg font-[500] font-[display]'>Address</span>
+              <span className='text-left text-base font-[500] font-display'>Address</span>
               <input
                 type="text"
                 value={address}
@@ -156,7 +168,7 @@ const EditEmpReg = () => {
               />
             </div>
             <div className='flex flex-col gap-3'>
-              <span className='text-left text-lg font-[500] font-[display]'>New Password</span>
+              <span className='text-left text-base font-[500] font-display'>New Password</span>
               <input
                 type="password"
                 value={password}
@@ -168,7 +180,7 @@ const EditEmpReg = () => {
           <div className='flex flex-col gap-5 w-full px-12 justify-center items-center'>
             <button
               onClick={handleUpdate}
-              className='h-[56px] lg:w-[25%] w-[50%] bg-[#E22E37] rounded-[20px] flex justify-center items-center text-[white] text-xl font-[display] font-[600]'
+              className='h-[56px] lg:w-[25%] w-[50%] bg-[black] rounded-[20px] flex justify-center items-center text-[white] text-xl font-display font-[600] hover:bg-[#E22E37]'
               disabled={isLoading}
             >
               {isLoading ? (
@@ -186,7 +198,8 @@ const EditEmpReg = () => {
           </div>
         </div>
       </div>
-    </div>
+      <Footer />
+      </div>
   );
 };
 

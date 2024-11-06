@@ -63,53 +63,53 @@ function PostedJobs() {
                 <Navbar2 />
             </div>
             <div className='flex flex-col w-full lg:px-12 px-3 h-auto gap-12 mt-12 justify-center items-center pb-12 bg-[#FFFFFF]'>
-                <span className='text-3xl font-[600] font-[display]'>View Posted Jobs</span>
+                <span className='text-2xl font-[600] font-display'>View Posted Jobs</span>
                 <div className='grid lg:grid-cols-3 grid-cols-1 w-full gap-3'>
                     {jobPosts.map((job) => (
                         <div className='h-[292px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden' key={job.job_id}>
                             <div className='w-full h-[30%]  p-2 gap-2 flex justify-center border-b-2 border-[#C5C5C5] items-center flex-col'>
-                                <span className=' text-2xl font-[700] font-[display]'>{job.job_title}</span>
+                                <span className=' text-xl font-[700] font-display'>{job.job_title}</span>
                                 <div className='flex flex-row gap-2 items-center justify-center '>
                                     <img src={vector} alt="loc" />
-                                    <span className='text-base font-[500] font-[display] '>{job.location}</span>
+                                    <span className='text-base font-[500] font-display '>{job.location}</span>
                                 </div>
                             </div>
                             <div className='w-full h-[70%] flex flex-row'>
                                 <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-5'>
                                     <div className='flex items-center justify-between w-full'>
-                                        <span className='text-base font-[display] font-[500]'>JOB ID</span>
-                                        <span className='text-base font-[display] font-[500]'>:</span>
+                                        <span className='text-base font-display font-[600]'>JOB ID</span>
+                                        <span className='text-base font-display font-[600]'>:</span>
                                     </div>
                                     <div className='flex items-center justify-between'>
-                                        <span className='text-base font-[display] font-[500]'>COMPANY TYPE</span>
-                                        <span className='text-base font-[display] font-[500]'>:</span>
+                                        <span className='text-base font-display font-[600]'>COMPANY TYPE</span>
+                                        <span className='text-base font-display font-[600]'>:</span>
                                     </div>
                                     <div className='flex items-center justify-between'>
-                                        <span className='text-base font-[display] font-[500]'>JOB TYPE</span>
-                                        <span className='text-base font-[display] font-[500]'>:</span>
+                                        <span className='text-base font-display font-[600]'>JOB TYPE</span>
+                                        <span className='text-base font-display font-[600]'>:</span>
                                     </div>
                                     <div className='flex items-center justify-between'>
-                                        <span className='text-base font-[display] font-[500]'>GENDER</span>
-                                        <span className='text-base font-[display] font-[500]'>:</span>
+                                        <span className='text-base font-display font-[600]'>GENDER</span>
+                                        <span className='text-base font-display font-[600]'>:</span>
                                     </div>
-                                    <div className='flex items-center justify-center w-[80%] h-[38px] bg-[green] rounded-[10px] text-lg font-[600] font-[display] text-[white] cursor-pointer' onClick={() => editJobPost(job.job_id)} >
+                                    <div className='flex items-center justify-center w-[80%] h-[38px] bg-[green] rounded-[10px] text-base font-[600] font-display text-[white] cursor-pointer hover:bg-[#174b17] ' onClick={() => editJobPost(job.job_id)} >
                                         Edit
                                     </div>
                                 </div>
-                                <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-5'>
+                                <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-2'>
                                     <div className='flex items-center justify-between w-full'>
-                                        <span className='text-base font-[display] font-[500]'>{job.job_id}</span>
+                                        <span className='text-base font-display font-[500]'>{job.job_id}</span>
                                     </div>
                                     <div className='flex items-center justify-between'>
-                                        <span className='text-base font-[display] font-[500]'>{job.company_type}</span>
+                                        <span className='text-base font-display font-[500]'>{job.company_type}</span>
                                     </div>
                                     <div className='flex items-center justify-between'>
-                                        <span className='text-base font-[display] font-[500]'>{job.job_type}</span>
+                                        <span className='text-base font-display font-[500]'>{job.job_type}</span>
                                     </div>
                                     <div className='flex items-center justify-between'>
-                                        <span className='text-base font-[display] font-[500]'>{job.gender_type}</span>
+                                        <span className='text-base font-display font-[500]'>{job.gender_type}</span>
                                     </div>
-                                    <div className='flex items-center justify-center w-[80%] h-[38px] bg-[red] rounded-[10px] text-lg font-[600] font-[display] text-[white] cursor-pointer' onClick={() => deleteJobPost(job.job_id)}>
+                                    <div className='flex items-center justify-center w-[80%] h-[38px] bg-[red] rounded-[10px] text-base font-[600] font-display text-[white] cursor-pointer hover:bg-[#fe4d4d] ' onClick={() => deleteJobPost(job.job_id)}>
                                         Delete
                                     </div>
                                 </div>

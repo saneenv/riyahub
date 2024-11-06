@@ -68,39 +68,39 @@ function ViewProfile2() {
       </div>
       <div className='lg:px-12 px-3 w-full h-auto gap-6 flex flex-col'>
         <div className='w-full mt-6 flex flex-row justify-between'>
-          <span className='lg:text-xl text-lg font-[600] font-[display] underline text-[#E22E37] cursor-pointer' onClick={editcanreg}>Edit Profile</span>
+          <span className='lg:text-xl text-lg font-[600] font-display underline text-[green] cursor-pointer hover:text-[#174b17]' onClick={editcanreg}>Edit Profile</span>
         </div>
         <div className='w-full flex flex-col justify-center items-center gap-3'>
-          <div className='h-[150px] w-[150px] rounded-full border-2 border-[#E22E37] flex items-center justify-center text-[#E22E37]  text-4xl font-[600] font-[display]'>
+          <div className='h-[150px] w-[150px] rounded-full border-2 border-[#E22E37] flex items-center justify-center text-[#E22E37]  text-4xl font-[600] font-display'>
             {/* Displaying generated logo */}
             {generateLogoText(employeeData?.Name || 'Name')}
           </div>
-          <span className='text-2xl font-[600] font-[display]'>{employeeData?.Name || 'Name'}</span>
-          <span className='text-xl font-[400] font-[display]'>{employeeData?.Email || ' Email'}</span>
-          <div className='flex flex-row gap-3 lg:w-[25%] w-[80%] h-[50px] '>
-            <div className='w-[100%] h-full flex justify-center items-center lg:text-lg text-sm font-[600] font-[display] text-[white] bg-[#E22E37] cursor-pointer' onClick={packagePage}>
+          <span className='text-2xl font-[600] font-display'>{employeeData?.Name || 'Name'}</span>
+          <span className='text-xl font-[400] font-display'>{employeeData?.Email || ' Email'}</span>
+          {/* <div className='flex flex-row gap-3 lg:w-[25%] w-[80%] h-[50px] '>
+            <div className='w-[100%] h-full flex justify-center items-center lg:text-lg text-sm font-[600] font-display text-[white] bg-[#E22E37] cursor-pointer hover:text-[black]' onClick={packagePage}>
               Choose a Package
             </div>
            
-          </div>
+          </div> */}
         </div>
 
         <div className='div w-full flex flex-col gap-3'>
         <div className='flex lg:flex-row flex-col h-[56px] border-2 border-[#E3EAF1] w-full rounded-[10px]'>
             <div className='lg:w-[30%] w-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
               
-              <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>User ID</span>
+              <span className='text-[#B3B3B3] text-xl font-[500] font-display'>User ID</span>
             </div>
-            <div className='lg:w-[70%] w-full  flex px-5 items-center'>
+            <div className='lg:w-[70%] w-full text-lg font-[500]  flex px-5 items-center'>
               {employeeData?.CandidateID || 'No mobile number available'}
             </div>
           </div>
           <div className='flex lg:flex-row flex-col h-[56px] border-2 border-[#E3EAF1] w-full rounded-[10px]'>
             <div className='lg:w-[30%] w-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
               
-              <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Gender</span>
+              <span className='text-[#B3B3B3] text-xl font-[500] font-display'>Gender</span>
             </div>
-            <div className='lg:w-[70%] w-full  flex px-5 items-center'>
+            <div className='lg:w-[70%] w-full text-lg font-[500]  flex px-5 items-center'>
               {employeeData?.Mobile || 'No mobile number available'}
             </div>
           </div>
@@ -108,50 +108,50 @@ function ViewProfile2() {
           <div className='flex lg:flex-row flex-col h-[56px] border-2 border-[#E3EAF1] w-full rounded-[10px]'>
             <div className='lg:w-[30%] w-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
               
-              <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Mobile Number</span>
+              <span className='text-[#B3B3B3] text-xl font-[500] font-display'>Mobile Number</span>
             </div>
-            <div className='lg:w-[70%] w-full  flex px-5 items-center'>
+            <div className='lg:w-[70%] w-full text-lg font-[500] flex px-5 items-center'>
               {employeeData?.Mobile || 'No mobile number available'}
             </div>
           </div>
        
           <div className='flex lg:flex-row flex-col h-[56px] border-2 border-[#E3EAF1] w-full rounded-[10px]'>
             <div className='lg:w-[30%] w-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
-              <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>District</span>
+              <span className='text-[#B3B3B3] text-xl font-[500] font-display'>District</span>
             </div>
-            <div className='lg:w-[70%] w-full flex px-5 items-center'>
+            <div className='lg:w-[70%] w-full text-lg font-[500] flex px-5 items-center'>
               {employeeData?.District || 'No district available'}
             </div>
           </div>
           <div className='flex lg:flex-row flex-col h-[56px] border-2 border-[#E3EAF1] w-full rounded-[10px]'>
             <div className='lg:w-[30%] w-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
-              <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Qualification</span>
+              <span className='text-[#B3B3B3] text-xl font-[500] font-display'>Qualification</span>
             </div>
-            <div className='lg:w-[70%] w-full flex px-5 items-center'>
+            <div className='lg:w-[70%] w-full text-lg font-[500] flex px-5 items-center'>
               {employeeData?.Degree || 'No address available'}
             </div>
           </div>
           <div className='flex lg:flex-row flex-col h-[56px] border-2 border-[#E3EAF1] w-full rounded-[10px]'>
-            <div className='lg:w-[30%] w-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
-              <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Job Type</span>
+            <div className='lg:w-[30%] w-full  lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
+              <span className='text-[#B3B3B3] text-xl font-[500] font-display'>Job Type</span>
             </div>
-            <div className='lg:w-[70%] w-full flex px-5 items-center'>
+            <div className='lg:w-[70%] w-full text-lg font-[500] flex px-5 items-center'>
               {employeeData?.JobType || 'No address available'}
             </div>
           </div>
           <div className='flex lg:flex-row flex-col h-[56px] border-2 border-[#E3EAF1] w-full rounded-[10px]'>
             <div className='lg:w-[30%] w-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
-              <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Job Preferences</span>
+              <span className='text-[#B3B3B3] text-xl font-[500] font-display'>Job Preferences</span>
             </div>
-            <div className='lg:w-[70%] w-full flex px-5 items-center'>
+            <div className='lg:w-[70%] w-full text-lg font-[500] flex px-5 items-center'>
               {employeeData?.Jobs || 'No address available'}
             </div>
           </div>
           <div className='flex lg:flex-row flex-col h-[56px] border-2 border-[#E3EAF1] w-full rounded-[10px]'>
             <div className='lg:w-[30%] w-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
-              <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Preferred Job Locations</span>
+              <span className='text-[#B3B3B3] text-xl font-[500] font-display'>Preferred Job Locations</span>
             </div>
-            <div className='lg:w-[70%] w-full flex px-5 items-center'>
+            <div className='lg:w-[70%] w-full text-lg font-[500] flex px-5 items-center'>
               {employeeData?.Locations || 'No address available'}
             </div>
           </div>

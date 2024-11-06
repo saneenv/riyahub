@@ -213,10 +213,10 @@ const EditCanReg = () => {
       </div>
       <div className='flex justify-center items-center bg-[black] py-12'>
         <div className='lg:w-[80%] w-[90%] h-[70%] flex flex-col items-center bg-[white] gap-12 py-12 lg:rounded-[20px] rounded-[5px]'>
-          <span className='text-2xl font-[700] font-[display]'>Update Candidate</span>
+          <span className='text-xl font-[700] font-display'>Update Candidate</span>
           <div className='grid lg:grid-cols-3 grid-cols-1 gap-5 lg:px-12 px-3 w-full'>
             <div className='flex flex-col gap-3'>
-              <span className='text-left text-lg font-[500] font-[display]'>Name</span>
+              <span className='text-left text-base font-[500] font-display'>Name</span>
               <input
                 type="text"
                 placeholder='Enter Full Name'
@@ -228,7 +228,7 @@ const EditCanReg = () => {
             </div>
 
             <div className='flex flex-col gap-3'>
-              <span className='text-left text-lg font-[500] font-[display]'>Mobile Number</span>
+              <span className='text-left text-base font-[500] font-display'>Mobile Number</span>
               <input
                 type="number"
                 placeholder='Enter Phone No'
@@ -241,7 +241,7 @@ const EditCanReg = () => {
             </div>
 
             <div className='flex flex-col gap-3'>
-              <span className='text-left text-lg font-[500] font-[display]'>Whatsapp Number</span>
+              <span className='text-left text-base font-[500] font-display'>Whatsapp Number</span>
               <input
                 type="number"
                 placeholder='Your Whatsapp No'
@@ -253,7 +253,7 @@ const EditCanReg = () => {
             </div>
 
             <div className='flex flex-col gap-3'>
-              <span className='text-left text-lg font-[500] font-[display]'>Email</span>
+              <span className='text-left text-base font-[500] font-display'>Email</span>
               <input
                 type="text"
                 placeholder='Enter Email Address'
@@ -264,7 +264,7 @@ const EditCanReg = () => {
               />
             </div>
             <div className='flex flex-col gap-3'>
-              <span className='text-left text-lg font-[500] font-[display]'>Password</span>
+              <span className='text-left text-base font-[500] font-display'>Password</span>
               <input
                 type="text"
                 placeholder='Enter Email Address'
@@ -276,7 +276,7 @@ const EditCanReg = () => {
             </div>
 
             <div className='flex flex-col gap-3'>
-              <span className='text-left text-lg font-[500] font-[display]'>Gender</span>
+              <span className='text-left text-base font-[500] font-display'>Gender</span>
               <Select
                 options={genderOptions}
                 onChange={selected => handleSelectChange(selected, 'gender')}
@@ -286,7 +286,7 @@ const EditCanReg = () => {
             </div>
 
             <div className='flex flex-col gap-3'>
-              <span className='text-left text-lg font-[500] font-[display]'>District</span>
+              <span className='text-left text-base font-[500] font-display'>District</span>
               <Select
                 options={districtOptions}
                 onChange={selected => handleSelectChange(selected, 'district')}
@@ -297,7 +297,7 @@ const EditCanReg = () => {
             </div>
 
             <div className='flex flex-col gap-3'>
-              <span className='text-left text-lg font-[500] font-[display]'>Degree</span>
+              <span className='text-left text-base font-[500] font-display'>Degree</span>
               <Select
                 options={degreeOptions}
                 onChange={selected => handleSelectChange(selected, 'degree')}
@@ -309,7 +309,7 @@ const EditCanReg = () => {
             </div>
 
             <div className='flex flex-col gap-3'>
-              <span className='text-left text-lg font-[500] font-[display]'>Job Type</span>
+              <span className='text-left text-base font-[500] font-display'>Job Type</span>
               <Select
                 options={jobTypeOptions}
                 onChange={selected => handleSelectChange(selected, 'jobType')}
@@ -319,7 +319,7 @@ const EditCanReg = () => {
             </div>
 
             <div className='flex flex-col gap-3'>
-              <span className='text-left text-lg font-[500] font-[display]'>Select Jobs</span>
+              <span className='text-left text-base font-[500] font-display'>Select Jobs</span>
               <Select
                 isMulti
                 options={jobsOptions}
@@ -330,7 +330,7 @@ const EditCanReg = () => {
             </div>
 
             <div className='flex flex-col gap-3'>
-              <span className='text-left text-lg font-[500] font-[display]'>Select Locations</span>
+              <span className='text-left text-base font-[500] font-display'>Select Locations</span>
               <Select
                 isMulti
                 options={locationOptions}
@@ -343,7 +343,7 @@ const EditCanReg = () => {
 
           <button
             onClick={handleSubmit}
-            className='bg-[black] text-white rounded-md py-2 px-4 mt-4'
+            className='bg-[black] text-white rounded-md py-2 px-4 mt-4 text-xl font-[600] hover:bg-[#E22E37] h-[56px] w-[25%] w-[50%]' 
           >
             Update
           </button>

@@ -329,10 +329,10 @@ function JobPost() {
             </div>
             <div className=' flex justify-center items-center bg-[black] py-12'>
                 <div className='lg:w-[90%] w-[90%] h-[70%] bg-[white]  flex flex-col items-center  gap-12 py-12 lg:rounded-[20px] rounded-[5px]'>
-                    <span className='text-2xl font-[700] font-[display]'>Job Post</span>
+                    <span className='text-xl font-[700] font-display'>Job Post</span>
                     <div className='grid lg:grid-cols-3 grid-cols-1 gap-5 lg:px-12 px-3 w-full'>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Job Title *</span>
+                            <span className='text-left text-base font-[500] font-display'>Job Title *</span>
                             <input
                                 ref={jobTitleRef}
                                 placeholder='Job Title'
@@ -345,7 +345,7 @@ function JobPost() {
 
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Job Type *</span>
+                            <span className='text-left text-base font-[500] font-display'>Job Type *</span>
                             <Select
                                 ref={jobTypeRef}
                                 placeholder="Select Job Type"
@@ -359,7 +359,7 @@ function JobPost() {
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Gender *</span>
+                            <span className='text-left text-base font-[500] font-display'>Gender *</span>
                             <Select
                                 ref={genderTypeRef}
                                 placeholder="Select Gender"
@@ -374,7 +374,7 @@ function JobPost() {
                         </div>
 
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Company Category *</span>
+                            <span className='text-left text-base font-[500] font-display'>Company Category *</span>
                             <Select
                                 ref={companyCategoryRef}
                                 options={categoryOptions}
@@ -389,7 +389,7 @@ function JobPost() {
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Job *</span>
+                            <span className='text-left text-base font-[500] font-display'>Job *</span>
                             <Select
                                 ref={jobRef}
                                 options={jobsOptions}
@@ -404,7 +404,7 @@ function JobPost() {
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Job Location *</span>
+                            <span className='text-left text-base font-[500] font-display'>Job Location *</span>
                             <Select
                                 ref={locationRef}
                                 options={locationOptions}
@@ -422,7 +422,7 @@ function JobPost() {
 
 
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Minimum Salary *</span>
+                            <span className='text-left text-base font-[500] font-display'>Minimum Salary *</span>
                             <input
                                 ref={minSalaryRef}
                                 placeholder='Enter Minimum Salary'
@@ -434,7 +434,7 @@ function JobPost() {
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Maximum Salary *</span>
+                            <span className='text-left text-base font-[500] font-display'>Maximum Salary *</span>
                             <input
                                 ref={maxSalaryRef}
                                 placeholder='Enter Maximum Salary'
@@ -446,7 +446,7 @@ function JobPost() {
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Work Time Start *</span>
+                            <span className='text-left text-base font-[500] font-display'>Work Time Start *</span>
                             <Select
                                 ref={startRef}
                                 options={startOptions}
@@ -463,7 +463,7 @@ function JobPost() {
 
 
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Work Time End *</span>
+                            <span className='text-left text-base font-[500] font-display'>Work Time End *</span>
                             <Select
                                 ref={endRef}
                                 options={endOptions}
@@ -478,7 +478,7 @@ function JobPost() {
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Qualification Required *</span>
+                            <span className='text-left text-base font-[500] font-display'>Qualification Required *</span>
                             <input
                                 ref={qualificationRef}
                                 placeholder='Qualification Required'
@@ -490,7 +490,7 @@ function JobPost() {
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Job Description *</span>
+                            <span className='text-left text-base font-[500] font-display'>Job Description *</span>
                             <input
                                 ref={jobDescriptionRef}
                                 placeholder='Job Description'
@@ -505,7 +505,7 @@ function JobPost() {
 
 
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Food & Accommodation</span>
+                            <span className='text-left text-base font-[500] font-display'>Food & Accommodation</span>
                             <Select
                                 ref={foodRef}
                                 placeholder="Select"
@@ -518,7 +518,7 @@ function JobPost() {
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Whatsapp Number *</span>
+                            <span className='text-left text-base font-[500] font-display'>Whatsapp Number *</span>
                             <input
                                 type="text"
                                 placeholder='Enter Number'
@@ -528,7 +528,7 @@ function JobPost() {
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Email</span>
+                            <span className='text-left text-base font-[500] font-display'>Email</span>
                             <input
                                 type="text"
                                 placeholder='example@gmail.com'
@@ -542,7 +542,7 @@ function JobPost() {
 
 
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Address *</span>
+                            <span className='text-left text-base font-[500] font-display'>Address *</span>
                             <input
                                 type="text"
                                 placeholder='Enter Address'
@@ -556,8 +556,7 @@ function JobPost() {
                     </div>
 
                     <div className='flex flex-col gap-5 w-full px-12 justify-center items-center'>
-                        <div className='h-[56px] lg:w-[25%] w-[50%] bg-[#E22E37] rounded-[20px] flex justify-center items-center text-[white] text-xl font-[display] font-[600] cursor-pointer' onClick={handleSubmit}>Job Post</div>
-                        <span className='text-base font-[500] font-[dislay]'>Already Register- <span className='text-base font-[700] font-[dislay] text-[#E22E37] cursor-pointer'>Login</span> </span>
+                        <div className='h-[56px] lg:w-[25%] w-[50%] bg-[#E22E37] rounded-[20px] flex justify-center items-center text-[white] text-lg font-display font-[600] cursor-pointer hover:bg-[black] hover:text-[white]' onClick={handleSubmit}>Job Post</div>
                     </div>
 
                 </div>

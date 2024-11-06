@@ -135,74 +135,74 @@ function Packages() {
       </div>
 
       <div className='flex flex-col py-12 w-full lg:px-12 px-3 justify-center items-center gap-12'>
-        <span className='text-2xl font-[700] font-[display]'>Choose a plan that’s right for you.</span>
+        <span className='lg:text-2xl text-xl font-[600] font-display'>Choose a plan that’s right for you.</span>
         <div className='grid lg:grid-cols-2 grid-cols-1 h-auto w-full gap-3'>
           <div className='h-[538px] w-full border-2 border-[#E22E37] rounded-[10px] flex flex-col gap-5'>
             <div className='w-full px-12 relative'>
               <img src={banner} alt="banner" />
               <div className='absolute inset-0 flex justify-end flex-col w-[100%] h-[100%] px-12 '>
-                <div className='lg:text-2xl text-xl font-[500] font-[display] h-[75%]  lg:w-[16%] md:w-[15%] w-[35%]  flex text-[white] justify-center items-center'>₹ 300</div>
+                <div className='lg:text-2xl text-xl font-[500] font-display h-[75%]  lg:w-[16%] md:w-[15%] w-[35%]  flex text-[white] justify-center items-center'>₹ 300</div>
               </div>
             </div>
             <div className='w-full h-auto flex flex-col gap-3'>
               <div className='w-full h-[56px] border-2 border-[#E3EAF1] flex flex-row '>
-                <div className='w-[30%] border-r-2 border-[#E3EAF1] lg:px-6 px-3 flex items-center text-xl font-[500] font-[display] text-[#B3B3B3]'>Vaccancy</div>
-                <div className='w-[70%]  lg:px-6 px-3 text-xl font-[500] font-[display] flex items-center'>Unlimited</div>
+                <div className='w-[35%] border-r-2 border-[#E3EAF1] lg:px-6 px-3 flex items-center text-lg font-[500] font-display text-[#B3B3B3]'>Vaccancy</div>
+                <div className='w-[65%]  lg:px-6 px-3 text-lg font-[500] font-display flex items-center'>Unlimited</div>
               </div>
               <div className='w-full h-[56px] border-2 border-[#E3EAF1] flex flex-row '>
-                <div className='w-[30%] border-r-2 border-[#E3EAF1] lg:px-6 px-3 flex items-center text-xl font-[500] font-[display] text-[#B3B3B3]'>Validity</div>
-                <div className='w-[70%]  lg:px-6 px-3 text-xl font-[500] font-[display] flex items-center'>30 Days</div>
+                <div className='w-[35%] border-r-2 border-[#E3EAF1] lg:px-6 px-3 flex items-center text-lg font-[500] font-display text-[#B3B3B3]'>Validity</div>
+                <div className='w-[65%]  lg:px-6 px-3 text-lg font-[500] font-display flex items-center'>30 Days</div>
               </div>
               <div className='w-full h-[56px] border-2 border-[#E3EAF1] flex flex-row '>
-                <div className='w-[30%] border-r-2 border-[#E3EAF1] lg:px-6 px-3 flex items-center text-xl font-[500] font-[display] text-[#B3B3B3]'>Amount</div>
-                <div className='w-[70%]  lg:px-6 px-3 text-xl font-[500] font-[display] flex items-center'>₹ 300</div>
+                <div className='w-[35%] border-r-2 border-[#E3EAF1] lg:px-6 px-3 flex items-center text-lg font-[500] font-display text-[#B3B3B3]'>Amount</div>
+                <div className='w-[65%]  lg:px-6 px-3 text-lg font-[500] font-display flex items-center'>₹ 300</div>
               </div>
               <div className='w-full h-[56px] border-2 border-[#E3EAF1] flex flex-row '>
-                <div className='w-[30%] border-r-2 border-[#E3EAF1] lg:px-6 px-3 flex items-center text-xl font-[500] font-[display] text-[#B3B3B3]'>Online Service</div>
-                <div className='w-[70%]  lg:px-6 px-3 text-xl font-[500] font-[display] flex items-center'><img src={tick} alt="tick" /></div>
+                <div className='w-[35%] border-r-2 border-[#E3EAF1] lg:px-6 px-3 flex items-center text-lg font-[500] font-display text-[#B3B3B3]'>Online Service</div>
+                <div className='w-[65%]  lg:px-6 px-3 text-lg font-[500] font-display flex items-center'><img src={tick} alt="tick" /></div>
               </div>
               <div className='w-full h-[56px] border-2 border-[#E3EAF1] flex flex-row '>
-                <div className='w-[30%] border-r-2 border-[#E3EAF1] lg:px-6 px-3 flex items-center text-xl font-[500] font-[display] text-[#B3B3B3]'>whatsapp Service</div>
-                <div className='w-[70%]  lg:px-6 px-3 text-xl font-[500] font-[display] flex items-center'><img src={tick} alt="tick" /></div>
+                <div className='w-[35%] border-r-2 border-[#E3EAF1] lg:px-6 px-3 flex items-center text-lg font-[500] font-display text-[#B3B3B3]'>whatsapp Service</div>
+                <div className='w-[65%]  lg:px-6 px-3 text-lg font-[500] font-display flex items-center'><img src={tick} alt="tick" /></div>
               </div>
 
             </div>
             <div className='w-full h-[50px] flex justify-center items-center'>
-              <div className='h-full w-[40%] bg-[#E22E37] rounded-[20px] flex justify-center items-center text-[white] text-xl font-[600] font-[display] cursor-pointer' onClick={handlePurchase300}>Purchase Now</div>
+              <div className='h-full w-[40%] bg-[#E22E37] rounded-[20px] flex justify-center items-center text-[white] lg:text-xl text-base font-[600] font-display cursor-pointer hover:bg-[black]' onClick={handlePurchase300}>Purchase Now</div>
             </div>
           </div>
           <div className='h-[538px] w-full border-2 border-[#E22E37] rounded-[10px] flex flex-col gap-5'>
             <div className='w-full px-12 relative'>
               <img src={banner} alt="banner" />
               <div className='absolute inset-0 flex justify-end flex-col w-[100%] h-[100%] px-12 '>
-                <div className='lg:text-2xl text-xl font-[500] font-[display] h-[75%] lg:w-[16%] md:w-[15%] w-[35%] flex text-[white] justify-center items-center'>₹ 500</div>
+                <div className='lg:text-2xl text-xl font-[500] font-display h-[75%] lg:w-[16%] md:w-[15%] w-[35%] flex text-[white] justify-center items-center'>₹ 500</div>
               </div>
             </div>
             <div className='w-full h-auto flex flex-col gap-3'>
               <div className='w-full h-[56px] border-2 border-[#E3EAF1] flex flex-row '>
-                <div className='w-[30%] border-r-2 border-[#E3EAF1] lg:px-6 px-3 flex items-center text-xl font-[500] font-[display] text-[#B3B3B3]'>Vaccancy</div>
-                <div className='w-[70%]  lg:px-6 px-3 text-xl font-[500] font-[display] flex items-center'>Unlimited</div>
+                <div className='w-[35%] border-r-2 border-[#E3EAF1] lg:px-6 px-3 flex items-center text-lg font-[500] font-display text-[#B3B3B3]'>Vaccancy</div>
+                <div className='w-[65%]  lg:px-6 px-3 text-lg font-[500] font-display flex items-center'>Unlimited</div>
               </div>
               <div className='w-full h-[56px] border-2 border-[#E3EAF1] flex flex-row '>
-                <div className='w-[30%] border-r-2 border-[#E3EAF1] lg:px-6 px-3 flex items-center text-xl font-[500] font-[display] text-[#B3B3B3]'>Validity</div>
-                <div className='w-[70%]  lg:px-6 px-3 text-xl font-[500] font-[display] flex items-center'>90 Days</div>
+                <div className='w-[35%] border-r-2 border-[#E3EAF1] lg:px-6 px-3 flex items-center text-lg font-[500] font-display text-[#B3B3B3]'>Validity</div>
+                <div className='w-[65%]  lg:px-6 px-3 text-lg font-[500] font-display flex items-center'>90 Days</div>
               </div>
               <div className='w-full h-[56px] border-2 border-[#E3EAF1] flex flex-row '>
-                <div className='w-[30%] border-r-2 border-[#E3EAF1] lg:px-6 px-3 flex items-center text-xl font-[500] font-[display] text-[#B3B3B3]'>Amount</div>
-                <div className='w-[70%]  lg:px-6 px-3 text-xl font-[500] font-[display] flex items-center'>₹ 500</div>
+                <div className='w-[35%] border-r-2 border-[#E3EAF1] lg:px-6 px-3 flex items-center text-lg font-[500] font-display text-[#B3B3B3]'>Amount</div>
+                <div className='w-[65%]  lg:px-6 px-3 text-lg font-[500] font-display flex items-center'>₹ 500</div>
               </div>
               <div className='w-full h-[56px] border-2 border-[#E3EAF1] flex flex-row '>
-                <div className='w-[30%] border-r-2 border-[#E3EAF1] lg:px-6 px-3 flex items-center text-xl font-[500] font-[display] text-[#B3B3B3]'>Online Service</div>
-                <div className='w-[70%]  lg:px-6 px-3 text-xl font-[500] font-[display] flex items-center'><img src={tick} alt="tick" /></div>
+                <div className='w-[35%] border-r-2 border-[#E3EAF1] lg:px-6 px-3 flex items-center text-lg font-[500] font-display text-[#B3B3B3]'>Online Service</div>
+                <div className='w-[65%]  lg:px-6 px-3 text-lg font-[500] font-display flex items-center'><img src={tick} alt="tick" /></div>
               </div>
               <div className='w-full h-[56px] border-2 border-[#E3EAF1] flex flex-row '>
-                <div className='w-[30%] border-r-2 border-[#E3EAF1] lg:px-6 px-3 flex items-center text-xl font-[500] font-[display] text-[#B3B3B3]'>whatsapp Service</div>
-                <div className='w-[70%]  lg:px-6 px-3 text-xl font-[500] font-[display] flex items-center'><img src={tick} alt="tick" /></div>
+                <div className='w-[35%] border-r-2 border-[#E3EAF1] lg:px-6 px-3 flex items-center text-lg font-[500] font-display text-[#B3B3B3]'>whatsapp Service</div>
+                <div className='w-[65%]  lg:px-6 px-3 text-lg font-[500] font-display flex items-center'><img src={tick} alt="tick" /></div>
               </div>
 
             </div>
             <div className='w-full h-[50px] flex justify-center items-center'>
-              <div className='h-full w-[40%] bg-[#E22E37] rounded-[20px] flex justify-center items-center text-[white] text-xl font-[600] font-[display] cursor-pointer' onClick={handlePurchase500}>Purchase Now</div>
+              <div className='h-full w-[40%] bg-[#E22E37] rounded-[20px] flex justify-center items-center text-[white] lg:text-xl text-base font-[600] font-display cursor-pointer hover:bg-[black]' onClick={handlePurchase500}>Purchase Now</div>
             </div>
           </div>
         </div>

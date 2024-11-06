@@ -29,9 +29,9 @@ function JobId() {
             </div>
             <div className='lg:px-12 px-3  lg:py-12 py-3 flex  bg-[#eeebeb] justify-center items-center min-h-screen'>
                 <div className='lg:w-[40%] w-[90%] h-[300px] rounded-[10px] bg-[white] flex flex-col p-8 gap-8'>
-                    <span className='flex justify-center items-start w-full text-xl font-[600] font-[display]'>Job ID Search</span>
+                    <span className='flex justify-center items-start w-full text-xl font-[600] font-display'>Job ID Search</span>
                     <div className='flex flex-col w-full'>
-                        <span className='w-full text-left text-lg font-[400] font-[display]'>Job ID*</span>
+                        <span className='w-full text-left text-lg font-[400] font-display'>Job ID*</span>
                         <input
                             type="number"
                             placeholder='Enter Job ID'
@@ -40,7 +40,7 @@ function JobId() {
                             onChange={(e) => setJobId(e.target.value)} 
                         />
                     </div>
-                    <div className='flex flex-col w-full h-[50px] rounded-[5px] bg-[black]  justify-center items-center text-[white] font-[600] font-[display] text-lg cursor-pointer' onClick={details}>
+                    <div className='flex flex-col w-full h-[50px] rounded-[5px] bg-[black]  justify-center items-center text-[white] font-[600] font-display text-lg cursor-pointer hover:bg-[#E22E37]' onClick={details}>
                         Submit
                     </div>
                 </div>

@@ -112,18 +112,18 @@ function Navbar() {
                 </div>
 
                 <div className='h-[70%] w-[20%] flex justify-center items-center'>
-                    <div className='h-full w-[80%] rounded-[10px] bg-[#E22E37] flex justify-center items-center text-[white] cursor-pointer text-lg font-[600] font-display' onClick={findJob}>Find Job</div>
+                    <div className='h-full w-[80%] rounded-[10px] bg-[#E22E37] flex justify-center items-center text-[white] cursor-pointer text-base font-[600] font-display hover:bg-[red]' onClick={findJob}>Find Job</div>
                 </div>
             </div>
 
 
             <div className='w-[40%] h-[48px] flex flex-row gap-4'>
-                <div className='w-[30%] h-full flex justify-center items-center border-2 border-[#E22E37] rounded-[5px] text-lg font-[600] font-display cursor-pointer' onClick={login}>Login</div>
-                <div className='w-[30%] h-full flex justify-center items-center border-2 border-[#E22E37] rounded-[5px] text-lg font-[600] font-display cursor-pointer' onClick={regchooses}>Register</div>
+                <div className='w-[30%] h-full flex justify-center items-center border-2 border-[#E22E37] rounded-[5px] text-base font-[600] font-display cursor-pointer hover:bg-black hover:text-white hover:border-none' onClick={login}>Login</div>
+                <div className='w-[30%] h-full flex justify-center items-center border-2 border-[#E22E37] rounded-[5px] text-base font-[600] font-display cursor-pointer hover:bg-black hover:text-white hover:border-none' onClick={regchooses}>Register</div>
                 {companyName ? (
 
-                    <div className='w-[40%] h-full flex justify-center items-center border-2 border-[#E22E37] rounded-[5px] flex-row gap-4 cursor-pointer' onClick={toggleOptions}>
-                        <span className='text-lg font-[600] font-display cursor-pointer'>{companyName}</span>
+                    <div className='w-[40%] h-full flex justify-center items-center border-2  bg-[#E22E37] rounded-[5px] flex-row gap-4 cursor-pointer text-[white]  hover:bg-[red]' onClick={toggleOptions}>
+                        <span className='text-base font-[600] font-display cursor-pointer'>{companyName}</span>
                     </div>
 
                 ) : (

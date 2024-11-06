@@ -109,7 +109,7 @@ function EnablePackage() {
                     <tbody>
                         {filteredCustomers.map(customer => (
                             <tr key={customer.id} className='text-center'>
-                                <td className='p-4 border'>{customer.name}</td>
+                                <td className='p-4 border font-display'>{customer.name}</td>
                                 <td className='p-4 border'>
                                     <input 
                                         type="checkbox" 

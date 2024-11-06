@@ -41,12 +41,12 @@ function AppliedCan() {
             <div className='flex lg:px-12 px-3 py-12 flex-col min-h-screen bg-[#eeebeb]'>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {packageSelections.map((item) => (
-                        <div key={item.id} className="bg-white rounded-lg shadow-lg p-6">
-                            <h2 className="text-lg font-bold mb-2">{item.customerName}</h2>
-                            <p className="text-gray-600">Job ID: {item.jobId}</p>
-                            <p className="text-gray-500">Mobile Number: {item.mobileNumber}</p>
-                            <p className="text-gray-500">Whatsapp Number: {item.whatsappNumber}</p>
-                            <p className="text-gray-500">Email: {item.Email}</p>
+                        <div key={item.id} className="bg-white rounded-lg shadow-lg p-6 text-left">
+                            <h2 className="text-lg font-bold mb-2 font-display">{item.customerName}</h2><br/>
+                            <p className="text-gray-600 font-display"><span className='font-[600]'>Job ID :</span> {item.jobId}</p>
+                            <p className="text-gray-500 font-display"><span className='font-[600]'>Mobile Number :</span>  {item.mobileNumber}</p>
+                            <p className="text-gray-500 font-display"><span className='font-[600]'>Whatsapp Number :</span>  {item.whatsappNumber}</p>
+                            <p className="text-gray-500 font-display"><span className='font-[600]'>Email :</span>  {item.Email}</p>
 
                         </div>
                     ))}

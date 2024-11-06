@@ -248,10 +248,10 @@ function EditJobPost() {
             </div>
             <div className='flex justify-center items-center bg-[black] py-12'>
                 <div className='lg:w-[90%] w-[90%] h-[70%] bg-[white] flex flex-col items-center gap-12 py-12 lg:rounded-[20px] rounded-[5px]'>
-                    <span className='text-2xl font-[700] font-[display]'>Edit Job Post</span>
+                    <span className='text-xl font-[700] font-display'>Edit Job Post</span>
                     <form onSubmit={handleSubmit} className='grid lg:grid-cols-3 grid-cols-1 gap-5 lg:px-12 px-3 w-full'>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Job Title *</span>
+                            <span className='text-left text-base font-[500] font-display'>Job Title *</span>
                             <input
                                 placeholder='Job Title'
                                 type="text"
@@ -261,7 +261,7 @@ function EditJobPost() {
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Job Type *</span>
+                            <span className='text-left text-base font-[500] font-display'>Job Type *</span>
                             <Select
                                 placeholder="Select Job Type"
                                 options={jobTypeOptions}
@@ -273,7 +273,7 @@ function EditJobPost() {
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Gender *</span>
+                            <span className='text-left text-base font-[500] font-display'>Gender *</span>
                             <Select
                                 placeholder="Select Gender"
                                 options={genderTypeOptions}
@@ -285,7 +285,7 @@ function EditJobPost() {
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Min Salary *</span>
+                            <span className='text-left text-base font-[500] font-display'>Min Salary *</span>
                             <input
                                 placeholder='Min Salary'
                                 type="number"
@@ -295,7 +295,7 @@ function EditJobPost() {
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Max Salary *</span>
+                            <span className='text-left text-base font-[500] font-display'>Max Salary *</span>
                             <input
                                 placeholder='Max Salary'
                                 type="number"
@@ -305,7 +305,7 @@ function EditJobPost() {
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Company Category *</span>
+                            <span className='text-left text-base font-[500] font-display'>Company Category *</span>
                             <Select
                                 placeholder="Select Company Category"
                                 options={categoryOptions}
@@ -317,7 +317,7 @@ function EditJobPost() {
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Jobs Category *</span>
+                            <span className='text-left text-base font-[500] font-display'>Jobs Category *</span>
                             <Select
                                 placeholder="Select Job Category"
                                 options={jobsOptions}
@@ -329,7 +329,7 @@ function EditJobPost() {
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Location *</span>
+                            <span className='text-left text-base font-[500] font-display'>Location *</span>
                             <Select
                                 placeholder="Select Location"
                                 options={locationOptions}
@@ -341,7 +341,7 @@ function EditJobPost() {
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Start Time *</span>
+                            <span className='text-left text-base font-[500] font-display'>Start Time *</span>
                             <Select
                                 placeholder="Select Start Time"
                                 options={startOptions}
@@ -353,7 +353,7 @@ function EditJobPost() {
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>End Time *</span>
+                            <span className='text-left text-base font-[500] font-display'>End Time *</span>
                             <Select
                                 placeholder="Select End Time"
                                 options={endOptions}
@@ -365,7 +365,7 @@ function EditJobPost() {
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Qualification *</span>
+                            <span className='text-left text-base font-[500] font-display'>Qualification *</span>
                             <input
                                 placeholder='Qualification'
                                 type="text"
@@ -375,7 +375,7 @@ function EditJobPost() {
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Job Description *</span>
+                            <span className='text-left text-base font-[500] font-display'>Job Description *</span>
                             <input
                                 placeholder='Job Description'
                                 className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
@@ -384,7 +384,7 @@ function EditJobPost() {
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Food Type *</span>
+                            <span className='text-left text-base font-[500] font-display'>Food Type *</span>
                             <Select
                                 placeholder="Select Food Type"
                                 options={foodTypeOptions}
@@ -396,7 +396,7 @@ function EditJobPost() {
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>WhatsApp Number *</span>
+                            <span className='text-left text-base font-[500] font-display'>WhatsApp Number *</span>
                             <input
                                 placeholder='WhatsApp Number'
                                 type="text"
@@ -406,7 +406,7 @@ function EditJobPost() {
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Email *</span>
+                            <span className='text-left text-base font-[500] font-display'>Email *</span>
                             <input
                                 placeholder='Email'
                                 type="email"
@@ -416,7 +416,7 @@ function EditJobPost() {
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Address *</span>
+                            <span className='text-left text-base font-[500] font-display'>Address *</span>
                             <input
                                 placeholder='Address'
                                 type="text"
@@ -425,8 +425,8 @@ function EditJobPost() {
                                 onChange={(e) => setAddress(e.target.value)}
                             />
                         </div>
-                        <div className='flex flex-col gap-3 lg:col-span-3'>
-                            <button className='bg-[black] text-white py-2 rounded-[5px] hover:bg-[#1E3D5B] transition duration-300'>
+                        <div className='flex flex-col gap-3 lg:col-span-3 justify-center items-center'>
+                            <button className='bg-[black] w-[25%] h-[56px] text-white py-2 rounded-[5px] hover:bg-[#E22E37] transition duration-300 font-display text-lg font-display font-[600]'>
                                 Update Job Post
                             </button>
                         </div>

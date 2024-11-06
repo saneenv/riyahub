@@ -52,17 +52,17 @@ function CandidateOpt({ closeOptions }) {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
             <div className="bg-white w-[90%] max-w-md rounded-lg shadow-lg p-8">
                 <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-xl font-semibold">Candidate Options</h2>
+                    <h2 className="text-xl font-semibold font-display">Candidate Options</h2>
                     <button onClick={closeOptions} className="text-gray-500 hover:text-red-500 text-2xl">&times;</button>
                 </div>
                 <ul className="space-y-4">
                     {/* <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center" onClick={home}>Home</li> */}
-                    <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400]" onClick={matchjob}>Matching Jobs</li>
-                    <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400]" onClick={canapplied}>Applied Jobs</li>
+                    <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={matchjob}>Matching Jobs</li>
+                    <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={canapplied}>Applied Jobs</li>
                     {/* <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center">Viewed Jobs</li> */}
-                    <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400]" onClick={packages}>Packages</li>
-                    <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400]" onClick={viewProfile}>View Profile</li>
-                    <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400]" onClick={login}>Logout</li>
+                    <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={packages}>Packages</li>
+                    <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={viewProfile}>View Profile</li>
+                    <li className="p-3 bg-gray-100 hover:bg-[#E22E37] hover:text-[white] rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={login}>Logout</li>
                 </ul>
             </div>
         </div>

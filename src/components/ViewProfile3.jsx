@@ -64,6 +64,9 @@ function ViewProfile3() {
 
 
 const deleteProfile = async () => {
+  const confirmDelete = window.confirm("Are you sure you want to delete your profile?");
+  if (!confirmDelete) return;
+
     try {
         const response = await fetch(`${apiBaseUrl}/deletestaff`, {
             method: 'DELETE',
@@ -107,20 +110,20 @@ const deleteProfile = async () => {
       <div className='lg:px-12 px-3 w-full h-auto gap-6 flex flex-col'>
         <div className='w-full mt-6 flex flex-row justify-between'>
           {/* <span className='lg:text-xl text-lg font-[600] font-[display] underline text-[#E22E37] cursor-pointer' onClick={editempreg}>Edit Profile</span> */}
-          <span className='lg:text-xl text-lg font-[600] font-[display] underline text-[#E22E37] cursor-pointer' onClick={deleteProfile}>Delete Profile</span>
+          <span className='lg:text-xl text-lg font-[600] font-display underline text-[#E22E37] cursor-pointer hover:text-[#fe4d4d]' onClick={deleteProfile}>Delete Profile</span>
         </div>
         <div className='w-full flex flex-col justify-center items-center gap-3'>
-          <div className='h-[150px] w-[150px] rounded-full border-2 border-[#E22E37] flex items-center justify-center text-[#E22E37]  text-4xl font-[600] font-[display]'>
+          <div className='h-[150px] w-[150px] rounded-full border-2 border-[#E22E37] flex items-center justify-center text-[#E22E37]  text-4xl font-[600] font-display'>
             {/* Displaying generated logo */}
             {generateLogoText(employeeData?.companyName || 'Company Name')}
           </div>
-          <span className='text-2xl font-[600] font-[display]'>{employeeData?.companyName || 'Company Name'}</span>
-          <span className='text-xl font-[400] font-[display]'>{employeeData?.email || 'Employee Email'}</span>
+          <span className='text-2xl font-[600] font-display'>{employeeData?.companyName || 'Company Name'}</span>
+          <span className='text-xl font-[400] font-display'>{employeeData?.email || 'Employee Email'}</span>
           <div className='flex flex-row gap-3 lg:w-[25%] w-[80%] h-[50px] '>
-            <div className='w-[50%] h-full flex justify-center items-center lg:text-base text-sm font-[600] font-[display] text-[white] bg-[#E22E37] cursor-pointer' onClick={postjob}>
+            <div className='w-[50%] h-full flex justify-center items-center lg:text-base text-sm font-[600] font-display text-[white] bg-[#E22E37] cursor-pointer hover:text-[black]' onClick={postjob}>
               POST NEW JOB
             </div>
-            <div className='w-[50%] h-full border-2 border-[#AEAEAE] flex justify-center items-center lg:text-base text-sm font-[600] font-[display] cursor-pointer' onClick={postedjobs}>
+            <div className='w-[50%] h-full border-2 border-[#AEAEAE] flex justify-center items-center lg:text-base text-sm font-[600] font-display cursor-pointer hover:text-[#E22E37]' onClick={postedjobs}>
               VIEW ALL JOB
             </div>
           </div>
@@ -130,27 +133,27 @@ const deleteProfile = async () => {
           <div className='flex lg:flex-row flex-col h-[56px] border-2 border-[#E3EAF1] w-full rounded-[10px]'>
             <div className='lg:w-[30%] w-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
               <img src={call} alt="call" />
-              <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Mobile Number</span>
+              <span className='text-[#B3B3B3] text-xl font-[500] font-display'>Mobile Number</span>
             </div>
-            <div className='lg:w-[70%] w-full  flex px-5 items-center'>
+            <div className='lg:w-[70%] w-full text-lg font-[500]  flex px-5 items-center'>
               {employeeData?.mobileNumber || 'No mobile number available'}
             </div>
           </div>
           <div className='flex lg:flex-row flex-col h-[56px] border-2 border-[#E3EAF1] w-full rounded-[10px]'>
             <div className='lg:w-[30%] w-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
               <img src={wa} alt="Whatsapp" />
-              <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Whatsapp Number</span>
+              <span className='text-[#B3B3B3] text-xl font-[500] font-display'>Whatsapp Number</span>
             </div>
-            <div className='lg:w-[70%] w-full flex px-5 items-center'>
+            <div className='lg:w-[70%] w-full text-lg font-[500] flex px-5 items-center'>
               {employeeData?.whatsappNumber || 'No Whatsapp number available'}
             </div>
           </div>
      
           <div className='flex lg:flex-row flex-col h-[56px] border-2 border-[#E3EAF1] w-full rounded-[10px]'>
             <div className='lg:w-[30%] w-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
-              <span className='text-[#B3B3B3] text-xl font-[500] font-[display]'>Address</span>
+              <span className='text-[#B3B3B3] text-xl font-[500] font-display'>Address</span>
             </div>
-            <div className='lg:w-[70%] w-full flex px-5 items-center'>
+            <div className='lg:w-[70%] w-full text-lg font-[500] flex px-5 items-center'>
               {employeeData?.address || 'No address available'}
             </div>
           </div>

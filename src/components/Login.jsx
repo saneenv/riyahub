@@ -113,7 +113,7 @@ function Login() {
                     setErrorMessage(data.message); // Set error message if staff login fails
                 }
             } else {
-                setErrorMessage('Staff login failed. Please check your credentials.');
+                setErrorMessage('login failed. Please check your credentials.');
             }
         } catch (error) {
             console.error('Staff login error:', error);
@@ -162,8 +162,8 @@ function Login() {
             <div className='flex justify-center items-center bg-[black] py-7'>
                 <div className='lg:w-[30%] w-[90%] h-[70%] bg-[white] flex flex-col items-center gap-6 py-6 lg:rounded-[20px] rounded-[5px]'>
                     <div className='flex flex-col justify-center items-center gap-3'>
-                        <span className='text-2xl font-[600] font-[display]'>Login</span>
-                        <span className='text-base font-[400] font-[display]'>Log In to Continue Your Job Search Journey</span>
+                        <span className='text-2xl font-[600] font-display'>Login</span>
+                        <span className='text-base font-[400] font-display'>Log In to Continue Your Job Search Journey</span>
                     </div>
                     {errorMessage && (
                         <div className='text-red-500'>{errorMessage}</div>
@@ -189,16 +189,16 @@ function Login() {
                         </div>
                         <div className='h-[56px] w-full px-12'>
                             <div
-                                className='w-full h-full bg-[#E22E37] rounded-[28px] flex justify-center items-center text-[white] text-base font-[600] font-[display] cursor-pointer'
+                                className='w-full h-full bg-[#E22E37] rounded-[28px] flex justify-center items-center text-[white] text-base font-[600] font-display cursor-pointer hover:bg-[red]'
                                 onClick={handleLogin}
                             >
                                 SUBMIT
                             </div>
                         </div>
-                        <span className='text-base font-[400] font-[display] text-[#8B8B8B]'>or</span>
+                        <span className='text-base font-[400] font-display text-[#8B8B8B]'>or</span>
                         <span>
-                            <span className='font-[400] text-base font-[display] text-[#8B8B8B]'>Not a Member?</span>
-                            <span className='font-[400] text-base font-[display] text-[#E22E37] cursor-pointer'> Free Register Here</span>
+                            <span className='font-[400] text-base font-display text-[#8B8B8B]'>Not a Member?</span>
+                            <span className='font-[400] text-base font-display text-[#E22E37] cursor-pointer hover:text-[black]'> Free Register Here</span>
                         </span>
                     </div>
                     <img src={logo} alt="logo" />

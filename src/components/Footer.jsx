@@ -51,49 +51,49 @@ function Footer() {
                     <img src={logo} alt="logo" />
                 </div>
                 <div className='h-[100%] w-[70%] flex lg:flex-row flex-col justify-center items-start lg:gap-[15%] gap-8'>
-                    <div className='flex flex-col lg:gap-6 gap-3'>
-                        <span className='text-base font-[500] font-display text-[white]'>COMPANY</span>
+                    <div className='flex flex-col lg:gap-6 gap-3 '>
+                        <span className='text-lg font-[500] font-display text-[white]'>COMPANY</span>
                         <span className='flex flex-row justify-start items-center gap-1 '>
                             <img src={polygon} alt="polygon" className='w-[10%] h-[10%]' />
-                            <span className='text-sm font-[400] font-display text-[white] cursor-pointer' onClick={homePage}>Home</span>
+                            <span className='text-base font-[400] font-display text-[white] cursor-pointer hover:text-[#E22E37]' onClick={homePage}>Home</span>
                         </span>
                         <span className='flex flex-row justify-start items-center gap-1 '>
                             <img src={polygon} alt="polygon" className='w-[10%] h-[10%]' />
-                            <span className='text-sm font-[400] font-display text-[white] cursor-pointer' onClick={aboutus}>About Us</span>
+                            <span className='text-base font-[400] font-display text-[white] cursor-pointer hover:text-[#E22E37]' onClick={aboutus}>About Us</span>
                         </span>
                         <span className='flex flex-row justify-start items-center gap-1 '>
                             <img src={polygon} alt="polygon" className='w-[10%] h-[10%]' />
-                            <span className='text-sm font-[400] font-display text-[white] cursor-pointer' onClick={staffregpage}>Staff Reg</span>
+                            <span className='text-base font-[400] font-display text-[white] cursor-pointer hover:text-[#E22E37]' onClick={staffregpage}>Staff Reg</span>
                         </span>
                       
                     </div>
 
-                    <div className='flex flex-col lg:gap-6 gap-3'>
-                        <span className='text-base font-[500] font-display text-[white]'>FOR EMPLOYER</span>
+                    <div className='flex flex-col lg:gap-6 gap-3 '>
+                        <span className='text-lg font-[500] font-display text-[white]'>FOR EMPLOYER&nbsp;&nbsp;&nbsp;</span>
                         <span className='flex flex-row justify-start items-center gap-1 '>
                             <img src={polygon} alt="polygon" className='w-[6%] h-[6%]' />
-                            <span className='text-sm font-[400] font-display text-[white] cursor-pointer' onClick={empreg}>Registration</span>
+                            <span className='text-base font-[400] font-display text-[white] cursor-pointer hover:text-[#E22E37]' onClick={empreg}>Registration</span>
                         </span>
                         {/* <span className='flex flex-row justify-start items-center gap-1 '>
                             <img src={polygon} alt="polygon" className='w-[6%] h-[6%]' />
-                            <span className='text-sm font-[400] font-display text-[white] cursor-pointer' onClick={jobpost} >Job Post</span>
+                            <span className='text-base font-[400] font-display text-[white] cursor-pointer' onClick={jobpost} >Job Post</span>
                         </span> */}
                         <span className='flex flex-row justify-start items-center gap-1 '>
                             <img src={polygon} alt="polygon" className='w-[6%] h-[6%]' />
-                            <span className='text-sm font-[400] font-display text-[white] cursor-pointer' onClick={login}>Employer Login</span>
+                            <span className='text-base font-[400] font-display text-[white] cursor-pointer hover:text-[#E22E37]' onClick={login}>Employer Login</span>
                         </span>
 
                     </div>
 
-                    <div className='flex flex-col lg:gap-6 gap-3'>
-                        <span className='text-base font-[500] font-display text-[white]'>FOR CANDIDATE</span>
+                    <div className='flex flex-col lg:gap-6 gap-3 '>
+                        <span className='text-lg font-[500] font-display text-[white]'>FOR CANDIDATE&nbsp;&nbsp;&nbsp;</span>
                         <span className='flex flex-row justify-start items-center gap-1 '>
                             <img src={polygon} alt="polygon" className='w-[6%] h-[6%]' />
-                            <span className='text-sm font-[400] font-display text-[white] cursor-pointer' onClick={canreg}>Registration</span>
+                            <span className='text-base font-[400] font-display text-[white] cursor-pointer hover:text-[#E22E37]' onClick={canreg}>Registration</span>
                         </span>
                         <span className='flex flex-row justify-start items-center gap-1 '>
                             <img src={polygon} alt="polygon" className='w-[6%] h-[6%]' />
-                            <span className='text-sm font-[400] font-display text-[white] cursor-pointer' onClick={login}>Candidate Login</span>
+                            <span className='text-base font-[400] font-display text-[white] cursor-pointer hover:text-[#E22E37]' onClick={login}>Candidate Login</span>
                         </span>
                         {/* <span className='flex flex-row justify-start items-center gap-1 '>
                             <img src={polygon} alt="polygon" className='w-[6%] h-[6%]' />
@@ -106,8 +106,8 @@ function Footer() {
             <div className='w-full h-[40px]  flex flex-row lg:px-4 px-1 '>
                 <div className='w-[50%] text-start h-full flex  items-center lg:text-sm text-xs font-[400] font-display'>© SherSoft Software Company</div>
                 <div className='w-[50%] h-full flex  items-center justify-end flex-row gap-8'>
-                    <span className='lg:text-sm text-xs font-[400] font-display cursor-pointer' onClick={termsandconditons}>Terms & Conditions</span>
-                    <span className='lg:text-sm text-xs font-[400] font-display cursor-pointer' onClick={privacypolicy}>Privacy Policy</span>
+                    <span className='lg:text-sm text-xs font-[400] font-display cursor-pointer hover:text-[#E22E37]' onClick={termsandconditons}>Terms & Conditions</span>
+                    <span className='lg:text-sm text-xs font-[400] font-display cursor-pointer hover:text-[#E22E37]' onClick={privacypolicy}>Privacy Policy</span>
                 </div>
             </div>
         </div>

@@ -152,10 +152,10 @@ function EmployeeReg() {
             </div>
             <div className='flex justify-center items-center bg-[black] py-12'>
                 <div className='lg:w-[80%] w-[90%] h-[70%] bg-[white] flex flex-col items-center gap-12 py-12 lg:rounded-[20px] rounded-[5px]'>
-                    <span className='text-2xl font-[700] font-[display]'>Employee Register</span>
+                    <span className='text-xl font-[700] font-display'>Employee Register</span>
                     <div className='grid lg:grid-cols-3 grid-cols-1 gap-5 lg:px-12 px-3 w-full'>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Company Name</span>
+                            <span className='text-left text-base font-[500] font-display'>Company Name</span>
                             <input
                               ref={companyNameRef}
                                 placeholder='Enter Company Name'
@@ -167,7 +167,7 @@ function EmployeeReg() {
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Mobile Number</span>
+                            <span className='text-left text-base font-[500] font-display'>Mobile Number</span>
                             <input
                              ref={mobileNumberRef}
                                 placeholder='Enter Phone No'
@@ -179,7 +179,7 @@ function EmployeeReg() {
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Whatsapp Number</span>
+                            <span className='text-left text-base font-[500] font-display'>Whatsapp Number</span>
                             <input
                             ref={whatsappNumberRef}
                                 placeholder='Your Whatsapp No'
@@ -192,7 +192,7 @@ function EmployeeReg() {
                         </div>
 
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Email</span>
+                            <span className='text-left text-base font-[500] font-display'>Email</span>
                             <input
                             ref={emailRef}
                                 placeholder='Enter Email Address'
@@ -204,7 +204,7 @@ function EmployeeReg() {
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Company Category</span>
+                            <span className='text-left text-base font-[500] font-display'>Company Category</span>
                             <input
                             ref={companyCategoryRef}
                                 placeholder='Select Category'
@@ -216,7 +216,7 @@ function EmployeeReg() {
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Company District</span>
+                            <span className='text-left text-base font-[500] font-display'>Company District</span>
                             <Select
                             ref={companyDistrictRef}
                                 options={districtOptions}
@@ -271,7 +271,7 @@ function EmployeeReg() {
                         </div>
 
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Address</span>
+                            <span className='text-left text-base font-[500] font-display'>Address</span>
                             <input
                             ref={addressRef}
                                 placeholder='Company Address'
@@ -283,7 +283,7 @@ function EmployeeReg() {
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-lg font-[500] font-[display]'>Create Password</span>
+                            <span className='text-left text-base font-[500] font-display'>Create Password</span>
                             <input
                              ref={passwordRef}
                                 placeholder='Create Password'
@@ -298,7 +298,7 @@ function EmployeeReg() {
                     <div className='flex flex-col gap-5 w-full px-12 justify-center items-center'>
                         <button
                             onClick={handleSubmit}
-                            className='h-[56px] lg:w-[25%] w-[50%] bg-[#E22E37] rounded-[20px] flex justify-center items-center text-[white] text-xl font-[display] font-[600]'
+                            className='h-[56px] lg:w-[25%] w-[50%] bg-[#E22E37] rounded-[20px] flex justify-center items-center text-[white] text-lg font-display font-[600] hover:bg-[black] hover:text-[white]'
                             disabled={isLoading}
                         >
                             {isLoading ? (
@@ -313,9 +313,9 @@ function EmployeeReg() {
                                 'Register'
                             )}
                         </button>
-                        <span className='text-base font-[500] font-[dislay]'>
+                        <span className='text-base font-[500] font-display'>
                             Already Registered? -
-                            <span className='text-base font-[700] font-[dislay] text-[#E22E37] cursor-pointer'> Login</span>
+                            <span className='text-base font-[700] font-display text-[#E22E37] cursor-pointer hover:text-[black]'> Login</span>
                         </span>
                     </div>
                 </div>
