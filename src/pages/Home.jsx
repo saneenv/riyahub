@@ -25,6 +25,10 @@ function Home() {
     const selectedPlan = sessionStorage.getItem('selectedPlan');
     console.log("selectedPlan:", selectedPlan);
 
+    
+    const District = sessionStorage.getItem('District');
+    console.log("District:", District);
+
     const mobileNumber = sessionStorage.getItem('mobileNumber');
     const whatsappNumber = sessionStorage.getItem('whatsappNumber');
     const Email = sessionStorage.getItem('Email');
@@ -83,7 +87,14 @@ function Home() {
 
 // Updated Packages2 function to take job details as a parameter
 const Packages2 = async (job) => {
-    if (selectedPlan === '300' || selectedPlan === '500') {
+
+    if (!customerType) {
+        alert("Please login first"); // Alert if not logged in
+        return; // Exit the function
+    }
+
+
+    if (selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800' ) {
         try {
             // Prepare data with job details to send to the backend
             const payload = {
@@ -199,7 +210,7 @@ function formatJobTitle(title) {
                                         <span className='text-base font-display font-[600]'>GENDER</span>
                                         <span className='text-base font-display font-[600]'>:</span>
                                     </div>
-                                    <div className='flex items-center justify-center w-[80%] h-[38px] bg-[black] rounded-[10px] text-base font-[600] font-display text-[white] cursor-pointer hover:bg-[#E22E37] hover:bg-[#E22E37] ' onClick={() => Packages2(job)}>
+                                    <div className='flex items-center justify-center w-[80%] h-[38px] bg-[black] rounded-[10px] text-base font-[600] font-display text-[white] cursor-pointer hover:bg-[#E22E37] ' onClick={() => Packages2(job)}>
                                         Apply Now
                                     </div>
                                 </div>

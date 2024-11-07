@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState , useEffect} from 'react'
 import { useMediaQuery } from 'react-responsive';
 import NavbarMob from '../components/NavbarMob';
 import Navbar from '../components/Navbar';
@@ -13,6 +13,11 @@ import arrow from '../images/contactus/arrow.png'
 
 function ContactUs() {
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+
+  
+  useEffect(() => {
+    window.scrollTo(0, 0);
+}, []);
 
   const [formData, setFormData] = useState({
     name: '',

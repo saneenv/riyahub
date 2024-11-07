@@ -137,6 +137,7 @@ function Login() {
         sessionStorage.setItem('preferredJob', data.candidate.Jobs);
         sessionStorage.setItem('preferredLocation', data.candidate.Locations);
         sessionStorage.setItem('jobType', data.candidate.JobType);
+        sessionStorage.setItem('District', data.candidate.District);
         sessionStorage.setItem('gender', data.candidate.Gender);
         sessionStorage.setItem('Email', data.candidate.Email);
         sessionStorage.setItem('mobileNumber', data.candidate.Mobile);

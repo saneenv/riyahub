@@ -29,6 +29,8 @@ function CandidateReg() {
     const [password, setPassword] = useState('');
     const [gender, setGender] = useState(null); // State for storing gender
     const [jobType, setJobType] = useState(null); // State for storing gender
+    const [maritalStatus, setMartialStatus] = useState(null); // State for storing gender
+
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
     const navigate = useNavigate();
 
@@ -40,6 +42,11 @@ function CandidateReg() {
 
     const handleJobTypeChange = (selectedOption) => {
         setJobType(selectedOption ? selectedOption.value : null);
+    };
+
+    
+    const handleMaritalStatusChange = (selectedOption) => {
+        setMartialStatus(selectedOption ? selectedOption.value : null);
     };
 
 
@@ -122,6 +129,13 @@ function CandidateReg() {
         { value: 'other', label: 'Other' }
     ];
 
+    const maritalStatusOptions = [
+        { value: 'single', label: 'Single' },
+        { value: 'married', label: 'Married' },
+        { value: 'divorced', label: 'Divorced' },
+        { value: 'widow', label: 'Widow' },
+    ];
+
     const customStyles = {
 
         control: (base) => ({
@@ -174,33 +188,50 @@ function CandidateReg() {
         // Validation checks
         const mobilePattern = /^[0-9]{10}$/;
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
+    
         // Validate mobile and WhatsApp numbers
         if (!mobilePattern.test(mobile)) {
             alert('Mobile Number must be 10 digits.');
             return; // Stop the function if validation fails
         }
-
+    
         if (!mobilePattern.test(whatsapp)) {
             alert('WhatsApp Number must be 10 digits.');
             return; // Stop the function if validation fails
         }
-
+    
         // Validate email format
         if (!emailPattern.test(email)) {
             alert('Please enter a valid email address.');
             return; // Stop the function if validation fails
         }
-
+    
         // Check for empty fields
         if (!name || !mobile || !whatsapp || !email ||
             !password || !gender || !companyDistrict || !candidateDegree ||
-            !jobType || !jobsCategory.length || !locationCategory.length) {
+            !jobType || !jobsCategory.length || !locationCategory.length || !maritalStatus) {
             alert('Please fill in all fields.');
             return; // Stop the function if any field is empty
         }
-
-
+    
+        // Check if the mobile number is blocked
+        try {
+            const blockedProfilesResponse = await fetch(`${apiBaseUrl}/getBlockedProfiles`);
+            const blockedProfiles = await blockedProfilesResponse.json();
+    
+            // Check if the mobile number exists in blocked profiles
+            const isBlocked = blockedProfiles.some(profile => 
+                profile.ProfileType === 'candidate' && profile.MobileNumber === mobile
+            );
+    
+            if (isBlocked) {
+                alert('This mobile number is blocked.');
+                return; // Stop the function if the mobile number is blocked
+            }
+        } catch (error) {
+            console.error('Error fetching blocked profiles:', error);
+        }
+    
         const data = {
             name,
             mobile,
@@ -212,20 +243,21 @@ function CandidateReg() {
             degree: candidateDegree,
             jobType: jobType,
             jobs: jobsCategory.map(option => option.value), // Ensure this is an array
-            locations: locationCategory.map(option => option.value) // Ensure this is an array
+            locations: locationCategory.map(option => option.value), // Ensure this is an array
+            maritalStatus: maritalStatus
         };
-
+    
         console.log(data); // This should show jobs and locations as arrays
-
+    
         try {
-            const response = await fetch(`${apiBaseUrl}/registerCandidate`, { // Fixed typo here
+            const response = await fetch(`${apiBaseUrl}/registerCandidate`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(data),
             });
-
+    
             if (!response.ok) {
                 const errorData = await response.json(); // Attempt to parse error message
                 if (errorData.message === 'Mobile number already exists') {
@@ -236,29 +268,28 @@ function CandidateReg() {
                 throw new Error(`Network response was not ok: ${errorData.message || 'Unknown error'}`);
             }
     
-            else {
-                alert('Registration Successful');
-                setName('');
-                setMobile('');
-                setWhatsapp('');
-                setEmail('');
-                setPassword('');
-                setGender(''); // Clear district
-                setCompanyDistrict('');
-                setCandidateDegree('');
-                setJobType(''); // Clear district
-                setJobsCategory('');
-                setLocationCategory('');
-                navigate('/login');
-
-            }
+            alert('Registration Successful');
+            setName('');
+            setMobile('');
+            setWhatsapp('');
+            setEmail('');
+            setPassword('');
+            setGender('');
+            setCompanyDistrict('');
+            setCandidateDegree('');
+            setJobType('');
+            setJobsCategory('');
+            setLocationCategory('');
+            setMartialStatus('');
+            navigate('/login');
+    
             const result = await response.json();
             console.log(result); // Handle success
         } catch (error) {
             console.error('Error posting data:', error);
         }
     };
-
+    
 
 
     return (
@@ -406,6 +437,18 @@ function CandidateReg() {
                                 isMulti // Allow multiple selections
                                 value={locationCategory} // Display selected options
                                 styles={customStyles2}
+                            />
+                        </div>
+                        <div className='flex flex-col gap-3'>
+                            <span className='text-left text-base font-[500] font-display'>Marital Status</span>
+                            <Select
+                                options={maritalStatusOptions}
+                                isClearable={true}
+                                placeholder="Select Marital Status"
+                                classNamePrefix="react-select"
+                                styles={customStyles}
+                                value={maritalStatusOptions.find(option => option.value === maritalStatus) || null} // Match the selected value
+                                onChange={handleMaritalStatusChange} // Handle marital status change
                             />
                         </div>
                     </div>

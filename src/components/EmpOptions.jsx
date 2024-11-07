@@ -33,11 +33,20 @@ function EmpOptions({ closeOptions }) {
     // Remove session storage items
     sessionStorage.removeItem('employeeId');
     sessionStorage.removeItem('customerName');
-    
+    sessionStorage.removeItem('customerType');
+    sessionStorage.removeItem('preferredJob');
+    sessionStorage.removeItem('preferredLocation');
+    sessionStorage.removeItem('jobType');
+    sessionStorage.removeItem('preferredLocation');
+    sessionStorage.removeItem('gender');
+    sessionStorage.removeItem('mobileNumber');
+    sessionStorage.removeItem('whatsappNumber');
+
+
+
     // Navigate to login page
     navigate('/login');
-  };
-
+};
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">

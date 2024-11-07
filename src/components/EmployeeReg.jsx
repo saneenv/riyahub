@@ -80,6 +80,24 @@ function EmployeeReg() {
             return; // Stop the function if validation fails
         }
 
+         // Check if the mobile number is blocked
+    try {
+        const blockedProfilesResponse = await fetch(`${apiBaseUrl}/getBlockedProfiles`);
+        const blockedProfiles = await blockedProfilesResponse.json();
+
+        // Check if the mobile number exists in blocked profiles
+        const isBlocked = blockedProfiles.some(profile => 
+            profile.ProfileType === 'employee' && profile.MobileNumber === mobileNumber
+        );
+
+        if (isBlocked) {
+            alert('This mobile number is blocked.');
+            return; // Stop the function if the mobile number is blocked
+        }
+    } catch (error) {
+        console.error('Error fetching blocked profiles:', error);
+    }
+
         const formData = {
             companyName,
             mobileNumber,

@@ -52,16 +52,25 @@ function Details() {
     // console.log("employeeId:", employeeId);
 
     const handlePackageClick = () => {
-        if (selectedPlan === '300' || selectedPlan === '500') {
+        if (!customerType) {
+            alert("Please login first"); // Alert if not logged in
+            return; // Exit the function
+        }
+        if (['300', '500', '600', '800'].includes(selectedPlan)) {
             navigate('/companydetails', { state: { employeeId: jobDetails.employee_id } });
-        } else {
+        }
+        else {
             navigate('/packages', { state: { job: jobDetails.job, jobId: jobDetails.job_id, location: jobDetails.location } });
         }
     };
 
     // Assuming 'selectedPlan', 'jobDetails', and 'customerName' are available in the component's scope
     const Packages2 = async () => {
-        if (selectedPlan === '300' || selectedPlan === '500') {
+        if (!customerType) {
+            alert("Please login first"); // Alert if not logged in
+            return; // Exit the function
+        }
+        if (selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800' ) {
             try {
                 // Prepare data to send to the backend
                 const payload = {
@@ -247,7 +256,7 @@ function Details() {
                             </div>
                         </div>
 
-                        {(selectedPlan === '300' || selectedPlan === '500') && (
+                        {(selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800' ) && (
                             <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
                                 <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
                                     <img src={phone} alt="loc" />

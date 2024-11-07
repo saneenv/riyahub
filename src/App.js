@@ -31,6 +31,8 @@ import CanApplied from './components/CanApplied';
 import About from './pages/About';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
+import MartialStatus from './components/MartialStatus';
+import DeleteProfiles from './components/DeleteProfiles';
 
 
 function App() {
@@ -69,6 +71,10 @@ function App() {
                 <Route path='/about' element={<About/>}/>
                 <Route path='/terms' element={<Terms/>}/>
                 <Route path='/privacy' element={<Privacy/>}/>
+                <Route path='/martialstatus' element={<MartialStatus/>}/>
+                <Route path='/deleteprofiles' element={<DeleteProfiles/>}/>
+
+
 
 
 
