@@ -31,6 +31,10 @@ function Navbar2() {
     navigate('/martialstatus');
   };
 
+  const sevicespage = () => {
+    navigate('/services');
+  };
+
   return (
     <div className='h-[48px] w-full bg-[#D22D3A] flex flex-row gap-12 justify-center items-center'>
       <span className='text-base font-[600] font-display text-[white] cursor-pointer hover:text-black' onClick={home}>Home</span>
@@ -41,7 +45,7 @@ function Navbar2() {
       {customerType === 'admin' && (
         <span className='text-base font-[600] font-display text-[white] cursor-pointer hover:text-black' onClick={martial}>Martial Status</span>
       )}
-      <span className='text-base font-[600] font-display text-[white] cursor-pointer hover:text-black'>Services</span>
+      <span className='text-base font-[600] font-display text-[white] cursor-pointer hover:text-black' onClick={sevicespage}>Services</span>
       <span className='text-base font-[600] font-display text-[white] cursor-pointer hover:text-black' onClick={contactus}>Contact Us</span>
     </div>
   )

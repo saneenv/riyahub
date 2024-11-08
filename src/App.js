@@ -33,6 +33,7 @@ import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 import MartialStatus from './components/MartialStatus';
 import DeleteProfiles from './components/DeleteProfiles';
+import Services from './pages/Services';
 
 
 function App() {
@@ -73,6 +74,8 @@ function App() {
                 <Route path='/privacy' element={<Privacy/>}/>
                 <Route path='/martialstatus' element={<MartialStatus/>}/>
                 <Route path='/deleteprofiles' element={<DeleteProfiles/>}/>
+                <Route path='/services' element={<Services/>}/>
+
 
 
 

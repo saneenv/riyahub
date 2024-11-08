@@ -193,7 +193,7 @@ function Details() {
                                 <span className='text-[#B3B3B3] text-lg font-[500] font-display'>Job Id</span>
                             </div>
                             <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-lg font-[500] font-display'>
-                                {jobDetails.job_id}
+                                {jobDetails.manualJobID && jobDetails.manualJobID !== "0" ? jobDetails.manualJobID : jobDetails.job_id}
                             </div>
                         </div>
                         <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>

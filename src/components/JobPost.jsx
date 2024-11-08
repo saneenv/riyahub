@@ -15,6 +15,8 @@ import endtime from '../json/endtime.json'
 
 function JobPost() {
     const [jobTitle, setJobTitle] = useState('');
+    const [manualJobID, setManualJobID] = useState('');
+
     const [minSalary, setMinSalary] = useState('');
     const [maxSalary, setMaxSalary] = useState('');
     const [qualification, setQualification] = useState('');
@@ -45,6 +47,9 @@ function JobPost() {
 
     const [endOptions, setEndOptions] = useState([]);
 
+    const customerType = sessionStorage.getItem('customerType');
+    console.log("customer Type:", customerType);
+
 
 
     // References for inputs
@@ -61,6 +66,8 @@ function JobPost() {
     const qualificationRef = useRef(null);
     const jobDescriptionRef = useRef(null);
     const foodRef = useRef(null);
+    const manualJobIDRef = useRef(null);
+
 
 
 
@@ -268,6 +275,8 @@ function JobPost() {
             whatsappNumber,
             email,
             address,
+            manualJobID
+
         };
 
         console.log(formData, "formdata:");
@@ -300,6 +309,7 @@ function JobPost() {
                 setStartCategory('');
                 setLocationCategory('');
                 setJobsCategory('');
+                setManualJobID('');
 
 
 
@@ -331,6 +341,7 @@ function JobPost() {
                 <div className='lg:w-[90%] w-[90%] h-[70%] bg-[white]  flex flex-col items-center  gap-12 py-12 lg:rounded-[20px] rounded-[5px]'>
                     <span className='text-xl font-[700] font-display'>Job Post</span>
                     <div className='grid lg:grid-cols-3 grid-cols-1 gap-5 lg:px-12 px-3 w-full'>
+
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Job Title *</span>
                             <input
@@ -515,8 +526,23 @@ function JobPost() {
                                 isClearable={true}
                                 styles={customStyles}
                                 classNamePrefix="react-select" // Ensures custom class prefix
+                                onKeyDown={(e) => handleKeyDown(e, manualJobIDRef)} // Move to Mobile Number on "Enter"
                             />
                         </div>
+
+                        {customerType === 'admin' && (
+                            <div className='flex flex-col gap-3'>
+                                <span className='text-left text-base font-[500] font-display text-[#E22E37]'>Manual Job ID*</span>
+                                <input
+                                    ref={manualJobIDRef}
+                                    placeholder='Job ID'
+                                    type="text"
+                                    className='h-[43px] w-full border-2 border-[#E22E37] rounded-[5px] px-4'
+                                    value={manualJobID}
+                                    onChange={(e) => setManualJobID(e.target.value)}
+                                />
+                            </div>
+                        )}
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Whatsapp Number *</span>
                             <input
@@ -549,9 +575,13 @@ function JobPost() {
                                 className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4'
                                 value={address} // Controlled input
                                 onChange={handleAddressChange} // Update state on change
+                               
+
 
                             />
                         </div>
+
+                   
 
                     </div>
 

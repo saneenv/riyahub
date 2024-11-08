@@ -1,12 +1,10 @@
-import React, { useState } from 'react'
-import Footer from '../components/Footer'
-import Navbar2 from '../components/Navbar2'
-import NavbarMob from '../components/NavbarMob'
-import Navbar from '../components/Navbar'
+import React, { useState } from 'react';
+import Footer from '../components/Footer';
+import Navbar2 from '../components/Navbar2';
+import NavbarMob from '../components/NavbarMob';
+import Navbar from '../components/Navbar';
 import { useMediaQuery } from 'react-responsive';
 import { useNavigate } from 'react-router-dom';
-
-
 
 function JobId() {
     const [jobId, setJobId] = useState('');
@@ -18,7 +16,10 @@ function JobId() {
             alert('Please enter a Job ID');
             return;
         }
-        navigate('/details', { state: { jobId } }); // Pass jobId in state
+
+        // Check if jobId is numeric or contains a slash for manualJobID
+        let formattedJobId = jobId.includes('/') ? `'${jobId}'` : jobId;  // Wrap in quotes if it's manualJobID
+        navigate('/details', { state: { jobId: formattedJobId } }); // Pass formatted jobId
     };
 
     return (
@@ -33,22 +34,21 @@ function JobId() {
                     <div className='flex flex-col w-full'>
                         <span className='w-full text-left text-lg font-[400] font-display'>Job ID*</span>
                         <input
-                            type="number"
+                            type="text"
                             placeholder='Enter Job ID'
                             className='h-[50px] border-2 border-[#d4d3d3] rounded-[5px] px-3'
                             value={jobId}
                             onChange={(e) => setJobId(e.target.value)} 
                         />
                     </div>
-                    <div className='flex flex-col w-full h-[50px] rounded-[5px] bg-[black]  justify-center items-center text-[white] font-[600] font-display text-lg cursor-pointer hover:bg-[#E22E37]' onClick={details}>
+                    <div className='flex flex-col w-full h-[50px] rounded-[5px] bg-[black] justify-center items-center text-[white] font-[600] font-display text-lg cursor-pointer hover:bg-[#E22E37]' onClick={details}>
                         Submit
                     </div>
                 </div>
-
             </div>
             <Footer />
         </div>
-    )
+    );
 }
 
-export default JobId
+export default JobId;

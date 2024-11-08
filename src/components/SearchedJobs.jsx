@@ -333,7 +333,7 @@ function SearchedJobs() {
                                         </div>
                                         <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-2'>
                                             <div className='flex items-center justify-between w-full'>
-                                                <span className='text-sm font-display font-[500]'>{job.job_id}</span>
+                                                <span className='text-sm font-display font-[500]'>{job.manualJobID && job.manualJobID !== "0" ? job.manualJobID : job.job_id}</span>
                                             </div>
                                             <div className='flex items-center justify-between'>
                                                 <span className='text-sm font-display font-[500]'>{job.company_type}</span>
