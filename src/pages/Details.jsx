@@ -34,6 +34,8 @@ function Details() {
     const { jobId } = location.state || {}; // Extract jobId from state
     console.log("jobId:", jobId);
 
+    const jobIdStr = jobId.toString();
+
 
 
 
@@ -60,7 +62,7 @@ function Details() {
             navigate('/companydetails', { state: { employeeId: jobDetails.employee_id } });
         }
         else {
-            navigate('/packages', { state: { job: jobDetails.job, jobId: jobDetails.job_id, location: jobDetails.location } });
+            navigate('/packages', { state: { job: jobDetails.job, jobId: jobDetails.manualJobID && jobDetails.manualJobID !== "0" ? jobDetails.manualJobID : jobDetails.job_id, location: jobDetails.location } });
         }
     };
 
@@ -70,7 +72,7 @@ function Details() {
             alert("Please login first"); // Alert if not logged in
             return; // Exit the function
         }
-        if (selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800' ) {
+        if (selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800') {
             try {
                 // Prepare data to send to the backend
                 const payload = {
@@ -104,7 +106,7 @@ function Details() {
                 // Handle error
             }
         } else {
-            navigate('/packages', { state: { job: jobDetails.job, jobId: jobDetails.job_id, location: jobDetails.location } });
+            navigate('/packages', { state: { job: jobDetails.job, jobId: jobDetails.manualJobID && jobDetails.manualJobID !== "0" ? jobDetails.manualJobID : jobDetails.job_id, location: jobDetails.location } });
         }
     };
 
@@ -116,8 +118,17 @@ function Details() {
 
     useEffect(() => {
         if (jobId) {
+            // Remove extra quotes if they exist
+            const cleanedJobId = jobIdStr.replace(/^['"]|['"]$/g, '');  // This removes surrounding quotes
+    
+            console.log("Cleaned jobId:", cleanedJobId); // Log cleaned jobId
+    
+            // Encode the cleaned jobId
+            const encodedJobId = encodeURIComponent(cleanedJobId);
+            console.log("Encoded jobId:", encodedJobId); // Log the encoded jobId
+    
             // Fetch the job details based on the jobId
-            fetch(`${apiBaseUrl}/getjobposts/${jobId}`)
+            fetch(`${apiBaseUrl}/getjobposts/${encodedJobId}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
@@ -133,6 +144,7 @@ function Details() {
                 });
         }
     }, [jobId, apiBaseUrl]); // Rerun this effect when jobId changes
+    
 
     const downloadStyledImage = () => {
         const container = document.getElementById('jobDetailsContainer');
@@ -256,7 +268,7 @@ function Details() {
                             </div>
                         </div>
 
-                        {(selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800' ) && (
+                        {(selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800') && (
                             <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
                                 <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
                                     <img src={phone} alt="loc" />
@@ -327,22 +339,22 @@ function Details() {
                 <img src={poster} alt='main' style={{ width: '100%', height: "100%" }} />
                 <div className='absolute inset-0 flex flex-row w-[100%] h-[100%] '>
                     <div className='px-12   flex flex-col mt-12'>
-                         <div className='text-[#E22E37] text-9xl font-[700] mt-[25%] text-left font-display'>WE ARE HIRING!</div>
-                         <div className='w-[40%] h-[55px] bg-[#E22E37] flex justify-center items-center text-center text-[white] font-[800] text-3xl mt-[10%] rounded-[10px] font-display'> <span className='mb-5'>{jobDetails.job}</span></div>
-                         <div className='w-[90%] h-auto bg-[white] rounded-[10px] px-12 py-6 flex flex-col gap-5 mt-[5%]'>
+                        <div className='text-[#E22E37] text-9xl font-[700] mt-[25%] text-left font-display'>WE ARE HIRING!</div>
+                        <div className='w-[40%] h-[55px] bg-[#E22E37] flex justify-center items-center text-center text-[white] font-[800] text-3xl mt-[10%] rounded-[10px] font-display'> <span className='mb-5'>{jobDetails.job}</span></div>
+                        <div className='w-[90%] h-auto bg-[white] rounded-[10px] px-12 py-6 flex flex-col gap-5 mt-[5%]'>
                             <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>. Salary : <span>{jobDetails.min_salary} - {jobDetails.max_salary}</span> </span>
                             <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>. Qualification : <span>{jobDetails.qualification}</span> </span>
                             <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>. Gender : <span>{jobDetails.gender_type}</span> </span>
                             <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>. Location : <span>{jobDetails.location}</span> </span>
 
 
-                         </div>
-                         <div className='flex flex-col mt-[5%] gap-3'>
+                        </div>
+                        <div className='flex flex-col mt-[5%] gap-3'>
                             <div className='text-[#E22E37] font-[700] text-3xl font-display text-left'>Send your CV & Portfolio to:</div>
                             <div className='text-[#E22E37] font-[700] text-2xl font-display text-left'>📞 +91 9544500746, +91 9072400746</div>
-                                
-                         </div>
-                         
+
+                        </div>
+
                     </div>
                 </div>
             </div>

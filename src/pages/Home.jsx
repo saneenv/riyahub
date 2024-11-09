@@ -25,7 +25,7 @@ function Home() {
     const selectedPlan = sessionStorage.getItem('selectedPlan');
     console.log("selectedPlan:", selectedPlan);
 
-    
+
     const District = sessionStorage.getItem('District');
     console.log("District:", District);
 
@@ -82,66 +82,67 @@ function Home() {
 
     // Navigate to details page with job_id passed as state
     const details = (jobId) => {
+        console.log("passing Job ID: ", jobId)
         navigate('/details', { state: { jobId } }); // Pass job_id as state
     };
 
-// Updated Packages2 function to take job details as a parameter
-const Packages2 = async (job) => {
+    // Updated Packages2 function to take job details as a parameter
+    const Packages2 = async (job) => {
 
-    if (!customerType) {
-        alert("Please login first"); // Alert if not logged in
-        return; // Exit the function
-    }
-
-
-    if (selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800' ) {
-        try {
-            // Prepare data with job details to send to the backend
-            const payload = {
-                employeeId: job.employee_id,
-                customerName: companyName,
-                jobId: job.job_id,
-                whatsappNumber: whatsappNumber,
-                mobileNumber: mobileNumber,
-                Email: Email
-            };
-
-            // Send data to backend
-            const response = await fetch(`${apiBaseUrl}/savePackageSelection`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload)
-            });
-
-            if (response.ok) {
-                console.log('Data saved successfully');
-                alert('Applied successfully'); // Success alert
-            } else {
-                console.error('Failed to save data');
-            }
-        } catch (error) {
-            console.error('Error:', error);
+        if (!customerType) {
+            alert("Please login first"); // Alert if not logged in
+            return; // Exit the function
         }
-    } else {
-        navigate('/packages', { state: { job: job.job, jobId: job.job_id, location: job.location } });
+
+
+        if (selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800') {
+            try {
+                // Prepare data with job details to send to the backend
+                const payload = {
+                    employeeId: job.employee_id,
+                    customerName: companyName,
+                    jobId: job.job_id,
+                    whatsappNumber: whatsappNumber,
+                    mobileNumber: mobileNumber,
+                    Email: Email
+                };
+
+                // Send data to backend
+                const response = await fetch(`${apiBaseUrl}/savePackageSelection`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    console.log('Data saved successfully');
+                    alert('Applied successfully'); // Success alert
+                } else {
+                    console.error('Failed to save data');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        } else {
+            navigate('/packages', { state: { job: job.job, jobId: job.manualJobID && job.manualJobID !== "0" ? job.manualJobID : job.job_id, location: job.location } });
+        }
+    };
+
+    function formatJobTitle(title) {
+        const lowercaseWords = ["at", "in", "of", "for", "to", "and", "on", "by", "with"];
+        return title
+            .split(" ")
+            .map((word, index) =>
+                lowercaseWords.includes(word.toLowerCase()) && index !== 0
+                    ? word.toLowerCase()
+                    : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+            )
+            .join(" ");
     }
-};
 
-function formatJobTitle(title) {
-    const lowercaseWords = ["at", "in", "of", "for", "to", "and", "on", "by", "with"];
-    return title
-        .split(" ")
-        .map((word, index) => 
-            lowercaseWords.includes(word.toLowerCase()) && index !== 0
-                ? word.toLowerCase()
-                : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-        )
-        .join(" ");
-}
 
-    
 
     return (
         <div className='min-h-screen flex flex-col'>
@@ -227,7 +228,10 @@ function formatJobTitle(title) {
                                     <div className='flex items-center justify-between'>
                                         <span className='text-base font-display font-[500]'>{job.gender_type}</span>
                                     </div>
-                                    <div className='flex items-center justify-center w-[80%] h-[38px] bg-[black] rounded-[10px] text-base font-[600] font-display text-[white] cursor-pointer hover:bg-[#E22E37]' onClick={() => details(job.job_id)}>
+                                    <div
+                                        className='flex items-center justify-center w-[80%] h-[38px] bg-[black] rounded-[10px] text-base font-[600] font-display text-[white] cursor-pointer hover:bg-[#E22E37]'
+                                        onClick={() => details(job.manualJobID && job.manualJobID !== "0" ? job.manualJobID : job.job_id)}
+                                    >
                                         Job Details
                                     </div>
                                 </div>

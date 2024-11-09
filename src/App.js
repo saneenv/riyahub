@@ -34,6 +34,7 @@ import Privacy from './pages/Privacy';
 import MartialStatus from './components/MartialStatus';
 import DeleteProfiles from './components/DeleteProfiles';
 import Services from './pages/Services';
+import AppliedCanAll from './components/AppliedCanAll';
 
 
 function App() {
@@ -75,6 +76,8 @@ function App() {
                 <Route path='/martialstatus' element={<MartialStatus/>}/>
                 <Route path='/deleteprofiles' element={<DeleteProfiles/>}/>
                 <Route path='/services' element={<Services/>}/>
+                <Route path='/appliedcanall' element={<AppliedCanAll/>}/>
+
 
 
 

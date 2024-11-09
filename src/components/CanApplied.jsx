@@ -10,36 +10,64 @@ function CanApplied() {
     const employeeId = sessionStorage.getItem('employeeId');
     const customerName = sessionStorage.getItem('customerName');
     console.log(customerName);
-    
 
     const [packageSelections, setPackageSelections] = useState([]);
+    const [jobDetails, setJobDetails] = useState([]);
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
-  
-
-    // Fetch data from the API
+    // Fetch package selections from API
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Update the endpoint to use the correct API for fetching package selections
                 const response = await fetch(`${apiBaseUrl}/getPackageSelectionsByCustomerName/${customerName}`);
                 const result = await response.json();
-    
+
                 if (result.message === "Data retrieved successfully") {
                     setPackageSelections(result.data);
                 } else {
-                    console.error("Error: ", result.message); // Log any message from the response
+                    console.error("Error: ", result.message);
                 }
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         };
-    
-        if (customerName) { // Check if customerName exists before making the fetch call
+
+        if (customerName) {
             fetchData();
         }
     }, [customerName, apiBaseUrl]);
-    
+
+    // Fetch job details for each jobId and display under its respective jobId
+    useEffect(() => {
+        const fetchJobDetails = async (jobId) => {
+            try {
+                const response = await fetch(`http://localhost:5000/getjobposts/${jobId}`);
+                const result = await response.json();
+
+                if (result) {
+                    setJobDetails(prevState => {
+                        // Only add job details if it's not already in the state
+                        if (!prevState.some(job => job.job_id === result.job_id)) {
+                            return [...prevState, result];
+                        }
+                        return prevState;
+                    });
+                } else {
+                    console.error("Error fetching job details.");
+                }
+            } catch (error) {
+                console.error("Error fetching job details:", error);
+            }
+        };
+
+        // Fetch job details for each job in packageSelections
+        packageSelections.forEach(item => {
+            if (item.jobId) {
+                fetchJobDetails(item.jobId);
+            }
+        });
+    }, [packageSelections]);
+
     return (
         <div className='flex flex-col min-h-screen'>
             {isMobile ? <NavbarMob /> : <Navbar />}
@@ -47,15 +75,24 @@ function CanApplied() {
                 <Navbar2 />
             </div>
             <div className='flex lg:px-12 px-3 py-12 flex-col min-h-screen bg-[#eeebeb]'>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
                     {packageSelections.map((item) => (
                         <div key={item.id} className="bg-white rounded-lg shadow-lg p-6">
-                            {/* <h2 className="text-lg font-bold mb-2">{item.customerName}</h2> */}
-                            <p className=" font-[700] font-display">Job ID: {item.jobId}</p>
-                            {/* <p className="text-gray-500">Mobile Number: {item.mobileNumber}</p>
-                            <p className="text-gray-500">Whatsapp Number: {item.whatsappNumber}</p>
-                            <p className="text-gray-500">Email: {item.Email}</p> */}
+                            {/* <p className="font-[700] font-display">Job ID: {item.jobId}</p> */}
 
+                            {/* Find the corresponding job details by matching jobId */}
+                            {jobDetails.map((job) => {
+                                if (job.job_id === item.jobId) {
+                                    return (
+                                        <div key={job.job_id} className="mt-4">
+                                            {/* <h3 className="font-bold">{job.job_title}</h3> */}
+                                            <h3 className="font-[700] font-display"><strong>Job ID:</strong> {job.manualJobID && job.manualJobID !== "0" ? job.manualJobID : job.job_id}</h3>
+                                  
+                                        </div>
+                                    );
+                                }
+                                return null;
+                            })}
                         </div>
                     ))}
                 </div>
