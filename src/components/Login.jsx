@@ -151,6 +151,8 @@ function Login() {
         sessionStorage.setItem('customerType', data.candidate.customerType);
         sessionStorage.setItem('customerName', data.candidate.companyName);
         sessionStorage.setItem('employeeId', data.candidate.staffId);
+        sessionStorage.setItem('address', data.candidate.address);
+
         // Add any other relevant data here
     };
 

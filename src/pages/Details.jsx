@@ -21,6 +21,8 @@ import Navbar2 from '../components/Navbar2';
 import { useLocation } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import poster from '../images/download/Riya Poster.png'
+import QRCode from 'qrcode';
+
 
 
 function Details() {
@@ -46,26 +48,38 @@ function Details() {
     const companyName = sessionStorage.getItem('customerName');
     const mobileNumber = sessionStorage.getItem('mobileNumber');
     const whatsappNumber = sessionStorage.getItem('whatsappNumber');
+    const address = sessionStorage.getItem('address');
+    const uppercaseAddress = address ? address.toUpperCase() : null;
+   console.log("uppercaseaddress",uppercaseAddress);
+   
+
+
     const Email = sessionStorage.getItem('Email');
 
 
     // const employeeId = sessionStorage.getItem('employeeId');
     console.log("selectedPlan:", selectedPlan);
     // console.log("employeeId:", employeeId);
-
     const handlePackageClick = () => {
         if (!customerType) {
             alert("Please login first"); // Alert if not logged in
             return; // Exit the function
         }
+    
+        // Check if the customer is an admin
+        if (customerType === 'admin') {
+            navigate('/companydetails', { state: { employeeId: jobDetails.employee_id } });
+            return; // Exit the function after navigating to company details
+        }
+    
+        // Proceed with the existing logic for selected plans
         if (['300', '500', '600', '800'].includes(selectedPlan)) {
             navigate('/companydetails', { state: { employeeId: jobDetails.employee_id } });
-        }
-        else {
+        } else {
             navigate('/packages', { state: { job: jobDetails.job, jobId: jobDetails.manualJobID && jobDetails.manualJobID !== "0" ? jobDetails.manualJobID : jobDetails.job_id, location: jobDetails.location } });
         }
     };
-
+    
     // Assuming 'selectedPlan', 'jobDetails', and 'customerName' are available in the component's scope
     const Packages2 = async () => {
         if (!customerType) {
@@ -120,13 +134,13 @@ function Details() {
         if (jobId) {
             // Remove extra quotes if they exist
             const cleanedJobId = jobIdStr.replace(/^['"]|['"]$/g, '');  // This removes surrounding quotes
-    
+
             console.log("Cleaned jobId:", cleanedJobId); // Log cleaned jobId
-    
+
             // Encode the cleaned jobId
             const encodedJobId = encodeURIComponent(cleanedJobId);
             console.log("Encoded jobId:", encodedJobId); // Log the encoded jobId
-    
+
             // Fetch the job details based on the jobId
             fetch(`${apiBaseUrl}/getjobposts/${encodedJobId}`)
                 .then(response => {
@@ -144,32 +158,44 @@ function Details() {
                 });
         }
     }, [jobId, apiBaseUrl]); // Rerun this effect when jobId changes
-    
+
 
     const downloadStyledImage = () => {
         const container = document.getElementById('jobDetailsContainer');
         container.style.display = 'block'; // Show the container temporarily for capture
 
-        // Set the container dimensions to portrait mode for a standard page size (e.g., 800px by 1120px).
+        // Set the container dimensions to portrait mode for a standard page size
         container.style.width = '800px';
         container.style.height = '1120px';
 
-        html2canvas(container, { scale: 2, width: 800, height: 1120 }).then(canvas => {
-            const link = document.createElement('a');
-            link.href = canvas.toDataURL('image/png');
-            link.download = 'job_details.png';
-            link.click();
+        // Generate the QR code with the specified link
+        const qrCanvas = document.createElement('canvas');
+        QRCode.toCanvas(qrCanvas, 'http://localhost:3000', { width: 100, margin: 2 })
+            .then(() => {
+                // Append QR code to the container
+                qrCanvas.classList.add('absolute', 'bottom-10', 'right-10'); // Position it as needed
+                container.appendChild(qrCanvas);
 
-            container.style.display = 'none'; // Hide the container again after download
-            container.style.width = ''; // Reset width
-            container.style.height = ''; // Reset height
-        }).catch(error => {
-            console.error('Error capturing image:', error);
-        });
+                // Capture the container with html2canvas
+                html2canvas(container, { scale: 2, width: 800, height: 1120 }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.href = canvas.toDataURL('image/png');
+                    link.download = 'job_details.png';
+                    link.click();
+
+                    // Clean up
+                    container.removeChild(qrCanvas); // Remove QR code after download
+                    container.style.display = 'none'; // Hide the container again after download
+                    container.style.width = ''; // Reset width
+                    container.style.height = ''; // Reset height
+                }).catch(error => {
+                    console.error('Error capturing image:', error);
+                });
+            })
+            .catch(error => {
+                console.error('Error generating QR code:', error);
+            });
     };
-
-
-
 
     if (error) {
         return <div>{error}</div>; // Show error message
@@ -351,7 +377,13 @@ function Details() {
                         </div>
                         <div className='flex flex-col mt-[5%] gap-3'>
                             <div className='text-[#E22E37] font-[700] text-3xl font-display text-left'>Send your CV & Portfolio to:</div>
-                            <div className='text-[#E22E37] font-[700] text-2xl font-display text-left'>📞 +91 9544500746, +91 9072400746</div>
+                            {(uppercaseAddress === 'PERINTHALMANNA' || uppercaseAddress === 'PANDIKKAD' || uppercaseAddress === 'CHERPULLASSERI' || uppercaseAddress === 'MELATTUR' || uppercaseAddress === 'PATTAMBI') && (
+                                <div className='text-[#E22E37] font-[700] text-2xl font-display text-left'>📞 +91 9544129746, +91 9544500746</div>
+                            )}
+
+                            {(uppercaseAddress === 'MANNARKAD' || uppercaseAddress === 'ERNAKULAM') && (
+                                <div className='text-[#E22E37] font-[700] text-2xl font-display text-left'>📞 +91 7356400746, +91 9544129746</div>
+                            )}
 
                         </div>
 

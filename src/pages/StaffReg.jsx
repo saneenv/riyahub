@@ -5,6 +5,7 @@ import NavbarMob from '../components/NavbarMob';
 import Navbar from '../components/Navbar';
 import Navbar2 from '../components/Navbar2';
 import Footer from '../components/Footer';
+import Select from 'react-select';
 
 function StaffReg() {
     const [companyName, setCompanyName] = useState('');
@@ -27,10 +28,9 @@ function StaffReg() {
     const mobileNumberRef = useRef(null);
     const whatsappNumberRef = useRef(null);
     const emailRef = useRef(null);
-    const addressRef = useRef(null);
     const passwordRef = useRef(null);
+    const addressRef = useRef(null);
 
- 
 
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
 
@@ -123,7 +123,6 @@ function StaffReg() {
             setIsLoading(false);
         }
     };
-    
 
     // Function to handle "Enter" key press and move to the next field
     const handleKeyDown = (e, nextRef) => {
@@ -135,7 +134,27 @@ function StaffReg() {
         }
     };
 
+    // Address options for the Select dropdown
+    const addressOptions = [
+        { value: 'perinthalmanna', label: 'Perinthalmanna' },
+        { value: 'ernakulam', label: 'Ernakulam' },
+        { value: 'mannarkad', label: 'Mannarkad' },
+        { value: 'pattambi', label: 'Pattambi' },
+        { value: 'melattur', label: 'Melattur' },
+        { value: 'cherpullasseri', label: 'Cherpullasseri' }
+    ];
 
+    const customStyles = {
+
+        control: (base) => ({
+            ...base,
+            height: '43px',
+            borderRadius: '5px',
+            border: '2px solid #D7D7D7',
+            paddingLeft: '4px',
+        }),
+
+    };
 
     return (
         <div className='flex flex-col min-h-screen'>
@@ -201,14 +220,13 @@ function StaffReg() {
 
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Address</span>
-                            <input
-                            ref={addressRef}
-                                placeholder='Enter Address'
-                                type="text"
-                                value={address}
-                                onChange={(e) => setAddress(e.target.value)}
-                                className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
-                                onKeyDown={(e) => handleKeyDown(e, passwordRef)} // Move to Password on "Enter"
+                            <Select
+                                ref={addressRef}
+                                options={addressOptions}
+                                value={addressOptions.find(option => option.value === address)}
+                                onChange={(selectedOption) => setAddress(selectedOption.value)}
+                                className='w-full'
+                                styles={customStyles}
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
@@ -223,29 +241,13 @@ function StaffReg() {
                             />
                         </div>
                     </div>
-
-                    <div className='flex flex-col gap-5 w-full px-12 justify-center items-center'>
+                    <div className='w-[30%]'>
                         <button
                             onClick={handleSubmit}
-                            className='h-[56px] lg:w-[25%] w-[50%] bg-[#E22E37] rounded-[20px] flex justify-center items-center text-[white] text-xl font-display font-[600] hover:bg-[black]'
-                            disabled={isLoading}
+                            className='w-full bg-[#2C72B6] text-[#fff] h-[50px] rounded-[8px] text-base font-[600]'
                         >
-                            {isLoading ? (
-                                <div className="flex justify-center items-center">
-                                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                        <path className="opacity-75" fill="currentColor" d="M4 12c0-4.418 3.582-8 8-8v8H4z"></path>
-                                    </svg>
-                                    <span>Register</span>
-                                </div>
-                            ) : (
-                                'Register'
-                            )}
+                            {isLoading ? 'Submitting...' : 'Submit'}
                         </button>
-                        <span className='text-base font-[500] font-display'>
-                            Already Registered? -
-                            <span className='text-base font-[700] font-display text-[#E22E37] cursor-pointer hover:text-[black]' onClick={login}> Login</span>
-                        </span>
                     </div>
                 </div>
             </div>
