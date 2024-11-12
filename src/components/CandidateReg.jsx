@@ -289,6 +289,11 @@ function CandidateReg() {
             console.error('Error posting data:', error);
         }
     };
+
+    
+  const login = () => {
+    navigate('/login');
+  };
     
 
 
@@ -455,7 +460,7 @@ function CandidateReg() {
 
                     <div className='flex flex-col gap-5 w-full px-12 justify-center items-center'>
                         <div className='h-[56px] lg:w-[25%] w-[50%] bg-[#E22E37] rounded-[20px] flex justify-center items-center text-[white] text-lg font-display font-[600] cursor-pointer hover:bg-[black] hover:text-[white]' onClick={handleSubmit}>Register</div>
-                        <span className='text-base font-[500] font-display'>Already Register- <span className='text-base font-[700] font-display text-[#E22E37] cursor-pointer  hover:text-[black]'>Login</span> </span>
+                        <span className='text-base font-[500] font-display'>Already Registered?- <span className='text-base font-[700] font-display text-[#E22E37] cursor-pointer  hover:text-[black]' onClick={login}>Login</span> </span>
                     </div>
 
                 </div>

@@ -160,6 +160,10 @@ function EmployeeReg() {
         }
     };
 
+    const login = () => {
+        navigate('/login');
+      };
+
 
 
     return (
@@ -333,7 +337,7 @@ function EmployeeReg() {
                         </button>
                         <span className='text-base font-[500] font-display'>
                             Already Registered? -
-                            <span className='text-base font-[700] font-display text-[#E22E37] cursor-pointer hover:text-[black]'> Login</span>
+                            <span className='text-base font-[700] font-display text-[#E22E37] cursor-pointer hover:text-[black]' onClick={login}> Login</span>
                         </span>
                     </div>
                 </div>

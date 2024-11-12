@@ -155,6 +155,10 @@ function Login() {
 
         // Add any other relevant data here
     };
+    
+  const regchoose = () => {
+    navigate('/regchoose');
+  };
 
     return (
         <div className='flex flex-col min-h-screen'>
@@ -201,7 +205,7 @@ function Login() {
                         <span className='text-base font-[400] font-display text-[#8B8B8B]'>or</span>
                         <span>
                             <span className='font-[400] text-base font-display text-[#8B8B8B]'>Not a Member?</span>
-                            <span className='font-[400] text-base font-display text-[#E22E37] cursor-pointer hover:text-[black]'> Free Register Here</span>
+                            <span className='font-[400] text-base font-display text-[#E22E37] cursor-pointer hover:text-[black]' onClick={regchoose}> Free Register Here</span>
                         </span>
                     </div>
                     <img src={logo} alt="logo" />

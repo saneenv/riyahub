@@ -91,6 +91,22 @@ function NavbarMob() {
         navigate('/jobid');
     };
 
+    const martial = () => {
+        navigate('/martialstatus');
+      };
+    
+      const sevicespage = () => {
+        navigate('/services');
+      };
+    
+      const whatsappPage = () => {
+        navigate('/whatsapp');
+      };
+    
+      const datesearch = () => {
+        navigate('/datesearch');
+      };
+
     return (
         <div className='w-full h-[180px]  flex flex-col px-3 gap-3'>
             <div className='w-full flex flex-row gap-3 mt-3 justify-between items-center '>
@@ -144,8 +160,20 @@ function NavbarMob() {
                             <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={home}>Home</li>
                             <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={findjob}>Find Jobs</li>
                             <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={jobcategories}>Job By Categories</li>
-
                             <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={jobidpage}>Job ID Search</li>
+
+                            {customerType === 'admin' && (
+                            <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={martial}>Martial Status</li>
+                        )}
+                        {customerType === 'admin' && (
+                            <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={whatsappPage}>To Whatsapp</li>
+                        )}
+                        {customerType === 'admin' && (
+                            <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={datesearch}>Date Search</li>
+                        )}
+                        
+                            <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={sevicespage}>Services</li>
+
                             {/* <li className='p-4 hover:bg-gray-700 cursor-pointer'>Services</li> */}
                             <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={contactus}>Contact Us</li>
                         </ul>

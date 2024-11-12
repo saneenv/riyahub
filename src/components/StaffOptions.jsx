@@ -29,13 +29,18 @@ function StaffOptions({ closeOptions }) {
     navigate('/appliedcan');
   };
 
-  const appliedCandidatesforall = () => {
-    navigate('/appliedcanall');
-  };
+  
 
   const deleteprofiles = () => {
     navigate('/deleteprofiles');
   };
+
+
+  
+  const enablejobpost = () => {
+    navigate('/enablejobpost');
+  };
+
 
   const login = () => {
     // Remove session storage items
@@ -71,11 +76,12 @@ function StaffOptions({ closeOptions }) {
           {/* <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center">Search Candidates</li> */}
           {/* <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center">Selected Candidates</li> */}
           <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={appliedCandidates}>Applied Candidates</li>
-          <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={appliedCandidatesforall}>Applied Candidates for Other Jobs</li>
 
           <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={viewProfile3}>View Profile</li>
 
           <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={enablePage}>Enable Package</li>
+          <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={enablejobpost}>Enable Job Post</li>
+
           <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={deleteprofiles}>Delete Profiles</li>
 
 

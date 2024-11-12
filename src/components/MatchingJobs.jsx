@@ -152,7 +152,8 @@ function MatchingJobs() {
                     `${apiBaseUrl}/filterjobposts?job=${jobsCategory || ''}&location=${locationCategory || ''}&job_type=${jobType || ''}&gender_type=${gender || ''}&food_type=${foodType || ''}`
                 );
                 const data = await response.json();
-                setJobsApi(data);
+                const enabledJobPosts = data.filter(job => job.enable === 'on');
+                setJobsApi(enabledJobPosts);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -189,6 +190,19 @@ function MatchingJobs() {
     const details = (jobId) => {
         navigate('/details', { state: { jobId } }); // Pass job_id as state
     };
+
+    
+    function formatJobTitle(title) {
+        const lowercaseWords = ["at", "in", "of", "for", "to", "and", "on", "by", "with"];
+        return title
+            .split(" ")
+            .map((word, index) =>
+                lowercaseWords.includes(word.toLowerCase()) && index !== 0
+                    ? word.toLowerCase()
+                    : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+            )
+            .join(" ");
+    }
 
     return (
         <div className='flex flex-col min-h-screen'>
@@ -284,10 +298,10 @@ function MatchingJobs() {
                             jobsApi.slice(0, visibleJobs).map((job) => (
                                 <div
                                     key={job.job_id}
-                                    className='h-[292px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'
+                                    className='lg:h-[292px] h-[320px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'
                                 >
                                     <div className='w-full h-[30%] bg-[white] border-b-2 border-[#C5C5C5] p-2 gap-2 flex justify-center items-center flex-col'>
-                                        <span className='text-[black] text-xl font-[700] font-display'>{job.job_title}</span>
+                                        <span className='text-[black] text-xl font-[700] font-display'>{formatJobTitle(job.job_title)}</span>
                                         <div className='flex flex-row gap-1 items-center justify-center '>
                                             <img src={vector} alt="loc" />
                                             <span className='text-sm font-[500] font-display text-[black]'>{job.location}</span>

@@ -132,16 +132,10 @@ function Details() {
 
     useEffect(() => {
         if (jobId) {
-            // Remove extra quotes if they exist
             const cleanedJobId = jobIdStr.replace(/^['"]|['"]$/g, '');  // This removes surrounding quotes
-
-            console.log("Cleaned jobId:", cleanedJobId); // Log cleaned jobId
-
-            // Encode the cleaned jobId
+    
             const encodedJobId = encodeURIComponent(cleanedJobId);
-            console.log("Encoded jobId:", encodedJobId); // Log the encoded jobId
-
-            // Fetch the job details based on the jobId
+    
             fetch(`${apiBaseUrl}/getjobposts/${encodedJobId}`)
                 .then(response => {
                     if (!response.ok) {
@@ -150,15 +144,23 @@ function Details() {
                     return response.json();
                 })
                 .then(data => {
-                    setJobDetails(data); // Set the fetched job details
+                    console.log("Fetched job data:", data); // Log the fetched data to inspect the response
+    
+                    // Check if enable is 'on' as a string (not boolean)
+                    if (data.enable && data.enable.toLowerCase() === 'on') {
+                        setJobDetails(data); 
+                    } else {
+                        setJobDetails(null); 
+                        setError('This job is not enabled.');
+                    }
                 })
                 .catch(error => {
                     setError('Error fetching job details. Please try again later.');
                     console.error('Error fetching job details:', error);
                 });
         }
-    }, [jobId, apiBaseUrl]); // Rerun this effect when jobId changes
-
+    }, [jobId, apiBaseUrl]);
+    
 
     const downloadStyledImage = () => {
         const container = document.getElementById('jobDetailsContainer');

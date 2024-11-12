@@ -68,20 +68,7 @@ function Whatsapp() {
         // Extra official data in Malayalam
         const officialText = `RIYA HUB JOBS  -  JOB PORTAL
         
-        ജോലി, വിവാഹം, റിയൽ എസ്റ്റേറ്റ്
-        നാട്ടിലെ ജോലി ഒഴിവുകളും, വിദേശ ജോലി ഒഴിവുകളും
-        വിവാഹം - അനുയോജ്യമായ വധു വരന്മാരെ കണ്ടെത്താം
-        വീടും സ്ഥലവും സെലക്ഷനോടെ വാങ്ങാം.. വിൽക്കാം..
-        ജോലി നോക്കുന്നവർ വാട്സാപ്പിൽ CV (ബയോഡാറ്റ) അയക്കൂ
-        അനുയോജ്യമായ ജോലികൾ കണ്ടെത്താം
-        
-        Contact: +91 7356400746 , 7902400746
-        
-        Join Our Community for the latest Job updates:
-        
-        Facebook - https://www.facebook.com/share/4MUDboKLv1Cu6fNo/?mibextid=A7sQZp
-        Insta - https://www.instagram.com/mannarkkad_jobs_gulf?igsh=MTdnajZ4eW1yNXY5Zg==
-        Whatsapp - https://chat.whatsapp.com/EqXvTzfhCE74mT7StiQfn8
+     
         `;
     
         // Combine job data with the official information
@@ -142,7 +129,7 @@ function Whatsapp() {
                 </div>
 
 
-                <div className="text-center mt-8">
+                <div className="text-center ">
                     <button
                         onClick={sendJobsToWhatsApp}
                         className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"

@@ -73,12 +73,15 @@ function Home() {
                 return response.json();
             })
             .then(data => {
-                setJobPosts(data); // Store job posts in state
+                // Filter the data where 'enable' is 'on'
+                const enabledJobPosts = data.filter(job => job.enable === 'on');
+                setJobPosts(enabledJobPosts); // Store filtered job posts in state
             })
             .catch(error => {
                 console.error('Error fetching job posts:', error);
             });
     }, [apiBaseUrl]);
+    
 
     // Navigate to details page with job_id passed as state
     const details = (jobId) => {
@@ -184,7 +187,7 @@ function Home() {
                     {jobPosts.slice(0, visibleJobs).map((job, index) => (
                         <div
                             key={index}
-                            className='h-[292px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'
+                            className='lg:h-[292px] h-[320px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'
                         >
                             <div className='w-full h-[30%] bg-[white] border-b-2 border-[#C5C5C5]  p-2 gap-2 flex justify-center items-center flex-col'>
                                 <span className=' text-lg font-[650] font-display'>{formatJobTitle(job.job_title)}</span>

@@ -4,6 +4,8 @@ import NavbarMob from './NavbarMob';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import Navbar2 from './Navbar2';
+import { useNavigate } from 'react-router-dom';
+
 
 function AppliedCan() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
@@ -12,6 +14,10 @@ function AppliedCan() {
     const [jobDetails, setJobDetails] = useState({});
     const [packageSelections, setPackageSelections] = useState([]);
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+    const navigate = useNavigate();
+    const customerType = sessionStorage.getItem('customerType');
+    console.log("customerType :", customerType);
+
 
     // Fetch data from the API
     useEffect(() => {
@@ -42,6 +48,10 @@ function AppliedCan() {
         }
     };
 
+    const appliedCandidatesforall = () => {
+        navigate('/appliedcanall');
+    };
+
     return (
         <div className='flex flex-col min-h-screen'>
             {isMobile ? <NavbarMob /> : <Navbar />}
@@ -49,16 +59,20 @@ function AppliedCan() {
                 <Navbar2 />
             </div>
             <div className='flex lg:px-12 px-3 py-12 flex-col min-h-screen bg-[#eeebeb]'>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {customerType === 'admin' && (
+                    <li className="p-3 bg-gray-100 hover:bg-blue-200 rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={appliedCandidatesforall}>Applied Candidates for Other Jobs</li>
+                )}
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-3">
                     {packageSelections.map((item) => {
                         const jobDetail = jobDetails[item.jobId];
                         return (
                             <div key={item.id} className="bg-white rounded-lg shadow-lg p-6 text-left">
-                                <h2 className="text-lg font-bold mb-2 font-display">{item.customerName}</h2><br/>
+                                <h2 className="text-lg font-bold mb-2 font-display">{item.customerName}</h2><br />
                                 {jobDetail ? (
                                     <>
                                         <p className="text-gray-600 font-display"><span className='font-[600]'>Job ID :</span> {jobDetail.manualJobID && jobDetail.manualJobID !== "0" ? jobDetail.manualJobID : jobDetail.job_id}</p>
-                                       
+
                                     </>
                                 ) : (
                                     <p>Loading job details...</p>

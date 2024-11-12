@@ -25,17 +25,17 @@ function PostedJobs() {
             fetch(`${apiBaseUrl}/jobpost/${jobId}`, {
                 method: 'DELETE',
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                // Update the jobPosts state to remove the deleted job post
-                setJobPosts(prevJobs => prevJobs.filter(job => job.job_id !== jobId));
-                alert('Job post deleted successfully');
-            })
-            .catch(error => {
-                console.error('Error deleting job post:', error);
-            });
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    // Update the jobPosts state to remove the deleted job post
+                    setJobPosts(prevJobs => prevJobs.filter(job => job.job_id !== jobId));
+                    alert('Job post deleted successfully');
+                })
+                .catch(error => {
+                    console.error('Error deleting job post:', error);
+                });
         }
     };
 
@@ -54,7 +54,20 @@ function PostedJobs() {
                 console.error('Error fetching job posts:', error);
             });
     }, [apiBaseUrl, employeeId]);
+
     
+    function formatJobTitle(title) {
+        const lowercaseWords = ["at", "in", "of", "for", "to", "and", "on", "by", "with"];
+        return title
+            .split(" ")
+            .map((word, index) =>
+                lowercaseWords.includes(word.toLowerCase()) && index !== 0
+                    ? word.toLowerCase()
+                    : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+            )
+            .join(" ");
+    }
+
 
     return (
         <div className='flex flex-col min-h-screen'>
@@ -66,13 +79,18 @@ function PostedJobs() {
                 <span className='text-2xl font-[600] font-display'>View Posted Jobs</span>
                 <div className='grid lg:grid-cols-3 grid-cols-1 w-full gap-3'>
                     {jobPosts.map((job) => (
-                        <div className='h-[292px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden' key={job.job_id}>
+                        <div className='lg:h-[292px] h-[320px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden' key={job.job_id}>
                             <div className='w-full h-[30%]  p-2 gap-2 flex justify-center border-b-2 border-[#C5C5C5] items-center flex-col'>
-                                <span className=' text-xl font-[700] font-display'>{job.job_title}</span>
+                                <span className=' text-xl font-[700] font-display'>{formatJobTitle(job.job_title)}</span>
                                 <div className='flex flex-row gap-2 items-center justify-center '>
                                     <img src={vector} alt="loc" />
                                     <span className='text-base font-[500] font-display '>{job.location}</span>
+                                    <div className={`mt-2 px-3 py-1 rounded-full text-white font-semibold ${job.enable === 'on' ? 'bg-green-500' : 'bg-red-500'}`}>
+                                    {job.enable === 'on' ? 'Posted' : 'Pending'}
                                 </div>
+                                </div>
+                            
+                           
                             </div>
                             <div className='w-full h-[70%] flex flex-row'>
                                 <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-5'>
@@ -110,9 +128,9 @@ function PostedJobs() {
                                         <span className='text-base font-display font-[500]'>{job.gender_type}</span>
                                     </div>
                                     <div className='flex items-center justify-center w-[80%] h-[38px] bg-[red] rounded-[10px] text-base font-[600] font-display text-[white] cursor-pointer hover:bg-[#fe4d4d] ' onClick={() => deleteJobPost(job.job_id)}>
-                                        Delete
-                                    </div>
-                                </div>
+                                        Delete 
+                                    </div>        
+                                </div>    
                             </div>
                         </div>
                     ))}

@@ -39,6 +39,10 @@ function Navbar2() {
     navigate('/whatsapp');
   };
 
+  const datesearch = () => {
+    navigate('/datesearch');
+  };
+
 
   return (
     <div className='h-[48px] w-full bg-[#D22D3A] flex flex-row gap-12 justify-center items-center'>
@@ -53,8 +57,12 @@ function Navbar2() {
          {customerType === 'admin' && (
         <span className='text-base font-[600] font-display text-[white] cursor-pointer hover:text-black' onClick={whatsappPage}>To Whatsapp</span>
       )}
+            {customerType === 'admin' && (
+        <span className='text-base font-[600] font-display text-[white] cursor-pointer hover:text-black' onClick={datesearch}>Date Search</span>
+      )}
       <span className='text-base font-[600] font-display text-[white] cursor-pointer hover:text-black' onClick={sevicespage}>Services</span>
       <span className='text-base font-[600] font-display text-[white] cursor-pointer hover:text-black' onClick={contactus}>Contact Us</span>
+
     </div>
   )
 }

@@ -34,7 +34,9 @@ function Jobs() {
                     setErrorMessage('No job posts found for the specified job title');
                 } else {
                     const data = await response.json();
-                    setJobPosts(data);
+                    const enabledJobPosts = data.filter(job => job.enable === 'on');
+               
+                    setJobPosts(enabledJobPosts);
                 }
             } catch (error) {
                 console.error('Error fetching job posts:', error);
@@ -80,7 +82,7 @@ function Jobs() {
                         jobPosts.map((job) => (
                             <div
                                 key={job.job_id}
-                                className='h-[292px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'
+                                className='lg:h-[292px] h-[320px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'
                             >
                                 <div className='w-full h-[30%] bg-[white]  p-2 gap-2 flex border-b-2 border-[#C5C5C5] justify-center items-center flex-col'>
                                     <span className=' text-lg font-[700] font-display'>{formatJobTitle(job.job_title)}</span>

@@ -156,7 +156,9 @@ function SearchedJobs() {
                     `${apiBaseUrl}/filterjobposts?job=${jobsCategory || ''}&location=${locationCategory || ''}&job_type=${jobType || ''}&gender_type=${gender || ''}&food_type=${foodType || ''}`
                 );
                 const data = await response.json();
-                setJobsApi(data);
+                const enabledJobPosts = data.filter(job => job.enable === 'on');
+                
+                setJobsApi(enabledJobPosts);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -300,7 +302,7 @@ function SearchedJobs() {
                             jobsApi.slice(0, visibleJobs).map((job) => (
                                 <div
                                     key={job.job_id}
-                                    className='h-[292px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'
+                                    className='lg:h-[292px] h-[320px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'
                                 >
                                     <div className='w-full h-[30%]  p-2 gap-2 flex border-b-2 border-[#C5C5C5] justify-center items-center flex-col'>
                                         <span className=' text-xl font-[700] font-display'>{formatJobTitle(job.job_title)}</span>
