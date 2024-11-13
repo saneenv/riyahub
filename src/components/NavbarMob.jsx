@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react'
-import logo from '../images/navbar/logo.png'
+import logo from '../images/navbar/newlogo.png'
 import EmpOptions from './EmpOptions';
 import { useNavigate } from 'react-router-dom'
 import CandidateOpt from './CandidateOpt';
 import jobs from '../json/jobs.json'; // Import jobs
 import locationData from '../json/cities.json'; // Import location data
 import StaffOptions from './StaffOptions';
-
+import Select from 'react-select'; 
 // import smallloc from '../images/navbar/smallloc.png'
-
 
 function NavbarMob() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const companyName = sessionStorage.getItem('customerName');
-    const [showOptions, setShowOptions] = useState(false); // State to track if options are shown
+    const [showOptions, setShowOptions] = useState(false); 
     const navigate = useNavigate();
     const customerType = sessionStorage.getItem('customerType');
     const [job, setJob] = useState('');
@@ -107,6 +106,26 @@ function NavbarMob() {
         navigate('/datesearch');
       };
 
+      const customSelectStyles = {
+        control: (provided) => ({
+            ...provided,
+            width: '100%',
+            height: '100%',
+            paddingLeft: '8px',
+            border: '2px solid gray',
+            borderRadius: '5px',
+        }),
+        option: (provided, state) => ({
+            ...provided,
+            backgroundColor: state.isFocused ? '#E22E37' : 'white',
+            color: state.isFocused ? 'white' : 'black',
+        }),
+        singleValue: (provided) => ({
+            ...provided,
+            color: 'black',
+        }),
+    };
+
     return (
         <div className='w-full h-[180px]  flex flex-col px-3 gap-3'>
             <div className='w-full flex flex-row gap-3 mt-3 justify-between items-center '>
@@ -119,30 +138,28 @@ function NavbarMob() {
                     </svg>
                 </button>
             </div>
-            <div className='w-full h-[40px] border-2 border-[gray] rounded-[5px]'>
-                <select
-                    className='w-full h-full px-2 rounded-[5px] appearance-none'
-                    value={job}
-                    onChange={(e) => setJob(e.target.value)} // Set selected job
-                >
-                    <option value="">Select Job...</option>
-                    {jobsOptions.map((jobOption, index) => (
-                        <option key={index} value={jobOption.value}>{jobOption.label}</option>
-                    ))}
-                </select>
+            <div className='w-full h-[40px]  rounded-[5px]'>
+                <Select
+                    styles={customSelectStyles}
+                    options={jobsOptions}
+                    placeholder="Select Job..."
+                    value={jobsOptions.find(option => option.value === job)}
+                    onChange={(selectedOption) => setJob(selectedOption?.value || '')}
+                    isClearable
+                />
             </div>
-            <div className='w-full flex flex-row h-[40px] border-2 border-[gray] rounded-[5px]'>
-                <select
-                    className='w-[70%] h-full px-2  appearance-none'
-                    value={locationInput}
-                    onChange={(e) => setLocationInput(e.target.value)} // Set selected location
-                >
-                    <option value="">Select Location...</option>
-                    {locationOptions.map((locationOption, index) => (
-                        <option key={index} value={locationOption.value}>{locationOption.label}</option>
-                    ))}
-                </select>
-                <div className='w-[30%] bg-[#E22E37] h-full flex justify-center items-center text-[white] text-base font-[700] font-display cursor-pointer' onClick={findJob}>Find Job</div>
+            <div className='w-full flex flex-row h-[40px]  rounded-[5px]'>
+            <div className='w-[70%] h-full'>
+                    <Select
+                        styles={customSelectStyles}
+                        options={locationOptions}
+                        placeholder="Select Location..."
+                        value={locationOptions.find(option => option.value === locationInput)}
+                        onChange={(selectedOption) => setLocationInput(selectedOption?.value || '')}
+                        isClearable
+                    />
+                </div>
+                <div className='w-[30%] bg-[#E22E37] h-full flex justify-center items-center text-[white] text-base font-[700] font-display cursor-pointer rounded-[5px]' onClick={findJob}>Find Job</div>
             </div>
             {/* Sidebar Component */}
             {isSidebarOpen && (

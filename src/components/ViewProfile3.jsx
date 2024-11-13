@@ -67,29 +67,50 @@ const deleteProfile = async () => {
   const confirmDelete = window.confirm("Are you sure you want to delete your profile?");
   if (!confirmDelete) return;
 
-    try {
-        const response = await fetch(`${apiBaseUrl}/deletestaff`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ staffId: employeeId }), // Send the staffId in the request body
-        });
+  try {
+      // Step 1: Delete all job posts related to the staff member
+      const jobPostResponse = await fetch(`${apiBaseUrl}/jobposts/${employeeId}`, {
+          method: 'DELETE',
+      });
 
-        if (!response.ok) {
-            throw new Error('Failed to delete profile');
-        }
+      if (!jobPostResponse.ok) {
+          const jobPostErrorData = await jobPostResponse.json();
+          alert(jobPostErrorData.message || 'Error deleting job posts');
+          return;
+      }
 
-        const data = await response.json();
-        alert(data.message); // Show success message
-        sessionStorage.removeItem('employeeId');
-        sessionStorage.removeItem('jobId');
-        sessionStorage.removeItem('customerName');
-        navigate('/login'); // Redirect to another page after deletion (e.g., home or profile list)
-    } catch (err) {
-        alert(err.message); // Show error message
-    }
+      alert('All job posts for this staff member have been deleted'); // Success message for job posts deletion
+
+      // Step 2: Proceed to delete the staff profile
+      const profileResponse = await fetch(`${apiBaseUrl}/deletestaff`, {
+          method: 'DELETE',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ staffId: employeeId }), // Send the staffId in the request body
+      });
+
+      if (!profileResponse.ok) {
+          const profileErrorData = await profileResponse.json();
+          alert(profileErrorData.message || 'Error deleting staff profile');
+          return;
+      }
+
+      const profileData = await profileResponse.json();
+      alert(profileData.message || 'Staff profile deleted successfully'); // Success message for profile deletion
+
+      // Clean up session and navigate away after successful deletion
+      sessionStorage.removeItem('employeeId');
+      sessionStorage.removeItem('jobId');
+      sessionStorage.removeItem('customerName');
+      navigate('/login'); // Redirect to the login page or another appropriate page
+
+  } catch (error) {
+      console.error('Error deleting profile or job posts:', error);
+      alert('An error occurred while deleting the profile or job posts.');
+  }
 };
+
 
 
 

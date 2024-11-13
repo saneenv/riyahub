@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useMediaQuery } from 'react-responsive';
 import NavbarMob from '../components/NavbarMob';
 import Navbar from '../components/Navbar';
@@ -15,6 +15,11 @@ function Packages() {
   const location = useLocation();
   const { job, jobId, location: jobLocation } = location.state || {};
   const District = sessionStorage.getItem('District');
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading2, setIsLoading2] = useState(false);
+  const [isLoading3, setIsLoading3] = useState(false);
+  const [isLoading4, setIsLoading4] = useState(false);
+
   console.log("District:", District);
 
   const shouldHideDiv = District === 'Ernakulam' || District === 'Thiruvananthapuram';
@@ -29,6 +34,9 @@ function Packages() {
 
 
   const handlePurchase300 = async () => {
+    // Set loading state to true when the purchase button is clicked
+    setIsLoading(true);
+
     // Retrieve sessionStorage data
     const preferredJob = sessionStorage.getItem('preferredJob') ? sessionStorage.getItem('preferredJob').split(",") : [];
     const preferredLocation = sessionStorage.getItem('preferredLocation') ? sessionStorage.getItem('preferredLocation').split(",") : [];
@@ -39,11 +47,10 @@ function Packages() {
     // Check if any of the required session values are null
     if (!customerName || !mobileNumber || !whatsappNumber) {
       alert("Please log in first");
+      setIsLoading(false); // Stop loading if user is not logged in
       return; // Exit the function if any value is missing
     }
 
-
-    // Create the message bodys
     // Create the message bodys
     const message = `Hello, I am interested in the *300* plan. 
     Applying Job ID: *${jobId}*, 
@@ -55,36 +62,37 @@ function Packages() {
     Mobile Number: ${mobileNumber}, 
     Whatsapp Number: ${whatsappNumber}`;
 
-
     try {
       const response = await fetch(`${apiBaseUrl}/send-whatsapp`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json', // Indicate that the request body is JSON
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           to: '919207427150', // Pass the phone number as a string
-          message: message.trim(), // Pass the constructed message text
+          message: message.trim(),
         }),
       });
 
-      const data = await response.json(); // Parse the JSON response
+      const data = await response.json();
 
       if (response.ok) {
         alert('Message sent successfully');
       } else {
-        // Log the full response to help debug the issue
-
         console.error('Response from server:', data);
         alert(`Your interest has been noted, and our team will contact you shortly.`);
       }
     } catch (error) {
       console.error('Error sending message:', error);
       alert('An error occurred while sending the message.');
+    } finally {
+      // Stop loading after the response is received
+      setIsLoading(false);
     }
   };
 
   const handlePurchase500 = async () => {
+    setIsLoading2(true);
     // Retrieve sessionStorage data
     const preferredJob = sessionStorage.getItem('preferredJob') ? sessionStorage.getItem('preferredJob').split(",") : [];
     const preferredLocation = sessionStorage.getItem('preferredLocation') ? sessionStorage.getItem('preferredLocation').split(",") : [];
@@ -95,6 +103,7 @@ function Packages() {
     // Check if any of the required session values are null
     if (!customerName || !mobileNumber || !whatsappNumber) {
       alert("Please log in first");
+      setIsLoading2(false);
       return; // Exit the function if any value is missing
     }
 
@@ -134,11 +143,15 @@ function Packages() {
     } catch (error) {
       console.error('Error sending message:', error);
       alert('An error occurred while sending the message.');
+    } finally {
+      // Stop loading after the response is received
+      setIsLoading2(false);
     }
   };
 
 
   const handlePurchaseEkmorTvm500 = async () => {
+    setIsLoading3(true);
     // Retrieve sessionStorage data
     const preferredJob = sessionStorage.getItem('preferredJob') ? sessionStorage.getItem('preferredJob').split(",") : [];
     const preferredLocation = sessionStorage.getItem('preferredLocation') ? sessionStorage.getItem('preferredLocation').split(",") : [];
@@ -149,6 +162,7 @@ function Packages() {
     // Check if any of the required session values are null
     if (!customerName || !mobileNumber || !whatsappNumber) {
       alert("Please log in first");
+      setIsLoading3(false);
       return; // Exit the function if any value is missing
     }
 
@@ -189,11 +203,15 @@ function Packages() {
     } catch (error) {
       console.error('Error sending message:', error);
       alert('An error occurred while sending the message.');
+    } finally {
+      // Stop loading after the response is received
+      setIsLoading3(false);
     }
   };
 
 
   const handlePurchaseEkmorTvm800 = async () => {
+    setIsLoading4(true);
     // Retrieve sessionStorage data
     const preferredJob = sessionStorage.getItem('preferredJob') ? sessionStorage.getItem('preferredJob').split(",") : [];
     const preferredLocation = sessionStorage.getItem('preferredLocation') ? sessionStorage.getItem('preferredLocation').split(",") : [];
@@ -204,6 +222,7 @@ function Packages() {
     // Check if any of the required session values are null
     if (!customerName || !mobileNumber || !whatsappNumber) {
       alert("Please log in first");
+      setIsLoading4(false);
       return; // Exit the function if any value is missing
     }
 
@@ -244,6 +263,9 @@ function Packages() {
     } catch (error) {
       console.error('Error sending message:', error);
       alert('An error occurred while sending the message.');
+    } finally {
+      // Stop loading after the response is received
+      setIsLoading4(false);
     }
   };
 
@@ -292,7 +314,13 @@ function Packages() {
 
               </div>
               <div className='w-full h-[50px] flex justify-center items-center'>
-                <div className='h-full w-[40%] bg-[#E22E37] rounded-[20px] flex justify-center items-center text-[white] lg:text-xl text-base font-[600] font-display cursor-pointer hover:bg-[black]' onClick={handlePurchase300}>Purchase Now</div>
+                <div className={`h-full w-[40%] ${isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#E22E37]'} rounded-[20px] flex justify-center items-center text-[white] lg:text-xl text-base font-[600] font-display cursor-pointer hover:bg-[black]`} onClick={handlePurchase300}>
+                  {isLoading ? (
+                    <div className="w-6 h-6 border-4 border-t-4 border-white border-solid rounded-full animate-spin"></div> // Tailwind spinner
+                  ) : (
+                    'Purchase Now'
+                  )}
+                </div>
               </div>
             </div>
           )}
@@ -328,7 +356,13 @@ function Packages() {
 
               </div>
               <div className='w-full h-[50px] flex justify-center items-center'>
-                <div className='h-full w-[40%] bg-[#E22E37] rounded-[20px] flex justify-center items-center text-[white] lg:text-xl text-base font-[600] font-display cursor-pointer hover:bg-[black]' onClick={handlePurchase500}>Purchase Now</div>
+                <div className={`h-full w-[40%] ${isLoading2 ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#E22E37]'} rounded-[20px] flex justify-center items-center text-[white] lg:text-xl text-base font-[600] font-display cursor-pointer hover:bg-[black]`} onClick={handlePurchase500}>
+                  {isLoading2 ? (
+                    <div className="w-6 h-6 border-4 border-t-4 border-white border-solid rounded-full animate-spin"></div> // Tailwind spinner
+                  ) : (
+                    'Purchase Now'
+                  )}
+                </div>
               </div>
             </div>
           )}
@@ -368,7 +402,13 @@ function Packages() {
 
               </div>
               <div className='w-full h-[50px] flex justify-center items-center'>
-                <div className='h-full w-[40%] bg-[#E22E37] rounded-[20px] flex justify-center items-center text-[white] lg:text-xl text-base font-[600] font-display cursor-pointer hover:bg-[black]' onClick={handlePurchaseEkmorTvm500}>Purchase Now</div>
+                <div className={`h-full w-[40%] ${isLoading3 ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#E22E37]'} rounded-[20px] flex justify-center items-center text-[white] lg:text-xl text-base font-[600] font-display cursor-pointer hover:bg-[black]`} onClick={handlePurchaseEkmorTvm500}>
+                  {isLoading3 ? (
+                    <div className="w-6 h-6 border-4 border-t-4 border-white border-solid rounded-full animate-spin"></div> // Tailwind spinner
+                  ) : (
+                    'Purchase Now'
+                  )}
+                </div>
               </div>
             </div>
           )}
@@ -404,7 +444,13 @@ function Packages() {
 
               </div>
               <div className='w-full h-[50px] flex justify-center items-center'>
-                <div className='h-full w-[40%] bg-[#E22E37] rounded-[20px] flex justify-center items-center text-[white] lg:text-xl text-base font-[600] font-display cursor-pointer hover:bg-[black]' onClick={handlePurchaseEkmorTvm800}>Purchase Now</div>
+                <div className={`h-full w-[40%] ${isLoading4 ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#E22E37]'} rounded-[20px] flex justify-center items-center text-[white] lg:text-xl text-base font-[600] font-display cursor-pointer hover:bg-[black]`} onClick={handlePurchaseEkmorTvm800}>
+                  {isLoading4 ? (
+                    <div className="w-6 h-6 border-4 border-t-4 border-white border-solid rounded-full animate-spin"></div> // Tailwind spinner
+                  ) : (
+                    'Purchase Now'
+                  )}
+                </div>
               </div>
             </div>
           )}

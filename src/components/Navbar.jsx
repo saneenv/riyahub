@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import logo from '../images/navbar/logo.png'
+import Select from 'react-select';
+import logo from '../images/navbar/newlogo.png'
 import search from '../images/navbar/Vector.png'
 import location from '../images/navbar/location.png'
 // import smallloc from '../images/navbar/smallloc.png'
@@ -71,6 +72,29 @@ function Navbar() {
     const closeOptions = () => {
         setShowOptions(false); // Close the options modal
     };
+
+      // Custom styles for react-select to match existing styles
+      const customStyles = {
+        container: (provided) => ({
+            ...provided,
+            width: '100%',
+            height: '100%',
+        }),
+        control: (provided) => ({
+            ...provided,
+            border: 'none',
+            boxShadow: 'none',
+            height: '100%',
+            fontSize: '16px',
+            // paddingLeft: '0.5rem',
+        }),
+        indicatorsContainer: (provided) => ({
+            ...provided,
+            display: 'none', // Hide dropdown indicator
+        }),
+    };
+
+    
     return (
         <div className='h-[100px] w-full  lg:px-12 px-3 flex items-center flex-row gap-5'>
 
@@ -80,39 +104,39 @@ function Navbar() {
                     <div className='h-full w-[20%] flex justify-center items-center'>
                         <img src={search} alt="vector" />
                     </div>
-                    <div className='h-full w-[80%]'>
-                        <select
-                            className='w-full h-full focus:outline-none focus:ring-0 appearance-none'
-                            value={job}
-                            onChange={(e) => setJob(e.target.value)} // Set selected job
-                        >
-                            <option value="">Select Job...</option>
-                            {jobsOptions.map((jobOption, index) => (
-                                <option key={index} value={jobOption.value}>{jobOption.label}</option>
-                            ))}
-                        </select>
+                    <div className='h-full w-[100%]'>
+                        <Select
+                            options={jobsOptions}
+                            value={jobsOptions.find(option => option.value === job)}
+                            onChange={(selectedOption) => setJob(selectedOption ? selectedOption.value : '')}
+                            placeholder="Select Job..."
+                            styles={customStyles}
+                            className='w-full'
+                        />
                     </div>
                 </div>
+                
                 <div className='h-full w-[40%] flex flex-row'>
                     <div className='h-full w-[20%] flex justify-center items-center'>
                         <img src={location} alt="location" />
                     </div>
-                    <div className='h-full w-[80%]'>
-                        <select
-                            className='w-full h-full focus:outline-none focus:ring-0 appearance-none'
-                            value={locationInput}
-                            onChange={(e) => setLocationInput(e.target.value)} 
-                        >
-                            <option value="">Select Location...</option>
-                            {locationOptions.map((locationOption, index) => (
-                                <option key={index} value={locationOption.value}>{locationOption.label}</option>
-                            ))}
-                        </select>
+                    <div className='h-full w-[100%]'>
+                        <Select
+                            options={locationOptions}
+                            value={locationOptions.find(option => option.value === locationInput)}
+                            onChange={(selectedOption) => setLocationInput(selectedOption ? selectedOption.value : '')}
+                            placeholder="Select Location..."
+                            styles={customStyles}
+                            className='w-full'
+
+                        />
                     </div>
                 </div>
-
+                
                 <div className='h-[70%] w-[20%] flex justify-center items-center'>
-                    <div className='h-full w-[80%] rounded-[10px] bg-[#E22E37] flex justify-center items-center text-[white] cursor-pointer text-base font-[600] font-display hover:bg-[red]' onClick={findJob}>Find Job</div>
+                    <div className='h-full w-[80%] rounded-[10px] bg-[#E22E37] flex justify-center items-center text-[white] cursor-pointer text-base font-[600] font-display hover:bg-[red]' onClick={findJob}>
+                        Find Job
+                    </div>
                 </div>
             </div>
 

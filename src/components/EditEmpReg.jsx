@@ -5,6 +5,8 @@ import NavbarMob from './NavbarMob';
 import Navbar from './Navbar';
 import { useMediaQuery } from 'react-responsive';
 import Footer from './Footer';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+
 
 
 
@@ -22,6 +24,8 @@ const EditEmpReg = () => {
   const [companyDistrict, setCompanyDistrict] = useState('');
   const [address, setAddress] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   
@@ -93,6 +97,9 @@ const EditEmpReg = () => {
     }
 };
 
+const togglePasswordVisibility = () => {
+  setShowPassword(!showPassword);
+};
 
   return (
     <div className='flex flex-col min-h-screen'>
@@ -168,14 +175,23 @@ const EditEmpReg = () => {
               />
             </div>
             <div className='flex flex-col gap-3'>
-              <span className='text-left text-base font-[500] font-display'>New Password</span>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
-              />
-            </div>
+                            <span className='text-left text-base font-[500] font-display'>Create Password</span>
+                            <div className='relative'>
+                                <input
+                                    type={showPassword ? 'text' : 'password'} // Toggle between 'text' and 'password'
+                                    placeholder='Create Password'
+                                    className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4 pr-10' // Add padding to the right for the icon
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+                                <span
+                                    className='absolute right-3 top-3 cursor-pointer text-gray-500' // Position the icon
+                                    onClick={togglePasswordVisibility}
+                                >
+                                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                </span>
+                            </div>
+                        </div>
           </div>
           <div className='flex flex-col gap-5 w-full px-12 justify-center items-center'>
             <button

@@ -343,7 +343,7 @@ const EditCanReg = () => {
 
           <button
             onClick={handleSubmit}
-            className='bg-[black] text-white rounded-md py-2 px-4 mt-4 text-xl font-[600] hover:bg-[#E22E37] h-[56px] w-[25%] w-[50%]' 
+            className='bg-[black] text-white rounded-md py-2 px-4 mt-4 text-xl font-[600] hover:bg-[#E22E37] h-[56px] lg:w-[25%] w-[50%]' 
           >
             Update
           </button>

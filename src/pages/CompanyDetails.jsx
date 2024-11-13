@@ -95,7 +95,7 @@ function CompanyDetails() {
                     <div className='flex lg:flex-row flex-col h-[56px] border-2 border-[#E3EAF1] w-full rounded-[10px]'>
                         <div className='lg:w-[30%] w-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
                             <img src={call} alt="call" />
-                            <span className='text-[#B3B3B3] text-xl font-[500] font-display'>Mobile Number</span>
+                            <span className='text-[#B3B3B3] text-xl font-[500] font-display'>Manager Number</span>
                         </div>
                         <div className='lg:w-[70%] text-lg font-[500] w-full  flex px-5 items-center'>
                             {employeeData?.mobile_number || employeeData?.mobileNumber}
@@ -103,8 +103,10 @@ function CompanyDetails() {
                     </div>
                     <div className='flex lg:flex-row flex-col h-[56px] border-2 border-[#E3EAF1] w-full rounded-[10px]'>
                         <div className='lg:w-[30%] w-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
-                            <img src={wa} alt="Whatsapp" />
-                            <span className='text-[#B3B3B3] text-xl font-[500] font-display'>Whatsapp Number</span>
+                            {/* <img src={wa} alt="Whatsapp" /> */}
+                            <img src={call} alt="call" />
+
+                            <span className='text-[#B3B3B3] text-xl font-[500] font-display'>Office Number</span>
                         </div>
                         <div className='lg:w-[70%] text-lg font-[500] w-full flex px-5 items-center'>
                             {employeeData?.whatsapp_number || employeeData?.whatsappNumber}

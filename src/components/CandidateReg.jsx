@@ -10,7 +10,7 @@ import degree from '../json/degree.json'
 import jobs from '../json/jobs.json';
 import location from '../json/cities.json'
 import { useNavigate } from 'react-router-dom';
-
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 function CandidateReg() {
 
@@ -27,9 +27,15 @@ function CandidateReg() {
     const [whatsapp, setWhatsapp] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [gender, setGender] = useState(null); // State for storing gender
     const [jobType, setJobType] = useState(null); // State for storing gender
     const [maritalStatus, setMartialStatus] = useState(null); // State for storing gender
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+
 
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
     const navigate = useNavigate();
@@ -44,7 +50,7 @@ function CandidateReg() {
         setJobType(selectedOption ? selectedOption.value : null);
     };
 
-    
+
     const handleMaritalStatusChange = (selectedOption) => {
         setMartialStatus(selectedOption ? selectedOption.value : null);
     };
@@ -188,24 +194,24 @@ function CandidateReg() {
         // Validation checks
         const mobilePattern = /^[0-9]{10}$/;
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    
+
         // Validate mobile and WhatsApp numbers
         if (!mobilePattern.test(mobile)) {
             alert('Mobile Number must be 10 digits.');
             return; // Stop the function if validation fails
         }
-    
+
         if (!mobilePattern.test(whatsapp)) {
             alert('WhatsApp Number must be 10 digits.');
             return; // Stop the function if validation fails
         }
-    
+
         // Validate email format
         if (!emailPattern.test(email)) {
             alert('Please enter a valid email address.');
             return; // Stop the function if validation fails
         }
-    
+
         // Check for empty fields
         if (!name || !mobile || !whatsapp || !email ||
             !password || !gender || !companyDistrict || !candidateDegree ||
@@ -213,17 +219,17 @@ function CandidateReg() {
             alert('Please fill in all fields.');
             return; // Stop the function if any field is empty
         }
-    
+
         // Check if the mobile number is blocked
         try {
             const blockedProfilesResponse = await fetch(`${apiBaseUrl}/getBlockedProfiles`);
             const blockedProfiles = await blockedProfilesResponse.json();
-    
+
             // Check if the mobile number exists in blocked profiles
-            const isBlocked = blockedProfiles.some(profile => 
+            const isBlocked = blockedProfiles.some(profile =>
                 profile.ProfileType === 'candidate' && profile.MobileNumber === mobile
             );
-    
+
             if (isBlocked) {
                 alert('This mobile number is blocked.');
                 return; // Stop the function if the mobile number is blocked
@@ -231,7 +237,7 @@ function CandidateReg() {
         } catch (error) {
             console.error('Error fetching blocked profiles:', error);
         }
-    
+
         const data = {
             name,
             mobile,
@@ -246,9 +252,9 @@ function CandidateReg() {
             locations: locationCategory.map(option => option.value), // Ensure this is an array
             maritalStatus: maritalStatus
         };
-    
+
         console.log(data); // This should show jobs and locations as arrays
-    
+
         try {
             const response = await fetch(`${apiBaseUrl}/registerCandidate`, {
                 method: 'POST',
@@ -257,7 +263,7 @@ function CandidateReg() {
                 },
                 body: JSON.stringify(data),
             });
-    
+
             if (!response.ok) {
                 const errorData = await response.json(); // Attempt to parse error message
                 if (errorData.message === 'Mobile number already exists') {
@@ -267,7 +273,7 @@ function CandidateReg() {
                 }
                 throw new Error(`Network response was not ok: ${errorData.message || 'Unknown error'}`);
             }
-    
+
             alert('Registration Successful');
             setName('');
             setMobile('');
@@ -282,7 +288,7 @@ function CandidateReg() {
             setLocationCategory('');
             setMartialStatus('');
             navigate('/login');
-    
+
             const result = await response.json();
             console.log(result); // Handle success
         } catch (error) {
@@ -290,11 +296,16 @@ function CandidateReg() {
         }
     };
 
-    
-  const login = () => {
-    navigate('/login');
-  };
-    
+
+    const login = () => {
+        navigate('/login');
+    };
+
+    const terms = () => {
+        navigate('/terms');
+    };
+
+
 
 
     return (
@@ -350,13 +361,21 @@ function CandidateReg() {
                         </div>
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Create Password</span>
-                            <input
-                                type="password"
-                                placeholder='Create Password'
-                                className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4'
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
+                            <div className='relative'>
+                                <input
+                                    type={showPassword ? 'text' : 'password'} // Toggle between 'text' and 'password'
+                                    placeholder='Create Password'
+                                    className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4 pr-10' // Add padding to the right for the icon
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+                                <span
+                                    className='absolute right-3 top-3 cursor-pointer text-gray-500' // Position the icon
+                                    onClick={togglePasswordVisibility}
+                                >
+                                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                </span>
+                            </div>
                         </div>
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Gender</span>
@@ -366,8 +385,8 @@ function CandidateReg() {
                                 placeholder="Select Gender"
                                 classNamePrefix="react-select"
                                 styles={customStyles}
-                                value={genderOptions.find(option => option.value === gender) || null} // Match the selected value
-                                onChange={handleGenderChange} // Handle gender change
+                                value={genderOptions.find(option => option.value === gender) || null} 
+                                onChange={handleGenderChange} 
                             />
 
                         </div>
@@ -383,7 +402,7 @@ function CandidateReg() {
                                 className='w-full'
                                 classNamePrefix='select'
                                 isClearable={true}
-                                value={districtOptions.find(option => option.value === companyDistrict) || null} // Set the selected option
+                                value={districtOptions.find(option => option.value === companyDistrict) || null} 
                                 styles={customStyles}
 
                             />
@@ -397,7 +416,7 @@ function CandidateReg() {
                                 className='w-full'
                                 classNamePrefix='select'
                                 isClearable={true}
-                                value={degreeOptions.find(option => option.value === candidateDegree) || null} // Set the selected option
+                                value={degreeOptions.find(option => option.value === candidateDegree) || null} 
                                 styles={customStyles}
 
                             />
@@ -410,8 +429,8 @@ function CandidateReg() {
                                 placeholder="Select Job Type"
                                 classNamePrefix="react-select"
                                 styles={customStyles}
-                                value={jobTypeOptions.find(option => option.value === jobType) || null} // Match the selected value
-                                onChange={handleJobTypeChange} // Handle job type change
+                                value={jobTypeOptions.find(option => option.value === jobType) || null} 
+                                onChange={handleJobTypeChange} 
                             />
 
                         </div>
@@ -424,8 +443,8 @@ function CandidateReg() {
                                 className='w-auto'
                                 classNamePrefix='select'
                                 isClearable={true}
-                                isMulti // Allow multiple selections
-                                value={jobsCategory} // Display selected options
+                                isMulti 
+                                value={jobsCategory}
                                 styles={customStyles2}
                             />
                         </div>
@@ -439,8 +458,8 @@ function CandidateReg() {
                                 className='w-full'
                                 classNamePrefix='select'
                                 isClearable={true}
-                                isMulti // Allow multiple selections
-                                value={locationCategory} // Display selected options
+                                isMulti 
+                                value={locationCategory} 
                                 styles={customStyles2}
                             />
                         </div>
@@ -452,13 +471,15 @@ function CandidateReg() {
                                 placeholder="Select Marital Status"
                                 classNamePrefix="react-select"
                                 styles={customStyles}
-                                value={maritalStatusOptions.find(option => option.value === maritalStatus) || null} // Match the selected value
-                                onChange={handleMaritalStatusChange} // Handle marital status change
+                                value={maritalStatusOptions.find(option => option.value === maritalStatus) || null} 
+                                onChange={handleMaritalStatusChange} 
                             />
                         </div>
                     </div>
 
                     <div className='flex flex-col gap-5 w-full px-12 justify-center items-center'>
+                        <span className='text-base font-[300] font-display'>By submitting you agree to our <span className='text-base font-[400] font-display text-[blue] cursor-pointer  hover:text-[black]' onClick={terms}>Terms & Conditions</span> </span>
+
                         <div className='h-[56px] lg:w-[25%] w-[50%] bg-[#E22E37] rounded-[20px] flex justify-center items-center text-[white] text-lg font-display font-[600] cursor-pointer hover:bg-[black] hover:text-[white]' onClick={handleSubmit}>Register</div>
                         <span className='text-base font-[500] font-display'>Already Registered?- <span className='text-base font-[700] font-display text-[#E22E37] cursor-pointer  hover:text-[black]' onClick={login}>Login</span> </span>
                     </div>

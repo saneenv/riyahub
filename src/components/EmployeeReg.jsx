@@ -7,6 +7,8 @@ import Navbar2 from './Navbar2';
 import Select from 'react-select';
 import statesAndDistricts from '../json/states-and-districts.json';
 import { useNavigate } from 'react-router-dom';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+
 
 function EmployeeReg() {
     const [companyName, setCompanyName] = useState('');
@@ -17,6 +19,12 @@ function EmployeeReg() {
     const [companyDistrict, setCompanyDistrict] = useState('');
     const [address, setAddress] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+
     const [isLoading, setIsLoading] = useState(false); // New loading state
     const navigate = useNavigate();
 
@@ -189,10 +197,10 @@ function EmployeeReg() {
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-base font-[500] font-display'>Mobile Number</span>
+                            <span className='text-left text-base font-[500] font-display'>Manager Number</span>
                             <input
                              ref={mobileNumberRef}
-                                placeholder='Enter Phone No'
+                                placeholder='Enter Manager No'
                                 type="number"
                                 value={mobileNumber}
                                 onChange={(e) => setMobileNumber(e.target.value)}
@@ -201,10 +209,10 @@ function EmployeeReg() {
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-base font-[500] font-display'>Whatsapp Number</span>
+                            <span className='text-left text-base font-[500] font-display'>Office Number</span>
                             <input
                             ref={whatsappNumberRef}
-                                placeholder='Your Whatsapp No'
+                                placeholder='Enter Office No'
                                 type="number"
                                 value={whatsappNumber}
                                 onChange={(e) => setWhatsappNumber(e.target.value)}
@@ -306,14 +314,21 @@ function EmployeeReg() {
                         </div>
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Create Password</span>
-                            <input
-                             ref={passwordRef}
-                                placeholder='Create Password'
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
-                            />
+                            <div className='relative'>
+                                <input
+                                    type={showPassword ? 'text' : 'password'} // Toggle between 'text' and 'password'
+                                    placeholder='Create Password'
+                                    className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4 pr-10' // Add padding to the right for the icon
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+                                <span
+                                    className='absolute right-3 top-3 cursor-pointer text-gray-500' // Position the icon
+                                    onClick={togglePasswordVisibility}
+                                >
+                                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                </span>
+                            </div>
                         </div>
                     </div>
 

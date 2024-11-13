@@ -6,12 +6,14 @@ import Footer from './Footer';
 import logo from '../images/login/logo.png';
 import Navbar2 from './Navbar2';
 import { useNavigate } from 'react-router-dom';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 function Login() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
     const navigate = useNavigate();
     const [mobileNumber, setMobileNumber] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
@@ -167,7 +169,7 @@ function Login() {
                 <Navbar2 />
             </div>
             <div className='flex justify-center items-center bg-[black] py-7'>
-                <div className='lg:w-[30%] w-[90%] h-[70%] bg-[white] flex flex-col items-center gap-6 py-6 lg:rounded-[20px] rounded-[5px]'>
+                <div className='lg:w-[30%] w-[90%] h-[70%] bg-[white] flex flex-col items-center px-2 gap-6 py-6 lg:rounded-[20px] rounded-[5px]'>
                     <div className='flex flex-col justify-center items-center gap-3'>
                         <span className='text-2xl font-[600] font-display'>Login</span>
                         <span className='text-base font-[400] font-display'>Log In to Continue Your Job Search Journey</span>
@@ -176,7 +178,7 @@ function Login() {
                         <div className='text-red-500'>{errorMessage}</div>
                     )}
                     <div className='w-full h-auto gap-3 flex flex-col mt-5'>
-                        <div className='h-[56px] w-full px-12'>
+                        <div className='h-[56px] w-full lg:px-12 px-2'>
                             <input
                                 type="text"
                                 className='border-2 border-[#000000] w-full h-full rounded-[12px] px-3'
@@ -185,14 +187,20 @@ function Login() {
                                 onChange={(e) => setMobileNumber(e.target.value)}
                             />
                         </div>
-                        <div className='h-[56px] w-full px-12'>
+                        <div className='h-[56px] w-full lg:px-12 px-2 relative flex flex-row'>
                             <input
-                                type="password"
-                                className='border-2 border-[#000000] w-full h-full rounded-[12px] px-3'
+                                type={showPassword ? "text" : "password"} // Toggle password visibility
+                                className='border-2 border-r-0 border-[#000000] w-[80%] h-full rounded-l-[12px] px-3 focus:outline-none focus:ring-0'
                                 placeholder='Enter your password'
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
+                            <div
+                                className='w-[20%] h-full cursor-pointer flex justify-center items-center border-l-0 border-[#000000] border-2 rounded-r-[12px]'
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+                            </div>
                         </div>
                         <div className='h-[56px] w-full px-12'>
                             <div

@@ -83,8 +83,8 @@ function Verify() {
             <div className='flex justify-center items-center bg-[black] py-7'>
                 <div className='lg:w-[60%] w-[90%] h-[70%] bg-[white] flex flex-col items-center gap-6 py-12 lg:rounded-[20px] rounded-[5px]'>
                     <div className='flex flex-col justify-center items-center gap-3 px-12'>
-                        <span className='text-2xl font-[600] font-[display]'>Enter the code</span>
-                        <span className='text-base font-[400] font-[display]'>
+                        <span className='text-2xl font-[600] font-display'>Enter the code</span>
+                        <span className='text-base font-[400] font-display'>
                             Enter the code we sent to your mail Id. Be careful not to share with anyone.
                         </span>
                     </div>
@@ -106,16 +106,16 @@ function Verify() {
                         </div>
                         <div className='h-[56px] w-full px-12'>
                             <div
-                                className='w-full h-full bg-[#E22E37] rounded-[5px] flex justify-center items-center text-[white] text-base font-[600] font-[display] cursor-pointer'
+                                className='w-full h-full bg-[#E22E37] rounded-[5px] flex justify-center items-center text-[white] text-base font-[600] font-display cursor-pointer'
                                 onClick={handleSubmit}
                             >
                                 SUBMIT
                             </div>
                         </div>
-                        <span className='text-base font-[400] font-[display] text-[#8B8B8B]'>or</span>
+                        <span className='text-base font-[400] font-display text-[#8B8B8B]'>or</span>
                         <span>
-                            <span className='font-[400] text-base font-[display] text-[#8B8B8B]'>Not a Member?</span>
-                            <span className='font-[400] text-base font-[display] text-[#E22E37] cursor-pointer'>
+                            <span className='font-[400] text-base font-display text-[#8B8B8B]'>Not a Member?</span>
+                            <span className='font-[400] text-base font-display text-[#E22E37] cursor-pointer'>
                                 Free Register Here
                             </span>
                         </span>

@@ -25,6 +25,7 @@ function Footer() {
 
       const homePage = () => {
         navigate('/home');
+        window.scrollTo(0, 0); // Scroll to the top of the page
       };
 
       const staffregpage = () => {
@@ -43,12 +44,19 @@ function Footer() {
         navigate('/privacy');
       };
 
+      
+      const HomePage = () => {
+        navigate('/home');
+        window.scrollTo(0, 0); // Scroll to the top of the page
+    };
+    
+
 
     return (
         <div className='flex flex-col'>
             <div className='h-auto w-full bg-[#3D3B3B] flex lg:flex-row flex-col lg:p-12 p-3 lg:gap-0 gap-5'>
                 <div className='h-min-h-screen w-[30%] flex justify-center items-center'>
-                    <img src={logo} alt="logo" />
+                    <img src={logo} alt="logo" onClick={HomePage}  className='cursor-pointer'/>
                 </div>
                 <div className='h-[100%] w-[70%] flex lg:flex-row flex-col justify-center items-start lg:gap-[15%] gap-8'>
                     <div className='flex flex-col lg:gap-6 gap-3 '>
