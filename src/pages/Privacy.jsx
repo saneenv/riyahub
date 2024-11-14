@@ -21,12 +21,12 @@ function Privacy() {
 
             <div className='lg:px-12 px-3 lg:py-12 py-3 flex flex-col min-h-screen gap-8'>
 
-                <div className='w-full flex justify-center items-center text-[#E22E37] text-3xl font-[700] font-display'>Privacy Policy</div>
+                <div className='w-full flex justify-center items-center text-[#E22E37] lg:text-3xl text-xl font-[700] font-display'>Privacy Policy</div>
 
                 <div className='w-full flex flex-col gap-10'>
                     <div className='flex flex-col w-full gap-4 text-left'>
-                        <span className='text-xl font-[700] font-display'>Introduction</span>
-                        <span className='text-lg font-[400] font-display'>Welcome to RIYA HUB JOBS . We are
+                        <span className='lg:text-xl text-lg font-[700] font-display'>Introduction</span>
+                        <span className='lg:text-lg text-base font-[400] font-display'>Welcome to RIYA HUB JOBS . We are
                             committed to protecting your privacy and
                             ensuring your personal information is handled responsibly.
                             This Privacy Policy outlines how we collect, use, and safeguard your information.</span>
@@ -35,10 +35,10 @@ function Privacy() {
 
 
                     <div className='flex flex-col w-full gap-4 text-left'>
-                        <span className='text-xl font-[700] font-display'>Information We Collect</span>
-                        <span className='text-lg font-[400] font-display'>We collect various types of information, including:
+                        <span className='lg:text-xl text-lg font-[700] font-display'>Information We Collect</span>
+                        <span className='lg:text-lg text-base font-[400] font-display'>We collect various types of information, including:
                         </span>
-                        <div className='text-lg font-[400] font-display flex flex-col gap-6'>
+                        <div className='lg:text-lg text-base font-[400] font-display flex flex-col gap-6'>
                             <div className='flex lg:flex-row flex-col'>
 
                                 <span className='font-[600]'>. Personal Information</span> :Name, email address, phone number,
@@ -74,10 +74,10 @@ function Privacy() {
 
 
                     <div className='flex flex-col w-full gap-4 text-left'>
-                        <span className='text-xl font-[700] font-display'> How We Use Your Information</span>
-                        <span className='text-lg font-[400] font-display'>We may use your information for the following purposes:
+                        <span className='lg:text-xl text-lg font-[700] font-display'> How We Use Your Information</span>
+                        <span className='lg:text-lg text-base font-[400] font-display'>We may use your information for the following purposes:
                         </span>
-                        <div className='text-lg font-[500] font-display flex flex-col gap-6'>
+                        <div className='lg:text-lg text-base font-[500] font-display flex flex-col gap-6'>
                             <div className='flex flex-row'>
 
                                 <span className='font-[600]'>. </span>&nbsp; To create and manage your account.
@@ -115,11 +115,11 @@ function Privacy() {
 
 
                     <div className='flex flex-col w-full gap-4 text-left'>
-                        <span className='text-xl font-[700] font-display'> Sharing Your Information</span>
-                        <span className='text-lg font-[400] font-display'>We do not sell or rent your personal information.
+                        <span className='lg:text-xl text-lg font-[700] font-display'> Sharing Your Information</span>
+                        <span className='lg:text-lg text-base font-[400] font-display'>We do not sell or rent your personal information.
                             We may share your information with:
                         </span>
-                        <div className='text-lg font-[500] font-display flex flex-col gap-6'>
+                        <div className='lg:text-lg text-base font-[500] font-display flex flex-col gap-6'>
                             <div className='flex flex-row'>
 
                                 <span className='font-[600]'>. </span>&nbsp; Employers who are seeking candidates for job openings.
@@ -147,10 +147,10 @@ function Privacy() {
 
 
                     <div className='flex flex-col w-full gap-4 text-left'>
-                        <span className='text-xl font-[700] font-display'> Your Rights</span>
-                        <span className='text-lg font-[400] font-display'>You have the right to:
+                        <span className='lg:text-xl text-lg font-[700] font-display'> Your Rights</span>
+                        <span className='lg:text-lg text-base font-[400] font-display'>You have the right to:
                         </span>
-                        <div className='text-lg font-[500] font-display flex flex-col gap-6'>
+                        <div className='lg:text-lg text-base font-[500] font-display flex flex-col gap-6'>
                             <div className='flex flex-row'>
 
                                 <span className='font-[600]'>. </span>&nbsp; Access your personal information.
@@ -183,9 +183,9 @@ function Privacy() {
 
 
                     <div className='flex flex-col w-full gap-4 text-left'>
-                    <span className='text-xl font-[700] font-display'>Contact Us</span>
-                        <span className='text-xl font-[600] font-display'>RIYA HUB JOBS</span>
-                        <div className='text-lg font-[400] font-display flex flex-col gap-6'>
+                    <span className='lg:text-xl text-lg font-[700] font-display'>Contact Us</span>
+                        <span className='lg:text-xl text-lg font-[600] font-display'>RIYA HUB JOBS</span>
+                        <div className='lg:text-lg text-base font-[400] font-display flex flex-col gap-6'>
                             <div className='flex flex-row'>
 
                                 Email : <span className='font-[600]'>&nbsp;Riyahubjobs@gmail.com</span>

@@ -63,7 +63,7 @@ function CompanyDetails() {
     }
 
     if (error) {
-        return <div>Error: {error}</div>;
+        return <div>Employee Not Found</div>;
     }
 
     return (

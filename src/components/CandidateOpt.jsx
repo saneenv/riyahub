@@ -5,6 +5,10 @@ function CandidateOpt({ closeOptions }) {
     const navigate = useNavigate();
     const companyName = sessionStorage.getItem('customerName');
     const employeeId = sessionStorage.getItem('employeeId');
+    const selectedPlan = sessionStorage.getItem('selectedPlan');
+    console.log("fdgdfghhbhjvbhjvbhjbvhjbk:",selectedPlan);
+    
+
 
     // const home = () => {
     //     navigate('/home'); 
@@ -38,6 +42,8 @@ function CandidateOpt({ closeOptions }) {
         sessionStorage.removeItem('gender');
         sessionStorage.removeItem('mobileNumber');
         sessionStorage.removeItem('whatsappNumber');
+        sessionStorage.removeItem('selectedPlan');
+
 
 
 
@@ -60,7 +66,9 @@ function CandidateOpt({ closeOptions }) {
                     <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={matchjob}>Matching Jobs</li>
                     <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={canapplied}>Applied Jobs</li>
                     {/* <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center">Viewed Jobs</li> */}
-                    <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={packages}>Packages</li>
+                    {(selectedPlan === '0' || selectedPlan === 'null' || selectedPlan === '') && (
+                        <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={packages}>Packages</li>
+                    )}                    
                     <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={viewProfile}>View Profile</li>
                     <li className="p-3 bg-gray-100 hover:bg-[#E22E37] hover:text-[white] rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={login}>Logout</li>
                 </ul>

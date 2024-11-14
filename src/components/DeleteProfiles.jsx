@@ -56,24 +56,40 @@ function DeleteProfiles() {
     };
 
     const handleDeleteEmployee = (employeeID) => {
-        const confirmDelete = window.confirm("Are you sure you want to delete your profile?");
+        const confirmDelete = window.confirm("Are you sure you want to delete this employee's profile and all associated job posts?");
         if (!confirmDelete) return;
-
-        fetch(`${apiBaseUrl}/employee/delete/${employeeID}`, {
+    
+        // First, delete all job posts associated with the employee
+        fetch(`${apiBaseUrl}/jobposts/${employeeID}`, {
             method: 'DELETE',
         })
             .then((response) => response.json())
-            .then((data) => {
-                if (data.success) {
-                    setEmployees(employees.filter(employee => employee.id !== employeeID));
+            .then((jobPostData) => {
+                if (jobPostData.success) {
+                    // Proceed to delete the employee's profile after job posts deletion
+                    fetch(`${apiBaseUrl}/employee/delete/${employeeID}`, {
+                        method: 'DELETE',
+                    })
+                        .then((response) => response.json())
+                        .then((data) => {
+                            if (data.success) {
+                                setEmployees(employees.filter(employee => employee.id !== employeeID));
+                            } else {
+                                console.error('Error deleting employee:', data.message);
+                            }
+                        })
+                        .catch((error) => {
+                            console.error('Error deleting employee:', error);
+                        });
                 } else {
-                    console.error('Error deleting employee:', data.message);
+                    console.error('Error deleting job posts:', jobPostData.message || 'No job posts found for this employee');
                 }
             })
             .catch((error) => {
-                console.error('Error deleting employee:', error);
+                console.error('Error deleting job posts:', error);
             });
     };
+    
 
     const filteredCandidates = candidates.filter(candidate =>
         candidate.Name.toLowerCase().includes(candidateSearch.toLowerCase()) ||

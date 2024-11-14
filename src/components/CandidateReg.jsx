@@ -404,7 +404,6 @@ function CandidateReg() {
                                 isClearable={true}
                                 value={districtOptions.find(option => option.value === companyDistrict) || null} 
                                 styles={customStyles}
-
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
