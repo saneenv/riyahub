@@ -30,7 +30,7 @@ function JobCategory() {
                     {/* Map through the job titles */}
                     {jobTitles.map((title, index) => (
                         <div key={index} className='w-full h-[170px] flex justify-center items-center flex-col gap-3 bg-[white] rounded-[5px] p-2'>
-                            <span className='lg:text-xl text-base font-[600] font-display'>{title}</span>
+                            <span className='lg:text-lg text-base font-[600] font-display'>{title}</span>
                             <div className='lg:w-[30%] w-[70%] h-[40px] bg-[#E22E37] rounded-md text-[white] font-[600] lg:text-base text-sm font-display flex justify-center items-center cursor-pointer hover:text-[black]'  onClick={() => jobPage(title)}>
                                 View Jobs
                             </div>

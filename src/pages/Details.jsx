@@ -172,7 +172,7 @@ function Details() {
 
         // Generate the QR code with the specified link
         const qrCanvas = document.createElement('canvas');
-        QRCode.toCanvas(qrCanvas, 'http://localhost:3000', { width: 100, margin: 2 })
+        QRCode.toCanvas(qrCanvas, 'https://www.riyahubs.com', { width: 100, margin: 2 })
             .then(() => {
                 // Append QR code to the container
                 qrCanvas.classList.add('absolute', 'bottom-10', 'right-10'); // Position it as needed
@@ -341,7 +341,7 @@ function Details() {
 
 
             </div>
-            <div className='grid lg:grid-cols-6 grid-cols-3 w-full lg:px-12 px-3 gap-12 mt-12 pb-8'>
+            {/* <div className='grid lg:grid-cols-6 grid-cols-3 w-full lg:px-12 px-3 gap-12 mt-12 pb-8'>
                 <div className='h-[56px] w-full bg-[#52CE60] rounde-[10px] flex justify-center items-center rounded-[10px]'>
                     <img src={wa} alt="wa" />
                 </div>
@@ -361,21 +361,19 @@ function Details() {
                 <div className='h-[56px] w-full bg-[#239CD7] rounde-[10px] flex justify-center items-center rounded-[10px]'>
                     <img src={telegram} alt="wa" />
                 </div>
-            </div>
+            </div> */}
 
             <div id="jobDetailsContainer" className='relative' style={{ display: 'none', height: '100vh', width: '100vw' }}>
                 <img src={poster} alt='main' style={{ width: '100%', height: "100%" }} />
                 <div className='absolute inset-0 flex flex-row w-[100%] h-[100%] '>
                     <div className='px-12   flex flex-col mt-12'>
                         <div className='text-[#E22E37] text-9xl font-[700] mt-[25%] text-left font-display'>WE ARE HIRING!</div>
-                        <div className='w-[40%] h-[55px] bg-[#E22E37] flex justify-center items-center text-center text-[white] font-[800] text-3xl mt-[10%] rounded-[10px] font-display'> <span className='mb-5'>{jobDetails.job}</span></div>
+                        <div className='w-auto max-w-[70%] h-[55px] bg-[#E22E37] flex justify-center items-center text-center text-[white] font-[800] text-3xl mt-[10%] rounded-[10px] font-display'> <span className='mb-5'>{jobDetails.job}</span></div>
                         <div className='w-[90%] h-auto bg-[white] rounded-[10px] px-12 py-6 flex flex-col gap-5 mt-[5%]'>
                             <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>. Salary : <span>{jobDetails.min_salary} - {jobDetails.max_salary}</span> </span>
                             <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>. Qualification : <span>{jobDetails.qualification}</span> </span>
                             <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>. Gender : <span>{jobDetails.gender_type}</span> </span>
                             <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>. Location : <span>{jobDetails.location}</span> </span>
-
-
                         </div>
                         <div className='flex flex-col mt-[5%] gap-3'>
                             <div className='text-[#E22E37] font-[700] text-3xl font-display text-left'>Send your CV & Portfolio to:</div>

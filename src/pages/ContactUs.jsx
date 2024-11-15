@@ -83,12 +83,12 @@ function ContactUs() {
               <div className='flex flex-row gap-3'>
 
                 <img src={email} alt="call" />
-                <span className='lg:text-base text-sm font-[400] font-display text-[white]'>Riyahubjobs@gmail.com</span>
+                <span className='lg:text-base text-sm font-[400] font-display text-[white]'>riyahub4u@gmail.com</span>
               </div>
               <div className='flex flex-row gap-3'>
 
                 <img src={location} alt="call" />
-                <span className='lg:text-base text-sm font-[400] font-display text-[white]'>jdsbvhsbvsbvzvbjd</span>
+                <span className='lg:text-base text-sm font-[400] font-display text-[white]'>Perinthalmanna, Mannarkad</span>
               </div>
             </div>
             <div className='flex flex-col gap-6'>
