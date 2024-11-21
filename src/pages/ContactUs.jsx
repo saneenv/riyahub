@@ -35,7 +35,7 @@ function ContactUs() {
   };
 
   const handleSendEmail = () => {
-    const recipientEmail = 'saneen577@gmail.com'; // Update with the recipient's email address
+    const recipientEmail = 'saneen577@gmail.com'; 
     const subject = 'New Message from contact us page';
     const body = `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.mobileNumber}\nMessage: ${formData.message}`;
 
@@ -151,11 +151,6 @@ function ContactUs() {
 
 
       </div>
-
-
-
-
-
 
 
       <div className='mt-12'>

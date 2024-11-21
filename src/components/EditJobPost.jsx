@@ -56,9 +56,9 @@ function EditJobPost() {
     ];
 
     const genderTypeOptions = [
-        { value: 'male', label: 'Male' },
-        { value: 'female', label: 'Female' },
-        { value: 'male/female', label: 'Male/Female' }
+        { value: 'MALE', label: 'MALE' },
+        { value: 'FEMALE', label: 'FEMALE' },
+        { value: 'MALE/FEMALE', label: 'MALE/FEMALE' }
     ];
 
     const foodTypeOptions = [

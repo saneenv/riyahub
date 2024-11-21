@@ -50,8 +50,8 @@ function Details() {
     const whatsappNumber = sessionStorage.getItem('whatsappNumber');
     const address = sessionStorage.getItem('address');
     const uppercaseAddress = address ? address.toUpperCase() : null;
-   console.log("uppercaseaddress",uppercaseAddress);
-   
+    console.log("uppercaseaddress", uppercaseAddress);
+
 
 
     const Email = sessionStorage.getItem('Email');
@@ -65,13 +65,13 @@ function Details() {
             alert("Please login first"); // Alert if not logged in
             return; // Exit the function
         }
-    
+
         // Check if the customer is an admin
         if (customerType === 'admin') {
             navigate('/companydetails', { state: { employeeId: jobDetails.employee_id } });
             return; // Exit the function after navigating to company details
         }
-    
+
         // Proceed with the existing logic for selected plans
         if (['300', '500', '600', '800'].includes(selectedPlan)) {
             navigate('/companydetails', { state: { employeeId: jobDetails.employee_id } });
@@ -79,7 +79,7 @@ function Details() {
             navigate('/packages', { state: { job: jobDetails.job, jobId: jobDetails.manualJobID && jobDetails.manualJobID !== "0" ? jobDetails.manualJobID : jobDetails.job_id, location: jobDetails.location } });
         }
     };
-    
+
     // Assuming 'selectedPlan', 'jobDetails', and 'customerName' are available in the component's scope
     const Packages2 = async () => {
         if (!customerType) {
@@ -133,9 +133,9 @@ function Details() {
     useEffect(() => {
         if (jobId) {
             const cleanedJobId = jobIdStr.replace(/^['"]|['"]$/g, '');  // This removes surrounding quotes
-    
+
             const encodedJobId = encodeURIComponent(cleanedJobId);
-    
+
             fetch(`${apiBaseUrl}/getjobposts/${encodedJobId}`)
                 .then(response => {
                     if (!response.ok) {
@@ -145,12 +145,12 @@ function Details() {
                 })
                 .then(data => {
                     console.log("Fetched job data:", data); // Log the fetched data to inspect the response
-    
+
                     // Check if enable is 'on' as a string (not boolean)
                     if (data.enable && data.enable.toLowerCase() === 'on') {
-                        setJobDetails(data); 
+                        setJobDetails(data);
                     } else {
-                        setJobDetails(null); 
+                        setJobDetails(null);
                         setError('This job is not enabled.');
                     }
                 })
@@ -160,7 +160,7 @@ function Details() {
                 });
         }
     }, [jobId, apiBaseUrl]);
-    
+
 
     const downloadStyledImage = () => {
         const container = document.getElementById('jobDetailsContainer');
@@ -368,8 +368,10 @@ function Details() {
                 <div className='absolute inset-0 flex flex-row w-[100%] h-[100%] '>
                     <div className='px-12   flex flex-col mt-12'>
                         <div className='text-[#E22E37] text-9xl font-[700] mt-[25%] text-left font-display'>WE ARE HIRING!</div>
-                        <div className='w-auto max-w-[70%] h-[55px] bg-[#E22E37] flex justify-center items-center text-center text-[white] font-[800] text-3xl mt-[10%] rounded-[10px] font-display'> <span className='mb-5'>{jobDetails.job}</span></div>
+                        <div className='w-auto max-w-[70%] h-auto bg-[#E22E37] flex justify-center items-center text-center text-[white] font-[800] text-3xl mt-[10%] rounded-[10px] font-display'> <span className='mb-5'>{jobDetails.job}</span></div>
                         <div className='w-[90%] h-auto bg-[white] rounded-[10px] px-12 py-6 flex flex-col gap-5 mt-[5%]'>
+                            <span className='flex flex-row gap-3 font-[600] text-2xl font-display text-left'><span>{jobDetails.job_title}</span> </span>
+
                             <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>. Salary : <span>{jobDetails.min_salary} - {jobDetails.max_salary}</span> </span>
                             <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>. Qualification : <span>{jobDetails.qualification}</span> </span>
                             <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>. Gender : <span>{jobDetails.gender_type}</span> </span>

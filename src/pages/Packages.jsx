@@ -149,7 +149,6 @@ function Packages() {
     }
   };
 
-
   const handlePurchaseEkmorTvm500 = async () => {
     setIsLoading3(true);
     // Retrieve sessionStorage data

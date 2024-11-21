@@ -10,14 +10,35 @@ import Navbar2 from './Navbar2';
 function Verify() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
     const [code, setCode] = useState(new Array(6).fill(''));
+    const [countdown, setCountdown] = useState(60); // Initialize countdown to 60 seconds
     const location = useLocation();
-    const { employeeId } = location.state; // Assume you pass this from registration
+    const { employeeId } = location.state || {}; // Ensure location.state is defined
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
-    const navigate = useNavigate(); // Initialize the navigate function
+    const navigate = useNavigate();
 
     useEffect(() => {
+        // Prevent returning to this page
+        if (!employeeId) {
+            navigate('/login', { replace: true }); // Redirect if no employeeId in state
+            return;
+        }
+
         window.scrollTo(0, 0);
-    }, []);
+
+        // Start the countdown timer
+        const timer = setInterval(() => {
+            setCountdown((prev) => {
+                if (prev <= 1) {
+                    clearInterval(timer);
+                    navigate('/empreg'); // Navigate if countdown reaches 0
+                }
+                return prev - 1;
+            });
+        }, 1000);
+
+        // Cleanup timer on unmount
+        return () => clearInterval(timer);
+    }, [employeeId, navigate]);
 
     const handleChange = (element, index) => {
         const value = element.value.replace(/\D/, ''); // Only allow numeric input
@@ -60,11 +81,11 @@ function Verify() {
             if (data.success) {
                 alert('OTP Verified Successfully!');
                 setCode(new Array(6).fill('')); // Clear the input fields
-                // Store employeeId in sessionStorage
+                // Clear sensitive data from sessionStorage
                 sessionStorage.removeItem('employeeId');
                 sessionStorage.removeItem('jobId');
-                  sessionStorage.removeItem('customerName');
-                navigate('/login'); // Navigate to the job post component // Navigate to the job post component
+                sessionStorage.removeItem('customerName');
+                navigate('/login'); // Navigate to the login page
             } else {
                 alert('Invalid OTP. Please check the code and try again.');
             }
@@ -112,7 +133,9 @@ function Verify() {
                                 SUBMIT
                             </div>
                         </div>
-                        <span className='text-base font-[400] font-display text-[#8B8B8B]'>or</span>
+                        <span className='text-base font-[400] font-display text-[#8B8B8B]'>
+                            {`Time remaining: ${countdown} sec`}
+                        </span>
                         <span>
                             <span className='font-[400] text-base font-display text-[#8B8B8B]'>Not a Member?</span>
                             <span className='font-[400] text-base font-display text-[#E22E37] cursor-pointer'>
