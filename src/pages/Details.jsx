@@ -380,12 +380,15 @@ function Details() {
                         <div className='flex flex-col mt-[5%] gap-3'>
                             <div className='text-[#E22E37] font-[700] text-3xl font-display text-left'>Send your CV & Portfolio to:</div>
                             {(uppercaseAddress === 'PERINTHALMANNA' || uppercaseAddress === 'PANDIKKAD' || uppercaseAddress === 'CHERPULLASSERI' || uppercaseAddress === 'MELATTUR' || uppercaseAddress === 'PATTAMBI') && (
-                                <div className='text-[#E22E37] font-[700] text-2xl font-display text-left'>📞 +91 9544129746, +91 9544500746</div>
+                                <div className='text-[#E22E37] font-[700] text-3xl font-display text-left'>📞 +91 9544129746, +91 9544500746</div>
                             )}
 
                             {(uppercaseAddress === 'MANNARKAD' || uppercaseAddress === 'ERNAKULAM') && (
-                                <div className='text-[#E22E37] font-[700] text-2xl font-display text-left'>📞 +91 7356400746, +91 9544129746</div>
+                                <div className='text-[#E22E37] font-[700] text-3xl font-display text-left'>📞 +91 7356400746, +91 9544129746</div>
                             )}
+
+                            <div className=' font-[700] text-xl font-display text-center'>WWW.RIYAHUBS.COM</div>
+
 
                         </div>
 

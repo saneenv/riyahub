@@ -84,7 +84,7 @@ function Whatsapp() {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                to: '919207427150', // Recipient's number
+                to: '919544500746', // Recipient's number
                 message: encodedMessage, // Message content
             }),
         })

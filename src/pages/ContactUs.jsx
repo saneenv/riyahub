@@ -87,8 +87,8 @@ function ContactUs() {
               </div>
               <div className='flex flex-row gap-3'>
 
-                <img src={location} alt="call" />
-                <span className='lg:text-base text-sm font-[400] font-display text-[white]'>Perinthalmanna, Mannarkad</span>
+                <img className='h-[50%]' src={location} alt="call" />
+                <span className='lg:text-base text-sm font-[400] font-display text-[white]'>Perinthalmanna, Mannarkad, Ernakulam, Pattambi, Melattur, Cherupullasery</span>
               </div>
             </div>
             <div className='flex flex-col gap-6'>

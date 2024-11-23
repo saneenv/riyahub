@@ -69,7 +69,7 @@ function Packages() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          to: '919207427150', // Pass the phone number as a string
+          to: '919544500746', // Pass the phone number as a string
           message: message.trim(),
         }),
       });
@@ -126,7 +126,7 @@ function Packages() {
           'Content-Type': 'application/json', // Indicate that the request body is JSON
         },
         body: JSON.stringify({
-          to: '919207427150', // Pass the phone number as a string
+          to: '919544500746', // Pass the phone number as a string
           message: message.trim(), // Pass the constructed message text
         }),
       });
@@ -185,7 +185,7 @@ function Packages() {
           'Content-Type': 'application/json', // Indicate that the request body is JSON
         },
         body: JSON.stringify({
-          to: '919207427150', // Pass the phone number as a string
+          to: '919544500746', // Pass the phone number as a string
           message: message.trim(), // Pass the constructed message text
         }),
       });
@@ -245,7 +245,7 @@ function Packages() {
           'Content-Type': 'application/json', // Indicate that the request body is JSON
         },
         body: JSON.stringify({
-          to: '919207427150', // Pass the phone number as a string
+          to: '919544500746', // Pass the phone number as a string
           message: message.trim(), // Pass the constructed message text
         }),
       });

@@ -47,7 +47,7 @@ function StaffReg() {
 
     const handleSubmit = async () => {
         // Define the hardcoded password
-        const hardcodedPassword = 'saneen'; // Change this to your desired password
+        const hardcodedPassword = '2954fff'; // Change this to your desired password
     
         // Ask for the password
         const enteredPassword = prompt('Please enter the password to continue:');
