@@ -145,6 +145,10 @@ function Home() {
             .join(" ");
     }
 
+    const jobsinperinthalmanna = () => {
+        navigate('/jobs-in-perinthalmanna');
+      };
+
 
 
     return (
@@ -153,6 +157,7 @@ function Home() {
             <div className='md:flex hidden'>
                 <Navbar2 />
             </div>
+
             <div className='w-full lg:h-[500px] md:h-[900px] h-[700px] bg-[black] flex flex-col pb-3'>
                 <div className='w-full h-[20%] flex justify-center items-center  px-12 text-[white] lg:text-3xl md:text-3xl sm:text-2xl text-xl font-[600] font-display'>
                     Welcome to Riya Hub Jobs - Best Job Portal in Kerala
@@ -181,6 +186,7 @@ function Home() {
 
                 </div>
             </div>
+
             <div className='flex flex-col w-full lg:px-12 px-3 h-auto gap-12 mt-12 justify-center items-center pb-12 bg-[#FFFFFF]'>
                 <span className='text-4xl font-[600] font-display'>Latest Jobs</span>
                 <div className='grid lg:grid-cols-3 grid-cols-1 w-full gap-3'>
@@ -267,6 +273,8 @@ function Home() {
                     </div>
                 </div>
             </div>
+            <li className='text-base font-[400] font-display  text-[white] ' onClick={jobsinperinthalmanna}>jobs</li>
+
             <div className='mt-12'>
                 <Footer />
             </div>
