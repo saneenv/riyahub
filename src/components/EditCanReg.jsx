@@ -3,7 +3,7 @@ import Select from 'react-select';
 import statesAndDistricts2 from '../json/states-and-districts.json';
 import degree from '../json/degree.json';
 import jobs from '../json/jobs.json';
-import location from '../json/cities.json';
+// import location from '../json/cities.json';
 import Footer from './Footer';
 import NavbarMob from './NavbarMob';
 import Navbar from './Navbar';
@@ -34,6 +34,7 @@ const EditCanReg = () => {
   const [locationOptions, setLocationOptions] = useState([]);
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+  const [locationData, setLocationData] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null); // Initialize error state
   const [loading, setLoading] = useState(false); // Initialize loading state
   const navigate = useNavigate();
@@ -53,6 +54,38 @@ const EditCanReg = () => {
     { value: 'female', label: 'Female' },
     { value: 'other', label: 'Other' }
   ];
+
+
+  const fetchLocationData = async () => {
+    try {
+        const response = await fetch(`${apiBaseUrl}/data`); // API endpoint for location data
+        if (response.ok) {
+            const data = await response.json();
+            setLocationData(data); // Set the fetched data
+        } else {
+            console.error('Failed to fetch location data:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error fetching location data:', error);
+    }
+};
+
+useEffect(() => {
+    fetchLocationData(); // Fetch location data when the component mounts
+}, []);
+
+useEffect(() => {
+  if (locationData) {
+     
+
+      // Extract districts from location data for the select dropdown
+      const locations = locationData.states[0].districts.map(district => ({
+          value: district,
+          label: district,
+      }));
+      setLocationOptions(locations); // Set the location options once data is available
+  }
+}, [locationData]);
 
   // Fetch candidate data on load
   useEffect(() => {
@@ -129,16 +162,12 @@ const EditCanReg = () => {
       label: district
     }));
 
-    const locations = location.states[0].districts.map(district => ({
-      value: district,
-      label: district
-    }));
+
 
 
     setDistrictOptions(districts);
     setDegreeOptions(degrees);
     setJobsOptions(job);
-    setLocationOptions(locations);
 
     return () => { isMounted = false; }; // Cleanup function to set isMounted to false
   }, [candidateID]);

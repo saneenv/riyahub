@@ -38,7 +38,8 @@ import AppliedCanAll from './components/AppliedCanAll';
 import Whatsapp from './pages/Whatsapp';
 import DateSearch from './pages/DateSearch';
 import EnableJobPost from './pages/EnableJobPost';
-import JobsInPerinthalmanna from './pages/JobsInPerinthalmanna';
+import EnableStaff from './pages/EnableStaff';
+import AddLocation from './pages/AddLocation';
 
 
 function App() {
@@ -84,7 +85,9 @@ function App() {
                 <Route path='/whatsapp' element={<Whatsapp/>}/>
                 <Route path='/datesearch' element={<DateSearch/>}/>
                 <Route path='/enablejobpost' element={<EnableJobPost/>}/>
-                <Route path="/jobs-in-perinthalmanna" element={<JobsInPerinthalmanna />} />
+                <Route path="/enablestaff" element={<EnableStaff />} />
+                <Route path="/addlocation" element={<AddLocation />} />
+
 
 
              </Routes>

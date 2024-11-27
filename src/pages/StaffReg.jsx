@@ -145,7 +145,7 @@ function StaffReg() {
     const addressOptions = [
         { value: 'perinthalmanna', label: 'Perinthalmanna' },
         { value: 'ernakulam', label: 'Ernakulam' },
-        { value: 'mannarkad', label: 'Mannarkad' },
+        { value: 'mannarkkad', label: 'Mannarkkad' },
         { value: 'pattambi', label: 'Pattambi' },
         { value: 'melattur', label: 'Melattur' },
         { value: 'cherpullasseri', label: 'Cherpullasseri' }

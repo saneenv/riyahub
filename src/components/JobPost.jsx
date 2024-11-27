@@ -7,7 +7,7 @@ import Navbar2 from './Navbar2';
 import Select from 'react-select';
 import companies from '../json/company-categories.json';
 import jobs from '../json/jobs.json';
-import location from '../json/cities.json'
+// import location from '../json/cities.json'
 import worktime from '../json/worktime.json'
 import endtime from '../json/endtime.json'
 
@@ -16,6 +16,7 @@ import endtime from '../json/endtime.json'
 function JobPost() {
     const [jobTitle, setJobTitle] = useState('');
     const [manualJobID, setManualJobID] = useState('');
+    const [locationData, setLocationData] = useState(null);
 
     const [minSalary, setMinSalary] = useState('');
     const [maxSalary, setMaxSalary] = useState('');
@@ -122,6 +123,39 @@ function JobPost() {
 
 
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
+
+    const fetchLocationData = async () => {
+        try {
+            const response = await fetch(`${apiBaseUrl}/data`); // API endpoint for location data
+            if (response.ok) {
+                const data = await response.json();
+                setLocationData(data); // Set the fetched data
+            } else {
+                console.error('Failed to fetch location data:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error fetching location data:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchLocationData(); // Fetch location data when the component mounts
+    }, []);
+
+    useEffect(() => {
+        if (locationData) {
+         
+
+            // Extract districts from location data for the select dropdown
+            const locations = locationData.states[0].districts.map(district => ({
+                value: district,
+                label: district,
+            }));
+            setLocationOptions(locations); // Set the location options once data is available
+        }
+    }, [locationData]);
+
     useEffect(() => {
         window.scrollTo(0, 0);
 
@@ -143,10 +177,7 @@ function JobPost() {
             label: district
         }));
 
-        const locations = location.states[0].districts.map(district => ({
-            value: district,
-            label: district
-        }));
+  
 
         const workend = endtime.states[0].districts.map(district => ({
             value: district,
@@ -155,7 +186,6 @@ function JobPost() {
 
         setCategoryOptions(districts);
         setJobsOptions(job); // Set district options for the select
-        setLocationOptions(locations)
         setStartOptions(workstart)
         setEndOptions(workend)
     }, []);

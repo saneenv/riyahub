@@ -44,11 +44,6 @@ function Footer() {
         navigate('/privacy');
       };
 
-      const jobsinperinthalmanna = () => {
-        navigate('/jobs-in-perinthalmanna');
-      };
-
-      
       const HomePage = () => {
         navigate('/home');
         window.scrollTo(0, 0); // Scroll to the top of the page
@@ -95,9 +90,7 @@ function Footer() {
                             <span className='text-base font-[400] font-display text-[white] cursor-pointer hover:text-[#E22E37]' onClick={login}>Employer Login</span>
                         </span>
 
-                        <span className='flex flex-row justify-start items-center gap-1 '>
-                            <li className='text-base font-[400] font-display text-[#3D3B3B]  ' onClick={jobsinperinthalmanna}>jobs</li>
-                        </span>
+                     
 
                     </div>
 
@@ -111,9 +104,7 @@ function Footer() {
                             <img src={polygon} alt="polygon" className='w-[6%] h-[6%]' />
                             <span className='text-base font-[400] font-display text-[white] cursor-pointer hover:text-[#E22E37]' onClick={login}>Candidate Login</span>
                         </span>
-                        <span className='flex flex-row justify-start items-center gap-1 '>
-                            <li className='text-base font-[400] font-display  text-[#3D3B3B] ' onClick={jobsinperinthalmanna}>jobs</li>
-                        </span>
+                      
                     </div>
                 </div>
             </div>

@@ -1,8 +1,40 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function StaffOptions({ closeOptions }) {
   const navigate = useNavigate();
+  const staffId = sessionStorage.getItem('employeeId');
+  const [staffData, setStaffData] = useState(null);
+  const [loading, setLoading] = useState(true); // State to handle loading
+  const [error, setError] = useState(null); // State to handle errors
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
+
+
+  // Fetch staff data from API
+  useEffect(() => {
+    const fetchStaffData = async () => {
+      try {
+        const response = await fetch(`${apiBaseUrl}/fetchstaff?staffId=${encodeURIComponent(staffId)}`); // Use fetch with query parameter
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json(); // Parse JSON response
+        setStaffData(data);
+      } catch (err) {
+        console.error('Error fetching staff data:', err);
+        setError('Unable to fetch staff data.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (staffId) {
+      fetchStaffData();
+    }
+  }, [staffId, apiBaseUrl]);
+
+
 
 
   // const home = () => {
@@ -29,14 +61,14 @@ function StaffOptions({ closeOptions }) {
     navigate('/appliedcan');
   };
 
-  
+
 
   const deleteprofiles = () => {
     navigate('/deleteprofiles');
   };
 
 
-  
+
   const enablejobpost = () => {
     navigate('/enablejobpost');
   };
@@ -78,9 +110,17 @@ function StaffOptions({ closeOptions }) {
           <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={appliedCandidates}>Applied Candidates</li>
 
           <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={viewProfile3}>View Profile</li>
-
-          <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={enablePage}>Enable Package</li>
-          <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={enablejobpost}>Enable Job Post</li>
+          {staffData && staffData.power === 'on' && (
+            <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={enablePage}>Enable Package</li>
+          )}
+          {staffData && staffData.power === 'on' && (
+            <li
+              className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400] font-display"
+              onClick={enablejobpost}
+            >
+              Enable Job Post
+            </li>
+          )}
 
           <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={deleteprofiles}>Delete Profiles</li>
 

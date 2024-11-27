@@ -12,6 +12,8 @@ function ViewProfile3() {
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
   const employeeId = sessionStorage.getItem('employeeId');
+  const customerType = sessionStorage.getItem('customerType');
+
   const [employeeData, setEmployeeData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -19,6 +21,10 @@ function ViewProfile3() {
 
   const editempreg = () => {
     navigate('/editempreg'); 
+  };
+
+  const enablestaff = () => {
+    navigate('/enablestaff'); 
   };
 
   const postjob = () => {
@@ -29,6 +35,10 @@ function ViewProfile3() {
     navigate('/postedjob'); 
   };
 
+  
+  const addlocation = () => {
+    navigate('/addlocation'); 
+  };
  
   
   
@@ -132,7 +142,21 @@ const deleteProfile = async () => {
         <div className='w-full mt-6 flex flex-row justify-between'>
           {/* <span className='lg:text-xl text-lg font-[600] font-[display] underline text-[#E22E37] cursor-pointer' onClick={editempreg}>Edit Profile</span> */}
           <span className='lg:text-xl text-lg font-[600] font-display underline text-[#E22E37] cursor-pointer hover:text-[#fe4d4d]' onClick={deleteProfile}>Delete Profile</span>
+          {customerType === 'mainAdmin' && (
+          <span className='lg:text-xl text-lg font-[600] font-display underline text-[#E22E37] cursor-pointer' onClick={enablestaff}>Enable staff</span>
+        )}
         </div>
+
+
+       
+        <div className='w-full mt-2 flex flex-row justify-between'>
+          
+          <span className='lg:text-xl text-lg font-[600] font-display underline text-[#E22E37] cursor-pointer' onClick={addlocation}>Add Location</span>
+       
+        </div>
+      
+
+
         <div className='w-full flex flex-col justify-center items-center gap-3'>
           <div className='h-[150px] w-[150px] rounded-full border-2 border-[#E22E37] flex items-center justify-center text-[#E22E37]  text-4xl font-[600] font-display'>
             {/* Displaying generated logo */}

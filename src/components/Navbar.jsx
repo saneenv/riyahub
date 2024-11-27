@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react'
 import Select from 'react-select';
 import logo from '../images/navbar/newlogo.png'
 import search from '../images/navbar/Vector.png'
-import location from '../images/navbar/location.png'
+import locationpic from '../images/navbar/location.png'
 // import smallloc from '../images/navbar/smallloc.png'
 import { useNavigate } from 'react-router-dom'
 import EmpOptions from './EmpOptions'
 import CandidateOpt from './CandidateOpt'
 import jobs from '../json/jobs.json'; // Import jobs
-import locationData from '../json/cities.json'; // Import location data
+import location from '../json/cities.json'; // Import location data
 import StaffOptions from './StaffOptions'
 
 function Navbar() {
@@ -20,10 +20,46 @@ function Navbar() {
     const [showOptions, setShowOptions] = useState(false); // State to track if options are shown
     const customerType = sessionStorage.getItem('customerType');
     console.log("customer Type:", customerType);
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
+    const [locationData, setLocationData] = useState(null);
 
     const [jobsOptions, setJobsOptions] = useState([]);
     const [locationOptions, setLocationOptions] = useState([]);
+
+
+      // Fetch location data from the backend API
+      const fetchLocationData = async () => {
+        try {
+            const response = await fetch(`${apiBaseUrl}/data`); // API endpoint for location data
+            if (response.ok) {
+                const data = await response.json();
+                setLocationData(data); // Set the fetched data
+            } else {
+                console.error('Failed to fetch location data:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error fetching location data:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchLocationData(); // Fetch location data when the component mounts
+    }, []);
+
+
+    useEffect(() => {
+        if (locationData) {
+          
+
+            // Extract districts from location data for the select dropdown
+            const locations = locationData.states[0].districts.map(district => ({
+                value: district,
+                label: district,
+            }));
+            setLocationOptions(locations); // Set the location options once data is available
+        }
+    }, [locationData]);
 
     // Load job and location options on component mount
     useEffect(() => {
@@ -34,13 +70,9 @@ function Navbar() {
             label: district
         }));
 
-        const locationOptionsData = locationData.states[0].districts.map(district => ({
-            value: district,
-            label: district
-        }));
+    
 
         setJobsOptions(jobOptions); // Set job options for the select
-        setLocationOptions(locationOptionsData); // Set location options for the select
     }, []);
 
 
@@ -73,8 +105,8 @@ function Navbar() {
         setShowOptions(false); // Close the options modal
     };
 
-      // Custom styles for react-select to match existing styles
-      const customStyles = {
+    // Custom styles for react-select to match existing styles
+    const customStyles = {
         container: (provided) => ({
             ...provided,
             width: '100%',
@@ -94,7 +126,7 @@ function Navbar() {
         }),
     };
 
-    
+
     return (
         <div className='h-[100px] w-full  lg:px-12 px-3 flex items-center flex-row gap-5'>
 
@@ -115,10 +147,10 @@ function Navbar() {
                         />
                     </div>
                 </div>
-                
+
                 <div className='h-full w-[40%] flex flex-row'>
                     <div className='h-full w-[20%] flex justify-center items-center'>
-                        <img src={location} alt="location" />
+                        <img src={locationpic} alt="location" />
                     </div>
                     <div className='h-full w-[100%]'>
                         <Select
@@ -132,7 +164,7 @@ function Navbar() {
                         />
                     </div>
                 </div>
-                
+
                 <div className='h-[70%] w-[20%] flex justify-center items-center'>
                     <div className='h-full w-[80%] rounded-[10px] bg-[#E22E37] flex justify-center items-center text-[white] cursor-pointer text-base font-[600] font-display hover:bg-[red]' onClick={findJob}>
                         Find Job
@@ -159,7 +191,7 @@ function Navbar() {
             </div>
 
             {showOptions && (
-                customerType === 'admin' ? (
+                customerType === 'admin' || customerType === 'mainAdmin' ? (
                     <StaffOptions closeOptions={closeOptions} />
                 ) : customerType === 'employee' ? (
                     <EmpOptions closeOptions={closeOptions} />
@@ -167,6 +199,7 @@ function Navbar() {
                     <CandidateOpt closeOptions={closeOptions} />
                 ) : null
             )}
+
 
         </div>
     )

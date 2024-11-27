@@ -88,6 +88,7 @@ function EnableJobPost() {
         <h1 className='text-xl font-bold text-center text-gray-800'>
           Job Post Requests
         </h1>
+   
 
         {/* Search Inputs */}
         <div className='flex lg:flex-row flex-col gap-4 mb-6 justify-center items-center'>

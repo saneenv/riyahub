@@ -145,9 +145,7 @@ function Home() {
             .join(" ");
     }
 
-    const jobsinperinthalmanna = () => {
-        navigate('/jobs-in-perinthalmanna');
-      };
+
 
 
 
@@ -273,7 +271,6 @@ function Home() {
                     </div>
                 </div>
             </div>
-            <li className='text-base font-[400] font-display  text-[white] ' onClick={jobsinperinthalmanna}>jobs</li>
 
             <div className='mt-12'>
                 <Footer />

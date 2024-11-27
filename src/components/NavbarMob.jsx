@@ -4,7 +4,7 @@ import EmpOptions from './EmpOptions';
 import { useNavigate } from 'react-router-dom'
 import CandidateOpt from './CandidateOpt';
 import jobs from '../json/jobs.json'; // Import jobs
-import locationData from '../json/cities.json'; // Import location data
+import location from '../json/cities.json'; // Import location data
 import StaffOptions from './StaffOptions';
 import Select from 'react-select'; 
 // import smallloc from '../images/navbar/smallloc.png'
@@ -19,6 +19,42 @@ function NavbarMob() {
     const [locationInput, setLocationInput] = useState('');
     const [jobsOptions, setJobsOptions] = useState([]);
     const [locationOptions, setLocationOptions] = useState([]);
+    const [locationData, setLocationData] = useState(null);
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
+
+      // Fetch location data from the backend API
+      const fetchLocationData = async () => {
+        try {
+            const response = await fetch(`${apiBaseUrl}/data`); // API endpoint for location data
+            if (response.ok) {
+                const data = await response.json();
+                setLocationData(data); // Set the fetched data
+            } else {
+                console.error('Failed to fetch location data:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error fetching location data:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchLocationData(); // Fetch location data when the component mounts
+    }, []);
+
+
+    useEffect(() => {
+        if (locationData) {
+
+            // Extract districts from location data for the select dropdown
+            const locations = locationData.states[0].districts.map(district => ({
+                value: district,
+                label: district,
+            }));
+            setLocationOptions(locations); // Set the location options once data is available
+        }
+    }, [locationData]);
+
 
     // Load job and location options on component mount
     useEffect(() => {
@@ -29,13 +65,9 @@ function NavbarMob() {
             label: district
         }));
 
-        const locationOptionsData = locationData.states[0].districts.map(district => ({
-            value: district,
-            label: district
-        }));
+   
 
         setJobsOptions(jobOptions); // Set job options for the select
-        setLocationOptions(locationOptionsData); // Set location options for the select
     }, []);
 
 
@@ -179,13 +211,13 @@ function NavbarMob() {
                             <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={jobcategories}>Job By Categories</li>
                             <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={jobidpage}>Job ID Search</li>
 
-                            {customerType === 'admin' && (
+                            {(customerType === 'admin' || customerType === 'mainAdmin') && (
                             <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={martial}>Martial Status</li>
                         )}
-                        {customerType === 'admin' && (
+                        {(customerType === 'admin' || customerType === 'mainAdmin') && (
                             <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={whatsappPage}>To Whatsapp</li>
                         )}
-                        {customerType === 'admin' && (
+                        {(customerType === 'admin' || customerType === 'mainAdmin') && (
                             <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={datesearch}>Date Search</li>
                         )}
                         

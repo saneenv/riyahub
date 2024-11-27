@@ -5,27 +5,49 @@ import Navbar2 from '../components/Navbar2';
 import Footer from '../components/Footer';
 import Select from 'react-select';
 import { useMediaQuery } from 'react-responsive';
-import location from '../json/cities.json';
+// import location from '../json/cities.json';
 
 function Whatsapp() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
     const [locationCategory, setLocationCategory] = useState('');
     const [locationOptions, setLocationOptions] = useState([]);
+    const [locationData, setLocationData] = useState(null);
     const [jobs, setJobs] = useState([]);
     const [loading, setLoading] = useState(false);
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
+      // Fetch location data from the backend API
+      const fetchLocationData = async () => {
+        try {
+            const response = await fetch(`${apiBaseUrl}/data`); // API endpoint for location data
+            if (response.ok) {
+                const data = await response.json();
+                setLocationData(data); // Set the fetched data
+            } else {
+                console.error('Failed to fetch location data:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error fetching location data:', error);
+        }
+    };
 
     useEffect(() => {
-        window.scrollTo(0, 0);
-
-        // Extract districts from location data for the select dropdown
-        const locations = location.states[0].districts.map(district => ({
-            value: district,
-            label: district,
-        }));
-        setLocationOptions(locations);
+        fetchLocationData(); // Fetch location data when the component mounts
     }, []);
+
+
+    useEffect(() => {
+        if (locationData) {
+            window.scrollTo(0, 0);
+
+            // Extract districts from location data for the select dropdown
+            const locations = locationData.states[0].districts.map(district => ({
+                value: district,
+                label: district,
+            }));
+            setLocationOptions(locations); // Set the location options once data is available
+        }
+    }, [locationData]);
 
     const handleLocationChange = selectedOption => {
         setLocationCategory(selectedOption ? selectedOption.value : '');

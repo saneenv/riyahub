@@ -51,13 +51,13 @@ function Navbar2() {
       <span className='text-base font-[600] font-display text-[white] cursor-pointer hover:text-black' onClick={jobcategories}>Job By Categories</span>
 
       <span className='text-base font-[600] font-display text-[white] cursor-pointer hover:text-black' onClick={jobidpage}>Job ID Search</span>
-      {customerType === 'admin' && (
+      {(customerType === 'admin' || customerType === 'mainAdmin') && (
         <span className='text-base font-[600] font-display text-[white] cursor-pointer hover:text-black' onClick={martial}>Martial Status</span>
       )}
-         {customerType === 'admin' && (
+      {(customerType === 'admin' || customerType === 'mainAdmin') && (
         <span className='text-base font-[600] font-display text-[white] cursor-pointer hover:text-black' onClick={whatsappPage}>To Whatsapp</span>
       )}
-            {customerType === 'admin' && (
+      {(customerType === 'admin' || customerType === 'mainAdmin') && (
         <span className='text-base font-[600] font-display text-[white] cursor-pointer hover:text-black' onClick={datesearch}>Date Search</span>
       )}
       <span className='text-base font-[600] font-display text-[white] cursor-pointer hover:text-black' onClick={sevicespage}>Services</span>

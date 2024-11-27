@@ -29,31 +29,37 @@ const formatDateDisplay = (dateString) => {
     return `${day}/${month}/${year}`;
 };
 
+const fetchFilteredJobs = async () => {
+    if (!startDate || !endDate) return; // Ensure both dates are selected
 
-    // Fetch jobs based on date range in ISO format
-    const fetchFilteredJobs = async () => {
-        if (!startDate || !endDate) return; // Ensure both dates are selected
-
-        setLoading(true);
-        try {
-            const response = await fetch(
-                `${apiBaseUrl}/getjobposts?start_date=${startDate.toISOString()}&end_date=${endDate.toISOString()}`
-            );
-            if (response.ok) {
-                const data = await response.json();
-                setJobs(data.filter(job => {
-                    const jobDate = new Date(job.created_at);
+    setLoading(true);
+    try {
+        const response = await fetch(
+            `${apiBaseUrl}/getjobposts?start_date=${startDate.toISOString()}&end_date=${endDate.toISOString()}`
+        );
+        if (response.ok) {
+            const data = await response.json();
+            setJobs(data.filter(job => {
+                const jobDate = new Date(job.created_at);
+                // If the start date and end date are the same, we treat it as filtering by a single day
+                if (startDate.getTime() === endDate.getTime()) {
+                    // Compare job date with the selected specific date
+                    return jobDate.toDateString() === startDate.toDateString();
+                } else {
+                    // Otherwise, filter by the range
                     return jobDate >= startDate && jobDate <= endDate;
-                }));
-            } else {
-                console.error('Failed to fetch jobs:', response.statusText);
-            }
-        } catch (error) {
-            console.error('Error fetching jobs:', error);
-        } finally {
-            setLoading(false);
+                }
+            }));
+        } else {
+            console.error('Failed to fetch jobs:', response.statusText);
         }
-    };
+    } catch (error) {
+        console.error('Error fetching jobs:', error);
+    } finally {
+        setLoading(false);
+    }
+};
+
 
     return (
         <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800">
