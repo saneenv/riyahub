@@ -78,7 +78,7 @@ function ContactUs() {
               <div className='flex flex-row gap-3'>
 
                 <img src={call} alt="call" />
-                <span className='lg:text-base text-sm font-[400] font-display text-[white]'>+91 9988774455</span>
+                <span className='lg:text-base text-sm font-[400] font-display text-[white]'>+91 9544500746</span>
               </div>
               <div className='flex flex-row gap-3'>
 

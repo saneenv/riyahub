@@ -43,6 +43,8 @@ function Packages() {
     const customerName = sessionStorage.getItem('customerName');
     const mobileNumber = sessionStorage.getItem('mobileNumber');
     const whatsappNumber = sessionStorage.getItem('whatsappNumber');
+    const employeeId = sessionStorage.getItem('employeeId');
+
 
     // Check if any of the required session values are null
     if (!customerName || !mobileNumber || !whatsappNumber) {
@@ -53,6 +55,7 @@ function Packages() {
 
     // Create the message bodys
     const message = `Hello, I am interested in the *300* plan. 
+    Candidate ID: *${employeeId}*,
     Applying Job ID: *${jobId}*, 
     Applying Job: *${job}*, 
     Applying Job Location: *${jobLocation}*, 
@@ -99,6 +102,8 @@ function Packages() {
     const customerName = sessionStorage.getItem('customerName');
     const mobileNumber = sessionStorage.getItem('mobileNumber');
     const whatsappNumber = sessionStorage.getItem('whatsappNumber');
+    const employeeId = sessionStorage.getItem('employeeId');
+
 
     // Check if any of the required session values are null
     if (!customerName || !mobileNumber || !whatsappNumber) {
@@ -110,6 +115,7 @@ function Packages() {
 
     // Create the message bodys
     const message = `Hello, I am interested in the *500* plan. 
+    Candidate ID: *${employeeId}*,
     Applying Job ID: *${jobId}*, 
     Applying Job: *${job}*, 
     Applying Job Location: *${jobLocation}*, 
@@ -157,6 +163,8 @@ function Packages() {
     const customerName = sessionStorage.getItem('customerName');
     const mobileNumber = sessionStorage.getItem('mobileNumber');
     const whatsappNumber = sessionStorage.getItem('whatsappNumber');
+    const employeeId = sessionStorage.getItem('employeeId');
+
 
     // Check if any of the required session values are null
     if (!customerName || !mobileNumber || !whatsappNumber) {
@@ -169,6 +177,7 @@ function Packages() {
     // Create the message bodys
     const message = `Hello, *Tiruvananthapuram/Ernakulam* Plan,
     I am interested in the *500* plan. 
+    Candidate ID: *${employeeId}*,
     Applying Job ID: *${jobId}*, 
     Applying Job: *${job}*, 
     Applying Job Location: *${jobLocation}*, 
@@ -217,6 +226,8 @@ function Packages() {
     const customerName = sessionStorage.getItem('customerName');
     const mobileNumber = sessionStorage.getItem('mobileNumber');
     const whatsappNumber = sessionStorage.getItem('whatsappNumber');
+    const employeeId = sessionStorage.getItem('employeeId');
+
 
     // Check if any of the required session values are null
     if (!customerName || !mobileNumber || !whatsappNumber) {
@@ -229,6 +240,7 @@ function Packages() {
     // Create the message bodys
     const message = `Hello, *Tiruvananthapuram/Ernakulam* Plan,
     I am interested in the *800* plan. 
+    Candidate ID: *${employeeId}*,
     Applying Job ID: *${jobId}*, 
     Applying Job: *${job}*, 
     Applying Job Location: *${jobLocation}*, 

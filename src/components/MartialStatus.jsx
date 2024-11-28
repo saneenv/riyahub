@@ -70,6 +70,8 @@ function MartialStatus() {
                   <h2 className="text-xl font-bold text-gray-700 mb-2">
                     {candidate.Name}
                   </h2>
+                  <p className="text-gray-600 font-display"><strong>Age:</strong> {candidate.Age}</p>
+
                   <p className="text-gray-600 font-display"><strong>ID:</strong> {candidate.CandidateID}</p>
                   <p className="text-gray-600 font-display"><strong>Phone:</strong> {candidate.Mobile}</p>
                   <p className="text-gray-600 font-display"><strong>Address:</strong> {candidate.District}</p>

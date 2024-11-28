@@ -5,8 +5,8 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import Navbar2 from './Navbar2';
 import Select from 'react-select';
-import companies from '../json/company-categories.json';
-import jobs from '../json/jobs.json';
+// import companies from '../json/company-categories.json';
+// import jobs from '../json/jobs.json';
 // import location from '../json/cities.json'
 import worktime from '../json/worktime.json'
 import endtime from '../json/endtime.json'
@@ -17,6 +17,8 @@ function JobPost() {
     const [jobTitle, setJobTitle] = useState('');
     const [manualJobID, setManualJobID] = useState('');
     const [locationData, setLocationData] = useState(null);
+    const [companyData, setCompanyData] = useState(null);
+    const [jobsData, setJobsData] = useState(null);
 
     const [minSalary, setMinSalary] = useState('');
     const [maxSalary, setMaxSalary] = useState('');
@@ -156,21 +158,79 @@ function JobPost() {
         }
     }, [locationData]);
 
+
+    const fetchCompanyData = async () => {
+        try {
+            const response = await fetch(`${apiBaseUrl}/datacompany`); // API endpoint for location data
+            if (response.ok) {
+                const data = await response.json();
+                setCompanyData(data); // Set the fetched data
+            } else {
+                console.error('Failed to fetch location data:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error fetching location data:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchCompanyData(); // Fetch location data when the component mounts
+    }, []);
+
+    useEffect(() => {
+        if (companyData) {
+         
+
+             // Extract districts from the imported JSON data
+             const districts = companyData.states[0].districts.map(district => ({
+                value: district,
+                label: district
+            }));
+            setCategoryOptions(districts);
+        }
+    }, [locationData]);
+
+
+
+
+    const fetchJobsData = async () => {
+        try {
+            const response = await fetch(`${apiBaseUrl}/datajobs`); // API endpoint for location data
+            if (response.ok) {
+                const data = await response.json();
+                setJobsData(data); // Set the fetched data
+            } else {
+                console.error('Failed to fetch location data:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error fetching location data:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchJobsData(); // Fetch location data when the component mounts
+    }, []);
+
+    useEffect(() => {
+        if (jobsData) {
+         
+
+            // Extract districts from location data for the select dropdown
+            const job = jobsData.states[0].districts.map(district => ({
+                value: district,
+                label: district,
+            }));
+            setJobsOptions(job); // Set the location options once data is available
+        }
+    }, [jobsData]);
+
+
     useEffect(() => {
         window.scrollTo(0, 0);
 
-        // Extract districts from the imported JSON data
-        const districts = companies.states[0].districts.map(district => ({
-            value: district,
-            label: district
-        }));
+       
 
-        // Extract districts from the imported JSON data
-        const job = jobs.states[0].districts.map(district => ({
-            value: district,
-            label: district
-        }));
-
+  
         // Extract districts from the imported JSON data
         const workstart = worktime.states[0].districts.map(district => ({
             value: district,
@@ -184,8 +244,6 @@ function JobPost() {
             label: district
         }));
 
-        setCategoryOptions(districts);
-        setJobsOptions(job); // Set district options for the select
         setStartOptions(workstart)
         setEndOptions(workend)
     }, []);

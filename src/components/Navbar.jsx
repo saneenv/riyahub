@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import Select from 'react-select';
-import logo from '../images/navbar/newlogo.png'
+import logo from '../images/navbar/newlogo2.png'
 import search from '../images/navbar/Vector.png'
 import locationpic from '../images/navbar/location.png'
 // import smallloc from '../images/navbar/smallloc.png'
 import { useNavigate } from 'react-router-dom'
 import EmpOptions from './EmpOptions'
 import CandidateOpt from './CandidateOpt'
-import jobs from '../json/jobs.json'; // Import jobs
-import location from '../json/cities.json'; // Import location data
+// import jobs from '../json/jobs.json'; 
+// import location from '../json/cities.json'; 
 import StaffOptions from './StaffOptions'
 
 function Navbar() {
@@ -23,6 +23,8 @@ function Navbar() {
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
     const [locationData, setLocationData] = useState(null);
+    const [jobsData, setJobsData] = useState(null);
+
 
     const [jobsOptions, setJobsOptions] = useState([]);
     const [locationOptions, setLocationOptions] = useState([]);
@@ -61,20 +63,38 @@ function Navbar() {
         }
     }, [locationData]);
 
-    // Load job and location options on component mount
+
+
+    const fetchJobsData = async () => {
+        try {
+            const response = await fetch(`${apiBaseUrl}/datajobs`); // API endpoint for location data
+            if (response.ok) {
+                const data = await response.json();
+                setJobsData(data); // Set the fetched data
+            } else {
+                console.error('Failed to fetch location data:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error fetching location data:', error);
+        }
+    };
+
     useEffect(() => {
-
-        // Extract job and location data from the JSON files
-        const jobOptions = jobs.states[0].districts.map(district => ({
-            value: district,
-            label: district
-        }));
-
-    
-
-        setJobsOptions(jobOptions); // Set job options for the select
+        fetchJobsData(); // Fetch location data when the component mounts
     }, []);
 
+    useEffect(() => {
+        if (jobsData) {
+         
+
+            // Extract districts from location data for the select dropdown
+            const job = jobsData.states[0].districts.map(district => ({
+                value: district,
+                label: district,
+            }));
+            setJobsOptions(job); // Set the location options once data is available
+        }
+    }, [jobsData]);
 
 
     const login = () => {

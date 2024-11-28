@@ -3,8 +3,8 @@ import logo from '../images/navbar/newlogo.png'
 import EmpOptions from './EmpOptions';
 import { useNavigate } from 'react-router-dom'
 import CandidateOpt from './CandidateOpt';
-import jobs from '../json/jobs.json'; // Import jobs
-import location from '../json/cities.json'; // Import location data
+// import jobs from '../json/jobs.json'; 
+// import location from '../json/cities.json';
 import StaffOptions from './StaffOptions';
 import Select from 'react-select'; 
 // import smallloc from '../images/navbar/smallloc.png'
@@ -20,6 +20,8 @@ function NavbarMob() {
     const [jobsOptions, setJobsOptions] = useState([]);
     const [locationOptions, setLocationOptions] = useState([]);
     const [locationData, setLocationData] = useState(null);
+    const [jobsData, setJobsData] = useState(null);
+
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
 
@@ -56,22 +58,40 @@ function NavbarMob() {
     }, [locationData]);
 
 
-    // Load job and location options on component mount
+    const fetchJobsData = async () => {
+        try {
+            const response = await fetch(`${apiBaseUrl}/datajobs`); // API endpoint for location data
+            if (response.ok) {
+                const data = await response.json();
+                setJobsData(data); // Set the fetched data
+            } else {
+                console.error('Failed to fetch location data:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error fetching location data:', error);
+        }
+    };
+
     useEffect(() => {
-
-        // Extract job and location data from the JSON files
-        const jobOptions = jobs.states[0].districts.map(district => ({
-            value: district,
-            label: district
-        }));
-
-   
-
-        setJobsOptions(jobOptions); // Set job options for the select
+        fetchJobsData(); // Fetch location data when the component mounts
     }, []);
 
+    useEffect(() => {
+        if (jobsData) {
+         
 
-    // Function to handle navigation with state
+            // Extract districts from location data for the select dropdown
+            const job = jobsData.states[0].districts.map(district => ({
+                value: district,
+                label: district,
+            }));
+            setJobsOptions(job); // Set the location options once data is available
+        }
+    }, [jobsData]);
+
+
+
+      // Function to handle navigation with state
     const findJob = () => {
         navigate('/searchedjobs', { state: { job, location: locationInput } }); // Passing job and location as state
     };

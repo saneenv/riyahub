@@ -40,6 +40,8 @@ import DateSearch from './pages/DateSearch';
 import EnableJobPost from './pages/EnableJobPost';
 import EnableStaff from './pages/EnableStaff';
 import AddLocation from './pages/AddLocation';
+import AddCompanyType from './pages/AddCompanyType';
+import AddJobs from './pages/AddJobs';
 
 
 function App() {
@@ -87,6 +89,9 @@ function App() {
                 <Route path='/enablejobpost' element={<EnableJobPost/>}/>
                 <Route path="/enablestaff" element={<EnableStaff />} />
                 <Route path="/addlocation" element={<AddLocation />} />
+                <Route path="/addcompanytype" element={<AddCompanyType />} />
+                <Route path="/addjobs" element={<AddJobs />} />
+
 
 
 

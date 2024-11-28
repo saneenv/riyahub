@@ -7,7 +7,7 @@ import Navbar2 from './Navbar2';
 import Footer from './Footer';
 import filter from '../images/search/Filter.png'
 import Select from 'react-select'; // Importing react-select
-import jobs from '../json/jobs.json';
+// import jobs from '../json/jobs.json';
 // import location from '../json/cities.json'
 import vector from '../images/home/Vector.png'
 import { useLocation } from 'react-router-dom';
@@ -32,6 +32,7 @@ function SearchedJobs() {
     const [foodType, setFoodType] = useState(null); // State for storing gender
     const [jobsApi, setJobsApi] = useState([]);
     const [locationData, setLocationData] = useState(null);
+    const [jobsData, setJobsData] = useState(null);
 
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
@@ -80,20 +81,41 @@ function SearchedJobs() {
     }, [locationData]);
 
 
+    const fetchJobsData = async () => {
+        try {
+            const response = await fetch(`${apiBaseUrl}/datajobs`); // API endpoint for location data
+            if (response.ok) {
+                const data = await response.json();
+                setJobsData(data); // Set the fetched data
+            } else {
+                console.error('Failed to fetch location data:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error fetching location data:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchJobsData(); // Fetch location data when the component mounts
+    }, []);
+
+    useEffect(() => {
+        if (jobsData) {
+         
+
+            // Extract districts from location data for the select dropdown
+            const job = jobsData.states[0].districts.map(district => ({
+                value: district,
+                label: district,
+            }));
+            setJobsOptions(job); // Set the location options once data is available
+        }
+    }, [jobsData]);
+
+
+
     useEffect(() => {
         window.scrollTo(0, 0);
-
-        // Extract jobs and locations from your data
-        const jobOptions = jobs.states[0].districts.map(district => ({
-            value: district,
-            label: district
-        }));
-
-      
-
-        setJobsOptions(jobOptions); // Set job options for the select dropdown
-
-
     }, []);
 
     // Handle job change

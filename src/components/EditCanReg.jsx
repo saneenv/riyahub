@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import statesAndDistricts2 from '../json/states-and-districts.json';
 import degree from '../json/degree.json';
-import jobs from '../json/jobs.json';
+// import jobs from '../json/jobs.json';
 // import location from '../json/cities.json';
 import Footer from './Footer';
 import NavbarMob from './NavbarMob';
@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 const EditCanReg = () => {
   const [formData, setFormData] = useState({
     name: '',
+    age: '',
     mobile: '',
     whatsapp: '',
     email: '',
@@ -35,6 +36,8 @@ const EditCanReg = () => {
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
   const [locationData, setLocationData] = useState(null);
+  const [jobsData, setJobsData] = useState(null);
+
   const [errorMessage, setErrorMessage] = useState(null); // Initialize error state
   const [loading, setLoading] = useState(false); // Initialize loading state
   const navigate = useNavigate();
@@ -76,16 +79,51 @@ useEffect(() => {
 
 useEffect(() => {
   if (locationData) {
-     
-
       // Extract districts from location data for the select dropdown
-      const locations = locationData.states[0].districts.map(district => ({
-          value: district,
-          label: district,
-      }));
+      const locations = locationData.states[0].districts
+          .filter(district => district !== "All Kerala") // Exclude "All Kerala"
+          .map(district => ({
+              value: district,
+              label: district,
+          }));
       setLocationOptions(locations); // Set the location options once data is available
   }
 }, [locationData]);
+
+
+const fetchJobsData = async () => {
+  try {
+      const response = await fetch(`${apiBaseUrl}/datajobs`); // API endpoint for location data
+      if (response.ok) {
+          const data = await response.json();
+          setJobsData(data); // Set the fetched data
+      } else {
+          console.error('Failed to fetch location data:', response.statusText);
+      }
+  } catch (error) {
+      console.error('Error fetching location data:', error);
+  }
+};
+
+useEffect(() => {
+  fetchJobsData(); // Fetch location data when the component mounts
+}, []);
+
+useEffect(() => {
+  if (jobsData) {
+
+      // Extract districts from location data for the select dropdown
+      const job = jobsData.states[0].districts
+      .filter(district => district !== "All") // Exclude "All Kerala"
+      .map(district => ({
+          value: district,
+          label: district,
+      }));
+      setJobsOptions(job); // Set the location options once data is available
+  }
+}, [jobsData]);
+
+
 
   // Fetch candidate data on load
   useEffect(() => {
@@ -106,6 +144,7 @@ useEffect(() => {
 
           const {
             Name, // Adjusted to match the API response
+            Age,
             Mobile,
             WhatsApp,
             Email,
@@ -120,6 +159,7 @@ useEffect(() => {
 
           setFormData({
             name: Name,
+            age: Age,
             mobile: Mobile,
             whatsapp: WhatsApp,
             email: Email,
@@ -156,18 +196,13 @@ useEffect(() => {
       label: district
     }));
 
-    // Extract districts from the imported JSON data
-    const job = jobs.states[0].districts.map(district => ({
-      value: district,
-      label: district
-    }));
+
 
 
 
 
     setDistrictOptions(districts);
     setDegreeOptions(degrees);
-    setJobsOptions(job);
 
     return () => { isMounted = false; }; // Cleanup function to set isMounted to false
   }, [candidateID]);
@@ -252,6 +287,18 @@ useEffect(() => {
                 className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
                 value={formData.name}
                 name="name"
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className='flex flex-col gap-3'>
+              <span className='text-left text-base font-[500] font-display'>Age</span>
+              <input
+                type="text"
+                placeholder='Enter Full Name'
+                className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                value={formData.age}
+                name="age"
                 onChange={handleChange}
               />
             </div>

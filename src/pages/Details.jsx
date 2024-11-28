@@ -20,7 +20,7 @@ import Footer from '../components/Footer';
 import Navbar2 from '../components/Navbar2';
 import { useLocation } from 'react-router-dom';
 import html2canvas from 'html2canvas';
-import poster from '../images/download/Riya Poster.png'
+import poster from '../images/download/Poster2.png'
 import QRCode from 'qrcode';
 
 
@@ -218,7 +218,7 @@ function Details() {
                 <div className='flex flex-row justify-between w-full'>
                     <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#3B3D3B] hover:bg-[#2f302f] rounded-[10px] flex justify-center items-center text-base font-[600] font-display text-[white] cursor-pointer' onClick={handlePackageClick}>Company Details</div>
                     <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#339030] hover:bg-[#267824] rounded-[10px] flex justify-center items-center text-base font-[600] font-display text-[white] cursor-pointer' onClick={Packages2}>Apply Now</div>
-                    {customerType === 'admin' && (
+                    {(customerType === 'admin' || customerType === 'mainAdmin') &&  (
                         <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#282d55] rounded-[10px] flex justify-center items-center text-lg font-[600] font-display text-[white] cursor-pointer' onClick={downloadStyledImage}>download</div>
                     )}
                 </div>

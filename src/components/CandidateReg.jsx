@@ -7,7 +7,7 @@ import Navbar2 from './Navbar2';
 import Select from 'react-select'; // Importing react-select
 import statesAndDistricts2 from '../json/states-and-districts.json';
 import degree from '../json/degree.json'
-import jobs from '../json/jobs.json';
+// import jobs from '../json/jobs.json';
 // import location from '../json/cities.json'
 import { useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
@@ -21,10 +21,13 @@ function CandidateReg() {
     const [jobsCategory, setJobsCategory] = useState('');
     const [jobsOptions, setJobsOptions] = useState([]);
     const [locationData, setLocationData] = useState(null);
+    const [jobsData, setJobsData] = useState(null);
 
     const [locationCategory, setLocationCategory] = useState('');
     const [locationOptions, setLocationOptions] = useState([]);
     const [name, setName] = useState('');
+    const [age, setAge] = useState('');
+
     const [mobile, setMobile] = useState('');
     const [whatsapp, setWhatsapp] = useState('');
     const [email, setEmail] = useState('');
@@ -77,16 +80,52 @@ function CandidateReg() {
 
     useEffect(() => {
         if (locationData) {
-            
-
             // Extract districts from location data for the select dropdown
-            const locations = locationData.states[0].districts.map(district => ({
-                value: district,
-                label: district,
-            }));
+            const locations = locationData.states[0].districts
+                .filter(district => district !== "All Kerala") // Exclude "All Kerala"
+                .map(district => ({
+                    value: district,
+                    label: district,
+                }));
             setLocationOptions(locations); // Set the location options once data is available
         }
     }, [locationData]);
+
+
+    const fetchJobsData = async () => {
+        try {
+            const response = await fetch(`${apiBaseUrl}/datajobs`); // API endpoint for location data
+            if (response.ok) {
+                const data = await response.json();
+                setJobsData(data); // Set the fetched data
+            } else {
+                console.error('Failed to fetch location data:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error fetching location data:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchJobsData(); // Fetch location data when the component mounts
+    }, []);
+
+    useEffect(() => {
+        if (jobsData) {
+
+
+            // Extract districts from location data for the select dropdown
+            const job = jobsData.states[0].districts
+                .filter(district => district !== "All") // Exclude "All Kerala"
+                .map(district => ({
+                    value: district,
+                    label: district,
+                }));
+            setJobsOptions(job); // Set the location options once data is available
+        }
+    }, [jobsData]);
+
+
 
 
     useEffect(() => {
@@ -103,18 +142,8 @@ function CandidateReg() {
             label: district
         }));
 
-        // Extract districts from the imported JSON data
-        const job = jobs.states[0].districts.map(district => ({
-            value: district,
-            label: district
-        }));
-
-     
-
-
         setDistrictOptions(districts); // Set district options for the select
         setDegreeOptions(degrees); // Set district options for the select
-        setJobsOptions(job); // Set district options for the select
 
 
 
@@ -242,7 +271,7 @@ function CandidateReg() {
         }
 
         // Check for empty fields
-        if (!name || !mobile || !whatsapp || !email ||
+        if (!name || !age || !mobile || !whatsapp || !email ||
             !password || !gender || !companyDistrict || !candidateDegree ||
             !jobType || !jobsCategory.length || !locationCategory.length || !maritalStatus) {
             alert('Please fill in all fields.');
@@ -279,7 +308,9 @@ function CandidateReg() {
             jobType: jobType,
             jobs: jobsCategory.map(option => option.value), // Ensure this is an array
             locations: locationCategory.map(option => option.value), // Ensure this is an array
-            maritalStatus: maritalStatus
+            maritalStatus: maritalStatus,
+            age
+
         };
 
         console.log(data); // This should show jobs and locations as arrays
@@ -316,6 +347,7 @@ function CandidateReg() {
             setJobsCategory('');
             setLocationCategory('');
             setMartialStatus('');
+            setAge('');
             navigate('/login');
 
             const result = await response.json();
@@ -355,6 +387,16 @@ function CandidateReg() {
                                 className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4'
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
+                            />
+                        </div>
+                        <div className='flex flex-col gap-3'>
+                            <span className='text-left text-base font-[500] font-display'>Age</span>
+                            <input
+                                type="number"
+                                placeholder='Enter Your Age'
+                                className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                                value={age}
+                                onChange={(e) => setAge(e.target.value)}
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
@@ -414,8 +456,8 @@ function CandidateReg() {
                                 placeholder="Select Gender"
                                 classNamePrefix="react-select"
                                 styles={customStyles}
-                                value={genderOptions.find(option => option.value === gender) || null} 
-                                onChange={handleGenderChange} 
+                                value={genderOptions.find(option => option.value === gender) || null}
+                                onChange={handleGenderChange}
                             />
 
                         </div>
@@ -431,7 +473,7 @@ function CandidateReg() {
                                 className='w-full'
                                 classNamePrefix='select'
                                 isClearable={true}
-                                value={districtOptions.find(option => option.value === companyDistrict) || null} 
+                                value={districtOptions.find(option => option.value === companyDistrict) || null}
                                 styles={customStyles}
                             />
                         </div>
@@ -444,7 +486,7 @@ function CandidateReg() {
                                 className='w-full'
                                 classNamePrefix='select'
                                 isClearable={true}
-                                value={degreeOptions.find(option => option.value === candidateDegree) || null} 
+                                value={degreeOptions.find(option => option.value === candidateDegree) || null}
                                 styles={customStyles}
 
                             />
@@ -457,8 +499,8 @@ function CandidateReg() {
                                 placeholder="Select Job Type"
                                 classNamePrefix="react-select"
                                 styles={customStyles}
-                                value={jobTypeOptions.find(option => option.value === jobType) || null} 
-                                onChange={handleJobTypeChange} 
+                                value={jobTypeOptions.find(option => option.value === jobType) || null}
+                                onChange={handleJobTypeChange}
                             />
 
                         </div>
@@ -471,7 +513,7 @@ function CandidateReg() {
                                 className='w-auto'
                                 classNamePrefix='select'
                                 isClearable={true}
-                                isMulti 
+                                isMulti
                                 value={jobsCategory}
                                 styles={customStyles2}
                             />
@@ -486,8 +528,8 @@ function CandidateReg() {
                                 className='w-full'
                                 classNamePrefix='select'
                                 isClearable={true}
-                                isMulti 
-                                value={locationCategory} 
+                                isMulti
+                                value={locationCategory}
                                 styles={customStyles2}
                             />
                         </div>
@@ -499,8 +541,8 @@ function CandidateReg() {
                                 placeholder="Select Marital Status"
                                 classNamePrefix="react-select"
                                 styles={customStyles}
-                                value={maritalStatusOptions.find(option => option.value === maritalStatus) || null} 
-                                onChange={handleMaritalStatusChange} 
+                                value={maritalStatusOptions.find(option => option.value === maritalStatus) || null}
+                                onChange={handleMaritalStatusChange}
                             />
                         </div>
                     </div>

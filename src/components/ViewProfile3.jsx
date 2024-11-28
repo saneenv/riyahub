@@ -39,6 +39,14 @@ function ViewProfile3() {
   const addlocation = () => {
     navigate('/addlocation'); 
   };
+
+  const addcompanytype = () => {
+    navigate('/addcompanytype'); 
+  };
+
+  const addjobs = () => {
+    navigate('/addjobs'); 
+  };
  
   
   
@@ -152,6 +160,9 @@ const deleteProfile = async () => {
         <div className='w-full mt-2 flex flex-row justify-between'>
           
           <span className='lg:text-xl text-lg font-[600] font-display underline text-[#E22E37] cursor-pointer' onClick={addlocation}>Add Location</span>
+          <span className='lg:text-xl text-lg font-[600] font-display underline text-[#E22E37] cursor-pointer' onClick={addjobs}>Add Jobs</span>
+          <span className='lg:text-xl text-lg font-[600] font-display underline text-[#E22E37] cursor-pointer' onClick={addcompanytype}>Add CompanyType</span>
+
        
         </div>
       

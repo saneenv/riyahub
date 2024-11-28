@@ -81,14 +81,16 @@ function Whatsapp() {
     
         // Format the job details in Malayalam
         const jobText = jobs.map((job, index) => 
-            `*${index + 1}. ജോലി - ${job.job_title}*\n` +
+            `*${index + 1}. JOB ID - ${job.job_id}\n` +
+            `ജോലി - ${job.job_title}*\n` +
             `ശമ്പളം - ₹${job.min_salary} - ₹${job.max_salary}\n` +
             `ക്വാളിഫിക്കേഷൻ - ${job.qualification}\n` +
-            `സ്ഥലം - ${job.location}\n` 
+            `സ്ഥലം - ${job.location}\n` +
+            `നമ്പർ - ${job.whatsapp_number}`
             ).join('\n\n');
     
         // Extra official data in Malayalam
-        const officialText = `RIYA HUB JOBS  -  JOB PORTAL
+        const officialText = `RIYA HUB - JOB PORTAL
         
      
         `;
