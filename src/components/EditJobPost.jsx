@@ -53,9 +53,9 @@ function EditJobPost() {
   
 
     const jobTypeOptions = [
-        { value: 'fulltime', label: 'Full Time' },
-        { value: 'parttime', label: 'Part Time' },
-        { value: 'Remote/workathome', label: 'Remote/work at home' }
+        { value: 'Full Time', label: 'Full Time' },
+        { value: 'Part Time', label: 'Part Time' },
+        { value: 'Remote/work at home', label: 'Remote/work at home' }
     ];
 
     const genderTypeOptions = [
@@ -65,10 +65,10 @@ function EditJobPost() {
     ];
 
     const foodTypeOptions = [
-        { value: 'no', label: 'No' },
-        { value: 'yes', label: 'Yes' },
-        { value: 'Accomodationonly', label: 'Accomodation Only' },
-        { value: 'Foodonly', label: 'Food Only' }
+        { value: 'No', label: 'No' },
+        { value: 'Yes', label: 'Yes' },
+        { value: 'Accomodation Only', label: 'Accomodation Only' },
+        { value: 'Food Only', label: 'Food Only' }
     ];
 
 

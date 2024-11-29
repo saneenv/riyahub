@@ -16,8 +16,8 @@ function Whatsapp() {
     const [loading, setLoading] = useState(false);
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
-      // Fetch location data from the backend API
-      const fetchLocationData = async () => {
+    // Fetch location data from the backend API
+    const fetchLocationData = async () => {
         try {
             const response = await fetch(`${apiBaseUrl}/data`); // API endpoint for location data
             if (response.ok) {
@@ -73,34 +73,63 @@ function Whatsapp() {
         }
     };
 
+
+    useEffect(() => {
+        // Process job data to format salary values
+        if (jobs.length > 0) {
+            const processedJobs = jobs.map(job => {
+                const { min_salary, max_salary } = job;
+    
+                // Determine the salary display
+                let salaryDisplay = '';
+                if (min_salary > 0 && max_salary > 0) {
+                    salaryDisplay = `₹${min_salary} - ₹${max_salary}`;
+                } else if (min_salary > 0) {
+                    salaryDisplay = `₹${min_salary}`;
+                } else if (max_salary > 0) {
+                    salaryDisplay = `₹${max_salary}`;
+                }
+    
+                // Return updated job object with a formatted salary field
+                return {
+                    ...job,
+                    salaryDisplay,
+                };
+            });
+    
+            setJobs(processedJobs); // Update the state with formatted jobs
+        }
+    }, [jobs]); // Run whenever the jobs array is updated
+    
+
     const sendJobsToWhatsApp = () => {
         if (jobs.length === 0) {
             alert('No jobs available to send');
             return;
         }
-    
+
         // Format the job details in Malayalam
-        const jobText = jobs.map((job, index) => 
+        const jobText = jobs.map((job, index) =>
             `*${index + 1}. JOB ID - ${job.job_id}\n` +
             `ജോലി - ${job.job_title}*\n` +
-            `ശമ്പളം - ₹${job.min_salary} - ₹${job.max_salary}\n` +
+            `ശമ്പളം - ${job.salaryDisplay}\n` +
             `ക്വാളിഫിക്കേഷൻ - ${job.qualification}\n` +
             `സ്ഥലം - ${job.location}\n` +
             `നമ്പർ - ${job.whatsapp_number}`
-            ).join('\n\n');
-    
+        ).join('\n\n');
+
         // Extra official data in Malayalam
         const officialText = `RIYA HUB - JOB PORTAL
         
      
         `;
-    
+
         // Combine job data with the official information
         const fullText = `നാട്ടിലെ ജോലി ഒഴിവുകൾ\n\n${jobText}\n\n${officialText}`;
-    
+
         // Prepare message to send (ensure it's properly encoded)
         const encodedMessage = fullText; // No need to encodeURIComponent here, backend will handle that
-    
+
         // Send the message via backend API
         fetch(`${apiBaseUrl}/send-whatsapp`, {
             method: 'POST',
@@ -112,20 +141,20 @@ function Whatsapp() {
                 message: encodedMessage, // Message content
             }),
         })
-        .then((response) => response.json())
-        .then((data) => {
-            if (data.success) {
-                alert('Message sent successfully!');
-            } else {
-                alert(`message sent successfully`);
-            }
-        })
-        .catch((error) => {
-            console.error('Error sending message:', error);
-            alert('Failed to send message');
-        });
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    alert('Message sent successfully!');
+                } else {
+                    alert(`message sent successfully`);
+                }
+            })
+            .catch((error) => {
+                console.error('Error sending message:', error);
+                alert('Failed to send message');
+            });
     };
-    
+
 
     return (
         <div className="min-h-screen flex flex-col bg-white text-gray-800">
@@ -178,7 +207,13 @@ function Whatsapp() {
                                         {job.job_type}
                                     </span>
                                     <span className="inline-block ml-2 px-3 py-1 text-sm font-semibold text-green-700 bg-green-100 rounded-full">
-                                        ₹{job.min_salary} - ₹{job.max_salary}
+                                        {job.min_salary > 0 && job.max_salary > 0
+                                            ? `₹${job.min_salary} - ₹${job.max_salary}`
+                                            : job.min_salary > 0
+                                                ? `₹${job.min_salary}`
+                                                : job.max_salary > 0
+                                                    ? `₹${job.max_salary}`
+                                                    : 'N/A'}
                                     </span>
                                 </div>
                             </div>
@@ -189,7 +224,7 @@ function Whatsapp() {
                 </div>
 
                 {/* Download Button */}
-             
+
             </div>
             <Footer />
         </div>

@@ -67,7 +67,7 @@ function Details() {
         }
 
         // Check if the customer is an admin
-        if (customerType === 'admin') {
+        if (customerType === 'admin' || customerType === 'mainAdmin') {
             navigate('/companydetails', { state: { employeeId: jobDetails.employee_id } });
             return; // Exit the function after navigating to company details
         }
@@ -218,7 +218,7 @@ function Details() {
                 <div className='flex flex-row justify-between w-full'>
                     <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#3B3D3B] hover:bg-[#2f302f] rounded-[10px] flex justify-center items-center text-base font-[600] font-display text-[white] cursor-pointer' onClick={handlePackageClick}>Company Details</div>
                     <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#339030] hover:bg-[#267824] rounded-[10px] flex justify-center items-center text-base font-[600] font-display text-[white] cursor-pointer' onClick={Packages2}>Apply Now</div>
-                    {(customerType === 'admin' || customerType === 'mainAdmin') &&  (
+                    {(customerType === 'admin' || customerType === 'mainAdmin') && (
                         <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#282d55] rounded-[10px] flex justify-center items-center text-lg font-[600] font-display text-[white] cursor-pointer' onClick={downloadStyledImage}>download</div>
                     )}
                 </div>
@@ -287,14 +287,21 @@ function Details() {
                         </div>
 
                         <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
-                            <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
+                            <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
                                 <img src={rs} alt="loc" />
                                 <span className='text-[#B3B3B3] text-lg font-[500] font-display'>Monthly Salary</span>
                             </div>
                             <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-lg font-[500] font-display'>
-                                ₹ {jobDetails.min_salary} - ₹ {jobDetails.max_salary}
+                                {jobDetails.min_salary > 0 && jobDetails.max_salary > 0
+                                    ? `₹ ${jobDetails.min_salary} - ₹ ${jobDetails.max_salary}`
+                                    : jobDetails.min_salary > 0
+                                        ? `₹ ${jobDetails.min_salary}`
+                                        : jobDetails.max_salary > 0
+                                            ? `₹ ${jobDetails.max_salary}`
+                                            : null}
                             </div>
                         </div>
+
 
                         {/* {(selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800') && (
                             <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
@@ -372,7 +379,18 @@ function Details() {
                         <div className='w-[90%] h-auto bg-[white] rounded-[10px] px-12 py-6 flex flex-col gap-5 mt-[5%]'>
                             <span className='flex flex-row gap-3 font-[600] text-2xl font-display text-left'><span>{jobDetails.job_title}</span> </span>
 
-                            <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>. Salary : <span>{jobDetails.min_salary} - {jobDetails.max_salary}</span> </span>
+                            <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>
+                                Salary:
+                                <span>
+                                    {jobDetails.min_salary > 0 && jobDetails.max_salary > 0
+                                        ? `${jobDetails.min_salary} - ${jobDetails.max_salary}`
+                                        : jobDetails.min_salary > 0
+                                            ? jobDetails.min_salary
+                                            : jobDetails.max_salary > 0
+                                                ? jobDetails.max_salary
+                                                : 'N/A'}
+                                </span>
+                            </span>
                             <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>. Qualification : <span>{jobDetails.qualification}</span> </span>
                             <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>. Gender : <span>{jobDetails.gender_type}</span> </span>
                             <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>. Location : <span>{jobDetails.location}</span> </span>

@@ -1,4 +1,4 @@
-import React, { useState , useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { useMediaQuery } from 'react-responsive';
 import NavbarMob from '../components/NavbarMob';
 import Navbar from '../components/Navbar';
@@ -13,11 +13,17 @@ import arrow from '../images/contactus/arrow.png'
 
 function ContactUs() {
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [newPhoneNumber, setNewPhoneNumber] = useState('');
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+  const customerType = sessionStorage.getItem('customerType');
 
-  
+
+
+
   useEffect(() => {
     window.scrollTo(0, 0);
-}, []);
+  }, []);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -34,24 +40,85 @@ function ContactUs() {
     }));
   };
 
-  const handleSendEmail = () => {
-    const recipientEmail = 'saneen577@gmail.com'; 
-    const subject = 'New Message from contact us page';
-    const body = `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.mobileNumber}\nMessage: ${formData.message}`;
 
-    // Open default email client with pre-filled email template
-    window.open(`mailto:${recipientEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
 
-    // Clear form data
-    setFormData({
-      name: '',
-      email: '',
-      mobileNumber: '',
-      message: ''
-    });
 
-    // Optionally, you can redirect or perform any other action after sending the email
+  useEffect(() => {
+    // Fetch the saved phone number from the backend when the component mounts
+    fetch(`${apiBaseUrl}/getPhoneNumber`)
+      .then(response => response.json())
+      .then(data => {
+        // Assuming the response is an array with an object containing phoneNumber
+        setPhoneNumber(data[0].phoneNumber);  // Access the first element and its phoneNumber property
+      })
+      .catch(error => console.log(error));
+  }, [apiBaseUrl]);
+  
+
+  const handlePhoneChange = (e) => {
+    setNewPhoneNumber(e.target.value);
   };
+
+  const handleUpdatePhoneNumber = () => {
+    // Send the new phone number to the backend to be saved in the database
+    fetch(`${apiBaseUrl}/updatePhoneNumber`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ phoneNumber: newPhoneNumber }),
+    })
+      .then(response => response.text())  // We expect a text response
+      .then(data => {
+        if (data === 'Phone number updated successfully') {
+          setPhoneNumber(newPhoneNumber);  // Update the phone number on success
+          setNewPhoneNumber('');           // Clear the input field
+        }
+      })
+      .catch(error => console.log(error));
+  };
+
+
+  const handleSendToWhatsApp = async () => {
+    const { name, email, mobileNumber, message } = formData;
+
+    // Validate inputs
+    if (!name || !email || !mobileNumber || !message) {
+      alert('Please fill out all fields.');
+      return;
+    }
+
+    // Prepare data for WhatsApp API
+    const to = '919544500746'; // Assuming Indian country code
+    const formattedMessage = `Name: ${name}\nNumber: ${mobileNumber}\nEmail: ${email}\nMessage: ${message}`;
+
+    try {
+      const response = await fetch(`${apiBaseUrl}/send-whatsapp`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ to, message: formattedMessage })
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        alert('Message sent successfully to WhatsApp!');
+        setFormData({
+          name: '',
+          email: '',
+          mobileNumber: '',
+          message: ''
+        });
+      } else {
+        alert('message sent successfully');
+      }
+    } catch (error) {
+      console.error('Error sending WhatsApp message:', error);
+      alert('An error occurred while sending the message. Please try again.');
+    }
+  };
+
 
 
 
@@ -78,8 +145,28 @@ function ContactUs() {
               <div className='flex flex-row gap-3'>
 
                 <img src={call} alt="call" />
-                <span className='lg:text-base text-sm font-[400] font-display text-[white]'>+91 9544500746</span>
+                <span className='lg:text-base text-sm font-[400] font-display text-[white]'>
+                  +91 {phoneNumber}
+                </span>
               </div>
+              {customerType === 'mainAdmin' && (
+              <div className="flex flex-col gap-4 items-center">
+                <input
+                  type="text"
+                  value={newPhoneNumber}
+                  onChange={handlePhoneChange}
+                  placeholder="Enter New Phone Number"
+                  className="w-full max-w-md p-3 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+                />
+                <button
+                  onClick={handleUpdatePhoneNumber}
+                  className="w-full max-w-md p-3 mt-2 bg-[#191975] text-white rounded-md text-lg font-semibold hover:bg-[blue] focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  Update Number
+                </button>
+              </div>
+               )}
+
               <div className='flex flex-row gap-3'>
 
                 <img src={email} alt="call" />
@@ -136,7 +223,7 @@ function ContactUs() {
             </div>
             <div className='w-full flex flex-col'>
               <div className='flex w-full justify-end items-end'>
-                <div className='h-[50px] lg:w-[20%] w-[50%] bg-[#E22E37] rounded-[10px] flex flex-end text-[white] justify-center items-center lg:text-xl text-base font-[500] font-display cursor-pointer hover:bg-[black]' onClick={handleSendEmail}>Send Mail</div>
+                <div className='h-[50px] lg:w-[20%] w-[50%] bg-[#E22E37] rounded-[10px] flex flex-end text-[white] justify-center items-center lg:text-xl text-base font-[500] font-display cursor-pointer hover:bg-[black]'  onClick={handleSendToWhatsApp}>Send</div>
               </div>
               <div className='flex w-full h-[120px]  justify-center items-center'>
                 <div className='h-full w-[40%] '>

@@ -110,7 +110,7 @@ function StaffOptions({ closeOptions }) {
           <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={appliedCandidates}>Applied Candidates</li>
 
           <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={viewProfile3}>View Profile</li>
-          {staffData && staffData.power === 'on' && (
+          {staffData && staffData.specialPower === 'on' && (
             <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={enablePage}>Enable Package</li>
           )}
           {staffData && staffData.power === 'on' && (

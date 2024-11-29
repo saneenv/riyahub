@@ -6,13 +6,13 @@ import CandidateOpt from './CandidateOpt';
 // import jobs from '../json/jobs.json'; 
 // import location from '../json/cities.json';
 import StaffOptions from './StaffOptions';
-import Select from 'react-select'; 
+import Select from 'react-select';
 // import smallloc from '../images/navbar/smallloc.png'
 
 function NavbarMob() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const companyName = sessionStorage.getItem('customerName');
-    const [showOptions, setShowOptions] = useState(false); 
+    const [showOptions, setShowOptions] = useState(false);
     const navigate = useNavigate();
     const customerType = sessionStorage.getItem('customerType');
     const [job, setJob] = useState('');
@@ -25,8 +25,8 @@ function NavbarMob() {
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
 
-      // Fetch location data from the backend API
-      const fetchLocationData = async () => {
+    // Fetch location data from the backend API
+    const fetchLocationData = async () => {
         try {
             const response = await fetch(`${apiBaseUrl}/data`); // API endpoint for location data
             if (response.ok) {
@@ -78,7 +78,7 @@ function NavbarMob() {
 
     useEffect(() => {
         if (jobsData) {
-         
+
 
             // Extract districts from location data for the select dropdown
             const job = jobsData.states[0].districts.map(district => ({
@@ -91,7 +91,7 @@ function NavbarMob() {
 
 
 
-      // Function to handle navigation with state
+    // Function to handle navigation with state
     const findJob = () => {
         navigate('/searchedjobs', { state: { job, location: locationInput } }); // Passing job and location as state
     };
@@ -144,21 +144,21 @@ function NavbarMob() {
 
     const martial = () => {
         navigate('/martialstatus');
-      };
-    
-      const sevicespage = () => {
-        navigate('/services');
-      };
-    
-      const whatsappPage = () => {
-        navigate('/whatsapp');
-      };
-    
-      const datesearch = () => {
-        navigate('/datesearch');
-      };
+    };
 
-      const customSelectStyles = {
+    const sevicespage = () => {
+        navigate('/services');
+    };
+
+    const whatsappPage = () => {
+        navigate('/whatsapp');
+    };
+
+    const datesearch = () => {
+        navigate('/datesearch');
+    };
+
+    const customSelectStyles = {
         control: (provided) => ({
             ...provided,
             width: '100%',
@@ -195,13 +195,13 @@ function NavbarMob() {
                     styles={customSelectStyles}
                     options={jobsOptions}
                     placeholder="Select Job..."
-                    value={jobsOptions.find(option => option.value === job)}
-                    onChange={(selectedOption) => setJob(selectedOption?.value || '')}
+                    value={job ? jobsOptions.find(option => option.value === job) : null}
+                    onChange={(selectedOption) => setJob(selectedOption ? selectedOption.value : '')}
                     isClearable
                 />
             </div>
             <div className='w-full flex flex-row h-[40px]  rounded-[5px]'>
-            <div className='w-[70%] h-full'>
+                <div className='w-[70%] h-full'>
                     <Select
                         styles={customSelectStyles}
                         options={locationOptions}
@@ -232,15 +232,15 @@ function NavbarMob() {
                             <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={jobidpage}>Job ID Search</li>
 
                             {(customerType === 'admin' || customerType === 'mainAdmin') && (
-                            <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={martial}>Martial Status</li>
-                        )}
-                        {(customerType === 'admin' || customerType === 'mainAdmin') && (
-                            <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={whatsappPage}>To Whatsapp</li>
-                        )}
-                        {(customerType === 'admin' || customerType === 'mainAdmin') && (
-                            <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={datesearch}>Date Search</li>
-                        )}
-                        
+                                <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={martial}>Martial Status</li>
+                            )}
+                            {(customerType === 'admin' || customerType === 'mainAdmin') && (
+                                <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={whatsappPage}>To Whatsapp</li>
+                            )}
+                            {(customerType === 'admin' || customerType === 'mainAdmin') && (
+                                <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={datesearch}>Date Search</li>
+                            )}
+
                             <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={sevicespage}>Services</li>
 
                             {/* <li className='p-4 hover:bg-gray-700 cursor-pointer'>Services</li> */}
@@ -268,6 +268,8 @@ function NavbarMob() {
                     <StaffOptions closeOptions={closeOptions} />
                 ) : customerType === 'employee' ? (
                     <EmpOptions closeOptions={closeOptions} />
+                ) : customerType === 'mainAdmin' ? (
+                    <StaffOptions closeOptions={closeOptions} />
                 ) : customerType === 'candidate' ? (
                     <CandidateOpt closeOptions={closeOptions} />
                 ) : null

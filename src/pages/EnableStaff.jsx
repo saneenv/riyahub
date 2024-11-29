@@ -76,6 +76,41 @@ function EnableStaff() {
     }
   };
 
+
+  const handleTogglePower2 = async (companyName, currentPower) => {
+    const newPowerStatus = currentPower === 'off' ? 'on' : 'off';
+    console.log('Toggling SpecialPower:', { companyName, newPowerStatus }); // Debug log
+  
+    setStaffData((prevStaff) =>
+      prevStaff.map((staff) =>
+        staff.companyName === companyName ? { ...staff, specialPower: newPowerStatus } : staff
+      )
+    );
+  
+    try {
+      const response = await fetch(`${apiBaseUrl}/updatespecialpower`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          companyName,
+          specialPower: newPowerStatus,
+        }),
+      });
+  
+      const result = await response.json();
+      if (result.success) {
+        console.log('SpecialPower status updated successfully');
+      } else {
+        console.error('Failed to update SpecialPower status:', result.message);
+      }
+    } catch (error) {
+      console.error('Error updating SpecialPower status:', error);
+    }
+  };
+  
+
   return (
     <div className='min-h-screen flex flex-col'>
       {isMobile ? <NavbarMob /> : <Navbar />}
@@ -95,11 +130,10 @@ function EnableStaff() {
               <tr className='bg-blue-600 text-white'>
                 <th className='border p-2'>Staff Name</th>
                 <th className='border p-2'>Mobile Number</th>
-                <th className='border p-2'>WhatsApp Number</th>
-                <th className='border p-2'>Email</th>
-                <th className='border p-2'>Address</th>
                 <th className='border p-2'>Staff Type</th>
-                <th className='border p-2'>Power</th>
+                <th className='border p-2'>Enable Job Post</th>
+                <th className='border p-2'>Enable Package</th>
+
               </tr>
             </thead>
             <tbody>
@@ -110,9 +144,6 @@ function EnableStaff() {
                 >
                   <td className='border p-2'>{staff.companyName}</td>
                   <td className='border p-2'>{staff.mobileNumber}</td>
-                  <td className='border p-2'>{staff.whatsappNumber}</td>
-                  <td className='border p-2'>{staff.email}</td>
-                  <td className='border p-2'>{staff.address}</td>
                   <td className='border p-2'>{staff.customerType}</td>
                   <td className='border p-2 text-center'>
                     <button
@@ -122,6 +153,17 @@ function EnableStaff() {
                       onClick={() => handleTogglePower(staff.companyName, staff.power)}
                     >
                       {staff.power === 'on' ? 'On' : 'Off'}
+                    </button>
+                  </td>
+
+                  <td className='border p-2 text-center'>
+                    <button
+                      className={`${
+                        staff.specialPower === 'on' ? 'bg-green-500' : 'bg-red-500'
+                      } text-white px-4 py-2 rounded-lg`}
+                      onClick={() => handleTogglePower2(staff.companyName, staff.specialPower)}
+                    >
+                      {staff.specialPower === 'on' ? 'On' : 'Off'}
                     </button>
                   </td>
                 </tr>

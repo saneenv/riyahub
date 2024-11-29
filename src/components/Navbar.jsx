@@ -30,8 +30,8 @@ function Navbar() {
     const [locationOptions, setLocationOptions] = useState([]);
 
 
-      // Fetch location data from the backend API
-      const fetchLocationData = async () => {
+    // Fetch location data from the backend API
+    const fetchLocationData = async () => {
         try {
             const response = await fetch(`${apiBaseUrl}/data`); // API endpoint for location data
             if (response.ok) {
@@ -52,7 +52,7 @@ function Navbar() {
 
     useEffect(() => {
         if (locationData) {
-          
+
 
             // Extract districts from location data for the select dropdown
             const locations = locationData.states[0].districts.map(district => ({
@@ -85,7 +85,7 @@ function Navbar() {
 
     useEffect(() => {
         if (jobsData) {
-         
+
 
             // Extract districts from location data for the select dropdown
             const job = jobsData.states[0].districts.map(district => ({
@@ -159,13 +159,14 @@ function Navbar() {
                     <div className='h-full w-[100%]'>
                         <Select
                             options={jobsOptions}
-                            value={jobsOptions.find(option => option.value === job)}
+                            value={job ? jobsOptions.find(option => option.value === job) : null}  
                             onChange={(selectedOption) => setJob(selectedOption ? selectedOption.value : '')}
                             placeholder="Select Job..."
                             styles={customStyles}
                             className='w-full'
                         />
                     </div>
+
                 </div>
 
                 <div className='h-full w-[40%] flex flex-row'>

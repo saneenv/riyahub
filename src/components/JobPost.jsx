@@ -20,7 +20,7 @@ function JobPost() {
     const [companyData, setCompanyData] = useState(null);
     const [jobsData, setJobsData] = useState(null);
 
-    const [minSalary, setMinSalary] = useState('');
+    const [minSalary, setMinSalary] = useState(0);
     const [maxSalary, setMaxSalary] = useState('');
     const [qualification, setQualification] = useState('');
     const [jobDescription, setJobDescription] = useState('');
@@ -77,9 +77,9 @@ function JobPost() {
 
 
     const jobTypeOptions = [
-        { value: 'fulltime', label: 'Full Time' },
-        { value: 'parttime', label: 'Part Time' },
-        { value: 'Remote/workathome', label: 'Remote/work at home' }
+        { value: 'Full Time', label: 'Full Time' },
+        { value: 'Part Time', label: 'Part Time' },
+        { value: 'Remote/work at home', label: 'Remote/work at home' }
     ];
 
     const genderTypeOptions = [
@@ -329,7 +329,6 @@ function JobPost() {
             !selectedCompanyCategory ||
             !selectedJobCategory ||
             !selectedLocationCategory ||
-            !minSalary ||
             !maxSalary ||
             !selectedStartCategory ||
             !selectedEndCategory ||

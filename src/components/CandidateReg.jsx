@@ -6,7 +6,7 @@ import Footer from './Footer';
 import Navbar2 from './Navbar2';
 import Select from 'react-select'; // Importing react-select
 import statesAndDistricts2 from '../json/states-and-districts.json';
-import degree from '../json/degree.json'
+// import degree from '../json/degree.json'
 // import jobs from '../json/jobs.json';
 // import location from '../json/cities.json'
 import { useNavigate } from 'react-router-dom';
@@ -22,6 +22,8 @@ function CandidateReg() {
     const [jobsOptions, setJobsOptions] = useState([]);
     const [locationData, setLocationData] = useState(null);
     const [jobsData, setJobsData] = useState(null);
+    const [qualificationData, setQualificationData] = useState(null);
+
 
     const [locationCategory, setLocationCategory] = useState('');
     const [locationOptions, setLocationOptions] = useState([]);
@@ -127,6 +129,39 @@ function CandidateReg() {
 
 
 
+    const fetchQualificationData = async () => {
+        try {
+            const response = await fetch(`${apiBaseUrl}/dataqualifications`); // API endpoint for location data
+            if (response.ok) {
+                const data = await response.json();
+                setQualificationData(data); // Set the fetched data
+            } else {
+                console.error('Failed to fetch location data:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error fetching location data:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchQualificationData(); // Fetch location data when the component mounts
+    }, []);
+
+    useEffect(() => {
+        if (qualificationData) {
+         
+
+            // Extract districts from location data for the select dropdown
+            const degrees = qualificationData.states[0].districts.map(district => ({
+                value: district,
+                label: district,
+            }));
+            setDegreeOptions(degrees); // Set the location options once data is available
+        }
+    }, [qualificationData]);
+
+
+
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -137,13 +172,9 @@ function CandidateReg() {
             label: district
         }));
 
-        const degrees = degree.states[0].districts.map(district => ({
-            value: district,
-            label: district
-        }));
+   
 
         setDistrictOptions(districts); // Set district options for the select
-        setDegreeOptions(degrees); // Set district options for the select
 
 
 

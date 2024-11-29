@@ -47,6 +47,10 @@ function ViewProfile3() {
   const addjobs = () => {
     navigate('/addjobs'); 
   };
+
+  const addqualifications = () => {
+    navigate('/addqualifications'); 
+  };
  
   
   
@@ -153,6 +157,8 @@ const deleteProfile = async () => {
           {customerType === 'mainAdmin' && (
           <span className='lg:text-xl text-lg font-[600] font-display underline text-[#E22E37] cursor-pointer' onClick={enablestaff}>Enable staff</span>
         )}
+         <span className='lg:text-xl text-lg font-[600] font-display underline text-[#E22E37] cursor-pointer' onClick={addqualifications}>Add Qualifications</span>
+
         </div>
 
 

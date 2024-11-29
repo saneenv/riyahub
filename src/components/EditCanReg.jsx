@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import statesAndDistricts2 from '../json/states-and-districts.json';
-import degree from '../json/degree.json';
+// import degree from '../json/degree.json';
 // import jobs from '../json/jobs.json';
 // import location from '../json/cities.json';
 import Footer from './Footer';
@@ -37,6 +37,7 @@ const EditCanReg = () => {
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
   const [locationData, setLocationData] = useState(null);
   const [jobsData, setJobsData] = useState(null);
+  const [qualificationData, setQualificationData] = useState(null);
 
   const [errorMessage, setErrorMessage] = useState(null); // Initialize error state
   const [loading, setLoading] = useState(false); // Initialize loading state
@@ -125,6 +126,39 @@ useEffect(() => {
 
 
 
+const fetchQualificationData = async () => {
+  try {
+      const response = await fetch(`${apiBaseUrl}/dataqualifications`); // API endpoint for location data
+      if (response.ok) {
+          const data = await response.json();
+          setQualificationData(data); // Set the fetched data
+      } else {
+          console.error('Failed to fetch location data:', response.statusText);
+      }
+  } catch (error) {
+      console.error('Error fetching location data:', error);
+  }
+};
+
+useEffect(() => {
+  fetchQualificationData(); // Fetch location data when the component mounts
+}, []);
+
+useEffect(() => {
+  if (qualificationData) {
+   
+
+      // Extract districts from location data for the select dropdown
+      const degrees = qualificationData.states[0].districts.map(district => ({
+          value: district,
+          label: district,
+      }));
+      setDegreeOptions(degrees); // Set the location options once data is available
+  }
+}, [qualificationData]);
+
+
+
   // Fetch candidate data on load
   useEffect(() => {
     window.scrollTo(0, 0); // Reset the scroll position
@@ -191,18 +225,13 @@ useEffect(() => {
       label: district
     }));
 
-    const degrees = degree.states[0].districts.map(district => ({
-      value: district,
-      label: district
-    }));
-
+ 
 
 
 
 
 
     setDistrictOptions(districts);
-    setDegreeOptions(degrees);
 
     return () => { isMounted = false; }; // Cleanup function to set isMounted to false
   }, [candidateID]);
