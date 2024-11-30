@@ -125,7 +125,7 @@ function CompanyDetails() {
                             <span className='text-[#B3B3B3] text-xl font-[500] font-display'>Address</span>
                         </div>
                         <div className='lg:w-[70%] text-lg font-[500] w-full flex px-5 items-center'>
-                            {employeeData?.address || 'No address available'}
+                            {employeeData?.location || employeeData?.address}
                         </div>
                     </div>
                 </div>

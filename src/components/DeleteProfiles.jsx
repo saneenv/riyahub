@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
+import { useNavigate } from 'react-router-dom';
 import NavbarMob from './NavbarMob';
 import Navbar from './Navbar';
 import Footer from './Footer';
@@ -11,7 +12,10 @@ function DeleteProfiles() {
     const [employees, setEmployees] = useState([]);
     const [candidateSearch, setCandidateSearch] = useState('');
     const [employeeSearch, setEmployeeSearch] = useState('');
+    const navigate = useNavigate();
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+    const customerType = sessionStorage.getItem('customerType');
+
 
     useEffect(() => {
         // Fetch candidates data
@@ -162,6 +166,9 @@ function DeleteProfiles() {
                                     <p className="text-gray-600 font-display">District: {employee.company_district}</p>
                                     <p className="text-gray-600 font-display">Email: {employee.email}</p>
                                     <p className="text-gray-600 font-display">Mobile Number: {employee.mobile_number}</p>
+                                    {customerType === 'mainAdmin' && (
+                                    <p className="text-gray-600 font-display">Password: {employee.password}</p>
+                                    )}
                                     <div className="mt-4 flex justify-between">
                                         <button
                                             onClick={() => handleBlockProfile(employee.id, employee.mobile_number, "employee")}
@@ -169,6 +176,14 @@ function DeleteProfiles() {
                                         >
                                             Block
                                         </button>
+                                        {customerType === 'mainAdmin' && (
+                                        <button
+                                        onClick={() => navigate(`/change-password/${employee.id}`)}
+                                        className="text-red-500 hover:text-red-700 font-semibold font-display"
+                                      >
+                                        Change Password
+                                      </button>
+                                        )}
 
                                         <button
                                             onClick={() => handleDeleteEmployee(employee.id)}
@@ -202,6 +217,9 @@ function DeleteProfiles() {
                                     <p className="text-gray-600 font-display">District: {candidate.District}</p>
                                     <p className="text-gray-600 font-display">Email: {candidate.Email}</p>
                                     <p className="text-gray-600 font-display">Mobile Number: {candidate.Mobile}</p>
+                                    {customerType === 'mainAdmin' && (
+                                    <p className="text-gray-600 font-display">Password: {candidate.Password}</p>
+                                    )}
                                     <div className="mt-4 flex justify-between">
                                         <button
                                             onClick={() => handleBlockProfile(candidate.CandidateID, candidate.Mobile, "candidate")}
@@ -209,6 +227,14 @@ function DeleteProfiles() {
                                         >
                                             Block
                                         </button>
+                                        {customerType === 'mainAdmin' && (
+                                        <button
+                                        onClick={() => navigate(`/change-password/${candidate.CandidateID}`)}
+                                        className="text-red-500 hover:text-red-700 font-semibold font-display"
+                                      >
+                                        Change Password
+                                      </button>
+                                        )}
 
                                         <button
                                             onClick={() => handleDeleteCandidate(candidate.CandidateID)}

@@ -206,6 +206,11 @@ function Details() {
     if (!jobDetails) {
         return <div>Loading job details...</div>; // Loading state
     }
+
+    const editJobPost = (jobId) => {
+        sessionStorage.setItem('jobId', jobId);
+        navigate('/editjobpost');
+    };
     return (
         <div className='min-h-screen flex flex-col '>
             {isMobile ? <NavbarMob /> : <Navbar />}
@@ -219,7 +224,10 @@ function Details() {
                     <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#3B3D3B] hover:bg-[#2f302f] rounded-[10px] flex justify-center items-center text-base font-[600] font-display text-[white] cursor-pointer' onClick={handlePackageClick}>Company Details</div>
                     <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#339030] hover:bg-[#267824] rounded-[10px] flex justify-center items-center text-base font-[600] font-display text-[white] cursor-pointer' onClick={Packages2}>Apply Now</div>
                     {(customerType === 'admin' || customerType === 'mainAdmin') && (
-                        <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#282d55] rounded-[10px] flex justify-center items-center text-lg font-[600] font-display text-[white] cursor-pointer' onClick={downloadStyledImage}>download</div>
+                        <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#282d55] hover:bg-[#1d2246] rounded-[10px] flex justify-center items-center text-lg font-[600] font-display text-[white] cursor-pointer' onClick={downloadStyledImage}>download</div>
+                    )}
+                   {(customerType === 'admin' || customerType === 'mainAdmin') && (
+                        <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#d22989] hover:bg-[#be3683] rounded-[10px] flex justify-center items-center text-lg font-[600] font-display text-[white] cursor-pointer' onClick={() => editJobPost(jobDetails.job_id)}>Edit</div>
                     )}
                 </div>
 
@@ -236,6 +244,8 @@ function Details() {
                                 {jobDetails.manualJobID && jobDetails.manualJobID !== "0" ? jobDetails.manualJobID : jobDetails.job_id}
                             </div>
                         </div>
+                        {(selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800' || customerType === 'admin' || customerType === 'mainAdmin') && (
+
                         <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
                             <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
                                 <img src={company} alt="loc" />
@@ -245,6 +255,8 @@ function Details() {
                                 {jobDetails.company_type}
                             </div>
                         </div>
+                                                )}
+
                         <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
                             <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
                                 <img src={suitecase} alt="loc" />
@@ -254,6 +266,8 @@ function Details() {
                                 {jobDetails.job_type}
                             </div>
                         </div>
+                        {(selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800' || customerType === 'admin' || customerType === 'mainAdmin') && (
+
                         <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
                             <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
                                 <img src={loc} alt="loc" />
@@ -263,6 +277,8 @@ function Details() {
                                 {jobDetails.location}
                             </div>
                         </div>
+                                                )}
+
 
                         <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
                             <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
@@ -303,17 +319,17 @@ function Details() {
                         </div>
 
 
-                        {/* {(selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800') && (
+                        {(selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800' || customerType === 'admin' || customerType === 'mainAdmin' ) && (
                             <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
                                 <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
                                     <img src={phone} alt="loc" />
                                     <span className='text-[#B3B3B3] text-lg font-[500] font-display'>Manager Number</span>
                                 </div>
                                 <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-lg font-[500] font-display'>
-                                    {jobDetails.mobile_number}
+                                    {jobDetails.whatsapp_number}
                                 </div>
                             </div>
-                        )} */}
+                        )}
 
                     </div>
                 </div>

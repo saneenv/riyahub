@@ -20,6 +20,14 @@ function EmployeeReg() {
     const [address, setAddress] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [companyData, setCompanyData] = useState(null);
+    const [categoryOptions, setCategoryOptions] = useState([]);
+    const [locationData, setLocationData] = useState(null);
+    const [location, setLocationCategory] = useState('');
+
+    const [locationOptions, setLocationOptions] = useState([]);
+
+
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -40,6 +48,82 @@ function EmployeeReg() {
     const companyDistrictRef = useRef(null);
     const addressRef = useRef(null);
     const passwordRef = useRef(null);
+
+    const fetchCompanyData = async () => {
+        try {
+            const response = await fetch(`${apiBaseUrl}/datacompany`); // API endpoint for location data
+            if (response.ok) {
+                const data = await response.json();
+                setCompanyData(data); // Set the fetched data
+            } else {
+                console.error('Failed to fetch location data:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error fetching location data:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchCompanyData(); // Fetch location data when the component mounts
+    }, []);
+
+    useEffect(() => {
+        if (companyData) {
+         
+
+             // Extract districts from the imported JSON data
+             const districts = companyData.states[0].districts.map(district => ({
+                value: district,
+                label: district
+            }));
+            setCategoryOptions(districts);
+        }
+    }, [companyData]);
+
+
+    const handleCategoryChange = selectedOption => {
+        setCompanyCategory(selectedOption ? selectedOption.value : ''); // Set the selected district value
+    };
+
+    const fetchLocationData = async () => {
+        try {
+            const response = await fetch(`${apiBaseUrl}/data`); // API endpoint for location data
+            if (response.ok) {
+                const data = await response.json();
+                setLocationData(data); // Set the fetched data
+            } else {
+                console.error('Failed to fetch location data:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error fetching location data:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchLocationData(); // Fetch location data when the component mounts
+    }, []);
+
+    useEffect(() => {
+        if (locationData) {
+            // Extract districts from location data for the select dropdown
+            const locations = locationData.states[0].districts
+                .filter(district => district !== "All Kerala") // Exclude "All Kerala"
+                .map(district => ({
+                    value: district,
+                    label: district,
+                }));
+            setLocationOptions(locations); // Set the location options once data is available
+        }
+    }, [locationData]);
+
+
+
+    const handleLocationChange = selectedOption => {
+        setLocationCategory(selectedOption ? selectedOption.value : ''); // Set the selected district value
+    };
+
+
+
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -66,7 +150,7 @@ function EmployeeReg() {
 
         // Check for empty fields
         if (!companyName || !mobileNumber || !whatsappNumber || !email ||
-            !companyCategory || !companyDistrict || !address || !password) {
+            !companyCategory || !companyDistrict || !address || !password || !location) {
             alert('Please fill in all fields.');
             return; // Stop the function if any field is empty
         }
@@ -115,6 +199,8 @@ function EmployeeReg() {
             companyDistrict,
             address,
             password,
+            location,
+
         };
 
         console.log(formData);
@@ -144,6 +230,8 @@ function EmployeeReg() {
                 setCompanyDistrict(''); // Clear district
                 setAddress('');
                 setPassword('');
+                setLocationCategory('');
+
             } else {
                 console.log('Response error:', data);
                 alert('Error in registration');
@@ -172,6 +260,19 @@ function EmployeeReg() {
         navigate('/login');
       };
 
+      const customStyles = {
+        control: (provided) => ({
+            ...provided,
+            height: '43px',
+            border: '2px solid #D7D7D7',
+            borderRadius: '5px',
+            paddingLeft: '4px'
+        }),
+        menu: (provided) => ({
+            ...provided,
+            borderRadius: '5px',
+        }),
+    };
 
 
     return (
@@ -182,7 +283,7 @@ function EmployeeReg() {
             </div>
             <div className='flex justify-center items-center bg-[black] py-12'>
                 <div className='lg:w-[80%] w-[90%] h-[70%] bg-[white] flex flex-col items-center gap-12 py-12 lg:rounded-[20px] rounded-[5px]'>
-                    <span className='text-xl font-[700] font-display'>Employee Register</span>
+                    <span className='text-xl font-[700] font-display'>Employer Register</span>
                     <div className='grid lg:grid-cols-3 grid-cols-1 gap-5 lg:px-12 px-3 w-full'>
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Company Name</span>
@@ -235,14 +336,32 @@ function EmployeeReg() {
                         </div>
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Company Category</span>
-                            <input
-                            ref={companyCategoryRef}
-                                placeholder='Select Category'
-                                type="text"
-                                value={companyCategory}
-                                onChange={(e) => setCompanyCategory(e.target.value)}
-                                className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
-                                onKeyDown={(e) => handleKeyDown(e, companyDistrictRef)} // Move to Company District on "Enter"
+                            <Select
+                                ref={companyCategoryRef}
+                                options={categoryOptions}
+                                onChange={handleCategoryChange}
+                                placeholder="Select Category"
+                                className='w-full'
+                                classNamePrefix='select'
+                                isClearable={true}
+                                value={companyCategory ? categoryOptions.find(option => option.value === companyCategory) : null}
+                                styles={customStyles}
+                                onKeyDown={(e) => handleKeyDown(e, companyDistrictRef)} // Move to Mobile Number on "Enter"
+                            />
+                        </div>
+                        <div className='flex flex-col gap-3'>
+                            <span className='text-left text-base font-[500] font-display'>Near Big Town</span>
+                            <Select
+                                // ref={locationRef}
+                                options={locationOptions}
+                                onChange={handleLocationChange}
+                                placeholder="Select Location"
+                                className='w-full'
+                                classNamePrefix='select'
+                                isClearable={true}
+                                value={locationOptions.find(option => option.value === location) || null} // Set the selected option
+                                styles={customStyles}
+                                // onKeyDown={(e) => handleKeyDown(e, minSalaryRef)} // Move to Mobile Number on "Enter"
                             />
                         </div>
                         <div className='flex flex-col gap-3'>

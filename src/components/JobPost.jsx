@@ -284,7 +284,7 @@ function JobPost() {
                 }
                 const data = await response.json();
                 setEmployeeData(data);
-                setWhatsappNumber(data.employee.whatsapp_number); // Set initial WhatsApp number
+                setWhatsappNumber(data.employee.mobile_number); // Set initial WhatsApp number
                 setEmail(data.employee.email);
                 setAddress(data.employee.address);
                 console.log(data); // Log the fetched employee data
@@ -481,7 +481,7 @@ function JobPost() {
                                 className='w-full'
                                 classNamePrefix='select'
                                 isClearable={true}
-                                value={categoryOptions.find(option => option.value === companyCategory) || null} // Set the selected option
+                                value={companyCategory ? categoryOptions.find(option => option.value === companyCategory) : null}
                                 styles={customStyles}
                                 onKeyDown={(e) => handleKeyDown(e, jobRef)} // Move to Mobile Number on "Enter"
                             />
@@ -496,7 +496,7 @@ function JobPost() {
                                 className='w-full'
                                 classNamePrefix='select'
                                 isClearable={true}
-                                value={jobsOptions.find(option => option.value === jobsCategory) || null} // Set the selected option
+                                value={jobsCategory ? jobsOptions.find(option => option.value === jobsCategory) : null} // Set the selected option
                                 styles={customStyles}
                                 onKeyDown={(e) => handleKeyDown(e, locationRef)} // Move to Mobile Number on "Enter"
                             />
@@ -631,7 +631,7 @@ function JobPost() {
                             </div>
                         )}
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-base font-[500] font-display'>Whatsapp Number *</span>
+                            <span className='text-left text-base font-[500] font-display'>Manager Number *</span>
                             <input
                                 type="text"
                                 placeholder='Enter Number'

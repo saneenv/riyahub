@@ -82,7 +82,7 @@ const AddLocation = () => {
     <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-8">
       <div className="max-w-2xl mx-auto bg-white shadow-md rounded-lg p-6">
         <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">
-          Manage Districts
+          Manage Locations
         </h1>
 
         {/* Add District Section */}
@@ -91,7 +91,7 @@ const AddLocation = () => {
             type="text"
             value={newDistrict}
             onChange={(e) => setNewDistrict(e.target.value)}
-            placeholder="Add new district"
+            placeholder="Add new Location"
             className="flex-1 border border-gray-300 rounded-lg px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <button
@@ -108,7 +108,7 @@ const AddLocation = () => {
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search district"
+            placeholder="Search Location"
             className="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>

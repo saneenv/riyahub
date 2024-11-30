@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Footer from '../components/Footer';
 import Navbar2 from '../components/Navbar2';
+import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import Navbar from '../components/Navbar';
 import NavbarMob from '../components/NavbarMob';
@@ -8,6 +9,8 @@ import NavbarMob from '../components/NavbarMob';
 function EnableStaff() {
   const [staffData, setStaffData] = useState([]);
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+  const navigate = useNavigate();
+
 
   const [searchQuery, setSearchQuery] = useState({
     companyName: '',
@@ -131,8 +134,11 @@ function EnableStaff() {
                 <th className='border p-2'>Staff Name</th>
                 <th className='border p-2'>Mobile Number</th>
                 <th className='border p-2'>Staff Type</th>
+                <th className='border p-2'>Password</th>
                 <th className='border p-2'>Enable Job Post</th>
                 <th className='border p-2'>Enable Package</th>
+                <th className='border p-2'>Change Password</th>
+
 
               </tr>
             </thead>
@@ -145,6 +151,8 @@ function EnableStaff() {
                   <td className='border p-2'>{staff.companyName}</td>
                   <td className='border p-2'>{staff.mobileNumber}</td>
                   <td className='border p-2'>{staff.customerType}</td>
+                  <td className='border p-2'>{staff.password}</td>
+
                   <td className='border p-2 text-center'>
                     <button
                       className={`${
@@ -166,6 +174,15 @@ function EnableStaff() {
                       {staff.specialPower === 'on' ? 'On' : 'Off'}
                     </button>
                   </td>
+                  <td className='border p-2 text-center'>
+                    <button
+                     onClick={() => navigate(`/change-password/${staff.staffId}`)}
+                      className="text-red-500 hover:text-red-700 font-semibold font-display"
+                    >
+                      Change
+                    </button>
+                  </td>
+
                 </tr>
               ))}
             </tbody>

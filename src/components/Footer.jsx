@@ -109,7 +109,7 @@ function Footer() {
                 </div>
             </div>
             <div className='w-full h-[40px]  flex flex-row lg:px-4 px-1 '>
-                <div className='w-[50%] text-start h-full flex  items-center lg:text-sm text-xs font-[400] font-display'>© SherSoft Software Company</div>
+                <div className='w-[50%] text-start h-full flex  items-center lg:text-sm text-xs font-[400] font-display'></div>
                 <div className='w-[50%] h-full flex  items-center justify-end flex-row gap-8'>
                     <span className='lg:text-sm text-xs font-[400] font-display cursor-pointer hover:text-[#E22E37]' onClick={termsandconditons}>Terms & Conditions</span>
                     <span className='lg:text-sm text-xs font-[400] font-display cursor-pointer hover:text-[#E22E37]' onClick={privacypolicy}>Privacy Policy</span>
