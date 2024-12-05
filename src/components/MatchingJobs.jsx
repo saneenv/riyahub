@@ -23,6 +23,7 @@ function MatchingJobs() {
     const [jobsApi, setJobsApi] = useState([]);
     const [locationData, setLocationData] = useState(null);
     const [jobsData, setJobsData] = useState(null);
+    const customerType = sessionStorage.getItem('customerType');
 
 
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
@@ -43,8 +44,8 @@ function MatchingJobs() {
     }, []);
 
 
-      // Fetch location data from the backend API
-      const fetchLocationData = async () => {
+    // Fetch location data from the backend API
+    const fetchLocationData = async () => {
         try {
             const response = await fetch(`${apiBaseUrl}/data`); // API endpoint for location data
             if (response.ok) {
@@ -96,7 +97,7 @@ function MatchingJobs() {
 
     useEffect(() => {
         if (jobsData) {
-         
+
 
             // Extract districts from location data for the select dropdown
             const job = jobsData.states[0].districts.map(district => ({
@@ -242,7 +243,7 @@ function MatchingJobs() {
         navigate('/details', { state: { jobId } }); // Pass job_id as state
     };
 
-    
+
     function formatJobTitle(title) {
         const lowercaseWords = ["at", "in", "of", "for", "to", "and", "on", "by", "with"];
         return title
@@ -262,6 +263,8 @@ function MatchingJobs() {
                 <Navbar2 />
             </div>
             <div className='flex w-full px-2 bg-[#eeebeb] lg:flex-row flex-col gap-3 py-6'>
+            {(customerType === 'mainAdmin' || customerType === 'admin') && (
+
                 <div className='lg:w-[25%] w-full lg:h-[600px] h-auto  rounded-[10px] flex flex-col '>
                     <div className='w-full h-[50px] bg-[white]  rounded-t-[10px] p-5 flex justify-between items-center border-b-2 border-[#d2d0d0]'>
                         <div className=' flex flex-row gap-2'>
@@ -343,13 +346,15 @@ function MatchingJobs() {
                     )}
 
                 </div>
-                <div className='lg:w-[75%] w-full h-auto bg-[white]  flex flex-col gap-3  lg:p-5 p-2'>
+                                        )}
+
+                <div className='lg:w-[100%] w-full h-auto bg-[white]  flex flex-col gap-3  lg:p-5 p-2'>
                     <div className='grid lg:grid-cols-3 grid-cols-1 w-full gap-3'>
                         {jobsApi.length > 0 ? (
                             jobsApi.slice(0, visibleJobs).map((job) => (
                                 <div
                                     key={job.job_id}
-                                    className='lg:h-[292px] h-[320px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'
+                                    className='lg:h-[302px] h-[320px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'
                                 >
                                     <div className='w-full h-[30%] bg-[white] border-b-2 border-[#C5C5C5] p-2 gap-2 flex justify-center items-center flex-col'>
                                         <span className='text-[black] text-xl font-[700] font-display'>{formatJobTitle(job.job_title)}</span>
@@ -365,7 +370,7 @@ function MatchingJobs() {
                                                 <span className='text-sm font-display font-[600]'>:</span>
                                             </div>
                                             <div className='flex items-center justify-between'>
-                                                <span className='text-sm font-display font-[600]'>COMPANY TYPE</span>
+                                                <span className='text-sm font-display font-[600]'>JOB</span>
                                                 <span className='text-sm font-display font-[600]'>:</span>
                                             </div>
                                             <div className='flex items-center justify-between'>
@@ -385,7 +390,12 @@ function MatchingJobs() {
                                                 <span className='text-sm font-display font-[500]'>{job.job_id}</span>
                                             </div>
                                             <div className='flex items-center justify-between'>
-                                                <span className='text-sm font-display font-[500]'>{job.company_type}</span>
+                                                <span
+                                                    className={`text-base font-display font-[500] ${job.job.length > 20 ? 'text-xs' : 'text-base'
+                                                        }`}
+                                                >
+                                                    {job.job}
+                                                </span>
                                             </div>
                                             <div className='flex items-center justify-between'>
                                                 <span className='text-sm font-display font-[500]'>{job.job_type}</span>

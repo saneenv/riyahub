@@ -302,7 +302,7 @@ function Details() {
                             </div>
                         </div>
 
-                        <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
+                        {/* <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
                             <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
                                 <img src={rs} alt="loc" />
                                 <span className='text-[#B3B3B3] text-lg font-[500] font-display'>Monthly Salary</span>
@@ -316,7 +316,7 @@ function Details() {
                                             ? `₹ ${jobDetails.max_salary}`
                                             : null}
                             </div>
-                        </div>
+                        </div> */}
 
 
                         {(selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800' || customerType === 'admin' || customerType === 'mainAdmin' ) && (
@@ -407,9 +407,9 @@ function Details() {
                                                 : 'N/A'}
                                 </span>
                             </span>
-                            <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>. Qualification : <span>{jobDetails.qualification}</span> </span>
-                            <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>. Gender : <span>{jobDetails.gender_type}</span> </span>
-                            <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>. Location : <span>{jobDetails.location}</span> </span>
+                            <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>Qualification : <span>{jobDetails.qualification}</span> </span>
+                            <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>Gender : <span>{jobDetails.gender_type}</span> </span>
+                            <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>Location : <span>{jobDetails.location}</span> </span>
                         </div>
                         <div className='flex flex-col mt-[5%] gap-3'>
                             <div className='text-[#E22E37] font-[700] text-3xl font-display text-left'>Send your CV & Portfolio to:</div>

@@ -154,6 +154,8 @@ function Login() {
         sessionStorage.setItem('customerName', data.candidate.companyName);
         sessionStorage.setItem('employeeId', data.candidate.staffId);
         sessionStorage.setItem('address', data.candidate.address);
+        sessionStorage.setItem('specialPower', data.candidate.specialPower);
+
 
         // Add any other relevant data here
     };

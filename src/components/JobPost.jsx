@@ -19,10 +19,12 @@ function JobPost() {
     const [locationData, setLocationData] = useState(null);
     const [companyData, setCompanyData] = useState(null);
     const [jobsData, setJobsData] = useState(null);
+    const [qualificationData, setQualificationData] = useState(null);
+    const [degreeOptions, setDegreeOptions] = useState([]);
+    const [candidateDegree, setCandidateDegree] = useState('');
 
     const [minSalary, setMinSalary] = useState(0);
     const [maxSalary, setMaxSalary] = useState('');
-    const [qualification, setQualification] = useState('');
     const [jobDescription, setJobDescription] = useState('');
     const [jobType, setJobType] = useState(null);
     const [employeeData, setEmployeeData] = useState(null);
@@ -89,10 +91,10 @@ function JobPost() {
     ];
 
     const foodTypeOptions = [
-        { value: 'no', label: 'No' },
-        { value: 'yes', label: 'Yes' },
-        { value: 'Accomodationonly', label: 'Accomodation Only' },
-        { value: 'Foodonly', label: 'Food Only' }
+        { value: 'No', label: 'No' },
+        { value: 'Yes', label: 'Yes' },
+        { value: 'Accomodation Only', label: 'Accomodation Only' },
+        { value: 'Food Only', label: 'Food Only' }
     ];
 
     // Custom styles to match the input field style
@@ -225,6 +227,39 @@ function JobPost() {
     }, [jobsData]);
 
 
+    const fetchQualificationData = async () => {
+        try {
+            const response = await fetch(`${apiBaseUrl}/dataqualifications`); // API endpoint for location data
+            if (response.ok) {
+                const data = await response.json();
+                setQualificationData(data); // Set the fetched data
+            } else {
+                console.error('Failed to fetch location data:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error fetching location data:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchQualificationData(); // Fetch location data when the component mounts
+    }, []);
+
+    useEffect(() => {
+        if (qualificationData) {
+         
+
+            // Extract districts from location data for the select dropdown
+            const degrees = qualificationData.states[0].districts.map(district => ({
+                value: district,
+                label: district,
+            }));
+            setDegreeOptions(degrees); // Set the location options once data is available
+        }
+    }, [qualificationData]);
+
+
+
     useEffect(() => {
         window.scrollTo(0, 0);
 
@@ -258,6 +293,11 @@ function JobPost() {
 
     const handleLocationChange = selectedOption => {
         setLocationCategory(selectedOption ? selectedOption.value : ''); // Set the selected district value
+    };
+
+    
+    const handleDegreeChange = selectedOption => {
+        setCandidateDegree(selectedOption ? selectedOption.value : ''); // Set the selected district value
     };
 
     const handleStartChange = selectedOption => {
@@ -332,7 +372,7 @@ function JobPost() {
             !maxSalary ||
             !selectedStartCategory ||
             !selectedEndCategory ||
-            !qualification ||
+            !candidateDegree ||
             !jobDescription ||
             !foodType ||
             !whatsappNumber ||
@@ -356,7 +396,7 @@ function JobPost() {
             maxSalary,
             startTime: selectedStartCategory ? selectedStartCategory.label : null,
             endTime: selectedEndCategory ? selectedEndCategory.label : null,
-            qualification,
+            qualification: candidateDegree,
             jobDescription,
             foodType: foodType?.value,
             whatsappNumber,
@@ -388,7 +428,7 @@ function JobPost() {
                 setGenderType('');
                 setJobType('');
                 setJobDescription('');
-                setQualification('');
+                setCandidateDegree('');
                 setMaxSalary('');
                 setMinSalary('');
                 setJobTitle('');
@@ -549,7 +589,7 @@ function JobPost() {
                                 ref={startRef}
                                 options={startOptions}
                                 onChange={handleStartChange}
-                                placeholder="Select Location"
+                                placeholder="Select"
                                 className='w-full'
                                 classNamePrefix='select'
                                 isClearable={true}
@@ -566,7 +606,7 @@ function JobPost() {
                                 ref={endRef}
                                 options={endOptions}
                                 onChange={handleEndChange}
-                                placeholder="Select Location"
+                                placeholder="Select"
                                 className='w-full'
                                 classNamePrefix='select'
                                 isClearable={true}
@@ -577,15 +617,18 @@ function JobPost() {
                         </div>
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Qualification Required *</span>
-                            <input
-                                ref={qualificationRef}
-                                placeholder='Qualification Required'
-                                type="text"
-                                className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4'
-                                value={qualification}
-                                onChange={(e) => setQualification(e.target.value)}
-                                onKeyDown={(e) => handleKeyDown(e, jobDescriptionRef)} // Move to Mobile Number on "Enter"
+                            <Select
+                                options={degreeOptions}
+                                onChange={handleDegreeChange}
+                                placeholder="Select Qualificaion"
+                                className='w-full'
+                                classNamePrefix='select'
+                                isClearable={true}
+                                value={degreeOptions.find(option => option.value === candidateDegree) || null}
+                                styles={customStyles}
+
                             />
+                          
                         </div>
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Job Description *</span>
@@ -617,7 +660,7 @@ function JobPost() {
                             />
                         </div>
 
-                        {customerType === 'admin' && (
+                        {(customerType === 'admin' || customerType === 'mainAdmin')  && (
                             <div className='flex flex-col gap-3'>
                                 <span className='text-left text-base font-[500] font-display text-[#E22E37]'>Manual Job ID*</span>
                                 <input
@@ -655,7 +698,7 @@ function JobPost() {
 
 
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-base font-[500] font-display'>Address *</span>
+                            <span className='text-left text-base font-[500] font-display'>Full Address *</span>
                             <input
                                 type="text"
                                 placeholder='Enter Address'

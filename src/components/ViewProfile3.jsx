@@ -13,6 +13,8 @@ function ViewProfile3() {
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
   const employeeId = sessionStorage.getItem('employeeId');
   const customerType = sessionStorage.getItem('customerType');
+  const specialPower = sessionStorage.getItem('specialPower');
+
 
   const [employeeData, setEmployeeData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -153,21 +155,33 @@ const deleteProfile = async () => {
       <div className='lg:px-12 px-3 w-full h-auto gap-6 flex flex-col'>
         <div className='w-full mt-6 flex flex-row justify-between'>
           {/* <span className='lg:text-xl text-lg font-[600] font-[display] underline text-[#E22E37] cursor-pointer' onClick={editempreg}>Edit Profile</span> */}
+          {specialPower === 'on' && (
           <span className='lg:text-xl text-lg font-[600] font-display underline text-[#E22E37] cursor-pointer hover:text-[#fe4d4d]' onClick={deleteProfile}>Delete Profile</span>
+        )}
+
           {customerType === 'mainAdmin' && (
           <span className='lg:text-xl text-lg font-[600] font-display underline text-[#E22E37] cursor-pointer' onClick={enablestaff}>Enable staff</span>
         )}
+                  {specialPower === 'on' && (
+
          <span className='lg:text-xl text-lg font-[600] font-display underline text-[#E22E37] cursor-pointer' onClick={addqualifications}>Add Qualifications</span>
+        )}
 
         </div>
 
 
        
         <div className='w-full mt-2 flex flex-row justify-between'>
-          
+
+          {specialPower === 'on' && ( 
           <span className='lg:text-xl text-lg font-[600] font-display underline text-[#E22E37] cursor-pointer' onClick={addlocation}>Add Location</span>
+        )}
+ {specialPower === 'on' && (
           <span className='lg:text-xl text-lg font-[600] font-display underline text-[#E22E37] cursor-pointer' onClick={addjobs}>Add Jobs</span>
+        )}
+ {specialPower === 'on' && (
           <span className='lg:text-xl text-lg font-[600] font-display underline text-[#E22E37] cursor-pointer' onClick={addcompanytype}>Add CompanyType</span>
+        )}
 
        
         </div>

@@ -93,9 +93,9 @@ function NavbarMob() {
 
     // Function to handle navigation with state
     const findJob = () => {
-        navigate('/searchedjobs', { state: { job, location: locationInput } }); // Passing job and location as state
+        const jobValue = job === 'All' ? '' : job; // Convert 'All' to an empty string
+        navigate('/searchedjobs', { state: { job: jobValue, location: locationInput } }); // Passing adjusted job and location as state
     };
-
 
 
 
@@ -193,7 +193,7 @@ function NavbarMob() {
             <div className='w-full h-[40px]  rounded-[5px]'>
                 <Select
                     styles={customSelectStyles}
-                    options={jobsOptions}
+                    options={jobsOptions.filter(option => option.value === 'All')}
                     placeholder="Select Job..."
                     value={job ? jobsOptions.find(option => option.value === job) : null}
                     onChange={(selectedOption) => setJob(selectedOption ? selectedOption.value : '')}

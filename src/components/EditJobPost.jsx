@@ -35,11 +35,13 @@ function EditJobPost() {
     const [locationData, setLocationData] = useState(null);
     const [companyData, setCompanyData] = useState(null);
     const [jobsData, setJobsData] = useState(null);
+    const [qualificationData, setQualificationData] = useState(null);
+    const [jobsOptions, setJobsOptions] = useState([]);
+    const [degreeOptions, setDegreeOptions] = useState([]);
 
     const [companyCategory, setCompanyCategory] = useState('');
     const [categoryOptions, setCategoryOptions] = useState([]);
     const [jobsCategory, setJobsCategory] = useState('');
-    const [jobsOptions, setJobsOptions] = useState([]);
     const [locationCategory, setLocationCategory] = useState('');
     const [locationOptions, setLocationOptions] = useState([]);
     const [startCategory, setStartCategory] = useState('');
@@ -205,6 +207,42 @@ function EditJobPost() {
     }, [jobsData]);
 
 
+    const fetchQualificationData = async () => {
+        try {
+            const response = await fetch(`${apiBaseUrl}/dataqualifications`); // API endpoint for location data
+            if (response.ok) {
+                const data = await response.json();
+                setQualificationData(data); // Set the fetched data
+            } else {
+                console.error('Failed to fetch location data:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error fetching location data:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchQualificationData(); // Fetch location data when the component mounts
+    }, []);
+
+    useEffect(() => {
+        if (qualificationData) {
+         
+
+            // Extract districts from location data for the select dropdown
+            const degrees = qualificationData.states[0].districts.map(district => ({
+                value: district,
+                label: district,
+            }));
+            setDegreeOptions(degrees); // Set the location options once data is available
+            setOptionsLoaded(true);
+
+        }
+    }, [qualificationData]);
+
+
+
+
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -246,7 +284,7 @@ function EditJobPost() {
                 setJobTitle(data.job_title);
                 setMinSalary(data.min_salary);
                 setMaxSalary(data.max_salary);
-                setQualification(data.qualification);
+                setQualification(degreeOptions.find(option => option.value === data.qualification) || null);
                 setJobDescription(data.job_description);
                 setJobType(jobTypeOptions.find(option => option.value === data.job_type) || null);
                 setGenderType(genderTypeOptions.find(option => option.value === data.gender_type) || null);
@@ -287,7 +325,7 @@ function EditJobPost() {
             maxSalary,
             startTime: startCategory?.value || '',
             endTime: endCategory?.value || '',
-            qualification,
+            qualification: qualification?.value || '',
             jobDescription,
             foodType: foodType?.value,
             whatsappNumber,
@@ -462,12 +500,15 @@ function EditJobPost() {
                         </div>
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Qualification *</span>
-                            <input
-                                placeholder='Qualification'
-                                type="text"
-                                className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                        
+                              <Select
+                                placeholder="Select Qualification"
+                                options={degreeOptions}
                                 value={qualification}
-                                onChange={(e) => setQualification(e.target.value)}
+                                onChange={setQualification}
+                                isClearable={true}
+                                styles={customStyles}
+                                classNamePrefix="react-select"
                             />
                         </div>
                         <div className='flex flex-col gap-3'>

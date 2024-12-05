@@ -14,7 +14,7 @@ function Jobs() {
     const jobTitle = location.state?.jobTitle;
     console.log(jobTitle);
     const [jobPosts, setJobPosts] = useState([]);
-    const [errorMessage, setErrorMessage] = useState(''); 
+    const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
@@ -28,14 +28,14 @@ function Jobs() {
         const fetchJobPosts = async () => {
             try {
                 const response = await fetch(`${apiBaseUrl}/getjobpostsbyjob/${jobTitle}`);
-                
+
                 if (response.status === 404) {
                     // Set error message when no jobs are found
                     setErrorMessage('No job posts found for the specified job title');
                 } else {
                     const data = await response.json();
                     const enabledJobPosts = data.filter(job => job.enable === 'on');
-               
+
                     setJobPosts(enabledJobPosts);
                 }
             } catch (error) {
@@ -55,7 +55,7 @@ function Jobs() {
         const lowercaseWords = ["at", "in", "of", "for", "to", "and", "on", "by", "with"];
         return title
             .split(" ")
-            .map((word, index) => 
+            .map((word, index) =>
                 lowercaseWords.includes(word.toLowerCase()) && index !== 0
                     ? word.toLowerCase()
                     : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
@@ -82,7 +82,7 @@ function Jobs() {
                         jobPosts.map((job) => (
                             <div
                                 key={job.job_id}
-                                className='lg:h-[292px] h-[320px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'
+                                className='lg:h-[302px] h-[320px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'
                             >
                                 <div className='w-full h-[30%] bg-[white]  p-2 gap-2 flex border-b-2 border-[#C5C5C5] justify-center items-center flex-col'>
                                     <span className=' text-lg font-[700] font-display'>{formatJobTitle(job.job_title)}</span>
@@ -98,7 +98,7 @@ function Jobs() {
                                             <span className='text-base font-display font-[600]'>:</span>
                                         </div>
                                         <div className='flex items-center justify-between'>
-                                            <span className='text-base font-display font-[600]'>COMPANY TYPE</span>
+                                            <span className='text-base font-display font-[600]'>JOB</span>
                                             <span className='text-base font-display font-[600]'>:</span>
                                         </div>
                                         <div className='flex items-center justify-between'>
@@ -118,7 +118,12 @@ function Jobs() {
                                             <span className='text-base font-display font-[500]'>{job.manualJobID && job.manualJobID !== "0" ? job.manualJobID : job.job_id}</span>
                                         </div>
                                         <div className='flex items-center justify-between'>
-                                            <span className='text-base font-display font-[500]'>{job.company_type}</span>
+                                            <span
+                                                className={`text-base font-display font-[500] ${job.job.length > 20 ? 'text-xs' : 'text-base'
+                                                    }`}
+                                            >
+                                                {job.job}
+                                            </span>
                                         </div>
                                         <div className='flex items-center justify-between'>
                                             <span className='text-base font-display font-[500]'>{job.job_type}</span>

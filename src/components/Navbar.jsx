@@ -112,9 +112,12 @@ function Navbar() {
 
 
     // Function to handle navigation with state
+    // Function to handle navigation with state
     const findJob = () => {
-        navigate('/searchedjobs', { state: { job, location: locationInput } }); // Passing job and location as state
+        const jobValue = job === 'All' ? '' : job; // Convert 'All' to an empty string
+        navigate('/searchedjobs', { state: { job: jobValue, location: locationInput } }); // Passing adjusted job and location as state
     };
+
 
     // Function to toggle the options component display
     const toggleOptions = () => {
@@ -158,13 +161,14 @@ function Navbar() {
                     </div>
                     <div className='h-full w-[100%]'>
                         <Select
-                            options={jobsOptions}
-                            value={job ? jobsOptions.find(option => option.value === job) : null}  
+                            options={jobsOptions.filter(option => option.value === 'All')} // Filter to show only 'All'
+                            value={job ? jobsOptions.find(option => option.value === job) : null}
                             onChange={(selectedOption) => setJob(selectedOption ? selectedOption.value : '')}
                             placeholder="Select Job..."
                             styles={customStyles}
                             className='w-full'
                         />
+
                     </div>
 
                 </div>
