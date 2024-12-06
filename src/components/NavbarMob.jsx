@@ -158,6 +158,10 @@ function NavbarMob() {
         navigate('/datesearch');
     };
 
+    const jobnames = () => {
+        navigate('/jobnames');
+      };
+
     const customSelectStyles = {
         control: (provided) => ({
             ...provided,
@@ -228,7 +232,11 @@ function NavbarMob() {
                         <ul className='mt-5'>
                             <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={home}>Home</li>
                             <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={findjob}>Find Jobs</li>
+                            {(customerType === 'admin' || customerType === 'mainAdmin') && (
                             <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={jobcategories}>Job By Categories</li>
+                        )}
+                            <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={jobnames}>Job Names</li>
+
                             <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={jobidpage}>Job ID Search</li>
 
                             {(customerType === 'admin' || customerType === 'mainAdmin') && (
@@ -237,9 +245,9 @@ function NavbarMob() {
                             {(customerType === 'admin' || customerType === 'mainAdmin') && (
                                 <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={whatsappPage}>To Whatsapp</li>
                             )}
-                            {(customerType === 'admin' || customerType === 'mainAdmin') && (
+                            {/* {(customerType === 'admin' || customerType === 'mainAdmin') && (
                                 <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={datesearch}>Date Search</li>
-                            )}
+                            )} */}
 
                             <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={sevicespage}>Services</li>
 

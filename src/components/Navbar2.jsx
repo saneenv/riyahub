@@ -23,6 +23,10 @@ function Navbar2() {
     navigate('/jobcategories');
   };
 
+  const jobnames = () => {
+    navigate('/jobnames');
+  };
+
   const jobidpage = () => {
     navigate('/jobid');
   };
@@ -48,7 +52,11 @@ function Navbar2() {
     <div className='h-[48px] w-full bg-[#D22D3A] flex flex-row gap-12 justify-center items-center'>
       <span className='text-base font-[600] font-display text-[white] cursor-pointer hover:text-black' onClick={home}>Home</span>
       <span className='text-base font-[600] font-display text-[white] cursor-pointer hover:text-black' onClick={findjob}>Find Jobs</span>
-      <span className='text-base font-[600] font-display text-[white] cursor-pointer hover:text-black' onClick={jobcategories}>Job By Categories</span>
+      {(customerType === 'admin' || customerType === 'mainAdmin') && (
+        <span className='text-base font-[600] font-display text-[white] cursor-pointer hover:text-black' onClick={jobcategories}>Job By Categories</span>
+      )}
+      <span className='text-base font-[600] font-display text-[white] cursor-pointer hover:text-black' onClick={jobnames}>Job Names</span>
+
 
       <span className='text-base font-[600] font-display text-[white] cursor-pointer hover:text-black' onClick={jobidpage}>Job ID Search</span>
       {(customerType === 'admin' || customerType === 'mainAdmin') && (
@@ -57,9 +65,9 @@ function Navbar2() {
       {(customerType === 'admin' || customerType === 'mainAdmin') && (
         <span className='text-base font-[600] font-display text-[white] cursor-pointer hover:text-black' onClick={whatsappPage}>To Whatsapp</span>
       )}
-      {(customerType === 'admin' || customerType === 'mainAdmin') && (
+      {/* {(customerType === 'admin' || customerType === 'mainAdmin') && (
         <span className='text-base font-[600] font-display text-[white] cursor-pointer hover:text-black' onClick={datesearch}>Date Search</span>
-      )}
+      )} */}
       <span className='text-base font-[600] font-display text-[white] cursor-pointer hover:text-black' onClick={sevicespage}>Services</span>
       <span className='text-base font-[600] font-display text-[white] cursor-pointer hover:text-black' onClick={contactus}>Contact Us</span>
 

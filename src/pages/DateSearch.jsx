@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import NavbarMob from '../components/NavbarMob';
 import Navbar from '../components/Navbar';
 import Navbar2 from '../components/Navbar2';
@@ -7,6 +7,7 @@ import { useMediaQuery } from 'react-responsive';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { registerLocale } from 'react-datepicker';
+import { useNavigate } from 'react-router-dom';
 import enGB from 'date-fns/locale/en-GB';
 
 registerLocale('en-GB', enGB); // Set locale to format dates as dd/MM/yyyy
@@ -19,6 +20,7 @@ function DateSearch() {
   const [loading, setLoading] = useState(false);
   const [whatsappLoading, setWhatsappLoading] = useState(false); // For loading state when sending WhatsApp message
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+  const navigate = useNavigate();
 
   // Format date to dd/MM/yyyy for display
   const formatDateDisplay = (dateString) => {
@@ -61,51 +63,51 @@ function DateSearch() {
   useEffect(() => {
     // Process job data to format salary values
     if (jobs.length > 0) {
-        const processedJobs = jobs.map(job => {
-            const { min_salary, max_salary } = job;
+      const processedJobs = jobs.map(job => {
+        const { min_salary, max_salary } = job;
 
-            // Determine the salary display
-            let salaryDisplay = '';
-            if (min_salary > 0 && max_salary > 0) {
-                salaryDisplay = `₹${min_salary} - ₹${max_salary}`;
-            } else if (min_salary > 0) {
-                salaryDisplay = `₹${min_salary}`;
-            } else if (max_salary > 0) {
-                salaryDisplay = `₹${max_salary}`;
-            }
+        // Determine the salary display
+        let salaryDisplay = '';
+        if (min_salary > 0 && max_salary > 0) {
+          salaryDisplay = `₹${min_salary} - ₹${max_salary}`;
+        } else if (min_salary > 0) {
+          salaryDisplay = `₹${min_salary}`;
+        } else if (max_salary > 0) {
+          salaryDisplay = `₹${max_salary}`;
+        }
 
-            // Return updated job object with a formatted salary field
-            return {
-                ...job,
-                salaryDisplay,
-            };
-        });
+        // Return updated job object with a formatted salary field
+        return {
+          ...job,
+          salaryDisplay,
+        };
+      });
 
-        setJobs(processedJobs); // Update the state with formatted jobs
+      setJobs(processedJobs); // Update the state with formatted jobs
     }
-}, [jobs]); // Run whenever the jobs array is updated
+  }, [jobs]); // Run whenever the jobs array is updated
 
   // Function to send filtered job data to WhatsApp
   // Function to send filtered job data to WhatsApp
-const sendToWhatsApp = async () => {
+  const sendToWhatsApp = async () => {
     if (jobs.length === 0) return; // Ensure there are jobs to send
-  
-    setWhatsappLoading(true); 
-    
-    
-    
+
+    setWhatsappLoading(true);
+
+
+
     // Format the job details in Malayalam
 
     const jobText = jobs.map((job, index) =>
-        `*${index + 1}. JOB ID - ${job.job_id}\n` +
-        `ജോലി - ${job.job_title}*\n` +
-        `ശമ്പളം - ${job.salaryDisplay}\n` +
-        `ക്വാളിഫിക്കേഷൻ - ${job.qualification}\n` +
-        `സ്ഥലം - ${job.location}\n` +
-        `നമ്പർ - ${job.whatsapp_number}`
+      `*${index + 1}. JOB ID - ${job.job_id}\n` +
+      `ജോലി - ${job.job_title}*\n` +
+      `ശമ്പളം - ${job.salaryDisplay}\n` +
+      `ക്വാളിഫിക്കേഷൻ - ${job.qualification}\n` +
+      `സ്ഥലം - ${job.location}\n` +
+      `നമ്പർ - ${job.whatsapp_number}`
     ).join('\n\n');
 
-    
+
     // Extra official data in Malayalam
     const officialText = `RIYA HUB - JOB PORTAL
         
@@ -115,9 +117,9 @@ const sendToWhatsApp = async () => {
     // Combine job data with the official information
     const fullText = `നാട്ടിലെ ജോലി ഒഴിവുകൾ\n\n${jobText}\n\n${officialText}`;
 
-      // Prepare message to send (ensure it's properly encoded)
-      const encodedMessage = fullText; // No need to encodeURIComponent here, backend will handle that
-  
+    // Prepare message to send (ensure it's properly encoded)
+    const encodedMessage = fullText; // No need to encodeURIComponent here, backend will handle that
+
     try {
       const response = await fetch(`${apiBaseUrl}/send-whatsapp`, {
         method: 'POST',
@@ -129,9 +131,9 @@ const sendToWhatsApp = async () => {
           message: encodedMessage,
         }),
       });
-  
+
       const data = await response.json();
-  
+
       if (response.ok && data.success) {
         alert('Message sent successfully!');
       } else {
@@ -144,7 +146,11 @@ const sendToWhatsApp = async () => {
       setWhatsappLoading(false);
     }
   };
-  
+
+  const whatsappPage = () => {
+    navigate('/whatsapp');
+  };
+
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800">
@@ -154,6 +160,11 @@ const sendToWhatsApp = async () => {
       </div>
       <div className="lg:px-12 px-3 lg:py-12 py-6 flex flex-col gap-8 bg-gray-100">
         {/* Date Picker Filters */}
+        <div className="w-full flex justify-center">
+          <button className="bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 text-white text-lg font-semibold py-3 px-8 rounded-lg shadow-lg hover:shadow-xl hover:from-purple-600 hover:to-green-400 transition duration-300 ease-in-out transform hover:scale-105" onClick={whatsappPage}>
+            Location Search
+          </button>
+        </div>
         <div className="mb-4 text-center">
           <h2 className="text-3xl font-bold text-gray-800 mb-6">Filter Jobs by Date</h2>
           <div className="flex justify-center gap-4">
@@ -211,10 +222,10 @@ const sendToWhatsApp = async () => {
                     {job.min_salary > 0 && job.max_salary > 0
                       ? `₹${job.min_salary} - ₹${job.max_salary}`
                       : job.min_salary > 0
-                      ? `₹${job.min_salary}`
-                      : job.max_salary > 0
-                      ? `₹${job.max_salary}`
-                      : 'N/A'}
+                        ? `₹${job.min_salary}`
+                        : job.max_salary > 0
+                          ? `₹${job.max_salary}`
+                          : 'N/A'}
                   </span>
                 </div>
                 <div className="mt-2 text-sm text-gray-500">

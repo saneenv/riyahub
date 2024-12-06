@@ -24,9 +24,14 @@ function MatchingJobs() {
     const [locationData, setLocationData] = useState(null);
     const [jobsData, setJobsData] = useState(null);
     const customerType = sessionStorage.getItem('customerType');
+    const mobileNumber = sessionStorage.getItem('mobileNumber');
+    const whatsappNumber = sessionStorage.getItem('whatsappNumber');
+    const selectedPlan = sessionStorage.getItem('selectedPlan');
+
 
 
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+    
     // Fetch values from sessionStorage when component mounts
     useEffect(() => {
         const preferredJob = sessionStorage.getItem('preferredJob') ? sessionStorage.getItem('preferredJob').split(",") : [];

@@ -226,7 +226,7 @@ function Details() {
                     {(customerType === 'admin' || customerType === 'mainAdmin') && (
                         <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#282d55] hover:bg-[#1d2246] rounded-[10px] flex justify-center items-center text-lg font-[600] font-display text-[white] cursor-pointer' onClick={downloadStyledImage}>download</div>
                     )}
-                   {(customerType === 'admin' || customerType === 'mainAdmin') && (
+                    {(customerType === 'admin' || customerType === 'mainAdmin') && (
                         <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#d22989] hover:bg-[#be3683] rounded-[10px] flex justify-center items-center text-lg font-[600] font-display text-[white] cursor-pointer' onClick={() => editJobPost(jobDetails.job_id)}>Edit</div>
                     )}
                 </div>
@@ -246,16 +246,16 @@ function Details() {
                         </div>
                         {(selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800' || customerType === 'admin' || customerType === 'mainAdmin') && (
 
-                        <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
-                            <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
-                                <img src={company} alt="loc" />
-                                <span className='text-[#B3B3B3] text-lg font-[500] font-display'>Company Type</span>
+                            <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
+                                <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
+                                    <img src={company} alt="loc" />
+                                    <span className='text-[#B3B3B3] text-lg font-[500] font-display'>Company Type</span>
+                                </div>
+                                <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-lg font-[500] font-display'>
+                                    {jobDetails.company_type}
+                                </div>
                             </div>
-                            <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-lg font-[500] font-display'>
-                                {jobDetails.company_type}
-                            </div>
-                        </div>
-                                                )}
+                        )}
 
                         <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
                             <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
@@ -268,25 +268,38 @@ function Details() {
                         </div>
                         {(selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800' || customerType === 'admin' || customerType === 'mainAdmin') && (
 
-                        <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
-                            <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
-                                <img src={loc} alt="loc" />
-                                <span className='text-[#B3B3B3] text-lg font-[500] font-display'>Location</span>
+                            <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
+                                <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
+                                    <img src={loc} alt="loc" />
+                                    <span className='text-[#B3B3B3] text-lg font-[500] font-display'>Location</span>
+                                </div>
+                                <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-lg font-[500] font-display'>
+                                    {jobDetails.location}
+                                </div>
                             </div>
-                            <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-lg font-[500] font-display'>
-                                {jobDetails.location}
+                        )}
+
+                        {(selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800' || customerType === 'admin' || customerType === 'mainAdmin') && (
+
+                            <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
+                                <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
+                                    <img src={loc} alt="loc" />
+                                    <span className='text-[#B3B3B3] text-lg font-[500] font-display'>Address</span>
+                                </div>
+                                <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-lg font-[500] font-display'>
+                                    {jobDetails.address}
+                                </div>
                             </div>
-                        </div>
-                                                )}
+                        )}
 
 
                         <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
                             <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
                                 <img src={loc} alt="loc" />
-                                <span className='text-[#B3B3B3] text-lg font-[500] font-display'>Address</span>
+                                <span className='text-[#B3B3B3] text-lg font-[500] font-display'>Vacancy</span>
                             </div>
                             <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-lg font-[500] font-display'>
-                                {jobDetails.address}
+                                {jobDetails.vacancy}
                             </div>
                         </div>
 
@@ -319,7 +332,7 @@ function Details() {
                         </div> */}
 
 
-                        {(selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800' || customerType === 'admin' || customerType === 'mainAdmin' ) && (
+                        {(selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800' || customerType === 'admin' || customerType === 'mainAdmin') && (
                             <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
                                 <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
                                     <img src={phone} alt="loc" />

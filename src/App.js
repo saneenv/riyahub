@@ -44,6 +44,7 @@ import AddCompanyType from './pages/AddCompanyType';
 import AddJobs from './pages/AddJobs';
 import AddQualifications from './pages/AddQualifications';
 import ChangePasswordPage from './components/ChangePasswordPage';
+import JobNames from './pages/JobNames';
 
 
 function App() {
@@ -95,6 +96,8 @@ function App() {
                 <Route path="/addjobs" element={<AddJobs />} />
                 <Route path="/addqualifications" element={<AddQualifications />} />
                 <Route path="/change-password/:employeeId" element={<ChangePasswordPage />} />
+                <Route path="/jobnames" element={<JobNames />} />
+
 
 
 

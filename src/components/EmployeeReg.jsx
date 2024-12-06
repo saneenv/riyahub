@@ -420,7 +420,7 @@ function EmployeeReg() {
                         </div>
 
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-base font-[500] font-display'>Address</span>
+                            <span className='text-left text-base font-[500] font-display'>Full Address</span>
                             <input
                             ref={addressRef}
                                 placeholder='Company Address'

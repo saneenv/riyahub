@@ -5,6 +5,8 @@ import Navbar2 from '../components/Navbar2';
 import Footer from '../components/Footer';
 import Select from 'react-select';
 import { useMediaQuery } from 'react-responsive';
+import { useNavigate } from 'react-router-dom';
+
 // import location from '../json/cities.json';
 
 function Whatsapp() {
@@ -15,6 +17,7 @@ function Whatsapp() {
     const [jobs, setJobs] = useState([]);
     const [loading, setLoading] = useState(false);
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+    const navigate = useNavigate();
 
     // Fetch location data from the backend API
     const fetchLocationData = async () => {
@@ -155,6 +158,10 @@ function Whatsapp() {
             });
     };
 
+    
+    const datesearch = () => {
+        navigate('/datesearch');
+      };
 
     return (
         <div className="min-h-screen flex flex-col bg-white text-gray-800">
@@ -163,6 +170,11 @@ function Whatsapp() {
                 <Navbar2 />
             </div>
             <div className="lg:px-12 px-3 lg:py-12 py-3 flex flex-col gap-8 bg-gray-100">
+            <div className="w-full flex justify-center">
+          <button className="bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 text-white text-lg font-semibold py-3 px-8 rounded-lg shadow-lg hover:shadow-xl hover:from-purple-600 hover:to-green-400 transition duration-300 ease-in-out transform hover:scale-105" onClick={datesearch}>
+            Date Search
+          </button>
+        </div>
                 {/* Location Selector */}
                 <div className="mb-4">
                     <h2 className="text-2xl font-bold text-center mb-4 ">Select Location</h2>

@@ -38,6 +38,9 @@ function EditJobPost() {
     const [qualificationData, setQualificationData] = useState(null);
     const [jobsOptions, setJobsOptions] = useState([]);
     const [degreeOptions, setDegreeOptions] = useState([]);
+    const [experienceType, setExperienceType] = useState(null);
+    const [vacancy, setVacancy] = useState('');
+
 
     const [companyCategory, setCompanyCategory] = useState('');
     const [categoryOptions, setCategoryOptions] = useState([]);
@@ -73,6 +76,12 @@ function EditJobPost() {
         { value: 'Food Only', label: 'Food Only' }
     ];
 
+    const experienceOptions = [
+        { value: 'Fresher', label: 'Fresher' },
+        { value: 'Experienced', label: 'Experienced' },
+        { value: 'Any', label: 'Any' },
+    ];
+
 
 
     const customStyles = {
@@ -99,6 +108,10 @@ function EditJobPost() {
 
     const handleFoodTypeChange = (selectedOption) => {
         setFoodType(selectedOption);
+    };
+
+    const handleExperienceTypeChange = (selectedOption) => {
+        setExperienceType(selectedOption);
     };
 
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
@@ -297,6 +310,9 @@ function EditJobPost() {
                 setWhatsappNumber(data.whatsapp_number);
                 setEmail(data.email);
                 setAddress(data.address);
+                setExperienceType(experienceOptions.find(option => option.value === data.experienceType) || null);
+                setVacancy(data.vacancy);
+
             } catch (error) {
                 console.error('There was a problem with the fetch operation:', error);
             }
@@ -331,6 +347,8 @@ function EditJobPost() {
             whatsappNumber,
             email,
             address,
+            experienceType: experienceType?.value,
+            vacancy
         };
     
         console.log('Form Data:', formData); // Log formData for debugging
@@ -360,6 +378,8 @@ function EditJobPost() {
                 setStartCategory('');
                 setLocationCategory('');
                 setJobsCategory('');
+                setExperienceType('');
+                setVacancy('');
                 navigate('/postedjob')
                 // Optionally redirect or reset the form
             } else {
@@ -560,6 +580,32 @@ function EditJobPost() {
                                 className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
                                 value={address}
                                 onChange={(e) => setAddress(e.target.value)}
+                            />
+                        </div>
+                        <div className='flex flex-col gap-3'>
+                            <span className='text-left text-base font-[500] font-display'>Experience *</span>
+                            <Select
+                                placeholder="Select Required Experience"
+                                options={experienceOptions}
+                                value={experienceType}
+                                onChange={handleExperienceTypeChange}
+                                isClearable={true}
+                                styles={customStyles}
+                                classNamePrefix="react-select" // Ensures custom class prefix
+                            />
+                        </div>
+
+                        <div className='flex flex-col gap-3'>
+                            <span className='text-left text-base font-[500] font-display'>No. of Vacancies *</span>
+                            <input
+                                type="number"
+                                placeholder='Enter No. of Vacancies'
+                                className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                                value={vacancy} // Controlled input
+                                onChange={(e) => setVacancy(e.target.value)} // Update state on change
+                               
+
+
                             />
                         </div>
                         <div className='flex flex-col gap-3 lg:col-span-3 justify-center items-center'>

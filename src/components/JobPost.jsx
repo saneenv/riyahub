@@ -31,8 +31,12 @@ function JobPost() {
     const [whatsappNumber, setWhatsappNumber] = useState(''); // State for WhatsApp number
     const [email, setEmail] = useState('');
     const [address, setAddress] = useState('');
+    const [vacancy, setVacancy] = useState('');
+
     const [genderType, setGenderType] = useState(null);
     const [foodType, setFoodType] = useState(null);
+    const [experienceType, setExperienceType] = useState(null);
+
 
     const [companyCategory, setCompanyCategory] = useState('');
     const [categoryOptions, setCategoryOptions] = useState([]);
@@ -78,6 +82,7 @@ function JobPost() {
 
 
 
+
     const jobTypeOptions = [
         { value: 'Full Time', label: 'Full Time' },
         { value: 'Part Time', label: 'Part Time' },
@@ -95,6 +100,12 @@ function JobPost() {
         { value: 'Yes', label: 'Yes' },
         { value: 'Accomodation Only', label: 'Accomodation Only' },
         { value: 'Food Only', label: 'Food Only' }
+    ];
+
+    const experienceOptions = [
+        { value: 'Fresher', label: 'Fresher' },
+        { value: 'Experienced', label: 'Experienced' },
+        { value: 'Any', label: 'Any' },
     ];
 
     // Custom styles to match the input field style
@@ -124,6 +135,11 @@ function JobPost() {
     const handleFoodTypeChange = (selectedOption) => {
         setFoodType(selectedOption);
     };
+
+    const handleExperienceTypeChange = (selectedOption) => {
+        setExperienceType(selectedOption);
+    };
+
 
 
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
@@ -310,6 +326,9 @@ function JobPost() {
     };
 
 
+   
+
+
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
     const employeeId = sessionStorage.getItem('employeeId');
 
@@ -351,6 +370,10 @@ function JobPost() {
         setAddress(e.target.value); // Update the state when the user types
     };
 
+    const handleVacancyChange = (e) => {
+        setVacancy(e.target.value); // Update the state when the user types
+    };
+
     const selectedCompanyCategory = categoryOptions.find(option => option.value === companyCategory);
     const selectedEndCategory = endOptions.find(option => option.value === endCategory);
     const selectedJobCategory = jobsOptions.find(option => option.value === jobsCategory);
@@ -377,7 +400,9 @@ function JobPost() {
             !foodType ||
             !whatsappNumber ||
             !email ||
-            !address
+            !address ||
+            !experienceType || 
+            !vacancy
         ) {
             alert('Please fill in all the required fields.');
             return;
@@ -402,7 +427,9 @@ function JobPost() {
             whatsappNumber,
             email,
             address,
-            manualJobID
+            manualJobID,
+            experienceType: experienceType?.value,
+            vacancy
 
         };
 
@@ -437,6 +464,8 @@ function JobPost() {
                 setLocationCategory('');
                 setJobsCategory('');
                 setManualJobID('');
+                setExperienceType('');
+                setVacancy('');
 
 
 
@@ -539,6 +568,18 @@ function JobPost() {
                                 value={jobsCategory ? jobsOptions.find(option => option.value === jobsCategory) : null} // Set the selected option
                                 styles={customStyles}
                                 onKeyDown={(e) => handleKeyDown(e, locationRef)} // Move to Mobile Number on "Enter"
+                            />
+                        </div>
+                        <div className='flex flex-col gap-3'>
+                            <span className='text-left text-base font-[500] font-display'>Experience *</span>
+                            <Select
+                                placeholder="Select Required Experience"
+                                options={experienceOptions}
+                                value={experienceType}
+                                onChange={handleExperienceTypeChange}
+                                isClearable={true}
+                                styles={customStyles}
+                                classNamePrefix="react-select" // Ensures custom class prefix
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
@@ -705,6 +746,23 @@ function JobPost() {
                                 className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4'
                                 value={address} // Controlled input
                                 onChange={handleAddressChange} // Update state on change
+                               
+
+
+                            />
+                        </div>
+
+                        
+                        
+
+                        <div className='flex flex-col gap-3'>
+                            <span className='text-left text-base font-[500] font-display'>No. of Vacancies *</span>
+                            <input
+                                type="number"
+                                placeholder='Enter No. of Vacancies'
+                                className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                                value={vacancy} // Controlled input
+                                onChange={handleVacancyChange} // Update state on change
                                
 
 
