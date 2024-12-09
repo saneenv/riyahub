@@ -26,6 +26,7 @@ function EditJobPost() {
     const [qualification, setQualification] = useState('');
     const [jobDescription, setJobDescription] = useState('');
     const [jobType, setJobType] = useState(null);
+    const [salaryType, setSalaryType] = useState(null)
     const [employeeData, setEmployeeData] = useState(null);
     const [whatsappNumber, setWhatsappNumber] = useState('');
     const [email, setEmail] = useState('');
@@ -82,6 +83,11 @@ function EditJobPost() {
         { value: 'Any', label: 'Any' },
     ];
 
+    const salaryOptions = [
+        { value: 'Negotiable', label: 'Negotiable' },
+        { value: 'On Work Basis', label: 'On Work Basis' }
+    ];
+
 
 
     const customStyles = {
@@ -113,6 +119,10 @@ function EditJobPost() {
     const handleExperienceTypeChange = (selectedOption) => {
         setExperienceType(selectedOption);
     };
+
+    const handleSalaryTypeChange = (selectedOption) => {
+        setSalaryType(selectedOption);
+    }
 
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
@@ -312,6 +322,7 @@ function EditJobPost() {
                 setAddress(data.address);
                 setExperienceType(experienceOptions.find(option => option.value === data.experienceType) || null);
                 setVacancy(data.vacancy);
+                setSalaryType(salaryOptions.find(option => option.value === data.salaryType) || null);
 
             } catch (error) {
                 console.error('There was a problem with the fetch operation:', error);
@@ -348,7 +359,8 @@ function EditJobPost() {
             email,
             address,
             experienceType: experienceType?.value,
-            vacancy
+            vacancy,
+            salaryType: salaryType?.value
         };
     
         console.log('Form Data:', formData); // Log formData for debugging
@@ -380,6 +392,7 @@ function EditJobPost() {
                 setJobsCategory('');
                 setExperienceType('');
                 setVacancy('');
+                setSalaryType('');
                 navigate('/postedjob')
                 // Optionally redirect or reset the form
             } else {
@@ -606,6 +619,18 @@ function EditJobPost() {
                                
 
 
+                            />
+                        </div>
+                        <div className='flex flex-col gap-3'>
+                            <span className='text-left text-base font-[500] font-display'>Salary Options *</span>
+                            <Select
+                                placeholder="Select Job Type"
+                                options={salaryOptions}
+                                value={salaryType}
+                                onChange={handleSalaryTypeChange}
+                                isClearable={true}
+                                styles={customStyles}
+                                classNamePrefix="react-select"
                             />
                         </div>
                         <div className='flex flex-col gap-3 lg:col-span-3 justify-center items-center'>

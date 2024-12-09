@@ -4,9 +4,13 @@ import Navbar2 from '../components/Navbar2';
 import { useMediaQuery } from 'react-responsive';
 import Navbar from '../components/Navbar';
 import NavbarMob from '../components/NavbarMob';
+import { useNavigate } from 'react-router-dom'
+
 
 function EnableJobPost() {
   const [jobPosts, setJobPosts] = useState([]);
+  const navigate = useNavigate();
+
   const [searchQuery, setSearchQuery] = useState({
     employee_id: '',
     job: '',
@@ -15,6 +19,14 @@ function EnableJobPost() {
   });
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
+
+
+  // Navigate to details page with job_id passed as state
+  const detailsforstaff = (jobId) => {
+    console.log("passing Job ID: ", jobId)
+    navigate('/detailsforstaff', { state: { jobId } }); // Pass job_id as state
+  };
 
   // Fetch job posts data from the API
   useEffect(() => {
@@ -88,7 +100,7 @@ function EnableJobPost() {
         <h1 className='text-xl font-bold text-center text-gray-800'>
           Job Post Requests
         </h1>
-   
+
 
         {/* Search Inputs */}
         <div className='flex lg:flex-row flex-col gap-4 mb-6 justify-center items-center'>
@@ -116,7 +128,7 @@ function EnableJobPost() {
             onChange={handleSearchChange}
             className='border border-[gray] p-2 rounded-lg'
           />
-            <input
+          <input
             type='text'
             name='job_id' // Added input field for job_id search
             placeholder='Search by Job ID'
@@ -134,10 +146,12 @@ function EnableJobPost() {
                 <th className='border p-2'>Employee ID</th>
                 <th className='border p-2'>Job ID</th>
                 <th className='border p-2'>Job</th>
-                <th className='border p-2'>Location</th>
+                {/* <th className='border p-2'>Location</th>
                 <th className='border p-2'>Company Type</th>
                 <th className='border p-2'>Email</th>
-                <th className='border p-2'>Number</th>
+                <th className='border p-2'>Number</th> */}
+                <th className='border p-2'></th>
+
                 <th className='border p-2'>Accept</th>
               </tr>
             </thead>
@@ -150,15 +164,22 @@ function EnableJobPost() {
                   <td className='border p-2'>{job.employee_id}</td>
                   <td className='border p-2'>{job.manualJobID && job.manualJobID !== "0" ? job.manualJobID : job.job_id}</td>
                   <td className='border p-2'>{job.job}</td>
-                  <td className='border p-2'>{job.location}</td>
+                  {/* <td className='border p-2'>{job.location}</td>
                   <td className='border p-2'>{job.company_type}</td>
                   <td className='border p-2'>{job.email}</td>
-                  <td className='border p-2'>{job.whatsapp_number}</td>
+                  <td className='border p-2'>{job.whatsapp_number}</td> */}
+                  <td className='border p-2'>
+                    <button
+                      className={'text-[red] hover:text-[black] px-4 py-2 rounded-lg underline'}
+                      onClick={() => detailsforstaff(job.manualJobID && job.manualJobID !== "0" ? job.manualJobID : job.job_id)}
+                    >
+                      View Job
+                    </button>
+                  </td>
                   <td className='border p-2 text-center'>
                     <button
-                      className={`${
-                        job.enable === 'on' ? 'bg-green-500' : 'bg-red-500'
-                      } text-white px-4 py-2 rounded-lg`}
+                      className={`${job.enable === 'on' ? 'bg-green-500' : 'bg-red-500'
+                        } text-white px-4 py-2 rounded-lg`}
                       onClick={() => handleToggle(job.job_id, job.enable)}
                     >
                       {job.enable === 'on' ? 'On' : 'Off'}

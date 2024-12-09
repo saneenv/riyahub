@@ -200,7 +200,7 @@ function Navbar() {
 
             <div className='w-[40%] h-[48px] flex flex-row gap-4'>
                 <div className='w-[30%] h-full flex justify-center items-center border-2 border-[#E22E37] rounded-[5px] text-base font-[600] font-display cursor-pointer hover:bg-black hover:text-white hover:border-none' onClick={login}>Login</div>
-                <div className='w-[30%] h-full flex justify-center items-center border-2 border-[#E22E37] rounded-[5px] text-base font-[600] font-display cursor-pointer hover:bg-black hover:text-white hover:border-none' onClick={regchooses}>Register</div>
+                <div className='w-[30%] h-full flex justify-center items-center border-2 border-[#E22E37] rounded-[5px] text-base font-[600] font-display cursor-pointer hover:bg-black hover:text-white hover:border-none' onClick={regchooses}>Free Register</div>
                 {companyName ? (
 
                     <div className='w-[40%] h-full flex justify-center items-center border-2  bg-[#E22E37] rounded-[5px] flex-row gap-4 cursor-pointer text-[white]  hover:bg-[red]' onClick={toggleOptions}>

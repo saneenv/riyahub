@@ -54,7 +54,7 @@ function JobNames() {
 
             <div className='lg:px-12 px-3 flex flex-col bg-[#eeebeb]'>
                 {/* Search Bar */}
-                <div className='py-6'>
+                {/* <div className='py-6'>
                     <input
                         type='text'
                         placeholder='Search for job categories...'
@@ -62,7 +62,7 @@ function JobNames() {
                         value={searchQuery}
                         onChange={handleSearchChange}
                     />
-                </div>
+                </div> */}
 
                 {/* Job Titles Grid */}
                 <div className='grid py-12 lg:grid-cols-4 grid-cols-2 gap-4'>

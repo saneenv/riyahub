@@ -22,17 +22,17 @@ function JobPost() {
     const [qualificationData, setQualificationData] = useState(null);
     const [degreeOptions, setDegreeOptions] = useState([]);
     const [candidateDegree, setCandidateDegree] = useState('');
-
+    const [errorState, setErrorState] = useState({});
     const [minSalary, setMinSalary] = useState(0);
-    const [maxSalary, setMaxSalary] = useState('');
+    const [maxSalary, setMaxSalary] = useState(0);
     const [jobDescription, setJobDescription] = useState('');
     const [jobType, setJobType] = useState(null);
+    const [salaryType, setSalaryType] = useState(null);
     const [employeeData, setEmployeeData] = useState(null);
     const [whatsappNumber, setWhatsappNumber] = useState(''); // State for WhatsApp number
     const [email, setEmail] = useState('');
     const [address, setAddress] = useState('');
     const [vacancy, setVacancy] = useState('');
-
     const [genderType, setGenderType] = useState(null);
     const [foodType, setFoodType] = useState(null);
     const [experienceType, setExperienceType] = useState(null);
@@ -61,21 +61,8 @@ function JobPost() {
 
 
 
-    // References for inputs
+    // Ref for Job Title field
     const jobTitleRef = useRef(null);
-    const jobTypeRef = useRef(null);
-    const genderTypeRef = useRef(null);
-    const companyCategoryRef = useRef(null);
-    const jobRef = useRef(null);
-    const locationRef = useRef(null);
-    const minSalaryRef = useRef(null);
-    const maxSalaryRef = useRef(null);
-    const startRef = useRef(null);
-    const endRef = useRef(null);
-    const qualificationRef = useRef(null);
-    const jobDescriptionRef = useRef(null);
-    const foodRef = useRef(null);
-    const manualJobIDRef = useRef(null);
 
 
 
@@ -106,6 +93,11 @@ function JobPost() {
         { value: 'Fresher', label: 'Fresher' },
         { value: 'Experienced', label: 'Experienced' },
         { value: 'Any', label: 'Any' },
+    ];
+
+    const salaryOptions = [
+        { value: 'Negotiable', label: 'Negotiable' },
+        { value: 'On Work Basis', label: 'On Work Basis' },
     ];
 
     // Custom styles to match the input field style
@@ -140,6 +132,9 @@ function JobPost() {
         setExperienceType(selectedOption);
     };
 
+    const handleSalaryTypeChange = (selectedOption) => {
+        setSalaryType(selectedOption);
+    };
 
 
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
@@ -165,7 +160,7 @@ function JobPost() {
 
     useEffect(() => {
         if (locationData) {
-         
+
 
             // Extract districts from location data for the select dropdown
             const locations = locationData.states[0].districts.map(district => ({
@@ -197,10 +192,10 @@ function JobPost() {
 
     useEffect(() => {
         if (companyData) {
-         
 
-             // Extract districts from the imported JSON data
-             const districts = companyData.states[0].districts.map(district => ({
+
+            // Extract districts from the imported JSON data
+            const districts = companyData.states[0].districts.map(district => ({
                 value: district,
                 label: district
             }));
@@ -231,7 +226,7 @@ function JobPost() {
 
     useEffect(() => {
         if (jobsData) {
-         
+
 
             // Extract districts from location data for the select dropdown
             const job = jobsData.states[0].districts.map(district => ({
@@ -263,7 +258,7 @@ function JobPost() {
 
     useEffect(() => {
         if (qualificationData) {
-         
+
 
             // Extract districts from location data for the select dropdown
             const degrees = qualificationData.states[0].districts.map(district => ({
@@ -279,16 +274,16 @@ function JobPost() {
     useEffect(() => {
         window.scrollTo(0, 0);
 
-       
 
-  
+
+
         // Extract districts from the imported JSON data
         const workstart = worktime.states[0].districts.map(district => ({
             value: district,
             label: district
         }));
 
-  
+
 
         const workend = endtime.states[0].districts.map(district => ({
             value: district,
@@ -311,7 +306,7 @@ function JobPost() {
         setLocationCategory(selectedOption ? selectedOption.value : ''); // Set the selected district value
     };
 
-    
+
     const handleDegreeChange = selectedOption => {
         setCandidateDegree(selectedOption ? selectedOption.value : ''); // Set the selected district value
     };
@@ -326,7 +321,7 @@ function JobPost() {
     };
 
 
-   
+
 
 
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
@@ -383,30 +378,41 @@ function JobPost() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Validation to ensure all fields are filled
-        if (
-            !employeeId ||
-            !jobTitle ||
-            !jobType ||
-            !genderType ||
-            !selectedCompanyCategory ||
-            !selectedJobCategory ||
-            !selectedLocationCategory ||
-            !maxSalary ||
-            !selectedStartCategory ||
-            !selectedEndCategory ||
-            !candidateDegree ||
-            !jobDescription ||
-            !foodType ||
-            !whatsappNumber ||
-            !email ||
-            !address ||
-            !experienceType || 
-            !vacancy
-        ) {
-            alert('Please fill in all the required fields.');
+        // Validate fields
+        const errors = {};
+        if (!employeeId) errors.employeeId = "employeeId is required";
+
+        if (!jobTitle) errors.jobTitle = "Job Title is required";
+        if (!jobType) errors.jobType = "Job Type is required";
+        if (!genderType) errors.genderType = "Gender is required";
+        if (!selectedCompanyCategory) errors.selectedCompanyCategory = "Company Category is required";
+        if (!selectedJobCategory) errors.selectedJobCategory = "Job is required";
+        if (!selectedLocationCategory) errors.selectedLocationCategory = "Job Location is required";
+        if (!foodType) errors.foodType = "Food Type is required";
+
+        if (!whatsappNumber) errors.whatsappNumber = "Manager Number is required";
+        if (!address) errors.address = "Address is required";
+        if (!experienceType) errors.experienceType = "Experience Type is required";
+
+        if (!vacancy) errors.vacancy = "Number of Vacancies is required";
+
+        // If there are errors, set them and focus the Job Title field
+        if (Object.keys(errors).length > 0) {
+            setErrorState(errors);
+
+            // Focus Job Title field if there's any error
+            if (jobTitleRef.current) {
+                jobTitleRef.current.focus();
+            }
+
             return;
         }
+
+
+
+        // Clear errors if no errors
+        setErrorState({});
+
 
 
         const formData = {
@@ -429,7 +435,8 @@ function JobPost() {
             address,
             manualJobID,
             experienceType: experienceType?.value,
-            vacancy
+            vacancy,
+            salaryType: salaryType?.value
 
         };
 
@@ -466,7 +473,9 @@ function JobPost() {
                 setManualJobID('');
                 setExperienceType('');
                 setVacancy('');
-
+                setSalaryType('');
+            
+                window.location.reload();
 
 
             } else {
@@ -507,14 +516,12 @@ function JobPost() {
                                 className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4'
                                 value={jobTitle}
                                 onChange={(e) => setJobTitle(e.target.value)}
-                                onKeyDown={(e) => handleKeyDown(e, jobTypeRef)} // Move to Mobile Number on "Enter"
                             />
-
+                            {errorState.jobTitle && <span className="text-red-500 text-sm">{errorState.jobTitle}</span>}
                         </div>
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Job Type *</span>
                             <Select
-                                ref={jobTypeRef}
                                 placeholder="Select Job Type"
                                 options={jobTypeOptions}
                                 value={jobType}
@@ -522,13 +529,13 @@ function JobPost() {
                                 isClearable={true}
                                 styles={customStyles}
                                 classNamePrefix="react-select" // Ensures custom class prefix
-                                onKeyDown={(e) => handleKeyDown(e, genderTypeRef)} // Move to Mobile Number on "Enter"
                             />
+                            {errorState.jobType && <span className="text-red-500 text-sm">{errorState.jobType}</span>}
+
                         </div>
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Gender *</span>
                             <Select
-                                ref={genderTypeRef}
                                 placeholder="Select Gender"
                                 options={genderTypeOptions}
                                 value={genderType}
@@ -536,14 +543,14 @@ function JobPost() {
                                 isClearable={true}
                                 styles={customStyles}
                                 classNamePrefix="react-select" // Ensures custom class prefix
-                                onKeyDown={(e) => handleKeyDown(e, companyCategoryRef)} // Move to Mobile Number on "Enter"
                             />
+                            {errorState.genderType && <span className="text-red-500 text-sm">{errorState.genderType}</span>}
+
                         </div>
 
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Company Category *</span>
                             <Select
-                                ref={companyCategoryRef}
                                 options={categoryOptions}
                                 onChange={handleCategoryChange}
                                 placeholder="Select Category"
@@ -552,13 +559,13 @@ function JobPost() {
                                 isClearable={true}
                                 value={companyCategory ? categoryOptions.find(option => option.value === companyCategory) : null}
                                 styles={customStyles}
-                                onKeyDown={(e) => handleKeyDown(e, jobRef)} // Move to Mobile Number on "Enter"
                             />
+                            {errorState.selectedCompanyCategory && <span className="text-red-500 text-sm">{errorState.selectedCompanyCategory}</span>}
+
                         </div>
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Job *</span>
                             <Select
-                                ref={jobRef}
                                 options={jobsOptions}
                                 onChange={handleJobsChange}
                                 placeholder="Select Job"
@@ -567,8 +574,9 @@ function JobPost() {
                                 isClearable={true}
                                 value={jobsCategory ? jobsOptions.find(option => option.value === jobsCategory) : null} // Set the selected option
                                 styles={customStyles}
-                                onKeyDown={(e) => handleKeyDown(e, locationRef)} // Move to Mobile Number on "Enter"
                             />
+                            {errorState.selectedJobCategory && <span className="text-red-500 text-sm">{errorState.selectedJobCategory}</span>}
+
                         </div>
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Experience *</span>
@@ -581,11 +589,12 @@ function JobPost() {
                                 styles={customStyles}
                                 classNamePrefix="react-select" // Ensures custom class prefix
                             />
+                            {errorState.experienceType && <span className="text-red-500 text-sm">{errorState.experienceType}</span>}
+
                         </div>
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Job Location *</span>
                             <Select
-                                ref={locationRef}
                                 options={locationOptions}
                                 onChange={handleLocationChange}
                                 placeholder="Select Location"
@@ -594,8 +603,9 @@ function JobPost() {
                                 isClearable={true}
                                 value={locationOptions.find(option => option.value === locationCategory) || null} // Set the selected option
                                 styles={customStyles}
-                                onKeyDown={(e) => handleKeyDown(e, minSalaryRef)} // Move to Mobile Number on "Enter"
                             />
+                            {errorState.selectedLocationCategory && <span className="text-red-500 text-sm">{errorState.selectedLocationCategory}</span>}
+
                         </div>
 
 
@@ -603,31 +613,41 @@ function JobPost() {
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Minimum Salary *</span>
                             <input
-                                ref={minSalaryRef}
                                 placeholder='Enter Minimum Salary'
                                 type="number"
                                 className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4'
                                 value={minSalary}
                                 onChange={(e) => setMinSalary(e.target.value)}
-                                onKeyDown={(e) => handleKeyDown(e, maxSalaryRef)} // Move to Mobile Number on "Enter"
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Maximum Salary *</span>
                             <input
-                                ref={maxSalaryRef}
                                 placeholder='Enter Maximum Salary'
                                 type="number"
                                 className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4'
                                 value={maxSalary}
                                 onChange={(e) => setMaxSalary(e.target.value)}
-                                onKeyDown={(e) => handleKeyDown(e, startRef)} // Move to Mobile Number on "Enter"
                             />
+
+                        </div>
+                        <div className='flex flex-col gap-3'>
+                            <span className='text-left text-base font-[500] font-display'>Salary Options *</span>
+                            <Select
+                                placeholder="Select Salary Options"
+                                options={salaryOptions}
+                                value={salaryType}
+                                onChange={handleSalaryTypeChange}
+                                isClearable={true}
+                                styles={customStyles}
+                                classNamePrefix="react-select" // Ensures custom class prefix
+                            />
+                            {/* {errorState.jobType && <span className="text-red-500 text-sm">{errorState.jobType}</span>} */}
+
                         </div>
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Work Time Start *</span>
                             <Select
-                                ref={startRef}
                                 options={startOptions}
                                 onChange={handleStartChange}
                                 placeholder="Select"
@@ -636,7 +656,6 @@ function JobPost() {
                                 isClearable={true}
                                 value={startOptions.find(option => option.value === startCategory) || null} // Set the selected option
                                 styles={customStyles}
-                                onKeyDown={(e) => handleKeyDown(e, endRef)} // Move to Mobile Number on "Enter"
                             />
                         </div>
 
@@ -644,7 +663,6 @@ function JobPost() {
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Work Time End *</span>
                             <Select
-                                ref={endRef}
                                 options={endOptions}
                                 onChange={handleEndChange}
                                 placeholder="Select"
@@ -653,7 +671,6 @@ function JobPost() {
                                 isClearable={true}
                                 value={endOptions.find(option => option.value === endCategory) || null} // Set the selected option
                                 styles={customStyles}
-                                onKeyDown={(e) => handleKeyDown(e, qualificationRef)} // Move to Mobile Number on "Enter"
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
@@ -669,18 +686,16 @@ function JobPost() {
                                 styles={customStyles}
 
                             />
-                          
+
                         </div>
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Job Description *</span>
                             <input
-                                ref={jobDescriptionRef}
                                 placeholder='Job Description'
                                 type="text"
                                 className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4'
                                 value={jobDescription}
                                 onChange={(e) => setJobDescription(e.target.value)}
-                                onKeyDown={(e) => handleKeyDown(e, foodRef)} // Move to Mobile Number on "Enter"
                             />
                         </div>
 
@@ -689,7 +704,6 @@ function JobPost() {
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Food & Accommodation</span>
                             <Select
-                                ref={foodRef}
                                 placeholder="Select"
                                 options={foodTypeOptions}
                                 value={foodType}
@@ -697,15 +711,15 @@ function JobPost() {
                                 isClearable={true}
                                 styles={customStyles}
                                 classNamePrefix="react-select" // Ensures custom class prefix
-                                onKeyDown={(e) => handleKeyDown(e, manualJobIDRef)} // Move to Mobile Number on "Enter"
                             />
+                            {errorState.foodType && <span className="text-red-500 text-sm">{errorState.foodType}</span>}
+
                         </div>
 
-                        {(customerType === 'admin' || customerType === 'mainAdmin')  && (
+                        {(customerType === 'admin' || customerType === 'mainAdmin') && (
                             <div className='flex flex-col gap-3'>
                                 <span className='text-left text-base font-[500] font-display text-[#E22E37]'>Manual Job ID*</span>
                                 <input
-                                    ref={manualJobIDRef}
                                     placeholder='Job ID'
                                     type="text"
                                     className='h-[43px] w-full border-2 border-[#E22E37] rounded-[5px] px-4'
@@ -723,9 +737,11 @@ function JobPost() {
                                 value={whatsappNumber} // Controlled input
                                 onChange={handleWhatsappChange} // Update state on change
                             />
+                            {errorState.whatsappNumber && <span className="text-red-500 text-sm">{errorState.whatsappNumber}</span>}
+
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-base font-[500] font-display'>Email</span>
+                            <span className='text-left text-base font-[500] font-display'>Email *</span>
                             <input
                                 type="text"
                                 placeholder='example@gmail.com'
@@ -746,14 +762,16 @@ function JobPost() {
                                 className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4'
                                 value={address} // Controlled input
                                 onChange={handleAddressChange} // Update state on change
-                               
+
 
 
                             />
+                            {errorState.address && <span className="text-red-500 text-sm">{errorState.address}</span>}
+
                         </div>
 
-                        
-                        
+
+
 
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>No. of Vacancies *</span>
@@ -763,13 +781,15 @@ function JobPost() {
                                 className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4'
                                 value={vacancy} // Controlled input
                                 onChange={handleVacancyChange} // Update state on change
-                               
+
 
 
                             />
+                            {errorState.vacancy && <span className="text-red-500 text-sm">{errorState.vacancy}</span>}
+
                         </div>
 
-                   
+
 
                     </div>
 

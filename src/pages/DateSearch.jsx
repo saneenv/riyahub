@@ -103,8 +103,7 @@ function DateSearch() {
       `ജോലി - ${job.job_title}*\n` +
       `ശമ്പളം - ${job.salaryDisplay}\n` +
       `ക്വാളിഫിക്കേഷൻ - ${job.qualification}\n` +
-      `സ്ഥലം - ${job.location}\n` +
-      `നമ്പർ - ${job.whatsapp_number}`
+      `സ്ഥലം - ${job.location}\n` 
     ).join('\n\n');
 
 

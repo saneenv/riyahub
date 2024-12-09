@@ -25,7 +25,7 @@ import QRCode from 'qrcode';
 
 
 
-function Details() {
+function DetailsForStaff() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
 
     const [jobDetails, setJobDetails] = useState(null); // State to store job details
@@ -133,9 +133,8 @@ function Details() {
     useEffect(() => {
         if (jobId) {
             const cleanedJobId = jobIdStr.replace(/^['"]|['"]$/g, '');  // This removes surrounding quotes
-
             const encodedJobId = encodeURIComponent(cleanedJobId);
-
+    
             fetch(`${apiBaseUrl}/getjobposts/${encodedJobId}`)
                 .then(response => {
                     if (!response.ok) {
@@ -145,14 +144,9 @@ function Details() {
                 })
                 .then(data => {
                     console.log("Fetched job data:", data); // Log the fetched data to inspect the response
-
-                    // Check if enable is 'on' as a string (not boolean)
-                    if (data.enable && data.enable.toLowerCase() === 'on') {
-                        setJobDetails(data);
-                    } else {
-                        setJobDetails(null);
-                        setError('This job is not enabled.');
-                    }
+    
+                    // Directly set the job details with the fetched data
+                    setJobDetails(data);
                 })
                 .catch(error => {
                     setError('Error fetching job details. Please try again later.');
@@ -160,6 +154,7 @@ function Details() {
                 });
         }
     }, [jobId, apiBaseUrl]);
+    
 
 
     const downloadStyledImage = () => {
@@ -222,13 +217,7 @@ function Details() {
 
                 <div className='flex flex-row justify-between w-full'>
                     <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#3B3D3B] hover:bg-[#2f302f] rounded-[10px] flex justify-center items-center text-base font-[600] font-display text-[white] cursor-pointer' onClick={handlePackageClick}>Company Details</div>
-                    <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#339030] hover:bg-[#267824] rounded-[10px] flex justify-center items-center text-base font-[600] font-display text-[white] cursor-pointer' onClick={Packages2}>Apply Now</div>
-                    {(customerType === 'admin' || customerType === 'mainAdmin') && (
-                        <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#282d55] hover:bg-[#1d2246] rounded-[10px] flex justify-center items-center text-lg font-[600] font-display text-[white] cursor-pointer' onClick={downloadStyledImage}>download</div>
-                    )}
-                    {(customerType === 'admin' || customerType === 'mainAdmin') && (
-                        <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#d22989] hover:bg-[#be3683] rounded-[10px] flex justify-center items-center text-lg font-[600] font-display text-[white] cursor-pointer' onClick={() => editJobPost(jobDetails.job_id)}>Edit</div>
-                    )}
+                  
                 </div>
 
                 <div className='w-full flex flex-col gap-4'>
@@ -373,80 +362,66 @@ function Details() {
                             {jobDetails.qualification}
                         </div>
                     </div>
-                </div>
+                    <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
+                        <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
 
-
-            </div>
-            {/* <div className='grid lg:grid-cols-6 grid-cols-3 w-full lg:px-12 px-3 gap-12 mt-12 pb-8'>
-                <div className='h-[56px] w-full bg-[#52CE60] rounde-[10px] flex justify-center items-center rounded-[10px]'>
-                    <img src={wa} alt="wa" />
-                </div>
-                <div className='h-[56px] w-full bg-[#DCE6EA] rounde-[10px] flex justify-center items-center rounded-[10px]'>
-                    <img src={mail} alt="wa" />
-                </div>
-
-                <div className='h-[56px] w-full bg-[#1877F2] rounde-[10px] flex justify-center items-center rounded-[10px]'>
-                    <img src={fb} alt="wa" />
-                </div>
-                <div className='h-[56px] w-full bg-gradient-to-r from-[#f9ce34] via-[#ee2a7b] to-[#6228d7]  rounde-[10px] flex justify-center items-center rounded-[10px]'>
-                    <img src={insta} alt="wa" />
-                </div>
-                <div className='h-[56px] w-full bg-[#000000] rounde-[10px] flex justify-center items-center rounded-[10px]'>
-                    <img src={x} alt="wa" />
-                </div>
-                <div className='h-[56px] w-full bg-[#239CD7] rounde-[10px] flex justify-center items-center rounded-[10px]'>
-                    <img src={telegram} alt="wa" />
-                </div>
-            </div> */}
-
-            <div id="jobDetailsContainer" className='relative' style={{ display: 'none', height: '100vh', width: '100vw' }}>
-                <img src={poster} alt='main' style={{ width: '100%', height: "100%" }} />
-                <div className='absolute inset-0 flex flex-row w-[100%] h-[100%] '>
-                    <div className='px-12   flex flex-col'>
-                        <div className='text-[#E22E37] text-9xl font-[700] mt-[25%] text-left font-display'>WE ARE HIRING!</div>
-                        <div className='w-auto max-w-[70%] h-auto bg-[#E22E37] flex justify-center items-center text-center text-[white] font-[800] text-3xl mt-[10%] rounded-[10px] font-display'> <span className='mb-5'>{jobDetails.job}</span></div>
-                        <div className='w-[90%] h-auto bg-[white] rounded-[10px] px-12 py-6 flex flex-col gap-5 mt-[5%]'>
-                            <span className='flex flex-row gap-3 font-[600] text-2xl font-display text-left'><span>{jobDetails.job_title}</span> </span>
-                            <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>Job ID : <span>{jobDetails.manualJobID && jobDetails.manualJobID !== "0" ? jobDetails.manualJobID : jobDetails.job_id}</span> </span>
-
-
-                            <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>
-                                Salary :
-                                <span>
-                                    {jobDetails.min_salary > 0 && jobDetails.max_salary > 0
-                                        ? `${jobDetails.min_salary} - ${jobDetails.max_salary}`
-                                        : jobDetails.min_salary > 0
-                                            ? jobDetails.min_salary
-                                            : jobDetails.max_salary > 0
-                                                ? jobDetails.max_salary
-                                                : jobDetails.salaryType}
-                                </span>
-                            </span>
-                            <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>Qualification : <span>{jobDetails.qualification}</span> </span>
-                            <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>Gender : <span>{jobDetails.gender_type}</span> </span>
-                            <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>Location : <span>{jobDetails.location}</span> </span>
+                            <span className='text-[#B3B3B3] text-lg font-[500] font-display'>Min salary</span>
                         </div>
-                        <div className='flex flex-col mt-[5%] gap-3'>
-                            <div className='text-[#E22E37] font-[700] text-3xl font-display text-left'>Send your CV & Portfolio to:</div>
-                            {(uppercaseAddress === 'PERINTHALMANNA' || uppercaseAddress === 'PANDIKKAD' || uppercaseAddress === 'CHERPULLASSERI' || uppercaseAddress === 'MELATTUR' || uppercaseAddress === 'PATTAMBI') && (
-                                <div className='text-[#E22E37] font-[700] text-3xl font-display text-left'>📞 +91 9544129746, +91 9544500746</div>
-                            )}
-
-                            {(uppercaseAddress === 'MANNARKAD' || uppercaseAddress === 'ERNAKULAM') && (
-                                <div className='text-[#E22E37] font-[700] text-3xl font-display text-left'>📞 +91 7356400746, +91 9544129746</div>
-                            )}
-
-                            <div className=' font-[900] text-2xl font-display text-center'>WWW.RIYAHUBS.COM</div>
-
-
+                        <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-lg font-[500] font-display'>
+                            {jobDetails.min_salary}
                         </div>
+                    </div>
+                    <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
+                        <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
 
+                            <span className='text-[#B3B3B3] text-lg font-[500] font-display'>Max Salary</span>
+                        </div>
+                        <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-lg font-[500] font-display'>
+                            {jobDetails.max_salary}
+                        </div>
+                    </div>
+                    <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
+                        <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
+
+                            <span className='text-[#B3B3B3] text-lg font-[500] font-display'>Start Time</span>
+                        </div>
+                        <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-lg font-[500] font-display'>
+                            {jobDetails.start_time}
+                        </div>
+                    </div>
+                    <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
+                        <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
+
+                            <span className='text-[#B3B3B3] text-lg font-[500] font-display'>End Time</span>
+                        </div>
+                        <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-lg font-[500] font-display'>
+                            {jobDetails.end_time}
+                        </div>
+                    </div>
+                    <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
+                        <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
+
+                            <span className='text-[#B3B3B3] text-lg font-[500] font-display'>Experience Type</span>
+                        </div>
+                        <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-lg font-[500] font-display'>
+                            {jobDetails.experienceType}
+                        </div>
+                    </div>
+
+                    <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
+                        <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
+
+                            <span className='text-[#B3B3B3] text-lg font-[500] font-display'>Salary Type</span>
+                        </div>
+                        <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-lg font-[500] font-display'>
+                            {jobDetails.salaryType}
+                        </div>
                     </div>
                 </div>
+
+
             </div>
-
-
-
+           
             <div className='mt-12'>
                 <Footer />
             </div>
@@ -455,4 +430,4 @@ function Details() {
     )
 }
 
-export default Details
+export default DetailsForStaff

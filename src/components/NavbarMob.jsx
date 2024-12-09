@@ -187,7 +187,7 @@ function NavbarMob() {
             <div className='w-full flex flex-row gap-3 mt-3 justify-between items-center '>
                 <img src={logo} alt="logo" className='w-[45%] h-[80%]' onClick={home} />
                 <span className='text-base font-[500] font-display text-[#E22E37]' onClick={login}>Login</span>
-                <span className='text-base font-[500] font-display text-[#E22E37]' onClick={regchooses}>Register</span>
+                <span className='text-base font-[500] font-display text-[#E22E37]' onClick={regchooses}>Free Register</span>
                 <button onClick={toggleSidebar} className="text-gray-700 hover:text-blue-500 focus:outline-none">
                     <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
