@@ -18,6 +18,9 @@ function Whatsapp() {
     const [loading, setLoading] = useState(false);
     const [whatsappLoading, setWhatsappLoading] = useState(false);
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+    const [currentChunk, setCurrentChunk] = useState(0); // Tracks the current batch of jobs
+    const jobsPerBatch = 4; // Number of jobs per WhatsApp message
+
 
     // Fetch location options
     useEffect(() => {
@@ -44,7 +47,7 @@ function Whatsapp() {
     // Fetch filtered jobs based on date and location
     const fetchFilteredJobs = async () => {
         if (!startDate || !endDate || !locationCategory) return;
-    
+
         setLoading(true);
         try {
             const response = await fetch(
@@ -54,7 +57,10 @@ function Whatsapp() {
                 const data = await response.json();
                 setJobs(data.filter(job => {
                     const jobDate = new Date(job.created_at);
-                    
+
+                    // Only include jobs where enable is "on"
+                if (job.enable !== "on") return false;
+
                     // Start and End date are on the same day
                     if (startDate.toDateString() === endDate.toDateString()) {
                         return (
@@ -62,7 +68,7 @@ function Whatsapp() {
                             job.location === locationCategory.value
                         );
                     }
-    
+
                     // Date range filtering
                     return (
                         jobDate >= startDate &&
@@ -79,7 +85,7 @@ function Whatsapp() {
             setLoading(false);
         }
     };
-    
+
 
     useEffect(() => {
         // Process job data to format salary values
@@ -108,56 +114,65 @@ function Whatsapp() {
         }
     }, [jobs]); // Run whenever the jobs array is updated
 
+    const chunkJobs = (jobs, chunkSize) => {
+        const chunks = [];
+        for (let i = 0; i < jobs.length; i += chunkSize) {
+            chunks.push(jobs.slice(i, i + chunkSize));
+        }
+        return chunks;
+    };
+    
 
-    // Send jobs to WhatsApp
-    const sendToWhatsApp = async () => {
-        if (jobs.length === 0) return;
 
+    const sendAllToWhatsApp = async () => {
+        const jobChunks = chunkJobs(jobs, 4); // Split jobs into chunks of 5
         setWhatsappLoading(true);
-        const jobText = jobs.map((job, index) =>
-            `*${index + 1}. JOB ID - ${job.job_id}\n` +
-            `Job Title: ${job.job_title}\n` +
-            `Salary: ${job.salaryDisplay}\n` +
-            `Qualification: ${job.qualification}\n` +
-            `Location: ${job.location}`
-        ).join('\n\n');
-
-
-         // Determine the phone number based on the location
-    const defaultPhoneNumber = '*9544500746*';
-    const mannarkkadPhoneNumber = '*7356400746*';
-    const phoneNumber = jobs.some(job => job.location === 'Mannarkkad') 
-        ? mannarkkadPhoneNumber 
-        : defaultPhoneNumber;
-
-    // Extra official data in Malayalam
-    const officialText = `RIYA HUB - JOB PORTAL\nനമ്പർ - ${phoneNumber}`;
-
-        // Combine job data with the official information
-        const fullText = `നാട്ടിലെ ജോലി ഒഴിവുകൾ\n\n${jobText}\n\n${officialText}`;
-
-        // Prepare message to send (ensure it's properly encoded)
-        const encodedMessage = fullText; // No need to encodeURIComponent here, backend will handle that
-
-
+    
         try {
-            const response = await fetch(`${apiBaseUrl}/send-whatsapp`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ to: '919544500746', message: encodedMessage, }),
-            });
-
-            if (response.ok) {
-                alert('Message sent successfully!');
-            } else {
-                console.error('Failed to send WhatsApp message');
+            for (let i = 0; i < jobChunks.length; i++) {
+                const jobBatch = jobChunks[i];
+                const startIndex = i * 4;
+    
+                const jobText = jobBatch.map((job, index) => {
+                    const jobIDToDisplay = job.manualJobID ? job.manualJobID : job.job_id; // Check if manualJobID is present and not null, 0, or undefined
+                    return (
+                        `*${startIndex + index + 1}. JOB ID - ${jobIDToDisplay}\n` +
+                        `Job Title: ${job.job_title}\n` +
+                        `Salary: ${job.salaryDisplay}\n` +
+                        `Gender: ${job.gender_type}\n` +
+                        `Qualification: ${job.qualification}\n` +
+                        `Experience: ${job.experienceType}\n` +
+                        `Vacancy: ${job.vacancy}\n` +
+                        `Location: ${job.location}`
+                    );
+                }).join('\n\n');
+                
+    
+                const phoneNumber = jobBatch.some(job => job.location === 'Mannarkkad')
+                    ? '*7356400746*'
+                    : '*9544500746*';
+    
+                const officialText = `RIYA HUB - JOB PORTAL\nനമ്പർ - ${phoneNumber}`;
+                const fullText = `നാട്ടിലെ ജോലി ഒഴിവുകൾ\n\n${jobText}\n\n${officialText}`;
+                const encodedMessage = fullText;
+    
+                // Send this chunk as a WhatsApp message
+                await fetch(`${apiBaseUrl}/send-whatsapp`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ to: '919544500746', message: encodedMessage }),
+                });
+    
+                alert(`Batch ${startIndex + 1}-${startIndex + jobBatch.length} sent successfully!`);
             }
         } catch (error) {
-            console.error('Error sending WhatsApp message:', error);
+            console.error('Error sending WhatsApp messages:', error);
         } finally {
             setWhatsappLoading(false);
         }
     };
+    
+
 
     return (
         <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800">
@@ -225,15 +240,21 @@ function Whatsapp() {
                 )}
 
                 {/* Send to WhatsApp */}
+
                 {jobs.length > 0 && (
+                    <div className="flex flex-col items-center gap-4">
                     <button
-                        onClick={sendToWhatsApp}
-                        className="bg-green-500 text-white py-2 px-8 rounded-lg"
+                        onClick={sendAllToWhatsApp}
+                        className="bg-blue-500 text-white py-2 px-8 rounded-lg"
                         disabled={whatsappLoading}
                     >
-                        {whatsappLoading ? 'Sending...' : 'Send via WhatsApp'}
+                        {whatsappLoading ? 'Sending All...' : 'Send All Jobs'}
                     </button>
+                </div>
+                
                 )}
+
+
             </div>
             <Footer />
         </div>

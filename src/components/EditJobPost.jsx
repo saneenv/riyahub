@@ -161,39 +161,36 @@ function EditJobPost() {
     }, [locationData]);
 
 
-    const fetchCompanyData = async () => {
-        try {
-            const response = await fetch(`${apiBaseUrl}/datacompany`); // API endpoint for location data
-            if (response.ok) {
-                const data = await response.json();
-                setCompanyData(data); // Set the fetched data
-            } else {
-                console.error('Failed to fetch location data:', response.statusText);
-            }
-        } catch (error) {
-            console.error('Error fetching location data:', error);
+  // Fetch company data and set category options
+  const fetchCompanyData = async () => {
+    try {
+        const response = await fetch(`${apiBaseUrl}/datacompany`); 
+        if (response.ok) {
+            const data = await response.json();
+            setCompanyData(data); // Set the fetched data
+        } else {
+            console.error('Failed to fetch company data:', response.statusText);
         }
-    };
+    } catch (error) {
+        console.error('Error fetching company data:', error);
+    }
+};
 
-    useEffect(() => {
-        fetchCompanyData(); // Fetch location data when the component mounts
-    }, []);
+useEffect(() => {
+    fetchCompanyData(); // Fetch company data when the component mounts
+}, []);
 
-    useEffect(() => {
-        if (companyData) {
-         
-
-             // Extract districts from the imported JSON data
-             const districts = companyData.states[0].districts.map(district => ({
-                value: district,
-                label: district
-            }));
-            setCategoryOptions(districts);
-            setOptionsLoaded(true);
-
-        }
-    }, [locationData]);
-
+useEffect(() => {
+    if (companyData) {
+        // Extract districts from company data and set category options
+        const districts = companyData.states[0].districts.map((district) => ({
+            value: district,
+            label: district,
+        }));
+        setCategoryOptions(districts);
+        setOptionsLoaded(true); // Mark options as loaded
+    }
+}, [companyData]); // This runs when companyData is fetched
 
 
     const fetchJobsData = async () => {
@@ -295,13 +292,25 @@ function EditJobPost() {
     
     useEffect(() => {
         const fetchJobData = async () => {
+            if (!optionsLoaded || !jobId) return; // Only fetch job data after options are loaded
             try {
-                const response = await fetch(`${apiBaseUrl}/getjobposts/${jobId}`); // Fetch job details by ID
+                const response = await fetch(`${apiBaseUrl}/getjobposts/${jobId}`);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                console.log('Fetched Data:', data); 
+                console.log('Fetched Data:', data);
+
+                 // Find the selected company type from the fetched data and set it
+                 const selectedCategory = categoryOptions.find(
+                    (option) => option.value === data.company_type
+                );
+                setCompanyCategory(selectedCategory || null); // Set the category
+                
+                const selectedJobs = jobsOptions.find(
+                    (option) => option.value === data.job
+                );
+                setJobsCategory(selectedJobs || null);
     
                 // Populate state with fetched data
                 setJobTitle(data.job_title);
@@ -312,8 +321,7 @@ function EditJobPost() {
                 setJobType(jobTypeOptions.find(option => option.value === data.job_type) || null);
                 setGenderType(genderTypeOptions.find(option => option.value === data.gender_type) || null);
                 setFoodType(foodTypeOptions.find(option => option.value === data.food_type) || null);
-                setCompanyCategory(categoryOptions.find(option => option.value === data.company_type) || null);
-                setJobsCategory(jobsOptions.find(option => option.value === data.job) || null);
+                
                 setLocationCategory(locationOptions.find(option => option.value === data.location) || null);
                 setStartCategory(startOptions.find(option => option.value === data.start_time) || null);
                 setEndCategory(endOptions.find(option => option.value === data.end_time) || null);
@@ -329,11 +337,8 @@ function EditJobPost() {
             }
         };
     
-        // Fetch job data only when jobId changes and options are loaded
-        if (optionsLoaded && jobId) {
-            fetchJobData();
-        }
-    }, [jobId, apiBaseUrl, optionsLoaded]); // Watch for jobId and optionsLoaded
+        fetchJobData();
+    }, [jobId, categoryOptions, optionsLoaded]); // Watch for jobId and optionsLoaded
     
 
     const handleSubmit = async (e) => {
@@ -345,7 +350,7 @@ function EditJobPost() {
             jobTitle,
             jobType: jobType?.value,
             genderType: genderType?.value,
-            companyType: companyCategory?.value || '', // Extract 'value' for companyType
+            companyType: companyCategory?.value || '',
             job: jobsCategory?.value || '',
             location: locationCategory?.value || '',
             minSalary,

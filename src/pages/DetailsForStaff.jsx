@@ -217,6 +217,8 @@ function DetailsForStaff() {
 
                 <div className='flex flex-row justify-between w-full'>
                     <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#3B3D3B] hover:bg-[#2f302f] rounded-[10px] flex justify-center items-center text-base font-[600] font-display text-[white] cursor-pointer' onClick={handlePackageClick}>Company Details</div>
+                    <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#d22989] hover:bg-[#be3683] rounded-[10px] flex justify-center items-center text-lg font-[600] font-display text-[white] cursor-pointer' onClick={() => editJobPost(jobDetails.job_id)}>Edit</div>
+
                   
                 </div>
 
