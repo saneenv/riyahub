@@ -20,7 +20,7 @@ import Footer from '../components/Footer';
 import Navbar2 from '../components/Navbar2';
 import { useLocation } from 'react-router-dom';
 import html2canvas from 'html2canvas';
-import poster from '../images/download/Poster2.png'
+import poster from '../images/download/newone.png'
 import QRCode from 'qrcode';
 
 
