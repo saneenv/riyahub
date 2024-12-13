@@ -7,6 +7,13 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Select from 'react-select';
 import { useMediaQuery } from 'react-responsive';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFileExcel } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom'
+import * as XLSX from 'xlsx';
+
+
+
 
 function Whatsapp() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
@@ -20,6 +27,8 @@ function Whatsapp() {
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
     const [currentChunk, setCurrentChunk] = useState(0); // Tracks the current batch of jobs
     const jobsPerBatch = 4; // Number of jobs per WhatsApp message
+    const navigate = useNavigate();
+
 
 
     // Fetch location options
@@ -171,7 +180,84 @@ function Whatsapp() {
             setWhatsappLoading(false);
         }
     };
+
+
+     const exportJobsToExcel = () => {
+            if (jobs.length === 0) {
+                alert('No jobs available to export');
+                return;
+            }
+        
+            // Prepare the job data for the Excel file
+            const jobData = jobs.map((job, index) => ({
+                "Job ID": job.manualJobID ? job.manualJobID : job.job_id,
+                "Job": job.job,
+                "Salary": job.salaryDisplay || job.salaryType,
+                "Qualification": job.qualification || 'N/A',
+                "Location": job.location || 'N/A',
+                "Gender": job.gender_type || 'N/A',
+                "Experience": job.experienceType || 'N/A',
+                "Vacancy": job.vacancy || 'N/A',
+                "Description": job.job_description || 'N/A',
+                "Start Time": job.start_time || 'N/A',
+                "End Time": job.end_time || 'N/A'
+
+
+
+            }));
+        
+            // Create a new worksheet and workbook
+            const worksheet = XLSX.utils.json_to_sheet(jobData);
+        
+            // Apply styles for the headers
+            const range = XLSX.utils.decode_range(worksheet['!ref']);
+            for (let C = range.s.c; C <= range.e.c; C++) {
+                const cellAddress = XLSX.utils.encode_cell({ r: 0, c: C }); // Header row is row 0
+                if (worksheet[cellAddress]) {
+                    worksheet[cellAddress].s = {
+                        font: { bold: true }, // Make header bold
+                        alignment: { horizontal: 'center', vertical: 'center' } // Center-align header
+                    };
+                }
+            }
+        
+            // Align numeric values to the left
+            for (let R = 1; R <= range.e.r; R++) {
+                for (let C = range.s.c; C <= range.e.c; C++) {
+                    const cellAddress = XLSX.utils.encode_cell({ r: R, c: C });
+                    if (worksheet[cellAddress] && typeof worksheet[cellAddress].v === 'number') {
+                        worksheet[cellAddress].s = {
+                            alignment: { horizontal: 'left' } // Align numbers to the left
+                        };
+                    }
+                }
+            }
+        
+            // Add styling to the worksheet
+            worksheet['!cols'] = [
+                { wch: 15 }, // Job ID column width
+                { wch: 30 }, // Job column width
+                { wch: 20 }, // Salary column width
+                { wch: 20 }, // Qualification column width
+                { wch: 20 }, // Location column width
+                { wch: 25 }, // WhatsApp Number column width
+                { wch: 15 }, // Gender column width
+                { wch: 20 }, // Experience column width
+                { wch: 15 }  // Vacancy column width
+            ];
+        
+            // Create workbook and export to Excel
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, 'Jobs');
+        
+            // Write file
+            XLSX.writeFile(workbook, 'Jobs_List.xlsx');
+        };
     
+
+    // const toexcel = () => {
+    //     navigate('/toexcel');
+    // };
 
 
     return (
@@ -179,6 +265,13 @@ function Whatsapp() {
             {isMobile ? <NavbarMob /> : <Navbar />}
             <div className="md:flex hidden">
                 <Navbar2 />
+            </div>
+            <div className='lg:px-12 px-3 pt-2 flex  gap-8 bg-gray-100 justify-between'>
+            <FontAwesomeIcon 
+                icon={faFileExcel} 
+                className="text-green-600 text-4xl cursor-pointer" 
+                onClick={exportJobsToExcel} 
+            />
             </div>
             <div className="lg:px-12 px-3 lg:py-12 py-6 flex flex-col gap-8 bg-gray-100">
                 {/* Filters */}

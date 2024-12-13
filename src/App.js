@@ -89,7 +89,7 @@ function App() {
                 <Route path='/services' element={<Services/>}/>
                 <Route path='/appliedcanall' element={<AppliedCanAll/>}/>
                 <Route path='/whatsapp' element={<Whatsapp/>}/>
-                {/* <Route path='/datesearch' element={<DateSearch/>}/> */}
+                {/* <Route path='/toexcel' element={<DateSearch/>}/> */}
                 <Route path='/enablejobpost' element={<EnableJobPost/>}/>
                 <Route path="/enablestaff" element={<EnableStaff />} />
                 <Route path="/addlocation" element={<AddLocation />} />

@@ -347,10 +347,14 @@ function Details() {
                     </div>
                 </div>
                 <ul className='border-2 border-[#E3EAF1]'></ul>
-                <div className='flex flex-col w-full gap-4'>
-                    <span className='text-xl font-[700] font-display text-left'>Job Desccription</span>
-                    <span className='text-lg font-[400] font-display text-left'>{jobDetails.job_description}</span>
-                </div>
+                {(selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800' || customerType === 'admin' || customerType === 'mainAdmin') && (
+
+                    <div className='flex flex-col w-full gap-4'>
+                        <span className='text-xl font-[700] font-display text-left'>Job Desccription</span>
+                        <span className='text-lg font-[400] font-display text-left'>{jobDetails.job_description}</span>
+                    </div>
+                )}
+
                 <span className='text-xl font-[700] font-display text-left'>Requirements</span>
 
                 <div className='flex flex-col w-full h-auto gap-2'>
@@ -428,11 +432,11 @@ function Details() {
                         </div>
                         <div className='flex flex-col mt-[5%] gap-3'>
                             <div className='text-[#E22E37] font-[700] text-3xl font-display text-left'>Send your CV & Portfolio to:</div>
-                            {(uppercaseAddress === 'PERINTHALMANNA' || uppercaseAddress === 'PANDIKKAD' || uppercaseAddress === 'CHERPULLASSERI' || uppercaseAddress === 'MELATTUR' || uppercaseAddress === 'PATTAMBI') && (
+                            {(jobDetails.location === 'Perinthalmanna' || jobDetails.location === 'PANDIKKAD' || jobDetails.location === 'Cherpulassery' || jobDetails.location === 'MELATTUR' || jobDetails.location === 'PATTAMBI' || jobDetails.location === 'OTTAPALAM' || jobDetails.location === 'SHORNUR') && (
                                 <div className='text-[#E22E37] font-[700] text-3xl font-display text-left'>📞 +91 9544129746, +91 9544500746</div>
                             )}
 
-                            {(uppercaseAddress === 'MANNARKAD' || uppercaseAddress === 'ERNAKULAM') && (
+                            {(jobDetails.location === 'Mannarkkad' || jobDetails.location === 'Kochi') && (
                                 <div className='text-[#E22E37] font-[700] text-3xl font-display text-left'>📞 +91 7356400746, +91 9544129746</div>
                             )}
 
