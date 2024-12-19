@@ -31,6 +31,10 @@ function Details() {
     const [jobDetails, setJobDetails] = useState(null); // State to store job details
     const [error, setError] = useState(null); // State to handle errors
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL; // Assuming you have this in .env file
+    const [loading, setLoading] = useState(false); // Track loading status
+    const employeeId = sessionStorage.getItem('employeeId');
+
+
 
     const location = useLocation();
     const { jobId } = location.state || {}; // Extract jobId from state
@@ -86,6 +90,7 @@ function Details() {
             alert("Please login first"); // Alert if not logged in
             return; // Exit the function
         }
+        setLoading(true); // Start loading
         if (selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800') {
             try {
                 // Prepare data to send to the backend
@@ -98,6 +103,10 @@ function Details() {
                     Email: Email
                 };
 
+                const currentDate = new Date();
+                const formattedDate = `${String(currentDate.getDate()).padStart(2, '0')}/${String(currentDate.getMonth() + 1).padStart(2, '0')}/${currentDate.getFullYear()}`;
+
+
                 // Send data to backend
                 const response = await fetch(`${apiBaseUrl}/savePackageSelection`, {
                     method: 'POST',
@@ -109,19 +118,43 @@ function Details() {
 
                 if (response.ok) {
                     console.log('Data saved successfully');
-                    alert('Applied successfully'); // Success alert
-                    // Handle success (e.g., display a success message)
+
+
+                    const destinationNumber = `91${jobDetails.whatsapp_number}`;
+
+
+                    // Prepare WhatsApp message
+                    const whatsappPayload = {
+                        to: destinationNumber, // Destination WhatsApp number
+                        message: `Dear Employer, ${companyName} (ID: *${employeeId}*), താങ്കളുടെ സ്ഥാപനത്തിൽ ഉള്ള ജോലി ഒഴിവിന്  (Job ID: *${jobDetails.job_id}*) www.riyahubs.com വഴി ${formattedDate} തീയതിയിൽ ജോലിക്ക് വേണ്ടിയുള്ള അപേക്ഷ സമർപ്പിച്ചിരിക്കുന്നു.`,
+                    };
+
+                    // Send data to the WhatsApp API
+                    const whatsappResponse = await fetch(`${apiBaseUrl}/send-whatsapp`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(whatsappPayload),
+                    });
+
+                    if (whatsappResponse.ok) {
+                        console.log('WhatsApp message sent successfully');
+                        alert('Package applied and confirmation sent to WhatsApp.');
+                    } else {
+                        console.error('Failed to send WhatsApp message');
+                        alert('Job applied Successfully!');
+                    }
                 } else {
                     console.error('Failed to save data');
-                    // Handle failure (e.g., display an error message)
                 }
             } catch (error) {
                 console.error('Error:', error);
-                // Handle error
             }
         } else {
             navigate('/packages', { state: { job: jobDetails.job, jobId: jobDetails.manualJobID && jobDetails.manualJobID !== "0" ? jobDetails.manualJobID : jobDetails.job_id, location: jobDetails.location } });
         }
+        setLoading(false); // End loading
     };
 
 
@@ -222,7 +255,13 @@ function Details() {
 
                 <div className='flex flex-row justify-between w-full'>
                     <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#3B3D3B] hover:bg-[#2f302f] rounded-[10px] flex justify-center items-center text-base font-[600] font-display text-[white] cursor-pointer' onClick={handlePackageClick}>Company Details</div>
-                    <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#339030] hover:bg-[#267824] rounded-[10px] flex justify-center items-center text-base font-[600] font-display text-[white] cursor-pointer' onClick={Packages2}>Apply Now</div>
+                    <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#339030] hover:bg-[#267824] rounded-[10px] flex justify-center items-center text-base font-[600] font-display text-[white] cursor-pointer' >  
+                        {loading ? (
+                         <div className="w-5 h-5 border-4 border-t-4 border-gray-200 border-solid rounded-full animate-spin border-t-[#E22E37]"></div> // Tailwind CSS spinner
+                        ) : (
+                            <span onClick={Packages2}>Apply Now</span>
+                        )}
+                    </div>
                     {(customerType === 'admin' || customerType === 'mainAdmin') && (
                         <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#282d55] hover:bg-[#1d2246] rounded-[10px] flex justify-center items-center text-lg font-[600] font-display text-[white] cursor-pointer' onClick={downloadStyledImage}>download</div>
                     )}
@@ -432,11 +471,12 @@ function Details() {
                         </div>
                         <div className='flex flex-col mt-[5%] gap-3'>
                             <div className='text-[#E22E37] font-[700] text-3xl font-display text-left'>Send your CV & Portfolio to:</div>
-                            {(jobDetails.location === 'Perinthalmanna' || jobDetails.location === 'PANDIKKAD' || jobDetails.location === 'Cherpulassery' || jobDetails.location === 'MELATTUR' || jobDetails.location === 'PATTAMBI' || jobDetails.location === 'OTTAPALAM' || jobDetails.location === 'SHORNUR') && (
+                            {jobDetails.location !== 'Mannarkkad' && (
                                 <div className='text-[#E22E37] font-[700] text-3xl font-display text-left'>📞 +91 9544129746, +91 9544500746</div>
                             )}
 
-                            {(jobDetails.location === 'Mannarkkad' || jobDetails.location === 'Kochi') && (
+
+                            {jobDetails.location === 'Mannarkkad' && (
                                 <div className='text-[#E22E37] font-[700] text-3xl font-display text-left'>📞 +91 7356400746, +91 9544129746</div>
                             )}
 

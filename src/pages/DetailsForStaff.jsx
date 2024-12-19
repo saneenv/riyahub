@@ -21,7 +21,6 @@ import Navbar2 from '../components/Navbar2';
 import { useLocation } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import poster from '../images/download/Poster2.png'
-import QRCode from 'qrcode';
 
 
 
@@ -160,40 +159,27 @@ function DetailsForStaff() {
     const downloadStyledImage = () => {
         const container = document.getElementById('jobDetailsContainer');
         container.style.display = 'block'; // Show the container temporarily for capture
-
+    
         // Set the container dimensions to portrait mode for a standard page size
         container.style.width = '800px';
         container.style.height = '1120px';
-
-        // Generate the QR code with the specified link
-        const qrCanvas = document.createElement('canvas');
-        QRCode.toCanvas(qrCanvas, 'https://www.riyahubs.com', { width: 100, margin: 2 })
-            .then(() => {
-                // Append QR code to the container
-                qrCanvas.classList.add('absolute', 'bottom-10', 'right-10'); // Position it as needed
-                container.appendChild(qrCanvas);
-
-                // Capture the container with html2canvas
-                html2canvas(container, { scale: 2, width: 800, height: 1120 }).then(canvas => {
-                    const link = document.createElement('a');
-                    link.href = canvas.toDataURL('image/png');
-                    link.download = 'job_details.png';
-                    link.click();
-
-                    // Clean up
-                    container.removeChild(qrCanvas); // Remove QR code after download
-                    container.style.display = 'none'; // Hide the container again after download
-                    container.style.width = ''; // Reset width
-                    container.style.height = ''; // Reset height
-                }).catch(error => {
-                    console.error('Error capturing image:', error);
-                });
-            })
-            .catch(error => {
-                console.error('Error generating QR code:', error);
-            });
+    
+        // Capture the container with html2canvas
+        html2canvas(container, { scale: 2, width: 800, height: 1120 }).then(canvas => {
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = 'job_details.png';
+            link.click();
+    
+            // Clean up
+            container.style.display = 'none'; // Hide the container again after download
+            container.style.width = ''; // Reset width
+            container.style.height = ''; // Reset height
+        }).catch(error => {
+            console.error('Error capturing image:', error);
+        });
     };
-
+    
     if (error) {
         return <div>{error}</div>; // Show error message
     }
@@ -206,6 +192,12 @@ function DetailsForStaff() {
         sessionStorage.setItem('jobId', jobId);
         navigate('/editjobpost');
     };
+
+
+    
+
+
+
     return (
         <div className='min-h-screen flex flex-col '>
             {isMobile ? <NavbarMob /> : <Navbar />}
@@ -218,6 +210,7 @@ function DetailsForStaff() {
                 <div className='flex flex-row justify-between w-full'>
                     <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#3B3D3B] hover:bg-[#2f302f] rounded-[10px] flex justify-center items-center text-base font-[600] font-display text-[white] cursor-pointer' onClick={handlePackageClick}>Company Details</div>
                     <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#d22989] hover:bg-[#be3683] rounded-[10px] flex justify-center items-center text-lg font-[600] font-display text-[white] cursor-pointer' onClick={() => editJobPost(jobDetails.job_id)}>Edit</div>
+                    <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#282d55] hover:bg-[#282d55] rounded-[10px] flex justify-center items-center text-lg font-[600] font-display text-[white] cursor-pointer' onClick={downloadStyledImage}>Download</div>
 
                   
                 </div>
@@ -339,7 +332,7 @@ function DetailsForStaff() {
                 </div>
                 <ul className='border-2 border-[#E3EAF1]'></ul>
                 <div className='flex flex-col w-full gap-4'>
-                    <span className='text-xl font-[700] font-display text-left'>Job Desccription</span>
+                    <span className='text-xl font-[700] font-display text-left'>Job Description</span>
                     <span className='text-lg font-[400] font-display text-left'>{jobDetails.job_description}</span>
                 </div>
                 <span className='text-xl font-[700] font-display text-left'>Requirements</span>
@@ -423,6 +416,51 @@ function DetailsForStaff() {
 
 
             </div>
+
+
+            <div id="jobDetailsContainer"  style={{ display: 'none', height: '100vh', width: '100vw' }}>
+                <div className='flex flex-row w-[100%]  h-[100%] '>
+                    <div className='px-3 w-full  flex flex-col'>
+                        <div className='w-[90%] h-auto bg-[white]  py-6 flex flex-col gap-5 '>
+                        <span className='flex flex-row gap-3 font-[600] text-2xl font-display text-left'>Job : <span>{jobDetails.job}</span> </span>
+                        <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>Job ID : <span>{jobDetails.manualJobID && jobDetails.manualJobID !== "0" ? jobDetails.manualJobID : jobDetails.job_id}</span> </span>
+                        <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>Job Title : <span>{jobDetails.job_title}</span> </span>
+                        <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>
+                                Salary :
+                                <span>
+                                    {jobDetails.min_salary > 0 && jobDetails.max_salary > 0
+                                        ? `${jobDetails.min_salary} - ${jobDetails.max_salary}`
+                                        : jobDetails.min_salary > 0
+                                            ? jobDetails.min_salary
+                                            : jobDetails.max_salary > 0
+                                                ? jobDetails.max_salary
+                                                : jobDetails.salaryType}
+                                </span>
+                       </span>
+                       <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>Company Type : <span>{jobDetails.company_type}</span> </span>
+                       <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>Qualification : <span>{jobDetails.qualification}</span> </span>
+                       <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>Required Gender : <span>{jobDetails.gender_type}</span> </span>
+                       <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>Location : <span>{jobDetails.location}</span> </span>
+                       <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>Job Type : <span>{jobDetails.job_type}</span> </span>
+                       <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>Address : <span>{jobDetails.address}</span> </span>
+                       <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>Vacancy : <span>{jobDetails.vacancy}</span> </span>
+                       <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>Food & Accomodation : <span>{jobDetails.food_type}</span> </span>
+                       <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>Manager Number : <span>{jobDetails.whatsapp_number}</span> </span>
+                       <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>Job Description : <span>{jobDetails.job_description}</span> </span>
+                       <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>Timing : <span>{jobDetails.start_time} - {jobDetails.end_time}</span> </span>
+                       <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>Experience Type : <span>{jobDetails.experienceType}</span> </span>
+
+
+
+
+
+                        </div>
+           
+
+                    </div>
+                </div>
+            </div>
+
            
             <div className='mt-12'>
                 <Footer />

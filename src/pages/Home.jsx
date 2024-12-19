@@ -17,6 +17,8 @@ function Home() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
     const employeeId = sessionStorage.getItem('employeeId');
     const companyName = sessionStorage.getItem('customerName');
+    const [loadingJobs, setLoadingJobs] = useState({});
+
     console.log("company name:", companyName);
 
     const customerType = sessionStorage.getItem('customerType');
@@ -91,12 +93,20 @@ function Home() {
 
     // Updated Packages2 function to take job details as a parameter
     const Packages2 = async (job) => {
+        // Mark the job as loading
+        setLoadingJobs(prevState => ({
+            ...prevState,
+            [job.job_id]: true,
+        }));
 
         if (!customerType) {
-            alert("Please login first"); // Alert if not logged in
-            return; // Exit the function
+            alert("Please login first");
+            setLoadingJobs(prevState => ({
+                ...prevState,
+                [job.job_id]: false, // Reset loading state
+            }));
+            return;
         }
-
 
         if (selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800') {
             try {
@@ -107,21 +117,51 @@ function Home() {
                     jobId: job.job_id,
                     whatsappNumber: whatsappNumber,
                     mobileNumber: mobileNumber,
-                    Email: Email
+                    Email: Email,
                 };
 
-                // Send data to backend
+                const currentDate = new Date();
+                const formattedDate = `${String(currentDate.getDate()).padStart(2, '0')}/${String(currentDate.getMonth() + 1).padStart(2, '0')}/${currentDate.getFullYear()}`;
+
+
+                // Send data to the savePackageSelection API
                 const response = await fetch(`${apiBaseUrl}/savePackageSelection`, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify(payload),
                 });
 
                 if (response.ok) {
                     console.log('Data saved successfully');
-                    alert('Applied successfully'); // Success alert
+
+
+                    const destinationNumber = `91${job.whatsapp_number}`;
+
+
+                    // Prepare WhatsApp message
+                    const whatsappPayload = {
+                        to: destinationNumber, // Destination WhatsApp number
+                        message: `Dear Employer, ${companyName} (ID: *${employeeId}*), താങ്കളുടെ സ്ഥാപനത്തിൽ ഉള്ള ജോലി ഒഴിവിന്  (Job ID: *${job.job_id}*) www.riyahubs.com വഴി ${formattedDate} തീയതിയിൽ ജോലിക്ക് വേണ്ടിയുള്ള അപേക്ഷ സമർപ്പിച്ചിരിക്കുന്നു.`,
+                    };
+
+                    // Send data to the WhatsApp API
+                    const whatsappResponse = await fetch(`${apiBaseUrl}/send-whatsapp`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(whatsappPayload),
+                    });
+
+                    if (whatsappResponse.ok) {
+                        console.log('WhatsApp message sent successfully');
+                        alert('Package applied and confirmation sent to WhatsApp.');
+                    } else {
+                        console.error('Failed to send WhatsApp message');
+                        alert('Job applied Successfully!');
+                    }
                 } else {
                     console.error('Failed to save data');
                 }
@@ -129,8 +169,19 @@ function Home() {
                 console.error('Error:', error);
             }
         } else {
-            navigate('/packages', { state: { job: job.job, jobId: job.manualJobID && job.manualJobID !== "0" ? job.manualJobID : job.job_id, location: job.location } });
+            navigate('/packages', {
+                state: {
+                    job: job.job,
+                    jobId: job.manualJobID && job.manualJobID !== "0" ? job.manualJobID : job.job_id,
+                    location: job.location,
+                },
+            });
         }
+        // Reset loading state after the operation is completed
+        setLoadingJobs(prevState => ({
+            ...prevState,
+            [job.job_id]: false,
+        }));
     };
 
     function formatJobTitle(title) {
@@ -218,8 +269,12 @@ function Home() {
                                         <span className='text-base font-display font-[600]'>GENDER</span>
                                         <span className='text-base font-display font-[600]'>:</span>
                                     </div>
-                                    <div className='flex items-center justify-center w-[80%] h-[38px] bg-[black] rounded-[10px] text-base font-[600] font-display text-[white] cursor-pointer hover:bg-[#E22E37] ' onClick={() => Packages2(job)}>
-                                        Apply Now
+                                    <div className='flex items-center justify-center w-[80%] h-[38px] bg-[black] rounded-[10px] text-base font-[600] font-display text-[white] cursor-pointer hover:bg-[#E22E37] ' >
+                                        {loadingJobs[job.job_id] ? (
+                                            <div className="w-5 h-5 border-4 border-t-4 border-gray-200 border-solid rounded-full animate-spin border-t-[#E22E37]"></div> // Tailwind CSS spinner
+                                        ) : (
+                                            <span onClick={() => Packages2(job)}>Apply Now</span>
+                                        )}
                                     </div>
                                 </div>
                                 <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-2'>

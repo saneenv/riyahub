@@ -97,14 +97,16 @@ function DeleteProfiles() {
 
     const filteredCandidates = candidates.filter(candidate =>
         candidate.Name.toLowerCase().includes(candidateSearch.toLowerCase()) ||
-        candidate.CandidateID.toString().includes(candidateSearch)
+        candidate.CandidateID.toString().includes(candidateSearch) ||
+        candidate.Mobile.toString().includes(candidateSearch) // Added mobile number search
     );
-
+    
     const filteredEmployees = employees.filter(employee =>
         employee.company_name.toLowerCase().includes(employeeSearch.toLowerCase()) ||
-        employee.id.toString().includes(employeeSearch)
+        employee.id.toString().includes(employeeSearch) ||
+        employee.mobile_number.toString().includes(employeeSearch) // Added mobile number search
     );
-
+    
     
 
     const handleBlockProfile = (blockedId, mobileNumber, profileType) => {
@@ -152,7 +154,7 @@ function DeleteProfiles() {
                     <h2 className="text-3xl font-semibold text-center  mb-6 font-display">Employers</h2>
                     <input
                         type="text"
-                        placeholder="Search by name or ID"
+                        placeholder="Search by Name, ID or Mobile Number"
                         value={employeeSearch}
                         onChange={(e) => setEmployeeSearch(e.target.value)}
                         className="mb-4 w-full p-2 border rounded"
@@ -203,7 +205,7 @@ function DeleteProfiles() {
                     <h2 className="text-3xl font-semibold text-center  mb-6 font-display">Candidates</h2>
                     <input
                         type="text"
-                        placeholder="Search by name or ID"
+                        placeholder="Search by Name, ID or Mobile Number"
                         value={candidateSearch}
                         onChange={(e) => setCandidateSearch(e.target.value)}
                         className="mb-4 w-full p-2 border rounded"

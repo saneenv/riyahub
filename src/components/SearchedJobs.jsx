@@ -400,7 +400,7 @@ function SearchedJobs() {
                                             </div>
                                             <div className='flex items-center justify-between'>
                                                 <span
-                                                    className={`text-base font-display font-[500] ${job.job.length > 20 ? 'text-xs' : 'text-base'
+                                                    className={` font-display font-[500] ${job.job.length > 20 ? 'text-xs' : 'text-sm'
                                                         }`}
                                                 >
                                                     {job.job}

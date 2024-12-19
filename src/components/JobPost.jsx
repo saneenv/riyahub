@@ -329,25 +329,45 @@ function JobPost() {
 
     console.log(employeeId);
     useEffect(() => {
-        // Fetch employee data from the API
-        const fetchEmployeeData = async () => {
+        // Fetch data from the primary API
+        const fetchPrimaryApi = async () => {
             try {
                 const response = await fetch(`${apiBaseUrl}/employee/${employeeId}`);
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error('Primary API failed');
                 }
                 const data = await response.json();
                 setEmployeeData(data);
-                setWhatsappNumber(data.employee.mobile_number); // Set initial WhatsApp number
+                setWhatsappNumber(data.employee.mobile_number); // Set WhatsApp number
                 setEmail(data.employee.email);
                 setAddress(data.employee.address);
-                console.log(data); // Log the fetched employee data
+                console.log('Primary API data:', data);
             } catch (error) {
-                console.error('There was a problem with the fetch operation:', error);
+                console.warn('Primary API failed:', error);
+                // Try the fallback API
+                await fetchFallbackApi();
             }
         };
 
-        fetchEmployeeData();
+        // Fetch data from the fallback API
+        const fetchFallbackApi = async () => {
+            try {
+                const response = await fetch(`${apiBaseUrl}/staff/${employeeId}`);
+                if (!response.ok) {
+                    throw new Error('Fallback API failed');
+                }
+                const data = await response.json();
+                setEmployeeData(data);
+                setWhatsappNumber(data.employee.mobileNumber); // Set WhatsApp number
+                setEmail(data.employee.email);
+                setAddress(data.employee.address);
+                console.log('Fallback API data:', data);
+            } catch (error) {
+                console.error('Both APIs failed:', error);
+            }
+        };
+
+        fetchPrimaryApi();
     }, [employeeId, apiBaseUrl]);
 
     // Handle input change

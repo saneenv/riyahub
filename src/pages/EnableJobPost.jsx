@@ -59,15 +59,17 @@ function EnableJobPost() {
   // Toggle enable status
   const handleToggle = async (jobId, currentEnableStatus) => {
     const newEnableStatus = currentEnableStatus === 'off' ? 'on' : 'off';
-
+  
+    // Update the UI optimistically
     setJobPosts((prevPosts) =>
       prevPosts.map((job) =>
         job.job_id === jobId ? { ...job, enable: newEnableStatus } : job
       )
     );
-
+  
     try {
-      const response = await fetch(`${apiBaseUrl}/updateJobEnable`, {
+      // Update the enable status
+      const enableResponse = await fetch(`${apiBaseUrl}/updateJobEnable`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -77,18 +79,35 @@ function EnableJobPost() {
           enable: newEnableStatus,
         }),
       });
-
-      const result = await response.json();
-      if (result.success) {
-        console.log('Job enable status updated successfully');
-      } else {
-        console.error('Failed to update status:', result.message);
+  
+      const enableResult = await enableResponse.json();
+      if (!enableResult.success) {
+        console.error('Failed to update status:', enableResult.message);
+        return; // Stop further execution if the status update fails
+      }
+  
+      // If the status is changed to "on," update the created_at field
+      if (newEnableStatus === 'on') {
+        const createdAtResponse = await fetch(`${apiBaseUrl}/jobpost/updateCreatedAt`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ jobId }),
+        });
+  
+        const createdAtResult = await createdAtResponse.json();
+        if (createdAtResult.success) {
+          console.log('Created date updated successfully.');
+        } else {
+          console.error('Failed to update created date:', createdAtResult.message);
+        }
       }
     } catch (error) {
-      console.error('Error updating job enable status:', error);
+      console.error('Error updating job enable status or created date:', error);
     }
   };
-
+  
   return (
     <div className='min-h-screen flex flex-col'>
       {isMobile ? <NavbarMob /> : <Navbar />}

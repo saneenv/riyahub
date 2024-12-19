@@ -131,13 +131,13 @@ function About() {
                         <div className='text-lg font-[400] font-display flex flex-col gap-6'>
                             <div className='flex flex-row'>
 
-                             Email : <span className='font-[600]'>&nbsp;Riyahubjobs@gmail.com</span>
+                             Email : <span className='font-[600]'>&nbsp;riyahub4u@gmail.com</span>
 
                             </div>
 
                             <div className='flex flex-row'>
 
-                            Number :  <span className='font-[600]'>&nbsp;+91 9988774455</span>
+                            Number :  <span className='font-[600]'>&nbsp;+91 9544500746</span>
 
                             </div>
 

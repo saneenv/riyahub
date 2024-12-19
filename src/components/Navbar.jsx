@@ -16,7 +16,7 @@ function Navbar() {
     const companyName = sessionStorage.getItem('customerName');
     // State to store job and location values
     const [job, setJob] = useState('');
-    const [locationInput, setLocationInput] = useState('');
+    const [locationInput, setLocationInput] = useState(null); // Initialize as null
     const [showOptions, setShowOptions] = useState(false); // State to track if options are shown
     const customerType = sessionStorage.getItem('customerType');
     console.log("customer Type:", customerType);
@@ -180,13 +180,13 @@ function Navbar() {
                     <div className='h-full w-[100%]'>
                         <Select
                             options={locationOptions}
-                            value={locationOptions.find(option => option.value === locationInput)}
-                            onChange={(selectedOption) => setLocationInput(selectedOption ? selectedOption.value : '')}
+                            value={locationInput ? locationOptions.find(option => option.value === locationInput) : null}
+                            onChange={(selectedOption) => setLocationInput(selectedOption ? selectedOption.value : null)}
                             placeholder="Select Location..."
                             styles={customStyles}
-                            className='w-full'
-
+                            className="w-full"
                         />
+
                     </div>
                 </div>
 
