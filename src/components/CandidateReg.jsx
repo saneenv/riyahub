@@ -23,12 +23,19 @@ function CandidateReg() {
     const [locationData, setLocationData] = useState(null);
     const [jobsData, setJobsData] = useState(null);
     const [qualificationData, setQualificationData] = useState(null);
+    const [locationCategory2, setLocationCategory2] = useState('');
 
 
     const [locationCategory, setLocationCategory] = useState('');
     const [locationOptions, setLocationOptions] = useState([]);
     const [name, setName] = useState('');
+    const [exactLocation, setExactLocation] = useState('');
+    const [bigTown, setBigTown] = useState('');
+
+
     const [age, setAge] = useState('');
+    const [famNumber, setFamNumber] = useState('');
+
 
     const [mobile, setMobile] = useState('');
     const [whatsapp, setWhatsapp] = useState('');
@@ -190,6 +197,11 @@ function CandidateReg() {
         setCandidateDegree(selectedOption ? selectedOption.value : ''); // Set the selected district value
     };
 
+    const handleLocationChange2 = selectedOption => {
+        setLocationCategory2(selectedOption ? selectedOption.value : ''); // Set the selected district value
+
+    };
+
 
     const handleJobsChange = selectedOptions => {
         if (selectedOptions.length <= 5) {
@@ -303,8 +315,8 @@ function CandidateReg() {
 
         // Check for empty fields
         if (!name || !age || !mobile || !whatsapp || !email ||
-            !password || !gender || !companyDistrict || !candidateDegree ||
-            !jobType || !jobsCategory.length || !locationCategory.length || !maritalStatus) {
+            !password || !gender || !companyDistrict || !exactLocation || !candidateDegree ||
+            !jobType || !jobsCategory.length || !locationCategory.length || !maritalStatus || !famNumber) {
             alert('Please fill in all fields.');
             return; // Stop the function if any field is empty
         }
@@ -339,8 +351,11 @@ function CandidateReg() {
             jobType: jobType,
             jobs: jobsCategory.map(option => option.value), // Ensure this is an array
             locations: locationCategory.map(option => option.value), // Ensure this is an array
+            bigTown,
+            exactLocation,
             maritalStatus: maritalStatus,
-            age
+            age,
+            famNumber
 
         };
 
@@ -377,8 +392,11 @@ function CandidateReg() {
             setJobType('');
             setJobsCategory('');
             setLocationCategory('');
+            setLocationCategory2('');
+            setExactLocation('');
             setMartialStatus('');
             setAge('');
+            setFamNumber('');
             navigate('/login');
 
             const result = await response.json();
@@ -508,6 +526,30 @@ function CandidateReg() {
                                 styles={customStyles}
                             />
                         </div>
+
+                        <div className='flex flex-col gap-3'>
+                            <span className='text-left text-base font-[500] font-display'>Near Big Town</span>
+                           
+                             <input
+                                type="text"
+                                placeholder='Enter Near Big Town'
+                                className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                                value={bigTown}
+                                onChange={(e) => setBigTown(e.target.value)}
+                            />
+                        </div>
+
+                        <div className='flex flex-col gap-3'>
+                            <span className='text-left text-base font-[500] font-display'>Proper Place</span>
+                            <input
+                                type="text"
+                                placeholder='Enter Exact Location'
+                                className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                                value={exactLocation}
+                                onChange={(e) => setExactLocation(e.target.value)}
+                            />
+                        </div>
+
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Highest Qualification</span>
                             <Select
@@ -574,6 +616,17 @@ function CandidateReg() {
                                 styles={customStyles}
                                 value={maritalStatusOptions.find(option => option.value === maritalStatus) || null}
                                 onChange={handleMaritalStatusChange}
+                            />
+                        </div>
+
+                        <div className='flex flex-col gap-3'>
+                            <span className='text-left text-base font-[500] font-display'>Father/Husband Number</span>
+                            <input
+                                type="number"
+                                placeholder='Enter Phone No'
+                                className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                                value={famNumber}
+                                onChange={(e) => setFamNumber(e.target.value)}
                             />
                         </div>
                     </div>

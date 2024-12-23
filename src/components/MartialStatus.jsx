@@ -56,7 +56,7 @@ function MartialStatus() {
 
       {/* Content */}
       <div className="flex justify-center items-center py-12 lg:px-12 px-3 bg-[#d4d4d4]">
-        <div className="w-full max-w-6xl">
+        <div className="w-full max-w-8xl">
           {/* <h1 className="text-3xl font-bold text-center text-gray-800 mb-8 font-display">
             Marital Status of Candidates
           </h1> */}
@@ -75,6 +75,9 @@ function MartialStatus() {
                   <p className="text-gray-600 font-display"><strong>ID:</strong> {candidate.CandidateID}</p>
                   <p className="text-gray-600 font-display"><strong>Phone:</strong> {candidate.Mobile}</p>
                   <p className="text-gray-600 font-display"><strong>Address:</strong> {candidate.District}</p>
+                  <p className="text-gray-600 font-display"><strong>Near Big Town:</strong> {candidate.bigTown}</p>
+                  <p className="text-gray-600 font-display"><strong>Exact Location:</strong> {candidate.exactLocation}</p>
+
                   <p className="text-gray-600 font-display"><strong>Marital Status:</strong> {candidate.MaritalStatus}</p>
                 </div>
               ))

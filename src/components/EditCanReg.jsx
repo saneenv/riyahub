@@ -26,6 +26,9 @@ const EditCanReg = () => {
     jobType: '',
     jobs: [],
     locations: [],
+    bigTown: '',
+    exactLocation: '',
+    famNumber: ''
   });
 
   const candidateID = parseInt(sessionStorage.getItem('employeeId'), 10);
@@ -33,9 +36,13 @@ const EditCanReg = () => {
   const [degreeOptions, setDegreeOptions] = useState([]);
   const [jobsOptions, setJobsOptions] = useState([]);
   const [locationOptions, setLocationOptions] = useState([]);
+  const [bigTownOptions, setBigTownOptions] = useState([]);
+
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
   const [locationData, setLocationData] = useState(null);
+  const [bigTownData, setBigTownData] = useState(null);
+
   const [jobsData, setJobsData] = useState(null);
   const [qualificationData, setQualificationData] = useState(null);
 
@@ -90,6 +97,40 @@ useEffect(() => {
       setLocationOptions(locations); // Set the location options once data is available
   }
 }, [locationData]);
+
+
+
+
+const fetchBigTownData = async () => {
+  try {
+      const response = await fetch(`${apiBaseUrl}/data`); // API endpoint for location data
+      if (response.ok) {
+          const data = await response.json();
+          setBigTownData(data); // Set the fetched data
+      } else {
+          console.error('Failed to fetch location data:', response.statusText);
+      }
+  } catch (error) {
+      console.error('Error fetching location data:', error);
+  }
+};
+
+useEffect(() => {
+  fetchBigTownData(); // Fetch location data when the component mounts
+}, []);
+
+useEffect(() => {
+if (bigTownData) {
+    // Extract districts from location data for the select dropdown
+    const bigtown = bigTownData.states[0].districts
+        .filter(district => district !== "All Kerala") // Exclude "All Kerala"
+        .map(district => ({
+            value: district,
+            label: district,
+        }));
+    setBigTownOptions(bigtown); // Set the location options once data is available
+}
+}, [bigTownData]);
 
 
 const fetchJobsData = async () => {
@@ -188,7 +229,10 @@ useEffect(() => {
             Degree,
             JobType,
             Jobs = "", // Default to empty string if undefined
-            Locations = "" // Default to empty string if undefined
+            Locations = "", // Default to empty string if undefined
+            bigTown,
+            exactLocation,
+            famNumber
           } = data;
 
           setFormData({
@@ -204,6 +248,9 @@ useEffect(() => {
             jobType: JobType,
             jobs: Array.isArray(Jobs) ? Jobs : Jobs.split(','),
             locations: Array.isArray(Locations) ? Locations : Locations.split(','),
+            bigTown: bigTown,
+            exactLocation: exactLocation,
+            famNumber: famNumber
           });
           setErrorMessage(null); // Clear any previous error
         }
@@ -225,16 +272,11 @@ useEffect(() => {
       label: district
     }));
 
- 
-
-
-
-
-
-    setDistrictOptions(districts);
+     setDistrictOptions(districts);
 
     return () => { isMounted = false; }; // Cleanup function to set isMounted to false
   }, [candidateID]);
+  
 
   // Handling input changes
   const handleChange = (e) => {
@@ -246,13 +288,15 @@ useEffect(() => {
 
   // Handling select changes
   const handleSelectChange = (selected, field) => {
-    if (field === 'degree') {
+    if (field === 'degree' || field === 'bigTown') {
       // Handle single select for degree
       setFormData({
         ...formData,
         [field]: selected ? selected.value : '', // Use selected.value for single select
       });
-    } else if (field === 'district' || field === 'jobType' || field === 'gender') {
+    }
+    
+    else if (field === 'district' || field === 'jobType' || field === 'gender') {
       // Handle single select for district and jobType
       setFormData({
         ...formData,
@@ -342,6 +386,19 @@ useEffect(() => {
                 name="mobile"
                 onChange={handleChange}
                 readOnly
+              />
+            </div>
+
+            <div className='flex flex-col gap-3'>
+              <span className='text-left text-base font-[500] font-display'>Father/Husband Number</span>
+              <input
+                type="number"
+                placeholder='Enter Phone No'
+                className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                value={formData.famNumber}
+                name="famNumber"
+                onChange={handleChange}
+                
               />
             </div>
 
@@ -444,7 +501,33 @@ useEffect(() => {
                 value={Array.isArray(formData.locations) ? formData.locations.map(location => ({ value: location, label: location })) : []}
               />
             </div>
+
+            <div className='flex flex-col gap-3'>
+              <span className='text-left text-base font-[500] font-display'>Near Big Town</span>
+              <input
+                type="text"
+                placeholder='Enter Near Big Town'
+                className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                value={formData.bigTown}
+                name="bigTown"
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className='flex flex-col gap-3'>
+              <span className='text-left text-base font-[500] font-display'>Proper Place</span>
+              <input
+                type="text"
+                placeholder='Enter Full Name'
+                className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                value={formData.exactLocation}
+                name="exactLocation"
+                onChange={handleChange}
+              />
+            </div>
           </div>
+
+          
 
           <button
             onClick={handleSubmit}

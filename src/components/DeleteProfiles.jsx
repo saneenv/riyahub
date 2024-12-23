@@ -217,6 +217,9 @@ function DeleteProfiles() {
                                     <h3 className="font-bold text-xl text-gray-800 font-display">{candidate.Name}</h3>
                                     <p className="text-gray-600 font-display">ID: {candidate.CandidateID}</p>
                                     <p className="text-gray-600 font-display">District: {candidate.District}</p>
+                                    <p className="text-gray-600 font-display">Near Big Town: {candidate.bigTown}</p>
+                                    <p className="text-gray-600 font-display">Exact Location: {candidate.exactLocation}</p>
+
                                     <p className="text-gray-600 font-display">Email: {candidate.Email}</p>
                                     <p className="text-gray-600 font-display">Mobile Number: {candidate.Mobile}</p>
                                     {customerType === 'mainAdmin' && (
