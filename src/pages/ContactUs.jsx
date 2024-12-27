@@ -10,6 +10,7 @@ import location from '../images/contactus/location.png'
 import twitter from '../images/contactus/twitter.png'
 import insta from '../images/contactus/insta.png'
 import arrow from '../images/contactus/arrow.png'
+import Navbar2Mob from '../components/Navbar2Mob';
 
 function ContactUs() {
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
@@ -128,6 +129,9 @@ function ContactUs() {
       <div className='md:flex hidden'>
         <Navbar2 />
       </div>
+      <div className='md:hidden flex flex-col'>
+            <Navbar2Mob />
+            </div>
 
       <div className='lg:px-12 px-3 w-full gap-12 mt-6 flex flex-col '>
         <div className='w-full gap-3 flex flex-col'>

@@ -6,6 +6,7 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import vector from '../images/home/Vector.png';
 import { useNavigate } from 'react-router-dom';
+import Navbar2Mob from './Navbar2Mob';
 
 function PostedJobs() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
@@ -74,6 +75,9 @@ function PostedJobs() {
             {isMobile ? <NavbarMob /> : <Navbar />}
             <div className='md:flex hidden'>
                 <Navbar2 />
+            </div>
+            <div className='md:hidden flex flex-col'>
+            <Navbar2Mob />
             </div>
             <div className='flex flex-col w-full lg:px-12 px-3 h-auto gap-12 mt-12 justify-center items-center pb-12 bg-[#FFFFFF]'>
                 <span className='text-2xl font-[600] font-display'>View Posted Jobs</span>

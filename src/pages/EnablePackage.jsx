@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar';
 import Navbar2 from '../components/Navbar2';
 import Footer from '../components/Footer';
 import { useMediaQuery } from 'react-responsive';
+import Navbar2Mob from '../components/Navbar2Mob';
 
 function EnablePackage() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
@@ -95,6 +96,9 @@ function EnablePackage() {
             {isMobile ? <NavbarMob /> : <Navbar />}
             <div className='md:flex hidden'>
                 <Navbar2 />
+            </div>
+            <div className='md:hidden flex flex-col'>
+            <Navbar2Mob />
             </div>
 
             <div className='lg:px-12 px-3 py-12 flex bg-[#eeebeb] w-full flex-col min-h-screen'>

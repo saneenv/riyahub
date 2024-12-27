@@ -4,6 +4,7 @@ import Navbar from './Navbar';
 import Navbar2 from './Navbar2';
 import Footer from './Footer';
 import { useMediaQuery } from 'react-responsive';
+import Navbar2Mob from './Navbar2Mob';
 
 function MartialStatus() {
   const [candidates, setCandidates] = useState([]);
@@ -42,6 +43,9 @@ function MartialStatus() {
     <div className='md:flex hidden'>
         <Navbar2 />
     </div>
+    <div className='md:hidden flex flex-col'>
+            <Navbar2Mob />
+            </div>
 
       {/* Search Bar */}
       <div className="flex justify-center items-center pt-6 pb-2 lg:px-12 px-3 space-x-4 bg-[#d4d4d4]">

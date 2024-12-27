@@ -21,6 +21,7 @@ import Navbar2 from '../components/Navbar2';
 import { useLocation } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import poster from '../images/download/Poster2.png'
+import Navbar2Mob from '../components/Navbar2Mob';
 
 
 
@@ -203,6 +204,9 @@ function DetailsForStaff() {
             {isMobile ? <NavbarMob /> : <Navbar />}
             <div className='md:flex hidden'>
                 <Navbar2 />
+            </div>
+            <div className='md:hidden flex flex-col'>
+            <Navbar2Mob />
             </div>
 
             <div className='flex flex-col gap-8 lg:px-12 px-3 mt-12 pb-12'>

@@ -7,6 +7,7 @@ import tick from '../images/packages/Tick.png'
 import Footer from '../components/Footer';
 import Navbar2 from '../components/Navbar2';
 import { useLocation } from 'react-router-dom';
+import Navbar2Mob from '../components/Navbar2Mob';
 
 function Packages() {
 
@@ -289,6 +290,9 @@ function Packages() {
       <div className='md:flex hidden'>
         <Navbar2 />
       </div>
+      <div className='md:hidden flex flex-col'>
+            <Navbar2Mob />
+            </div>
 
       <div className='flex flex-col py-12 w-full lg:px-12 px-3 justify-center items-center gap-12'>
         <span className='lg:text-2xl text-xl font-[600] font-display'>Choose a plan that’s right for you.</span>

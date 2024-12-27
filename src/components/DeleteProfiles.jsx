@@ -5,6 +5,7 @@ import NavbarMob from './NavbarMob';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import Navbar2 from './Navbar2';
+import Navbar2Mob from './Navbar2Mob';
 
 function DeleteProfiles() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
@@ -146,6 +147,9 @@ function DeleteProfiles() {
             {isMobile ? <NavbarMob /> : <Navbar />}
             <div className='md:flex hidden'>
                 <Navbar2 />
+            </div>
+            <div className='md:hidden flex flex-col'>
+            <Navbar2Mob />
             </div>
 
             <div className='flex flex-col lg:px-12 px-3 py-10 space-y-8'>

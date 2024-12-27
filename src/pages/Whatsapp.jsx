@@ -12,6 +12,7 @@ import { faFileExcel } from '@fortawesome/free-solid-svg-icons';
 import { faHistory } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom'
 import * as XLSX from 'xlsx';
+import Navbar2Mob from '../components/Navbar2Mob';
 
 
 
@@ -345,6 +346,9 @@ function Whatsapp() {
             {isMobile ? <NavbarMob /> : <Navbar />}
             <div className="md:flex hidden">
                 <Navbar2 />
+            </div>
+            <div className='md:hidden flex flex-col'>
+            <Navbar2Mob />
             </div>
             <div className='lg:px-12 px-3 pt-2 flex  gap-8 bg-gray-100 justify-between'>
                 <FontAwesomeIcon

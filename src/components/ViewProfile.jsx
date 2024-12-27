@@ -7,6 +7,7 @@ import Navbar from './Navbar';
 import call from '../images/viewprofile/call.png';
 import wa from '../images/viewprofile/Whatsapp.png';
 import { useNavigate } from 'react-router-dom';
+import Navbar2Mob from './Navbar2Mob';
 
 function ViewProfile() {
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
@@ -115,6 +116,9 @@ function ViewProfile() {
       <div className='md:flex hidden'>
         <Navbar2 />
       </div>
+      <div className='md:hidden flex flex-col'>
+            <Navbar2Mob />
+            </div>
       <div className='lg:px-12 px-3 w-full h-auto gap-6 flex flex-col'>
         <div className='w-full mt-6 flex flex-row justify-between'>
           <span className='lg:text-xl text-lg font-[600] font-display underline text-[green] cursor-pointer hover:text-[#174b17] ' onClick={editempreg}>Edit Profile</span>

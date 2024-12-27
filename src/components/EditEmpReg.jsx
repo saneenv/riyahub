@@ -6,6 +6,7 @@ import Navbar from './Navbar';
 import { useMediaQuery } from 'react-responsive';
 import Footer from './Footer';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import Navbar2Mob from './Navbar2Mob';
 
 
 
@@ -106,6 +107,9 @@ const togglePasswordVisibility = () => {
             {isMobile ? <NavbarMob /> : <Navbar />}
             <div className='md:flex hidden'>
                 <Navbar2/>
+            </div>
+            <div className='md:hidden flex flex-col'>
+            <Navbar2Mob />
             </div>
       <div className='flex justify-center items-center bg-[black] min-h-screen'>
         <div className='lg:w-[80%] w-[90%] h-[70%] bg-[white] flex flex-col items-center gap-12 py-12 lg:rounded-[20px] rounded-[5px]'>

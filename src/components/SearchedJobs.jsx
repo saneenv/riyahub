@@ -11,6 +11,7 @@ import Select from 'react-select'; // Importing react-select
 // import location from '../json/cities.json'
 import vector from '../images/home/Vector.png'
 import { useLocation } from 'react-router-dom';
+import Navbar2Mob from './Navbar2Mob';
 
 
 
@@ -272,6 +273,9 @@ function SearchedJobs() {
             {isMobile ? <NavbarMob /> : <Navbar />}
             <div className='md:flex hidden'>
                 <Navbar2 />
+            </div>
+            <div className='md:hidden flex flex-col'>
+            <Navbar2Mob />
             </div>
             <div className='flex w-full px-2 bg-[#eeebeb] lg:flex-row flex-col gap-3 py-6'>
             {(customerType === 'mainAdmin' || customerType === 'admin') && (

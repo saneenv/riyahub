@@ -4,6 +4,7 @@ import Navbar2 from '../components/Navbar2';
 import Navbar from '../components/Navbar'
 import NavbarMob from '../components/NavbarMob';
 import { useMediaQuery } from 'react-responsive';
+import Navbar2Mob from '../components/Navbar2Mob';
 
 
 
@@ -15,6 +16,9 @@ function Services() {
             {isMobile ? <NavbarMob /> : <Navbar />}
             <div className='md:flex hidden'>
                 <Navbar2 />
+            </div>
+            <div className='md:hidden flex flex-col'>
+            <Navbar2Mob />
             </div>
 
             <div className='lg:px-12 px-3 py-12 flex flex-col gap-8'>

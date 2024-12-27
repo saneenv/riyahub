@@ -7,6 +7,7 @@ import Navbar from '../components/Navbar'
 import { useMediaQuery } from 'react-responsive';
 import vector from '../images/home/Vector.png'
 import { useNavigate } from 'react-router-dom';
+import Navbar2Mob from '../components/Navbar2Mob';
 
 function Jobs() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
@@ -69,7 +70,9 @@ function Jobs() {
             <div className='md:flex hidden'>
                 <Navbar2 />
             </div>
-
+            <div className='md:hidden flex flex-col'>
+            <Navbar2Mob />
+            </div>
             <div className='flex flex-col w-full lg:px-12 px-3 h-auto lg:py-12 py-5 bg-[#FFFFFF] min-h-screen'>
                 <div className='grid lg:grid-cols-3 grid-cols-1 w-full gap-3'>
                     {errorMessage ? (

@@ -11,6 +11,13 @@ import bulb from '../images/home/bulb.png'
 import girloffice from '../images/home/girloffice.png'
 import { useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
+import Navbar3 from '../components/Navbar3';
+import Navbar4 from '../components/Navbar4';
+import Navbar5 from '../components/Navbar5';
+import Navbar2Mob from '../components/Navbar2Mob';
+import Navbar3Mob from '../components/Navbar3Mob';
+import Navbar4Mob from '../components/Navbar4Mob';
+import Navbar5Mob from '../components/Navbar5Mob';
 
 
 function Home() {
@@ -203,8 +210,38 @@ function Home() {
     return (
         <div className='min-h-screen flex flex-col'>
             {isMobile ? <NavbarMob /> : <Navbar />}
-            <div className='md:flex hidden'>
+            <div className='md:flex hidden flex-col'>
                 <Navbar2 />
+                {(customerType === 'admin' || customerType === 'mainAdmin') && (
+
+                    <Navbar3 />
+                )}
+                {customerType === 'employee' && (
+
+                    <Navbar4 />
+                )}
+                {customerType === 'candidate' && (
+
+                    <Navbar5 />
+                )}
+
+            </div>
+
+            <div className='md:hidden flex flex-col'>
+                <Navbar2Mob />
+                {(customerType === 'admin' || customerType === 'mainAdmin') && (
+
+                    <Navbar3Mob />
+                )}
+                {customerType === 'employee' && (
+
+                    <Navbar4Mob />
+                )}
+               {customerType === 'candidate' && (
+
+                    <Navbar5Mob />
+                )} 
+
             </div>
 
             <div className='w-full lg:h-[500px] md:h-[900px] h-[700px] bg-[black] flex flex-col pb-3'>

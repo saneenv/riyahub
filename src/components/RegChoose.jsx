@@ -8,6 +8,7 @@ import logo from '../images/login/logo.png'
 import men from '../images/regchoose/men.png'
 import women from '../images/regchoose/women.png'
 import { useNavigate } from 'react-router-dom';
+import Navbar2Mob from './Navbar2Mob';
 
 function RegChoose() {
     useEffect(() => {
@@ -27,6 +28,9 @@ function RegChoose() {
             {isMobile ? <NavbarMob /> : <Navbar />}
             <div className='md:flex hidden'>
                 <Navbar2 />
+            </div>
+            <div className='md:hidden flex flex-col'>
+            <Navbar2Mob />
             </div>
             <div className=' flex justify-center items-center bg-[black] py-7'>
                 <div className='lg:w-[60%] w-[90%] h-[70%] bg-[white]  flex flex-col items-center  gap-6 py-8 lg:rounded-[20px] rounded-[5px]'>

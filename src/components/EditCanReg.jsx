@@ -10,6 +10,7 @@ import Navbar from './Navbar';
 import Navbar2 from './Navbar2';
 import { useMediaQuery } from 'react-responsive';
 import { useNavigate } from 'react-router-dom';
+import Navbar2Mob from './Navbar2Mob';
 
 
 const EditCanReg = () => {
@@ -348,6 +349,9 @@ useEffect(() => {
       <div className='md:flex hidden'>
         <Navbar2 />
       </div>
+      <div className='md:hidden flex flex-col'>
+            <Navbar2Mob />
+            </div>
       <div className='flex justify-center items-center bg-[black] py-12'>
         <div className='lg:w-[80%] w-[90%] h-[70%] flex flex-col items-center bg-[white] gap-12 py-12 lg:rounded-[20px] rounded-[5px]'>
           <span className='text-xl font-[700] font-display'>Update Candidate</span>

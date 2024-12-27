@@ -6,6 +6,7 @@ import Navbar from '../components/Navbar';
 import { useMediaQuery } from 'react-responsive';
 import { useNavigate } from 'react-router-dom';
 import Select from 'react-select'; // Import React Select
+import Navbar2Mob from '../components/Navbar2Mob';
 
 function JobId() {
     const [jobId, setJobId] = useState(null); // Selected Job ID
@@ -51,6 +52,9 @@ function JobId() {
             {isMobile ? <NavbarMob /> : <Navbar />}
             <div className='md:flex hidden'>
                 <Navbar2 />
+            </div>
+            <div className='md:hidden flex flex-col'>
+            <Navbar2Mob />
             </div>
             <div className='lg:px-12 px-3 lg:py-12 py-3 flex bg-[#eeebeb] justify-center items-center min-h-screen'>
                 <div className='lg:w-[40%] w-[90%] h-[300px] rounded-[10px] bg-[white] flex flex-col p-8 gap-8'>

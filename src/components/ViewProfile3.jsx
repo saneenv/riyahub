@@ -7,6 +7,7 @@ import Navbar from './Navbar';
 import call from '../images/viewprofile/call.png';
 import wa from '../images/viewprofile/Whatsapp.png';
 import { useNavigate } from 'react-router-dom';
+import Navbar2Mob from './Navbar2Mob';
 
 function ViewProfile3() {
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
@@ -22,40 +23,40 @@ function ViewProfile3() {
   const navigate = useNavigate();
 
   const editempreg = () => {
-    navigate('/editempreg'); 
+    navigate('/editempreg');
   };
 
   const enablestaff = () => {
-    navigate('/enablestaff'); 
+    navigate('/enablestaff');
   };
 
   const postjob = () => {
-    navigate('/jobpost'); 
+    navigate('/jobpost');
   };
 
   const postedjobs = () => {
-    navigate('/postedjob'); 
+    navigate('/postedjob');
   };
 
-  
+
   const addlocation = () => {
-    navigate('/addlocation'); 
+    navigate('/addlocation');
   };
 
   const addcompanytype = () => {
-    navigate('/addcompanytype'); 
+    navigate('/addcompanytype');
   };
 
   const addjobs = () => {
-    navigate('/addjobs'); 
+    navigate('/addjobs');
   };
 
   const addqualifications = () => {
-    navigate('/addqualifications'); 
+    navigate('/addqualifications');
   };
- 
-  
-  
+
+
+
   // Function to generate logo text from company name
   const generateLogoText = (companyName) => {
     if (!companyName) return 'C';
@@ -67,57 +68,57 @@ function ViewProfile3() {
   // Fetch employee data when component mounts
   useEffect(() => {
     const fetchEmployeeData = async () => {
-        try {
-            const response = await fetch(`${apiBaseUrl}/fetchstaff?staffId=${employeeId}`);
+      try {
+        const response = await fetch(`${apiBaseUrl}/fetchstaff?staffId=${employeeId}`);
 
-            if (!response.ok) {
-                throw new Error('Employee not found');
-            }
-
-            const data = await response.json();
-            setEmployeeData(data); // Set the data directly, as it contains the employee info
-        } catch (err) {
-            setError(err.message);
-        } finally {
-            setLoading(false);
+        if (!response.ok) {
+          throw new Error('Employee not found');
         }
+
+        const data = await response.json();
+        setEmployeeData(data); // Set the data directly, as it contains the employee info
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchEmployeeData();
-}, [employeeId]);
+  }, [employeeId]);
 
 
-const deleteProfile = async () => {
-  const confirmDelete = window.confirm("Are you sure you want to delete your profile?");
-  if (!confirmDelete) return;
+  const deleteProfile = async () => {
+    const confirmDelete = window.confirm("Are you sure you want to delete your profile?");
+    if (!confirmDelete) return;
 
-  try {
+    try {
       // Step 1: Delete all job posts related to the staff member
       const jobPostResponse = await fetch(`${apiBaseUrl}/jobposts/${employeeId}`, {
-          method: 'DELETE',
+        method: 'DELETE',
       });
 
       if (!jobPostResponse.ok) {
-          const jobPostErrorData = await jobPostResponse.json();
-          alert(jobPostErrorData.message || 'Error deleting job posts');
-          return;
+        const jobPostErrorData = await jobPostResponse.json();
+        alert(jobPostErrorData.message || 'Error deleting job posts');
+        return;
       }
 
       alert('All job posts for this staff member have been deleted'); // Success message for job posts deletion
 
       // Step 2: Proceed to delete the staff profile
       const profileResponse = await fetch(`${apiBaseUrl}/deletestaff`, {
-          method: 'DELETE',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ staffId: employeeId }), // Send the staffId in the request body
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ staffId: employeeId }), // Send the staffId in the request body
       });
 
       if (!profileResponse.ok) {
-          const profileErrorData = await profileResponse.json();
-          alert(profileErrorData.message || 'Error deleting staff profile');
-          return;
+        const profileErrorData = await profileResponse.json();
+        alert(profileErrorData.message || 'Error deleting staff profile');
+        return;
       }
 
       const profileData = await profileResponse.json();
@@ -129,11 +130,11 @@ const deleteProfile = async () => {
       sessionStorage.removeItem('customerName');
       navigate('/login'); // Redirect to the login page or another appropriate page
 
-  } catch (error) {
+    } catch (error) {
       console.error('Error deleting profile or job posts:', error);
       alert('An error occurred while deleting the profile or job posts.');
-  }
-};
+    }
+  };
 
 
 
@@ -152,40 +153,43 @@ const deleteProfile = async () => {
       <div className='md:flex hidden'>
         <Navbar2 />
       </div>
+      <div className='md:hidden flex flex-col'>
+        <Navbar2Mob />
+      </div>
       <div className='lg:px-12 px-3 w-full h-auto gap-6 flex flex-col'>
         <div className='w-full mt-6 flex flex-row justify-between'>
           {/* <span className='lg:text-xl text-lg font-[600] font-[display] underline text-[#E22E37] cursor-pointer' onClick={editempreg}>Edit Profile</span> */}
           {specialPower === 'on' && (
-          <span className='lg:text-xl text-lg font-[600] font-display underline text-[#E22E37] cursor-pointer hover:text-[#fe4d4d]' onClick={deleteProfile}>Delete Profile</span>
-        )}
+            <span className='lg:text-xl text-lg font-[600] font-display underline text-[#E22E37] cursor-pointer hover:text-[#fe4d4d]' onClick={deleteProfile}>Delete Profile</span>
+          )}
 
           {customerType === 'mainAdmin' && (
-          <span className='lg:text-xl text-lg font-[600] font-display underline text-[#E22E37] cursor-pointer' onClick={enablestaff}>Enable staff</span>
-        )}
-                  {specialPower === 'on' && (
+            <span className='lg:text-xl text-lg font-[600] font-display underline text-[#E22E37] cursor-pointer' onClick={enablestaff}>Enable staff</span>
+          )}
+          {specialPower === 'on' && (
 
-         <span className='lg:text-xl text-lg font-[600] font-display underline text-[#E22E37] cursor-pointer' onClick={addqualifications}>Add Qualifications</span>
-        )}
+            <span className='lg:text-xl text-lg font-[600] font-display underline text-[#E22E37] cursor-pointer' onClick={addqualifications}>Add Qualifications</span>
+          )}
 
         </div>
 
 
-       
+
         <div className='w-full mt-2 flex flex-row justify-between'>
 
-          {specialPower === 'on' && ( 
-          <span className='lg:text-xl text-lg font-[600] font-display underline text-[#E22E37] cursor-pointer' onClick={addlocation}>Add Location</span>
-        )}
- {specialPower === 'on' && (
-          <span className='lg:text-xl text-lg font-[600] font-display underline text-[#E22E37] cursor-pointer' onClick={addjobs}>Add Jobs</span>
-        )}
- {specialPower === 'on' && (
-          <span className='lg:text-xl text-lg font-[600] font-display underline text-[#E22E37] cursor-pointer' onClick={addcompanytype}>Add CompanyType</span>
-        )}
+          {specialPower === 'on' && (
+            <span className='lg:text-xl text-lg font-[600] font-display underline text-[#E22E37] cursor-pointer' onClick={addlocation}>Add Location</span>
+          )}
+          {specialPower === 'on' && (
+            <span className='lg:text-xl text-lg font-[600] font-display underline text-[#E22E37] cursor-pointer' onClick={addjobs}>Add Jobs</span>
+          )}
+          {specialPower === 'on' && (
+            <span className='lg:text-xl text-lg font-[600] font-display underline text-[#E22E37] cursor-pointer' onClick={addcompanytype}>Add CompanyType</span>
+          )}
 
-       
+
         </div>
-      
+
 
 
         <div className='w-full flex flex-col justify-center items-center gap-3'>
@@ -224,7 +228,7 @@ const deleteProfile = async () => {
               {employeeData?.whatsappNumber || 'No Whatsapp number available'}
             </div>
           </div>
-     
+
           <div className='flex lg:flex-row flex-col h-[56px] border-2 border-[#E3EAF1] w-full rounded-[10px]'>
             <div className='lg:w-[30%] w-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
               <span className='text-[#B3B3B3] text-xl font-[500] font-display'>Address</span>

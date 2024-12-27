@@ -7,6 +7,7 @@ import logo from '../images/login/logo.png';
 import Navbar2 from './Navbar2';
 import { useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import Navbar2Mob from './Navbar2Mob';
 
 function Login() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
@@ -169,6 +170,9 @@ function Login() {
             {isMobile ? <NavbarMob /> : <Navbar />}
             <div className='md:flex hidden'>
                 <Navbar2 />
+            </div>
+            <div className='md:hidden flex flex-col'>
+            <Navbar2Mob />
             </div>
             <div className='flex justify-center items-center bg-[black] py-7'>
                 <div className='lg:w-[30%] w-[90%] h-[70%] bg-[white] flex flex-col items-center px-2 gap-6 py-6 lg:rounded-[20px] rounded-[5px]'>

@@ -4,6 +4,7 @@ import NavbarMob from '../components/NavbarMob';
 import Navbar from '../components/Navbar';
 import Navbar2 from '../components/Navbar2';
 import Footer from '../components/Footer';
+import Navbar2Mob from '../components/Navbar2Mob';
 
 
 function Terms() {
@@ -18,7 +19,9 @@ function Terms() {
             <div className='md:flex hidden'>
                 <Navbar2 />
             </div>
-
+            <div className='md:hidden flex flex-col'>
+            <Navbar2Mob />
+            </div>
             <div className='lg:px-12 px-3 lg:py-12 py-3 flex flex-col min-h-screen gap-8'>
 
                 <div className='w-full flex justify-center items-center text-[#E22E37] lg:text-3xl text-xl font-[700] font-display'>Terms & Conditions</div>

@@ -8,6 +8,7 @@ import Select from 'react-select';
 import statesAndDistricts from '../json/states-and-districts.json';
 import { useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import Navbar2Mob from './Navbar2Mob';
 
 
 function EmployeeReg() {
@@ -280,6 +281,9 @@ function EmployeeReg() {
             {isMobile ? <NavbarMob /> : <Navbar />}
             <div className='md:flex hidden'>
                 <Navbar2 />
+            </div>
+            <div className='md:hidden flex flex-col'>
+            <Navbar2Mob />
             </div>
             <div className='flex justify-center items-center bg-[black] py-12'>
                 <div className='lg:w-[80%] w-[90%] h-[70%] bg-[white] flex flex-col items-center gap-12 py-12 lg:rounded-[20px] rounded-[5px]'>

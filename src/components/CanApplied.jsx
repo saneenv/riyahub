@@ -4,6 +4,7 @@ import NavbarMob from './NavbarMob';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import Navbar2 from './Navbar2';
+import Navbar2Mob from './Navbar2Mob';
 
 function CanApplied() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
@@ -76,6 +77,9 @@ function CanApplied() {
             {isMobile ? <NavbarMob /> : <Navbar />}
             <div className='md:flex hidden'>
                 <Navbar2 />
+            </div>
+            <div className='md:hidden flex flex-col'>
+            <Navbar2Mob />
             </div>
             <div className='flex lg:px-12 px-3 py-12 flex-col min-h-screen bg-[#eeebeb]'>
                 <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">

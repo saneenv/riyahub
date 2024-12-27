@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import Navbar from '../components/Navbar';
 import NavbarMob from '../components/NavbarMob';
+import Navbar2Mob from '../components/Navbar2Mob';
 
 function EnableStaff() {
   const [staffData, setStaffData] = useState([]);
@@ -120,6 +121,9 @@ function EnableStaff() {
       <div className='md:flex hidden'>
         <Navbar2 />
       </div>
+      <div className='md:hidden flex flex-col'>
+            <Navbar2Mob />
+            </div>
 
       <div className='flex flex-col gap-8 px-3 mt-12 pb-12 sm:px-6 lg:px-12'>
         <h1 className='text-xl font-bold text-center text-gray-800'>Enable Staff</h1>

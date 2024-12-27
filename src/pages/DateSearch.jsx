@@ -6,6 +6,7 @@ import Footer from '../components/Footer';
 import Select from 'react-select';
 import { useMediaQuery } from 'react-responsive';
 import * as XLSX from 'xlsx';
+import Navbar2Mob from '../components/Navbar2Mob';
 // import location from '../json/cities.json';
 
 function DateSearch() {
@@ -176,6 +177,9 @@ function DateSearch() {
             {isMobile ? <NavbarMob /> : <Navbar />}
             <div className="md:flex hidden">
                 <Navbar2 />
+            </div>
+            <div className='md:hidden flex flex-col'>
+            <Navbar2Mob />
             </div>
             <div className="lg:px-12 px-3 lg:py-12 py-3 flex flex-col gap-8 bg-gray-100">
                 {/* Location Selector */}

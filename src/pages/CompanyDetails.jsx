@@ -8,6 +8,7 @@ import Navbar2 from '../components/Navbar2';
 import Footer from '../components/Footer';
 import call from '../images/viewprofile/call.png';
 import wa from '../images/viewprofile/Whatsapp.png';
+import Navbar2Mob from '../components/Navbar2Mob';
 
 
 
@@ -71,6 +72,9 @@ function CompanyDetails() {
             {isMobile ? <NavbarMob /> : <Navbar />}
             <div className='md:flex hidden'>
                 <Navbar2 />
+            </div>
+            <div className='md:hidden flex flex-col'>
+            <Navbar2Mob />
             </div>
             <div className='lg:px-12 px-3 py-12 w-full h-auto gap-6 flex flex-col min-h-screen'>
                 <div className='div w-full flex flex-col gap-3'>

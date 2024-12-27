@@ -7,6 +7,7 @@ import Navbar2 from '../components/Navbar2';
 import Footer from '../components/Footer';
 import Select from 'react-select';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import Navbar2Mob from '../components/Navbar2Mob';
 
 
 function StaffReg() {
@@ -168,6 +169,9 @@ function StaffReg() {
             {isMobile ? <NavbarMob /> : <Navbar />}
             <div className='md:flex hidden'>
                 <Navbar2 />
+            </div>
+            <div className='md:hidden flex flex-col'>
+            <Navbar2Mob />
             </div>
             <div className='flex justify-center items-center bg-[black] py-12'>
                 <div className='lg:w-[80%] w-[90%] h-[70%] bg-[white] flex flex-col items-center gap-12 py-12 lg:rounded-[20px] rounded-[5px]'>

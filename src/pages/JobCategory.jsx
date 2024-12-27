@@ -5,6 +5,7 @@ import Navbar2 from '../components/Navbar2';
 import NavbarMob from '../components/NavbarMob';
 import Navbar from '../components/Navbar';
 import { useNavigate } from 'react-router-dom';
+import Navbar2Mob from '../components/Navbar2Mob';
 
 function JobCategory() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
@@ -50,6 +51,9 @@ function JobCategory() {
             {isMobile ? <NavbarMob /> : <Navbar />}
             <div className='md:flex hidden'>
                 <Navbar2 />
+            </div>
+            <div className='md:hidden flex flex-col'>
+            <Navbar2Mob />
             </div>
 
             <div className='lg:px-12 px-3 flex flex-col bg-[#eeebeb]'>

@@ -5,6 +5,7 @@ import { useMediaQuery } from 'react-responsive';
 import Navbar from '../components/Navbar';
 import NavbarMob from '../components/NavbarMob';
 import { useNavigate } from 'react-router-dom'
+import Navbar2Mob from '../components/Navbar2Mob';
 
 
 function EnableJobPost() {
@@ -16,6 +17,8 @@ function EnableJobPost() {
     job: '',
     location: '',
     job_id: '', // Added job_id for search filtering
+    whatsapp_number: ''
+
   });
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
@@ -43,7 +46,9 @@ function EnableJobPost() {
       job.employee_id.toString().includes(searchQuery.employee_id) &&
       job.job.toLowerCase().includes(searchQuery.job.toLowerCase()) &&
       job.location.toLowerCase().includes(searchQuery.location.toLowerCase()) &&
-      displayedJobId.toString().includes(searchQuery.job_id) // Use displayedJobId here
+      displayedJobId.toString().includes(searchQuery.job_id) && // Use displayedJobId here
+      job.whatsapp_number.toLowerCase().includes(searchQuery.whatsapp_number.toLowerCase())
+
     );
   });
 
@@ -114,6 +119,9 @@ function EnableJobPost() {
       <div className='md:flex hidden'>
         <Navbar2 />
       </div>
+      <div className='md:hidden flex flex-col'>
+            <Navbar2Mob />
+            </div>
 
       <div className='flex flex-col gap-8 px-3 mt-12 pb-12 sm:px-6 lg:px-12'>
         <h1 className='text-xl font-bold text-center text-gray-800'>
@@ -155,6 +163,14 @@ function EnableJobPost() {
             onChange={handleSearchChange}
             className='border border-[gray] p-2 rounded-lg'
           />
+           <input
+            type='text'
+            name='whatsapp_number' // Added input field for job_id search
+            placeholder='Search by number'
+            value={searchQuery.whatsapp_number}
+            onChange={handleSearchChange}
+            className='border border-[gray] p-2 rounded-lg'
+          />
         </div>
 
         {/* Table displaying job posts */}
@@ -165,10 +181,7 @@ function EnableJobPost() {
                 <th className='border p-2'>Employee ID</th>
                 <th className='border p-2'>Job ID</th>
                 <th className='border p-2'>Job</th>
-                {/* <th className='border p-2'>Location</th>
-                <th className='border p-2'>Company Type</th>
-                <th className='border p-2'>Email</th>
-                <th className='border p-2'>Number</th> */}
+                <th className='border p-2'>Number</th> 
                 <th className='border p-2'></th>
 
                 <th className='border p-2'>Accept</th>
@@ -183,10 +196,7 @@ function EnableJobPost() {
                   <td className='border p-2'>{job.employee_id}</td>
                   <td className='border p-2'>{job.manualJobID && job.manualJobID !== "0" ? job.manualJobID : job.job_id}</td>
                   <td className='border p-2'>{job.job}</td>
-                  {/* <td className='border p-2'>{job.location}</td>
-                  <td className='border p-2'>{job.company_type}</td>
-                  <td className='border p-2'>{job.email}</td>
-                  <td className='border p-2'>{job.whatsapp_number}</td> */}
+                  <td className='border p-2'>{job.whatsapp_number}</td> 
                   <td className='border p-2'>
                     <button
                       className={'text-[red] hover:text-[black] px-4 py-2 rounded-lg underline'}

@@ -6,6 +6,7 @@ import abroad from '../images/mainPage/abroad.png'
 import india from '../images/mainPage/india.png'
 import NavbarMob from '../components/NavbarMob';
 import { useNavigate } from 'react-router-dom';
+import Navbar2Mob from '../components/Navbar2Mob';
 
 
 function Main() {
@@ -21,6 +22,9 @@ function Main() {
            <div className='md:flex hidden'>
            <Navbar2 />
            </div> 
+           <div className='md:hidden flex flex-col'>
+            <Navbar2Mob />
+            </div>
             <div className='w-full lg:h-[500px] md:h-[900px] h-[700px] bg-[black] flex flex-col pb-3'>
                 <div className='w-full h-[20%] flex justify-center items-center  px-12 text-[white] lg:text-4xl md:text-3xl sm:text-2xl text-xl font-[600] font-[display]'>
                     Welcome to Riya Hub Jobs - Best Job Portal in Kerala

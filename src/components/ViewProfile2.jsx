@@ -5,6 +5,7 @@ import Footer from './Footer';
 import NavbarMob from './NavbarMob';
 import Navbar from './Navbar';
 import { useNavigate } from 'react-router-dom';
+import Navbar2Mob from './Navbar2Mob';
 
 function ViewProfile2() {
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
@@ -66,6 +67,9 @@ function ViewProfile2() {
       <div className='md:flex hidden'>
         <Navbar2 />
       </div>
+      <div className='md:hidden flex flex-col'>
+            <Navbar2Mob />
+            </div>
       <div className='lg:px-12 px-3 w-full h-auto gap-6 flex flex-col'>
         <div className='w-full mt-6 flex flex-row justify-between'>
           <span className='lg:text-xl text-lg font-[600] font-display underline text-[green] cursor-pointer hover:text-[#174b17]' onClick={editcanreg}>Edit Profile</span>
