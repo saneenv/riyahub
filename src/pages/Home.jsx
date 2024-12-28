@@ -348,7 +348,7 @@ function Home() {
                 {visibleJobs < jobPosts.length && (
                     <div className='flex justify-center mt-4'>
                         <button
-                            className='bg-[black] text-white px-4 py-2 rounded-md text-lg font-semibold hover:bg-[#E22E37]'
+                            className='bg-[#E22E37] text-white px-4 py-2 rounded-md text-lg font-semibold hover:bg-[#912727]'
                             onClick={loadMoreJobs}
                         >
                             View More

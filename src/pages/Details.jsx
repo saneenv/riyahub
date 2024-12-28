@@ -5,17 +5,10 @@ import Navbar from '../components/Navbar'
 import NavbarMob from '../components/NavbarMob';
 import loc from '../images/details/loc.png'
 import dinner from '../images/details/Dinner.png'
-import rs from '../images/details/rs.png'
 import phone from '../images/details/phone.png'
 import id from '../images/details/ID.png'
 import suitecase from '../images/details/Suitcase.png'
 import company from '../images/details/Company.png'
-import wa from '../images/details/whatsapp.png'
-import mail from '../images/details/mailpng.png'
-import fb from '../images/details/Facebook.png'
-import insta from '../images/details/insta.png'
-import x from '../images/details/x.png'
-import telegram from '../images/details/telegram.png'
 import Footer from '../components/Footer';
 import Navbar2 from '../components/Navbar2';
 import { useLocation } from 'react-router-dom';
@@ -57,6 +50,9 @@ function Details() {
     const uppercaseAddress = address ? address.toUpperCase() : null;
     console.log("uppercaseaddress", uppercaseAddress);
 
+    const customerName = sessionStorage.getItem('customerName');
+
+
 
 
     const Email = sessionStorage.getItem('Email');
@@ -65,25 +61,55 @@ function Details() {
     // const employeeId = sessionStorage.getItem('employeeId');
     console.log("selectedPlan:", selectedPlan);
     // console.log("employeeId:", employeeId);
-    const handlePackageClick = () => {
+    const handlePackageClick = async () => {
         if (!customerType) {
             alert("Please login first"); // Alert if not logged in
             return; // Exit the function
         }
-
+    
         // Check if the customer is an admin
         if (customerType === 'admin' || customerType === 'mainAdmin') {
             navigate('/companydetails', { state: { employeeId: jobDetails.employee_id } });
             return; // Exit the function after navigating to company details
         }
-
+    
         // Proceed with the existing logic for selected plans
         if (['300', '500', '600', '800'].includes(selectedPlan)) {
-            navigate('/companydetails', { state: { employeeId: jobDetails.employee_id } });
-        } else {
-            navigate('/packages', { state: { job: jobDetails.job, jobId: jobDetails.manualJobID && jobDetails.manualJobID !== "0" ? jobDetails.manualJobID : jobDetails.job_id, location: jobDetails.location } });
+            try {
+                // Fetch data from the API
+                const response = await fetch(`${apiBaseUrl}/getPackageSelectionsByCustomerName/${customerName}`);
+                const result = await response.json();
+    
+                if (response.ok && result.message === "Data retrieved successfully") {
+                    // Check if jobId from jobDetails exists in the API data
+                    const jobExists = result.data.some(item => item.jobId === jobDetails.job_id);
+    
+                    if (jobExists) {
+                        // Navigate to company details if the jobId matches
+                        navigate('/companydetails', { state: { employeeId: jobDetails.employee_id } });
+                    } else {
+                        alert("Please apply for the job first"); // Alert if jobId is not found
+                    }
+                } else {
+                    alert("Failed to verify the job. Please try again later."); // Handle API failure
+                }
+            } catch (error) {
+                console.error("Error fetching data from API:", error);
+                alert("An error occurred while checking job details. Please try again."); // Handle network errors
+            }
+            return; // Exit the function
         }
+    
+        // Default navigation for other plans
+        navigate('/packages', { 
+            state: { 
+                job: jobDetails.job, 
+                jobId: jobDetails.manualJobID && jobDetails.manualJobID !== "0" ? jobDetails.manualJobID : jobDetails.job_id, 
+                location: jobDetails.location 
+            } 
+        });
     };
+    
 
     // Assuming 'selectedPlan', 'jobDetails', and 'customerName' are available in the component's scope
     const Packages2 = async () => {

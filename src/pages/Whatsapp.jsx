@@ -147,14 +147,14 @@ function Whatsapp() {
                 const jobText = jobBatch.map((job, index) => {
                     const jobIDToDisplay = job.manualJobID ? job.manualJobID : job.job_id; // Check if manualJobID is present and not null, 0, or undefined
                     return (
-                        `*${startIndex + index + 1}. JOB ID - ${jobIDToDisplay}\n` +
-                        `Job Title: ${job.job_title}\n` +
-                        `Salary: ${job.salaryDisplay}\n` +
-                        `Gender: ${job.gender_type}\n` +
-                        `Qualification: ${job.qualification}\n` +
-                        `Experience: ${job.experienceType}\n` +
-                        `Vacancy: ${job.vacancy}\n` +
-                        `Location: ${job.location}`
+                        `*${startIndex + index + 1}. ജോബ് ID - ${jobIDToDisplay}\n` +
+                        `ജോബ് Title: ${job.job_title}\n` +
+                        `സാലറി: ${job.salaryDisplay}\n` +
+                        `ജെൻഡർ: ${job.gender_type}\n` +
+                        `ക്വാളിഫിക്കേഷൻ: ${job.qualification}\n` +
+                        `എക്സ്പീരിയൻസ്: ${job.experienceType}\n` +
+                        `വാക്കൻസി: ${job.vacancy}\n` +
+                        `ലൊക്കേഷൻ: ${job.location}`
                     );
                 }).join('\n\n');
 
@@ -163,7 +163,7 @@ function Whatsapp() {
                     ? '*7356400746*'
                     : '*9544500746*';
 
-                const officialText = `RIYA HUB - JOB PORTAL\nനമ്പർ - ${phoneNumber}`;
+                const officialText = `RIYA HUB - ജോബ് പോർട്ടൽ\nനമ്പർ - ${phoneNumber}`;
                 const fullText = `നാട്ടിലെ ജോലി ഒഴിവുകൾ\n\n${jobText}\n\n${officialText}`;
                 const encodedMessage = fullText;
 
@@ -172,6 +172,8 @@ function Whatsapp() {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ to: '919544500746', message: encodedMessage }),
+                    // body: JSON.stringify({ to: '919207427150', message: encodedMessage }),
+
                 });
 
                 alert(`Batch ${startIndex + 1}-${startIndex + jobBatch.length} sent successfully!`);
