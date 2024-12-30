@@ -147,14 +147,14 @@ function Whatsapp() {
                 const jobText = jobBatch.map((job, index) => {
                     const jobIDToDisplay = job.manualJobID ? job.manualJobID : job.job_id; // Check if manualJobID is present and not null, 0, or undefined
                     return (
-                        `*${startIndex + index + 1}. ജോബ് ID - ${jobIDToDisplay}\n` +
-                        `ജോബ് Title: ${job.job_title}\n` +
-                        `സാലറി: ${job.salaryDisplay}\n` +
+                        `*${startIndex + index + 1}. ജോലി ID - ${jobIDToDisplay}\n` +
+                        `ജോലി Title: ${job.job_title}\n` +
+                        `ശമ്പളം: ${job.salaryDisplay}\n` +
                         `ജെൻഡർ: ${job.gender_type}\n` +
                         `ക്വാളിഫിക്കേഷൻ: ${job.qualification}\n` +
                         `എക്സ്പീരിയൻസ്: ${job.experienceType}\n` +
-                        `വാക്കൻസി: ${job.vacancy}\n` +
-                        `ലൊക്കേഷൻ: ${job.location}`
+                        `ഒഴിവ്: ${job.vacancy}\n` +
+                        `സ്ഥലം: ${job.location}`
                     );
                 }).join('\n\n');
 

@@ -32,11 +32,15 @@ function MatchingJobs() {
 
 
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
-    
+
     // Fetch values from sessionStorage when component mounts
     useEffect(() => {
         const preferredJob = sessionStorage.getItem('preferredJob') ? sessionStorage.getItem('preferredJob').split(",") : [];
+        console.log("preferredJob",preferredJob);
+        
         const preferredLocation = sessionStorage.getItem('preferredLocation') ? sessionStorage.getItem('preferredLocation').split(",") : [];
+        console.log("preferredLocation",preferredLocation);
+
 
         const jobTypes = sessionStorage.getItem('jobType');
         const genderType = sessionStorage.getItem('gender');
@@ -207,8 +211,17 @@ function MatchingJobs() {
         const fetchData = async () => {
             try {
                 const response = await fetch(
-                    `${apiBaseUrl}/filterjobposts?job=${jobsCategory || ''}&location=${locationCategory || ''}&job_type=${jobType || ''}&gender_type=${gender || ''}&food_type=${foodType || ''}`
+                    `${apiBaseUrl}/filterjobposts?job=${jobsCategory || ''}&location=${locationCategory || ''}&job_type=${jobType || ''}&gender_type=${gender || ''}&food_type=${foodType || ''}`,
+                    {
+                        headers: {
+                            'Cache-Control': 'no-cache',  // Prevent caching
+                        },
+                    }
+                
+                    
                 );
+                console.log("response",response);
+                
                 const data = await response.json();
                 const enabledJobPosts = data.filter(job => job.enable === 'on');
                 setJobsApi(enabledJobPosts);
@@ -269,23 +282,22 @@ function MatchingJobs() {
                 <Navbar2 />
             </div>
             <div className='md:hidden flex flex-col'>
-            <Navbar2Mob />
+                <Navbar2Mob />
             </div>
             <div className='flex w-full px-2 bg-[#eeebeb] lg:flex-row flex-col gap-3 py-6'>
-            {(customerType === 'mainAdmin' || customerType === 'admin') && (
+                {(customerType === 'mainAdmin' || customerType === 'admin') && (
 
-                <div className='lg:w-[25%] w-full lg:h-[600px] h-auto  rounded-[10px] flex flex-col '>
-                    <div className='w-full h-[50px] bg-[white]  rounded-t-[10px] p-5 flex justify-between items-center border-b-2 border-[#d2d0d0]'>
-                        <div className=' flex flex-row gap-2'>
+                <div className='lg:w-[25%] w-full lg:h-auto h-auto rounded-[10px] flex flex-col'>
+                    <div className='w-full h-[50px] bg-[white] rounded-t-[10px] p-5 flex justify-between items-center border-b-2 border-[#d2d0d0]'>
+                        <div className='flex flex-row gap-2'>
                             <img src={filter} alt="filter" className='cursor-pointer' onClick={toggleFilter} />
                             <span className='text-lg font-[500] font-display'>Search Job</span>
                         </div>
-                        {/* <span className='text-base font-[500] font-display cursor-pointer hover:text-[#E22E37]' onClick={handleClearAll}>clear all</span> */}
-
                     </div>
+
                     {isFilterVisible && (
                         <div className='p-5 flex flex-col gap-5 w-full bg-[white] rounded-b-[10px]'>
-                            <div className='w-full flex flex-col gap-2'>
+                            <div className='w-full flex flex-col gap-2 min-h-[180px]'>
                                 <span className='text-left font-display text-base font-[500]'>Select Preferred Job</span>
                                 <Select
                                     options={jobsOptions}
@@ -299,7 +311,8 @@ function MatchingJobs() {
                                     styles={customStyles2}
                                 />
                             </div>
-                            <div className='w-full flex flex-col gap-2'>
+
+                            <div className='w-full flex flex-col gap-2 min-h-[180px]'>
                                 <span className='text-left font-display text-base font-[500]'>Select Preferred Location</span>
                                 <Select
                                     options={locationOptions}
@@ -313,7 +326,8 @@ function MatchingJobs() {
                                     styles={customStyles2}
                                 />
                             </div>
-                            <div className='w-full flex flex-col gap-2'>
+
+                            <div className='w-full flex flex-col gap-2 min-h-[100px]'>
                                 <span className='text-left font-display text-base font-[500]'>Select Job Type</span>
                                 <Select
                                     options={jobTypeOptions}
@@ -325,7 +339,8 @@ function MatchingJobs() {
                                     styles={customStyles2}
                                 />
                             </div>
-                            <div className='w-full flex flex-col gap-2'>
+
+                            <div className='w-full flex flex-col gap-2 min-h-[100px]'>
                                 <span className='text-left font-display text-base font-[500]'>Male / Female</span>
                                 <Select
                                     options={genderOptions}
@@ -337,7 +352,8 @@ function MatchingJobs() {
                                     styles={customStyles2}
                                 />
                             </div>
-                            <div className='w-full flex flex-col gap-2'>
+
+                            <div className='w-full flex flex-col gap-2 min-h-[100px]'>
                                 <span className='text-left font-display text-base font-[500]'>Food & Accommodation</span>
                                 <Select
                                     options={foodTypeOptions}
@@ -349,13 +365,11 @@ function MatchingJobs() {
                                     styles={customStyles2}
                                 />
                             </div>
-
-
                         </div>
                     )}
-
                 </div>
-                                        )}
+
+                )}
 
                 <div className='lg:w-[100%] w-full h-auto bg-[white]  flex flex-col gap-3  lg:p-5 p-2'>
                     <div className='grid lg:grid-cols-3 grid-cols-1 w-full gap-3'>

@@ -27,6 +27,7 @@ function CandidateReg() {
     const [locationCategory2, setLocationCategory2] = useState('');
 
 
+
     const [locationCategory, setLocationCategory] = useState('');
     const [locationOptions, setLocationOptions] = useState([]);
     const [name, setName] = useState('');
@@ -46,6 +47,12 @@ function CandidateReg() {
     const [gender, setGender] = useState(null); // State for storing gender
     const [jobType, setJobType] = useState(null); // State for storing gender
     const [maritalStatus, setMartialStatus] = useState(null); // State for storing gender
+    const [maxJobsLimit, setMaxJobsLimit] = useState(7); // Default value
+    const [maxLocationLimit, setMaxLocationLimit] = useState(5); // Default value
+    const [newJobsLimit, setNewJobsLimit] = useState('');
+    const [newLocationLimit, setNewLocationLimit] = useState('');
+    const customerType = sessionStorage.getItem('customerType');
+
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -157,7 +164,7 @@ function CandidateReg() {
 
     useEffect(() => {
         if (qualificationData) {
-         
+
 
             // Extract districts from location data for the select dropdown
             const degrees = qualificationData.states[0].districts.map(district => ({
@@ -180,7 +187,7 @@ function CandidateReg() {
             label: district
         }));
 
-   
+
 
         setDistrictOptions(districts); // Set district options for the select
 
@@ -204,21 +211,65 @@ function CandidateReg() {
     };
 
 
-    const handleJobsChange = selectedOptions => {
-        if (selectedOptions.length <= 5) {
+    // Fetch limits from the backend
+    useEffect(() => {
+        fetch(`${apiBaseUrl}/api/getPreferencesLimits`)
+            .then(response => response.json())
+            .then(data => {
+                setMaxJobsLimit(data.job_preference_limit);
+                setMaxLocationLimit(data.location_preference_limit);
+            })
+            .catch(error => console.error('Error fetching limits:', error));
+    }, [apiBaseUrl]);
+
+
+    const handleJobsChange = (selectedOptions) => {
+        if (selectedOptions.length <= maxJobsLimit) {
             setJobsCategory(selectedOptions); // Set the selected options
         } else {
-            alert("You can select a maximum of 5 options");
+            alert(`You can select a maximum of ${maxJobsLimit} options`);
         }
     };
 
-    const handleLocationChange = selectedOptions => {
-        if (selectedOptions.length <= 5) {
+    const handleLocationChange = (selectedOptions) => {
+        if (selectedOptions.length <= maxLocationLimit) {
             setLocationCategory(selectedOptions); // Set the selected options
         } else {
-            alert("You can select a maximum of 5 options");
+            alert(`You can select a maximum of ${maxLocationLimit} options`);
         }
     };
+
+    const handleUpdateLimits = () => {
+        // Ensure values are provided
+        if (!newJobsLimit || !newLocationLimit) {
+            alert('Please enter valid limits for both fields.');
+            return;
+        }
+
+        // Make a POST request to update the limits in the database
+        fetch(`${apiBaseUrl}/api/updatePreferencesLimits`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                jobPreferenceLimit: parseInt(newJobsLimit),
+                locationPreferenceLimit: parseInt(newLocationLimit),
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message); // Show success message
+                // Update the limits locally
+                setMaxJobsLimit(parseInt(newJobsLimit));
+                setMaxLocationLimit(parseInt(newLocationLimit));
+                // Reset input fields
+                setNewJobsLimit('');
+                setNewLocationLimit('');
+            })
+            .catch(error => console.error('Error updating limits:', error));
+    };
+
 
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
 
@@ -426,7 +477,7 @@ function CandidateReg() {
                 <Navbar2 />
             </div>
             <div className='md:hidden flex flex-col'>
-            <Navbar2Mob />
+                <Navbar2Mob />
             </div>
             <div className=' flex justify-center items-center bg-[black] py-12'>
                 <div className='lg:w-[80%] w-[90%] h-[70%]  flex flex-col items-center bg-[white]  gap-12 py-12 lg:rounded-[20px] rounded-[5px]'>
@@ -533,8 +584,8 @@ function CandidateReg() {
 
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Near Big Town</span>
-                           
-                             <input
+
+                            <input
                                 type="text"
                                 placeholder='Enter Near Big Town'
                                 className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4'
@@ -582,7 +633,7 @@ function CandidateReg() {
 
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-base font-[500] font-display'>Job Preference <span className='text-[#E22E37] text-base font-[500] font-display'>(Max-5)</span></span>
+                            <span className='text-left text-base font-[500] font-display'>Job Preference <span className='text-[#E22E37] text-base font-[500] font-display'> (Max-{maxJobsLimit})</span></span>
                             <Select
                                 options={jobsOptions}
                                 onChange={handleJobsChange}
@@ -597,7 +648,7 @@ function CandidateReg() {
                         </div>
 
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-base font-[500] font-display'>Job Location <span className='text-[#E22E37] text-base font-[500] font-display'>(Max-5)</span></span>
+                            <span className='text-left text-base font-[500] font-display'>Job Location <span className='text-[#E22E37] text-base font-[500] font-display'>(Max-{maxLocationLimit})</span></span>
                             <Select
                                 options={locationOptions}
                                 onChange={handleLocationChange}
@@ -634,6 +685,38 @@ function CandidateReg() {
                             />
                         </div>
                     </div>
+
+
+                    {customerType === 'mainAdmin' && (
+                        <div className="flex flex-col gap-3 mt-5">
+                            <h2 className="text-lg font-semibold">Update Selection Limits</h2>
+                            <label>
+                                Job Preference Limit:&nbsp;
+                                <input
+                                    type="number"
+                                    value={newJobsLimit}
+                                    onChange={(e) => setNewJobsLimit(e.target.value)}
+                                    className="border rounded px-2 py-1"
+                                />
+                            </label>
+                            <label>
+                                Location Preference Limit:&nbsp;
+                                <input
+                                    type="number"
+                                    value={newLocationLimit}
+                                    onChange={(e) => setNewLocationLimit(e.target.value)}
+                                    className="border rounded px-2 py-1"
+                                />
+                            </label>
+                            <button
+                                onClick={handleUpdateLimits}
+                                className="bg-blue-500 text-white px-4 py-2 rounded mt-3"
+                            >
+                                Update Limits
+                            </button>
+                        </div>
+                    )}
+
 
                     <div className='flex flex-col gap-5 w-full px-12 justify-center items-center'>
                         <span className='text-base font-[300] font-display'>By submitting you agree to our <span className='text-base font-[400] font-display text-[blue] cursor-pointer  hover:text-[black]' onClick={terms}>Terms & Conditions</span> </span>
