@@ -83,6 +83,8 @@ function MartialStatus() {
                   <p className="text-gray-600 font-display"><strong>Exact Location:</strong> {candidate.exactLocation}</p>
 
                   <p className="text-gray-600 font-display"><strong>Marital Status:</strong> {candidate.MaritalStatus}</p>
+                  <p className="text-gray-600 font-display"><strong>Father/Hus No:</strong> {candidate.famNumber}</p>
+
                 </div>
               ))
             ) : (

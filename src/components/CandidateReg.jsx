@@ -359,18 +359,25 @@ function CandidateReg() {
             return; // Stop the function if validation fails
         }
 
-        // Validate email format
-        if (!emailPattern.test(email)) {
+        // Validate email format only if email is provided
+        if (email && !emailPattern.test(email)) {
             alert('Please enter a valid email address.');
             return; // Stop the function if validation fails
         }
 
+
         // Check for empty fields
-        if (!name || !age || !mobile || !whatsapp || !email ||
+        if (!name || !age || !mobile || !whatsapp ||
             !password || !gender || !companyDistrict || !exactLocation || !candidateDegree ||
             !jobType || !jobsCategory.length || !locationCategory.length || !maritalStatus || !famNumber) {
             alert('Please fill in all fields.');
             return; // Stop the function if any field is empty
+        }
+
+        // Check if famNumber is same as mobile or whatsapp
+        if (famNumber === mobile || famNumber === whatsapp) {
+            alert('Father/Husband Number cannot be the same as Mobile or WhatsApp number.');
+            return; // Stop the function if famNumber is the same as mobile or whatsapp
         }
 
         // Check if the mobile number is blocked

@@ -40,7 +40,7 @@ function Details() {
 
 
     const customerType = sessionStorage.getItem('customerType');
-
+    const [isJobValid, setIsJobValid] = useState(false);
     const navigate = useNavigate();
     const selectedPlan = sessionStorage.getItem('selectedPlan');
     const companyName = sessionStorage.getItem('customerName');
@@ -66,24 +66,24 @@ function Details() {
             alert("Please login first"); // Alert if not logged in
             return; // Exit the function
         }
-    
+
         // Check if the customer is an admin
         if (customerType === 'admin' || customerType === 'mainAdmin') {
             navigate('/companydetails', { state: { employeeId: jobDetails.employee_id } });
             return; // Exit the function after navigating to company details
         }
-    
+
         // Proceed with the existing logic for selected plans
         if (['300', '500', '600', '800'].includes(selectedPlan)) {
             try {
                 // Fetch data from the API
                 const response = await fetch(`${apiBaseUrl}/getPackageSelectionsByCustomerName/${customerName}`);
                 const result = await response.json();
-    
+
                 if (response.ok && result.message === "Data retrieved successfully") {
                     // Check if jobId from jobDetails exists in the API data
                     const jobExists = result.data.some(item => item.jobId === jobDetails.job_id);
-    
+
                     if (jobExists) {
                         // Navigate to company details if the jobId matches
                         navigate('/companydetails', { state: { employeeId: jobDetails.employee_id } });
@@ -99,17 +99,52 @@ function Details() {
             }
             return; // Exit the function
         }
-    
+
         // Default navigation for other plans
-        navigate('/packages', { 
-            state: { 
-                job: jobDetails.job, 
-                jobId: jobDetails.manualJobID && jobDetails.manualJobID !== "0" ? jobDetails.manualJobID : jobDetails.job_id, 
-                location: jobDetails.location 
-            } 
+        navigate('/packages', {
+            state: {
+                job: jobDetails.job,
+                jobId: jobDetails.manualJobID && jobDetails.manualJobID !== "0" ? jobDetails.manualJobID : jobDetails.job_id,
+                location: jobDetails.location
+            }
         });
     };
-    
+
+
+    useEffect(() => {
+        const checkJobDetails = async () => {
+            try {
+                if (!jobDetails || !jobDetails.job_id) {
+                    console.error("Job details are not available.");
+                    setIsJobValid(false);
+                    return;
+                }
+
+                const response = await fetch(`${apiBaseUrl}/getPackageSelectionsByCustomerName/${customerName}`);
+                const result = await response.json();
+
+
+
+                if (response.ok && result.message === "Data retrieved successfully") {
+                    const jobExists = result.data.some(item => item.jobId === jobDetails.job_id);
+                    setIsJobValid(jobExists);
+                } else {
+                    setIsJobValid(false);
+                }
+            } catch (error) {
+                console.error("Error fetching data from API:", error);
+                setIsJobValid(false);
+            }
+        };
+
+        if (jobDetails && jobDetails.job_id) {
+            checkJobDetails();
+        } else {
+            console.error("Job details are missing or invalid.");
+        }
+    }, [jobDetails]);
+
+
 
     // Assuming 'selectedPlan', 'jobDetails', and 'customerName' are available in the component's scope
     const Packages2 = async () => {
@@ -171,6 +206,7 @@ function Details() {
                     } else {
                         console.error('Failed to send WhatsApp message');
                         alert('Job applied Successfully!');
+                        window.location.reload();
                     }
                 } else {
                     console.error('Failed to save data');
@@ -271,6 +307,8 @@ function Details() {
         sessionStorage.setItem('jobId', jobId);
         navigate('/editjobpost');
     };
+
+
     return (
         <div className='min-h-screen flex flex-col '>
             {isMobile ? <NavbarMob /> : <Navbar />}
@@ -278,16 +316,16 @@ function Details() {
                 <Navbar2 />
             </div>
             <div className='md:hidden flex flex-col'>
-            <Navbar2Mob />
+                <Navbar2Mob />
             </div>
 
             <div className='flex flex-col gap-8 lg:px-12 px-3 mt-12 pb-12'>
 
                 <div className='flex flex-row justify-between w-full'>
                     <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#3B3D3B] hover:bg-[#2f302f] rounded-[10px] flex justify-center items-center text-base font-[600] font-display text-[white] cursor-pointer' onClick={handlePackageClick}>Company Details</div>
-                    <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#339030] hover:bg-[#267824] rounded-[10px] flex justify-center items-center text-base font-[600] font-display text-[white] cursor-pointer' >  
+                    <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#339030] hover:bg-[#267824] rounded-[10px] flex justify-center items-center text-base font-[600] font-display text-[white] cursor-pointer' >
                         {loading ? (
-                         <div className="w-5 h-5 border-4 border-t-4 border-gray-200 border-solid rounded-full animate-spin border-t-[#E22E37]"></div> // Tailwind CSS spinner
+                            <div className="w-5 h-5 border-4 border-t-4 border-gray-200 border-solid rounded-full animate-spin border-t-[#E22E37]"></div> // Tailwind CSS spinner
                         ) : (
                             <span onClick={Packages2}>Apply Now</span>
                         )}
@@ -348,7 +386,7 @@ function Details() {
                             </div>
                         )}
 
-                        {(selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800' || customerType === 'admin' || customerType === 'mainAdmin') && (
+                        {(customerType === 'admin' || customerType === 'mainAdmin' || (isJobValid && (selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800'))) && (
 
                             <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
                                 <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
@@ -401,7 +439,7 @@ function Details() {
                         </div> */}
 
 
-                        {(selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800' || customerType === 'admin' || customerType === 'mainAdmin') && (
+                        {(customerType === 'admin' || customerType === 'mainAdmin' || (isJobValid && (selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800'))) && (
                             <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
                                 <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
                                     <img src={phone} alt="loc" />
@@ -412,6 +450,7 @@ function Details() {
                                 </div>
                             </div>
                         )}
+
 
                     </div>
                 </div>
