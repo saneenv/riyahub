@@ -31,6 +31,10 @@ function CandidateReg() {
     const [locationCategory, setLocationCategory] = useState('');
     const [locationOptions, setLocationOptions] = useState([]);
     const [name, setName] = useState('');
+    const [houseName, setHouseName] = useState('');
+    const [experienced, setExperienced] = useState('');
+
+
     const [exactLocation, setExactLocation] = useState('');
     const [bigTown, setBigTown] = useState('');
 
@@ -414,7 +418,9 @@ function CandidateReg() {
             exactLocation,
             maritalStatus: maritalStatus,
             age,
-            famNumber
+            famNumber,
+            houseName,
+            experienced
 
         };
 
@@ -456,6 +462,8 @@ function CandidateReg() {
             setMartialStatus('');
             setAge('');
             setFamNumber('');
+            setHouseName('');
+            setExperienced('');
             navigate('/login');
 
             const result = await response.json();
@@ -489,7 +497,7 @@ function CandidateReg() {
             <div className=' flex justify-center items-center bg-[black] py-12'>
                 <div className='lg:w-[80%] w-[90%] h-[70%]  flex flex-col items-center bg-[white]  gap-12 py-12 lg:rounded-[20px] rounded-[5px]'>
                     <span className='text-xl font-[700] font-display'>Candidate Register</span>
-                    <div className='grid lg:grid-cols-3 grid-cols-1 gap-5 lg:px-12 px-3 w-full'>
+                    <div className='grid lg:grid-cols-3 grid-cols-1 gap-5 lg:px-12 px-3 w-full lg:pb-0 pb-[45%]'>
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Name</span>
                             <input
@@ -498,6 +506,16 @@ function CandidateReg() {
                                 className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4'
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
+                            />
+                        </div>
+                        <div className='flex flex-col gap-3'>
+                            <span className='text-left text-base font-[500] font-display'>House Name</span>
+                            <input
+                                type="text"
+                                placeholder='Enter House Name'
+                                className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                                value={houseName}
+                                onChange={(e) => setHouseName(e.target.value)}
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
@@ -639,33 +657,15 @@ function CandidateReg() {
                             />
 
                         </div>
+                        
                         <div className='flex flex-col gap-3'>
-                            <span className='text-left text-base font-[500] font-display'>Job Preference <span className='text-[#E22E37] text-base font-[500] font-display'> (Max-{maxJobsLimit})</span></span>
-                            <Select
-                                options={jobsOptions}
-                                onChange={handleJobsChange}
-                                placeholder="Select"
-                                className='w-auto'
-                                classNamePrefix='select'
-                                isClearable={true}
-                                isMulti
-                                value={jobsCategory}
-                                styles={customStyles2}
-                            />
-                        </div>
-
-                        <div className='flex flex-col gap-3'>
-                            <span className='text-left text-base font-[500] font-display'>Job Location <span className='text-[#E22E37] text-base font-[500] font-display'>(Max-{maxLocationLimit})</span></span>
-                            <Select
-                                options={locationOptions}
-                                onChange={handleLocationChange}
-                                placeholder="Select Location"
-                                className='w-full'
-                                classNamePrefix='select'
-                                isClearable={true}
-                                isMulti
-                                value={locationCategory}
-                                styles={customStyles2}
+                            <span className='text-left text-base font-[500] font-display'>Any Experience</span>
+                            <input
+                                type="text"
+                                placeholder='Enter Experience'
+                                className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                                value={experienced}
+                                onChange={(e) => setExperienced(e.target.value)}
                             />
                         </div>
                         <div className='flex flex-col gap-3'>
@@ -691,14 +691,46 @@ function CandidateReg() {
                                 onChange={(e) => setFamNumber(e.target.value)}
                             />
                         </div>
+
+                        <div className='flex flex-col gap-3'>
+                            <span className='text-left text-base font-[500] font-display'>Job Location <span className='text-[#E22E37] text-base font-[500] font-display'>(Max-{maxLocationLimit})</span></span>
+                            <Select
+                                options={locationOptions}
+                                onChange={handleLocationChange}
+                                placeholder="Select Location"
+                                className='w-full'
+                                classNamePrefix='select'
+                                isClearable={true}
+                                isMulti
+                                value={locationCategory}
+                                styles={customStyles2}
+                            />
+                        </div>
+
+                        <div className='flex flex-col gap-3'>
+                            <span className='text-left text-base font-[500] font-display'>Job Preference <span className='text-[#E22E37] text-base font-[500] font-display'> (Max-{maxJobsLimit})</span></span>
+                            <Select
+                                options={jobsOptions}
+                                onChange={handleJobsChange}
+                                placeholder="Select"
+                                className='w-auto'
+                                classNamePrefix='select'
+                                isClearable={true}
+                                isMulti
+                                value={jobsCategory}
+                                styles={customStyles2}
+                            />
+                        </div>
+
+
                     </div>
 
 
                     {customerType === 'mainAdmin' && (
-                        <div className="flex flex-col gap-3 mt-5">
+                        <div className="w-full flex flex-col gap-3    justify-start items-start lg:px-12 px-3">
                             <h2 className="text-lg font-semibold">Update Selection Limits</h2>
                             <label>
-                                Job Preference Limit:&nbsp;
+                                Job Limit:&nbsp;
                                 <input
                                     type="number"
                                     value={newJobsLimit}
@@ -707,7 +739,7 @@ function CandidateReg() {
                                 />
                             </label>
                             <label>
-                                Location Preference Limit:&nbsp;
+                                Location Limit:&nbsp;
                                 <input
                                     type="number"
                                     value={newLocationLimit}
@@ -725,7 +757,7 @@ function CandidateReg() {
                     )}
 
 
-                    <div className='flex flex-col gap-5 w-full px-12 justify-center items-center'>
+                    <div className='flex flex-col gap-5 w-full px-12 justify-center items-center '>
                         <span className='text-base font-[300] font-display'>By submitting you agree to our <span className='text-base font-[400] font-display text-[blue] cursor-pointer  hover:text-[black]' onClick={terms}>Terms & Conditions</span> </span>
 
                         <div className='h-[56px] lg:w-[25%] w-[50%] bg-[#E22E37] rounded-[20px] flex justify-center items-center text-[white] text-lg font-display font-[600] cursor-pointer hover:bg-[black] hover:text-[white]' onClick={handleSubmit}>Register</div>

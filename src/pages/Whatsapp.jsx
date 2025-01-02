@@ -14,9 +14,6 @@ import { useNavigate } from 'react-router-dom'
 import * as XLSX from 'xlsx';
 import Navbar2Mob from '../components/Navbar2Mob';
 
-
-
-
 function Whatsapp() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
     const [startDate, setStartDate] = useState(null);
@@ -31,9 +28,6 @@ function Whatsapp() {
     const jobsPerBatch = 4; // Number of jobs per WhatsApp message
     const navigate = useNavigate();
 
-
-
-    // Fetch location options
     useEffect(() => {
         const fetchLocations = async () => {
             try {
@@ -97,7 +91,6 @@ function Whatsapp() {
         }
     };
 
-
     useEffect(() => {
         // Process job data to format salary values
         if (jobs.length > 0) {
@@ -132,8 +125,6 @@ function Whatsapp() {
         }
         return chunks;
     };
-
-
 
     const sendAllToWhatsApp = async () => {
         const jobChunks = chunkJobs(jobs, 4); // Split jobs into chunks of 5
@@ -185,8 +176,7 @@ function Whatsapp() {
         }
     };
 
-
-    const exportJobsToExcel = () => {
+   const exportJobsToExcel = () => {
         if (jobs.length === 0) {
             alert('No jobs available to export');
             return;
@@ -258,89 +248,100 @@ function Whatsapp() {
 
     const exportHistoryDataToExcel = async () => {
         try {
-          // Fetch data from the API using fetch
-          const response = await fetch(`${apiBaseUrl}/getAllPackageSelections`);
-      
-          // Check if the response is successful
-          if (response.ok) {
-            const data = await response.json();
-      
-            // Check if the response contains the data
-            if (data && data.data) {
-              const sortedData = data.data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-      
-              // Map the data to exclude the 'id' column and format 'created_at'
-              const formattedData = sortedData.map((item) => {
-                // Remove 'id' and format 'created_at'
-                const { id, ...rest } = item;
-                return {
-                  ...rest,
-                  created_at: new Date(item.created_at).toLocaleDateString("en-GB"),
-                };
-              });
-      
-              // Define custom headers
-              const headers = [
-                "Applied Candidate Name",
-                "Applied Job ID",
-                "Applied Date",
-                "Applied Candidate Whatsapp Number",
-                "Applied Candidate Mobile Number",
-                "Applied Candidate Email",
-                "Applied Company ID"
-              ];
-      
-              // Map formatted data to match custom headers
-              const customData = formattedData.map((item) => [
-                item.customerName,
-                item.jobId,
-                item.created_at,
-                item.whatsappNumber,
-                item.mobileNumber,
-                item.Email,
-                item.employeeId
-              ]);
-      
-              // Add custom headers to the top of the data
-              customData.unshift(headers);
-      
-              // Create a worksheet from the custom data
-              const ws = XLSX.utils.aoa_to_sheet(customData);
-      
-              // Set fixed column widths (in characters)
-              const colWidths = [
-                { wch: 25 }, // Applied Candidate Name
-                { wch: 10 }, // Applied Job ID
-                { wch: 10 }, // Applied Date
-                { wch: 25 }, // Applied Candidate Whatsapp Number
-                { wch: 25 }, // Applied Candidate Mobile Number
-                { wch: 35 }, // Applied Candidate Email
-                { wch: 10 }, // Applied Company ID
-              ];
-      
-              // Apply fixed column widths to the worksheet
-              ws['!cols'] = colWidths;
-      
-              // Create a new workbook
-              const wb = XLSX.utils.book_new();
-              XLSX.utils.book_append_sheet(wb, ws, "Package Selections");
-      
-              // Export the workbook as an Excel file
-              XLSX.writeFile(wb, "PackageSelections.xlsx");
+            // Fetch data from the API using fetch
+            const response = await fetch(`${apiBaseUrl}/getAllPackageSelections`);
+
+            // Check if the response is successful
+            if (response.ok) {
+                const data = await response.json();
+
+                // Check if the response contains the data
+                if (data && data.data) {
+                    // Sort data by 'additionalCompanyName' alphabetically and then by 'created_at' (descending)
+                    const sortedData = data.data.sort((a, b) => {
+                        if (a.additionalCompanyName < b.additionalCompanyName) return -1;
+                        if (a.additionalCompanyName > b.additionalCompanyName) return 1;
+                        return new Date(b.created_at) - new Date(a.created_at); // Secondary sort by date
+                    });
+
+
+                    // Map the data to exclude the 'id' column and format 'created_at'
+                    const formattedData = sortedData.map((item) => {
+                        // Remove 'id' and format 'created_at'
+                        const { id, ...rest } = item;
+                        return {
+                            ...rest,
+                            created_at: new Date(item.created_at).toLocaleDateString("en-GB"),
+                        };
+                    });
+
+                    // Define custom headers
+                    const headers = [
+                        "Company Name",
+                        "Company Number",
+                        "Company Location ",
+                        "Candidate Name",
+                        "Candidate House Name",
+                        "Candidate Experience",
+                        "Applied Date",
+                        "Candidate Mobile Number",
+
+                    ];
+
+                    // Map formatted data to match custom headers
+                    const customData = formattedData.map((item) => [
+                        item.additionalCompanyName,
+                        item.additionalMobileNumber,
+                        item.additionalLocation,
+                        item.customerName,
+                        item.houseName,
+                        item.experienced,
+                        item.created_at,
+                        item.mobileNumber,
+                    ]);
+
+                    // Add custom headers to the top of the data
+                    customData.unshift(headers);
+
+                    // Create a worksheet from the custom data
+                    const ws = XLSX.utils.aoa_to_sheet(customData);
+
+                    // Set fixed column widths (in characters)
+                    const colWidths = [
+                        { wch: 25 }, // Applied Candidate Name
+                        { wch: 25 }, // Applied Job ID
+                        { wch: 25 }, // Applied Job ID
+                        { wch: 25 }, // Applied Date
+                        { wch: 25 }, // Applied Candidate Whatsapp Number
+                        { wch: 25 }, // Applied Candidate Mobile Number
+                        { wch: 15 }, // Applied Candidate Email
+                        { wch: 25 }, // Applied Candidate Email
+
+                    ];
+
+                    // Apply fixed column widths to the worksheet
+                    ws['!cols'] = colWidths;
+
+                    // Create a new workbook
+                    const wb = XLSX.utils.book_new();
+                    XLSX.utils.book_append_sheet(wb, ws, "Package Selections");
+
+                    // Export the workbook as an Excel file
+                    XLSX.writeFile(wb, "PackageSelections.xlsx");
+                } else {
+                    console.error("No data available in the response");
+                }
             } else {
-              console.error("No data available in the response");
+                console.error("Error fetching data:", response.statusText);
             }
-          } else {
-            console.error("Error fetching data:", response.statusText);
-          }
         } catch (error) {
-          console.error("Error fetching or exporting data:", error);
+            console.error("Error fetching or exporting data:", error);
         }
-      };
-      
-    // const toexcel = () => {
-    //     navigate('/toexcel');
-    // };
+    };
+
+    const toexcel = () => {
+        navigate('/toexcel');
+    };
 
 
     return (
@@ -350,7 +351,7 @@ function Whatsapp() {
                 <Navbar2 />
             </div>
             <div className='md:hidden flex flex-col'>
-            <Navbar2Mob />
+                <Navbar2Mob />
             </div>
             <div className='lg:px-12 px-3 pt-2 flex  gap-8 bg-gray-100 justify-between'>
                 <FontAwesomeIcon
@@ -361,7 +362,7 @@ function Whatsapp() {
                 <FontAwesomeIcon
                     icon={faHistory}
                     className="text-green-600 text-4xl cursor-pointer"
-                    onClick={exportHistoryDataToExcel}
+                    onClick={toexcel}
                 />
             </div>
             <div className="lg:px-12 px-3 lg:py-12 py-6 flex flex-col gap-8 bg-gray-100">

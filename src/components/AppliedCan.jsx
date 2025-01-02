@@ -63,7 +63,7 @@ function AppliedCan() {
             <Navbar2Mob />
             </div>
         <div className='flex lg:px-12 px-3 py-12 flex-col min-h-screen bg-[#eeebeb]'>
-            {customerType === 'admin' && (
+            {(customerType === 'admin' || customerType === 'mainAdmin') && (
                 <li className="p-3 bg-gray-100 hover:bg-blue-200 rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={appliedCandidatesforall}>
                     Applied Candidates for Other Jobs
                 </li>

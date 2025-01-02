@@ -377,7 +377,7 @@ function MatchingJobs() {
                             jobsApi.slice(0, visibleJobs).map((job) => (
                                 <div
                                     key={job.job_id}
-                                    className='lg:h-[302px] h-[320px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'
+                                    className='lg:h-[380px] h-[380px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'
                                 >
                                     <div className='w-full h-[30%] bg-[white] border-b-2 border-[#C5C5C5] p-2 gap-2 flex justify-center items-center flex-col'>
                                         <span className='text-[black] text-xl font-[700] font-display'>{formatJobTitle(job.job_title)}</span>
@@ -404,6 +404,14 @@ function MatchingJobs() {
                                                 <span className='text-sm font-display font-[600]'>GENDER</span>
                                                 <span className='text-sm font-display font-[600]'>:</span>
                                             </div>
+                                            <div className='flex items-center justify-between'>
+                                                <span className='text-sm font-display font-[600]'>Salary</span>
+                                                <span className='text-sm font-display font-[600]'>:</span>
+                                            </div>
+                                            <div className='flex items-center justify-between'>
+                                                <span className='text-sm font-display font-[600]'>Qualification</span>
+                                                <span className='text-sm font-display font-[600]'>:</span>
+                                            </div>
                                             <div className='flex items-center justify-center w-[80%] h-[38px] bg-[black] rounded-[10px] text-base font-[600] font-display text-[white] cursor-pointer hover:bg-[#E22E37]' onClick={() => details(job.job_id)}>
                                                 Apply Now
                                             </div>
@@ -425,6 +433,20 @@ function MatchingJobs() {
                                             </div>
                                             <div className='flex items-center justify-between'>
                                                 <span className='text-sm font-display font-[500]'>{job.gender_type}</span>
+                                            </div>
+                                            <div className='flex items-center justify-between'>
+                                                <span className='text-sm font-display font-[500]'> {job.min_salary > 0 && job.max_salary > 0
+                                                    ? `${job.min_salary} - ${job.max_salary}`
+                                                    : job.min_salary > 0
+                                                        ? job.min_salary
+                                                        : job.max_salary > 0
+                                                            ? job.max_salary
+                                                            : job.salaryType}</span>
+                                            </div>
+                                            <div className='flex items-center justify-between'>
+                                                <span className='text-sm font-display font-[500]'>
+                                                    {job.qualification ? job.qualification : 'nil'}
+                                                </span>
                                             </div>
                                             <div className='flex items-center justify-center w-[80%] h-[38px] bg-[black] rounded-[10px] text-base font-[600] font-display text-[white] cursor-pointer hover:bg-[#E22E37]' onClick={() => details(job.job_id)}>
                                                 Job Details

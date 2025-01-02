@@ -21,10 +21,10 @@ function SearchedJobs() {
 
     // Safely access the state object, providing defaults
     const { job = '', location: jobLocation = '' } = location2.state || {};
-    console.log("searched job:",job);
-    console.log("searched location:",jobLocation);
-    
-    
+    console.log("searched job:", job);
+    console.log("searched location:", jobLocation);
+
+
 
 
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
@@ -275,91 +275,91 @@ function SearchedJobs() {
                 <Navbar2 />
             </div>
             <div className='md:hidden flex flex-col'>
-            <Navbar2Mob />
+                <Navbar2Mob />
             </div>
             <div className='flex w-full px-2 bg-[#eeebeb] lg:flex-row flex-col gap-3 py-6'>
-            {(customerType === 'mainAdmin' || customerType === 'admin') && (
-                <div className='lg:w-[25%] w-full lg:h-[600px] h-auto  rounded-[10px] flex flex-col '>
-                    <div className='w-full h-[50px] bg-[white]  rounded-t-[10px] p-5 flex justify-between items-center border-b-2 border-[#d2d0d0]'>
-                        <div className=' flex flex-row gap-2'>
-                            <img src={filter} alt="filter" className='cursor-pointer' onClick={toggleFilter} />
-                            <span className='text-lg font-[500] font-display'>Search Job</span>
+                {(customerType === 'mainAdmin' || customerType === 'admin') && (
+                    <div className='lg:w-[25%] w-full lg:h-[600px] h-auto  rounded-[10px] flex flex-col '>
+                        <div className='w-full h-[50px] bg-[white]  rounded-t-[10px] p-5 flex justify-between items-center border-b-2 border-[#d2d0d0]'>
+                            <div className=' flex flex-row gap-2'>
+                                <img src={filter} alt="filter" className='cursor-pointer' onClick={toggleFilter} />
+                                <span className='text-lg font-[500] font-display'>Search Job</span>
+                            </div>
+                            <span className='text-base font-[500] font-display cursor-pointer hover:text-[#E22E37]' onClick={handleClearAll}>clear all</span>
+
                         </div>
-                        <span className='text-base font-[500] font-display cursor-pointer hover:text-[#E22E37]' onClick={handleClearAll}>clear all</span>
+                        {isFilterVisible && (
+                            <div className='p-5 flex flex-col gap-5 w-full bg-[white] rounded-b-[10px]'>
+                                <div className='w-full flex flex-col gap-2'>
+                                    <span className='text-left font-display text-base font-[500]'>Select Preferred Job</span>
+                                    <Select
+                                        options={jobsOptions}
+                                        onChange={handleJobsChange}
+                                        placeholder="Select job"
+                                        className='w-auto'
+                                        classNamePrefix='select'
+                                        isClearable={true}
+                                        value={jobsOptions.find(option => option.value === jobsCategory) || null}  // Set initial value
+                                        styles={customStyles2}
+                                    />
+                                </div>
+                                <div className='w-full flex flex-col gap-2'>
+                                    <span className='text-left font-display text-base font-[500]'>Select Preferred Location</span>
+                                    <Select
+                                        options={locationOptions}
+                                        onChange={handleLocationChange}
+                                        placeholder="Select Location"
+                                        className='w-full'
+                                        classNamePrefix='select'
+                                        isClearable={true}
+                                        value={locationOptions.find(option => option.value === locationCategory) || null}  // Set initial value
+                                        styles={customStyles2}
+                                    />
+
+                                </div>
+                                <div className='w-full flex flex-col gap-2'>
+                                    <span className='text-left font-display text-base font-[500]'>Select Job Type</span>
+                                    <Select
+                                        options={jobTypeOptions}
+                                        isClearable={true}
+                                        placeholder="Select Job Type"
+                                        classNamePrefix="react-select"
+                                        styles={customStyles2}
+                                        value={jobTypeOptions.find(option => option.value === jobType) || null} // Match the selected value
+                                        onChange={handleJobTypeChange} // Handle job type change
+                                    />
+                                </div>
+                                <div className='w-full flex flex-col gap-2'>
+                                    <span className='text-left font-display text-base font-[500]'>Male / Female</span>
+                                    <Select
+                                        options={genderOptions}
+                                        isClearable={true}
+                                        placeholder="Select Gender"
+                                        classNamePrefix="react-select"
+                                        styles={customStyles2}
+                                        value={genderOptions.find(option => option.value === gender) || null} // Match the selected value
+                                        onChange={handleGenderChange} // Handle gender change
+                                    />
+                                </div>
+                                <div className='w-full flex flex-col gap-2'>
+                                    <span className='text-left font-display text-base font-[500]'>Food & Accomodation</span>
+                                    <Select
+                                        options={foodTypeOptions}
+                                        isClearable={true}
+                                        placeholder="Select Food Type"
+                                        classNamePrefix="react-select"
+                                        styles={customStyles2}
+                                        value={foodTypeOptions.find(option => option.value === foodType) || null} // Match the selected value
+                                        onChange={handleFoodChange} // Handle gender change
+                                    />
+                                </div>
+
+
+                            </div>
+                        )}
 
                     </div>
-                    {isFilterVisible && (
-                        <div className='p-5 flex flex-col gap-5 w-full bg-[white] rounded-b-[10px]'>
-                            <div className='w-full flex flex-col gap-2'>
-                                <span className='text-left font-display text-base font-[500]'>Select Preferred Job</span>
-                                <Select
-                                    options={jobsOptions}
-                                    onChange={handleJobsChange}
-                                    placeholder="Select job"
-                                    className='w-auto'
-                                    classNamePrefix='select'
-                                    isClearable={true}
-                                    value={jobsOptions.find(option => option.value === jobsCategory) || null}  // Set initial value
-                                    styles={customStyles2}
-                                />
-                            </div>
-                            <div className='w-full flex flex-col gap-2'>
-                                <span className='text-left font-display text-base font-[500]'>Select Preferred Location</span>
-                                <Select
-                                    options={locationOptions}
-                                    onChange={handleLocationChange}
-                                    placeholder="Select Location"
-                                    className='w-full'
-                                    classNamePrefix='select'
-                                    isClearable={true}
-                                    value={locationOptions.find(option => option.value === locationCategory) || null}  // Set initial value
-                                    styles={customStyles2}
-                                />
-
-                            </div>
-                            <div className='w-full flex flex-col gap-2'>
-                                <span className='text-left font-display text-base font-[500]'>Select Job Type</span>
-                                <Select
-                                    options={jobTypeOptions}
-                                    isClearable={true}
-                                    placeholder="Select Job Type"
-                                    classNamePrefix="react-select"
-                                    styles={customStyles2}
-                                    value={jobTypeOptions.find(option => option.value === jobType) || null} // Match the selected value
-                                    onChange={handleJobTypeChange} // Handle job type change
-                                />
-                            </div>
-                            <div className='w-full flex flex-col gap-2'>
-                                <span className='text-left font-display text-base font-[500]'>Male / Female</span>
-                                <Select
-                                    options={genderOptions}
-                                    isClearable={true}
-                                    placeholder="Select Gender"
-                                    classNamePrefix="react-select"
-                                    styles={customStyles2}
-                                    value={genderOptions.find(option => option.value === gender) || null} // Match the selected value
-                                    onChange={handleGenderChange} // Handle gender change
-                                />
-                            </div>
-                            <div className='w-full flex flex-col gap-2'>
-                                <span className='text-left font-display text-base font-[500]'>Food & Accomodation</span>
-                                <Select
-                                    options={foodTypeOptions}
-                                    isClearable={true}
-                                    placeholder="Select Food Type"
-                                    classNamePrefix="react-select"
-                                    styles={customStyles2}
-                                    value={foodTypeOptions.find(option => option.value === foodType) || null} // Match the selected value
-                                    onChange={handleFoodChange} // Handle gender change
-                                />
-                            </div>
-
-
-                        </div>
-                    )}
-
-                </div>
-                        )}
+                )}
 
                 <div className='lg:w-[100%] w-full h-auto bg-[white]  flex flex-col gap-3  lg:p-5 p-2'>
                     <div className='grid lg:grid-cols-3 grid-cols-1 w-full gap-3'>
@@ -367,7 +367,7 @@ function SearchedJobs() {
                             jobsApi.slice(0, visibleJobs).map((job) => (
                                 <div
                                     key={job.job_id}
-                                    className='lg:h-[302px] h-[320px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'
+                                    className='lg:h-[380px] h-[380px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'
                                 >
                                     <div className='w-full h-[30%]  p-2 gap-2 flex border-b-2 border-[#C5C5C5] justify-center items-center flex-col'>
                                         <span className=' text-xl font-[700] font-display'>{formatJobTitle(job.job_title)}</span>
@@ -394,6 +394,14 @@ function SearchedJobs() {
                                                 <span className='text-sm font-display font-[600]'>GENDER</span>
                                                 <span className='text-sm font-display font-[600]'>:</span>
                                             </div>
+                                            <div className='flex items-center justify-between'>
+                                                <span className='text-sm font-display font-[600]'>Salary</span>
+                                                <span className='text-sm font-display font-[600]'>:</span>
+                                            </div>
+                                            <div className='flex items-center justify-between'>
+                                                <span className='text-sm font-display font-[600]'>Qualification</span>
+                                                <span className='text-sm font-display font-[600]'>:</span>
+                                            </div>
                                             <div className='flex items-center justify-center w-[80%] h-[38px] bg-[black] rounded-[10px] text-base font-[600] font-display text-[white] cursor-pointer hover:bg-[#E22E37]' onClick={() => details(job.job_id)}>
                                                 Apply Now
                                             </div>
@@ -416,6 +424,20 @@ function SearchedJobs() {
                                             </div>
                                             <div className='flex items-center justify-between'>
                                                 <span className='text-sm font-display font-[500]'>{job.gender_type}</span>
+                                            </div>
+                                            <div className='flex items-center justify-between'>
+                                                <span className='text-sm font-display font-[500]'> {job.min_salary > 0 && job.max_salary > 0
+                                                    ? `${job.min_salary} - ${job.max_salary}`
+                                                    : job.min_salary > 0
+                                                        ? job.min_salary
+                                                        : job.max_salary > 0
+                                                            ? job.max_salary
+                                                            : job.salaryType}</span>
+                                            </div>
+                                            <div className='flex items-center justify-between'>
+                                                <span className='text-sm font-display font-[500]'>
+                                                    {job.qualification ? job.qualification : 'nil'}
+                                                </span>
                                             </div>
                                             <div className='flex items-center justify-center w-[80%] h-[38px] bg-[black] rounded-[10px] text-base font-[600] font-display text-[white] cursor-pointer hover:bg-[#E22E37]' onClick={() => details(job.job_id)}>
                                                 Job Details

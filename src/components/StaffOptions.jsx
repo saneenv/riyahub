@@ -78,6 +78,7 @@ function StaffOptions({ closeOptions }) {
     // Remove session storage items
     sessionStorage.removeItem('employeeId');
     sessionStorage.removeItem('customerName');
+    sessionStorage.removeItem('houseName');
     sessionStorage.removeItem('customerType');
     sessionStorage.removeItem('preferredJob');
     sessionStorage.removeItem('preferredLocation');

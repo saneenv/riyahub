@@ -36,7 +36,7 @@ import DeleteProfiles from './components/DeleteProfiles';
 import Services from './pages/Services';
 import AppliedCanAll from './components/AppliedCanAll';
 import Whatsapp from './pages/Whatsapp';
-// import DateSearch from './pages/DateSearch';
+import DateSearch from './pages/DateSearch';
 import EnableJobPost from './pages/EnableJobPost';
 import EnableStaff from './pages/EnableStaff';
 import AddLocation from './pages/AddLocation';
@@ -89,7 +89,7 @@ function App() {
                 <Route path='/services' element={<Services/>}/>
                 <Route path='/appliedcanall' element={<AppliedCanAll/>}/>
                 <Route path='/whatsapp' element={<Whatsapp/>}/>
-                {/* <Route path='/toexcel' element={<DateSearch/>}/> */}
+                <Route path='/toexcel' element={<DateSearch/>}/>
                 <Route path='/enablejobpost' element={<EnableJobPost/>}/>
                 <Route path="/enablestaff" element={<EnableStaff />} />
                 <Route path="/addlocation" element={<AddLocation />} />

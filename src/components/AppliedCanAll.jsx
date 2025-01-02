@@ -37,12 +37,12 @@ function AppliedCanAll() {
     };
 
     // Filtered data based on search term
-    const filteredData = data.filter(item =>
-        (!item.employeeId.startsWith('s')) && // Filter out rows with employeeId starting with "s"
-        (String(item.employeeId).toLowerCase().includes(searchTerm.toLowerCase()) ||
-         String(item.jobId).toLowerCase().includes(searchTerm.toLowerCase()) ||
-         String(item.customerName).toLowerCase().includes(searchTerm.toLowerCase()))
-    );
+const filteredData = data.filter(item =>
+    String(item.employeeId).toLowerCase().includes(searchTerm.toLowerCase()) ||
+    String(item.jobId).toLowerCase().includes(searchTerm.toLowerCase()) ||
+    String(item.customerName).toLowerCase().includes(searchTerm.toLowerCase())
+);
+
 
     // Navigate to /companydetails with employeeId as state
     const handleEmployeeIdClick = (employeeId) => {

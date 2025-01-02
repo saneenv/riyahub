@@ -24,6 +24,10 @@ function Home() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
     const employeeId = sessionStorage.getItem('employeeId');
     const companyName = sessionStorage.getItem('customerName');
+    const houseName = sessionStorage.getItem('houseName');
+    const experienced = sessionStorage.getItem('experienced');
+
+
     const [loadingJobs, setLoadingJobs] = useState({});
 
     console.log("company name:", companyName);
@@ -117,14 +121,56 @@ function Home() {
 
         if (selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800') {
             try {
-                // Prepare data with job details to send to the backend
+                // Fetch additional data from APIs based on employeeId
+                const fetchEmployeeData = async () => {
+                    try {
+                        // First, try the primary API
+                        const response = await fetch(`${apiBaseUrl}/employee/${job.employee_id}`);
+                        if (!response.ok) {
+                            throw new Error('Employee not found in primary API');
+                        }
+                        const data = await response.json();
+                        return {
+                            additionalCompanyName: data.employee.company_name, // Rename key
+                            additionalMobileNumber: data.employee.mobile_number, // Rename key
+                            additionalLocation: data.employee.location, // Rename key
+                        };
+                    } catch (error) {
+                        console.log("Primary API failed:", error.message);
+
+                        // Try the fallback API if the primary fails
+                        try {
+                            const fallbackResponse = await fetch(`${apiBaseUrl}/staff/${job.employee_id}`);
+                            if (!fallbackResponse.ok) {
+                                throw new Error('Employee not found in fallback API');
+                            }
+                            const fallbackData = await fallbackResponse.json();
+                            return {
+                                additionalCompanyName: fallbackData.employee.companyName, // Rename key
+                                additionalMobileNumber: fallbackData.employee.mobileNumber, // Rename key
+                                additionalLocation: fallbackData.employee.address, // Rename key
+                            };
+                        } catch (fallbackError) {
+                            console.log("Fallback API failed:", fallbackError.message);
+                            throw fallbackError;
+                        }
+                    }
+                };
+
+                const additionalData = await fetchEmployeeData();
+
                 const payload = {
                     employeeId: job.employee_id,
                     customerName: companyName,
+                    houseName: houseName,
+                    experienced: experienced,
                     jobId: job.job_id,
                     whatsappNumber: whatsappNumber,
                     mobileNumber: mobileNumber,
                     Email: Email,
+                    additionalCompanyName: additionalData.additionalCompanyName, // New data
+                    additionalMobileNumber: additionalData.additionalMobileNumber, // New data
+                    additionalLocation: additionalData.additionalLocation,
                 };
 
                 const currentDate = new Date();
@@ -237,10 +283,10 @@ function Home() {
 
                     <Navbar4Mob />
                 )}
-               {customerType === 'candidate' && (
+                {customerType === 'candidate' && (
 
                     <Navbar5Mob />
-                )} 
+                )}
 
             </div>
 
@@ -279,7 +325,7 @@ function Home() {
                     {jobPosts.slice(0, visibleJobs).map((job, index) => (
                         <div
                             key={index}
-                            className='lg:h-[302px] h-[320px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'
+                            className='lg:h-[400px] h-[400px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'
                         >
                             <div className='w-full h-[30%] bg-[white] border-b-2 border-[#C5C5C5]  p-2 gap-2 flex justify-center items-center flex-col'>
                                 <span className=' text-lg font-[650] font-display'>{formatJobTitle(job.job_title)}</span>
@@ -306,6 +352,15 @@ function Home() {
                                         <span className='text-base font-display font-[600]'>GENDER</span>
                                         <span className='text-base font-display font-[600]'>:</span>
                                     </div>
+                                    <div className='flex items-center justify-between'>
+                                        <span className='text-base font-display font-[600]'>Salary</span>
+                                        <span className='text-base font-display font-[600]'>:</span>
+                                    </div>
+                                    <div className='flex items-center justify-between'>
+                                        <span className='text-base font-display font-[600]'>Qualification</span>
+                                        <span className='text-base font-display font-[600]'>:</span>
+                                    </div>
+
                                     <div className='flex items-center justify-center w-[80%] h-[38px] bg-[black] rounded-[10px] text-base font-[600] font-display text-[white] cursor-pointer hover:bg-[#E22E37] ' >
                                         {loadingJobs[job.job_id] ? (
                                             <div className="w-5 h-5 border-4 border-t-4 border-gray-200 border-solid rounded-full animate-spin border-t-[#E22E37]"></div> // Tailwind CSS spinner
@@ -332,6 +387,20 @@ function Home() {
                                     </div>
                                     <div className='flex items-center justify-between'>
                                         <span className='text-base font-display font-[500]'>{job.gender_type}</span>
+                                    </div>
+                                    <div className='flex items-center justify-between'>
+                                        <span className='text-base font-display font-[500]'> {job.min_salary > 0 && job.max_salary > 0
+                                            ? `${job.min_salary} - ${job.max_salary}`
+                                            : job.min_salary > 0
+                                                ? job.min_salary
+                                                : job.max_salary > 0
+                                                    ? job.max_salary
+                                                    : job.salaryType}</span>
+                                    </div>
+                                    <div className='flex items-center justify-between'>
+                                        <span className='text-base font-display font-[500]'>
+                                            {job.qualification ? job.qualification : 'nil'}
+                                        </span>
                                     </div>
                                     <div
                                         className='flex items-center justify-center w-[80%] h-[38px] bg-[black] rounded-[10px] text-base font-[600] font-display text-[white] cursor-pointer hover:bg-[#E22E37]'

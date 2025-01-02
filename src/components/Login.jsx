@@ -136,6 +136,8 @@ function Login() {
     const storeCandidateData = (data) => {
         sessionStorage.setItem('employeeId', data.candidate.CandidateID);
         sessionStorage.setItem('customerName', data.candidate.Name);
+        sessionStorage.setItem('houseName', data.candidate.houseName);
+        sessionStorage.setItem('experienced', data.candidate.experienced);
         sessionStorage.setItem('customerType', data.candidate.customerType);
         sessionStorage.setItem('preferredJob', data.candidate.Jobs);
         sessionStorage.setItem('preferredLocation', data.candidate.Locations);

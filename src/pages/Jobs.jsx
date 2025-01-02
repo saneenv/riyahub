@@ -85,7 +85,7 @@ function Jobs() {
                         jobPosts.map((job) => (
                             <div
                                 key={job.job_id}
-                                className='lg:h-[302px] h-[320px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'
+                                className='lg:h-[400px] h-[400px] border-2 border-[#C5C5C5] w-full rounded-[10px] flex flex-col overflow-hidden'
                             >
                                 <div className='w-full h-[30%] bg-[white]  p-2 gap-2 flex border-b-2 border-[#C5C5C5] justify-center items-center flex-col'>
                                     <span className=' text-lg font-[700] font-display'>{formatJobTitle(job.job_title)}</span>
@@ -112,6 +112,14 @@ function Jobs() {
                                             <span className='text-base font-display font-[600]'>GENDER</span>
                                             <span className='text-base font-display font-[600]'>:</span>
                                         </div>
+                                        <div className='flex items-center justify-between'>
+                                                <span className='text-base font-display font-[600]'>Salary</span>
+                                                <span className='text-base font-display font-[600]'>:</span>
+                                            </div>
+                                            <div className='flex items-center justify-between'>
+                                                <span className='text-base font-display font-[600]'>Qualification</span>
+                                                <span className='text-base font-display font-[600]'>:</span>
+                                            </div>
                                         <div className='flex items-center justify-center w-[80%] h-[38px] bg-[black] rounded-[10px] text-base font-[600] font-display text-[white] cursor-pointer hover:bg-[#E22E37]' onClick={() => details(job.job_id)}>
                                             Apply Now
                                         </div>
@@ -134,6 +142,20 @@ function Jobs() {
                                         <div className='flex items-center justify-between'>
                                             <span className='text-base font-display font-[500]'>{job.gender_type}</span>
                                         </div>
+                                        <div className='flex items-center justify-between'>
+                                                <span className='text-base font-display font-[500]'> {job.min_salary > 0 && job.max_salary > 0
+                                                    ? `${job.min_salary} - ${job.max_salary}`
+                                                    : job.min_salary > 0
+                                                        ? job.min_salary
+                                                        : job.max_salary > 0
+                                                            ? job.max_salary
+                                                            : job.salaryType}</span>
+                                            </div>
+                                            <div className='flex items-center justify-between'>
+                                                <span className='text-base font-display font-[500]'>
+                                                    {job.qualification ? job.qualification : 'nil'}
+                                                </span>
+                                            </div>
                                         <div className='flex items-center justify-center w-[80%] h-[38px] bg-[black] rounded-[10px] text-base font-[600] font-display text-[white] cursor-pointer hover:bg-[#E22E37]' onClick={() => details(job.job_id)}>
                                             Job Details
                                         </div>

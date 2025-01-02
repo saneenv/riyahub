@@ -46,6 +46,12 @@ function Details() {
     const companyName = sessionStorage.getItem('customerName');
     const mobileNumber = sessionStorage.getItem('mobileNumber');
     const whatsappNumber = sessionStorage.getItem('whatsappNumber');
+    const houseName = sessionStorage.getItem('houseName');
+    const experienced = sessionStorage.getItem('experienced');
+    console.log("experienced",experienced);
+    
+
+
     const address = sessionStorage.getItem('address');
     const uppercaseAddress = address ? address.toUpperCase() : null;
     console.log("uppercaseaddress", uppercaseAddress);
@@ -155,16 +161,61 @@ function Details() {
         setLoading(true); // Start loading
         if (selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800') {
             try {
+                // Fetch additional data from APIs based on employeeId
+                const fetchEmployeeData = async () => {
+                    try {
+                        // First, try the primary API
+                        const response = await fetch(`${apiBaseUrl}/employee/${jobDetails.employee_id}`);
+                        if (!response.ok) {
+                            throw new Error('Employee not found in primary API');
+                        }
+                        const data = await response.json();
+                        return {
+                            additionalCompanyName: data.employee.company_name, // Rename key
+                            additionalMobileNumber: data.employee.mobile_number, // Rename key
+                            additionalLocation: data.employee.location, // Rename key
+                        };
+                    } catch (error) {
+                        console.log("Primary API failed:", error.message);
+    
+                        // Try the fallback API if the primary fails
+                        try {
+                            const fallbackResponse = await fetch(`${apiBaseUrl}/staff/${jobDetails.employee_id}`);
+                            if (!fallbackResponse.ok) {
+                                throw new Error('Employee not found in fallback API');
+                            }
+                            const fallbackData = await fallbackResponse.json();
+                            return {
+                                additionalCompanyName: fallbackData.employee.companyName, // Rename key
+                                additionalMobileNumber: fallbackData.employee.mobileNumber, // Rename key
+                                additionalLocation: fallbackData.employee.address, // Rename key
+                            };
+                        } catch (fallbackError) {
+                            console.log("Fallback API failed:", fallbackError.message);
+                            throw fallbackError;
+                        }
+                    }
+                };
+    
+                const additionalData = await fetchEmployeeData();
+    
                 // Prepare data to send to the backend
                 const payload = {
                     employeeId: jobDetails.employee_id,
                     customerName: companyName,
+                    houseName: houseName,
+                    experienced:experienced,
                     jobId: jobDetails.job_id,
                     whatsappNumber: whatsappNumber,
                     mobileNumber: mobileNumber,
-                    Email: Email
+                    Email: Email,
+                    additionalCompanyName: additionalData.additionalCompanyName, // New data
+                    additionalMobileNumber: additionalData.additionalMobileNumber, // New data
+                    additionalLocation: additionalData.additionalLocation,
                 };
 
+                console.log("payload",payload);
+                
                 const currentDate = new Date();
                 const formattedDate = `${String(currentDate.getDate()).padStart(2, '0')}/${String(currentDate.getMonth() + 1).padStart(2, '0')}/${currentDate.getFullYear()}`;
 
@@ -373,7 +424,7 @@ function Details() {
                                 {jobDetails.job_type}
                             </div>
                         </div>
-                        {(selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800' || customerType === 'admin' || customerType === 'mainAdmin') && (
+                        {/* {(selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800' || customerType === 'admin' || customerType === 'mainAdmin') && ( */}
 
                             <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
                                 <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
@@ -384,7 +435,7 @@ function Details() {
                                     {jobDetails.location}
                                 </div>
                             </div>
-                        )}
+                        {/* )} */}
 
                         {(customerType === 'admin' || customerType === 'mainAdmin' || (isJobValid && (selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800'))) && (
 
@@ -402,7 +453,6 @@ function Details() {
 
                         <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
                             <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
-                                <img src={loc} alt="loc" />
                                 <span className='text-[#B3B3B3] text-lg font-[500] font-display'>Vacancy</span>
                             </div>
                             <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-lg font-[500] font-display'>
@@ -422,21 +472,20 @@ function Details() {
                             </div>
                         </div>
 
-                        {/* <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
+                        <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
                             <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
-                                <img src={rs} alt="loc" />
-                                <span className='text-[#B3B3B3] text-lg font-[500] font-display'>Monthly Salary</span>
+                                <span className='text-[#B3B3B3] text-lg font-[500] font-display'>Salary</span>
                             </div>
                             <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-lg font-[500] font-display'>
-                                {jobDetails.min_salary > 0 && jobDetails.max_salary > 0
-                                    ? `₹ ${jobDetails.min_salary} - ₹ ${jobDetails.max_salary}`
-                                    : jobDetails.min_salary > 0
-                                        ? `₹ ${jobDetails.min_salary}`
-                                        : jobDetails.max_salary > 0
-                                            ? `₹ ${jobDetails.max_salary}`
-                                            : null}
+                            {jobDetails.min_salary > 0 && jobDetails.max_salary > 0
+                                        ? `${jobDetails.min_salary} - ${jobDetails.max_salary}`
+                                        : jobDetails.min_salary > 0
+                                            ? jobDetails.min_salary
+                                            : jobDetails.max_salary > 0
+                                                ? jobDetails.max_salary
+                                                : jobDetails.salaryType}
                             </div>
-                        </div> */}
+                        </div>
 
 
                         {(customerType === 'admin' || customerType === 'mainAdmin' || (isJobValid && (selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800'))) && (

@@ -182,6 +182,8 @@ function EnableJobPost() {
                 <th className='border p-2'>Job ID</th>
                 <th className='border p-2'>Job</th>
                 <th className='border p-2'>Number</th> 
+                <th className='border p-2'>Activated Date</th> 
+ 
                 <th className='border p-2'></th>
 
                 <th className='border p-2'>Accept</th>
@@ -197,6 +199,8 @@ function EnableJobPost() {
                   <td className='border p-2'>{job.manualJobID && job.manualJobID !== "0" ? job.manualJobID : job.job_id}</td>
                   <td className='border p-2'>{job.job}</td>
                   <td className='border p-2'>{job.whatsapp_number}</td> 
+                  <td className='border p-2'>{new Date(job.created_at).toLocaleDateString('en-GB')}</td> 
+       
                   <td className='border p-2'>
                     <button
                       className={'text-[red] hover:text-[black] px-4 py-2 rounded-lg underline'}
