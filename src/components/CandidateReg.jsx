@@ -350,7 +350,7 @@ function CandidateReg() {
         // Create the data object
         // Validation checks
         const mobilePattern = /^[0-9]{10}$/;
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        // const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
         // Validate mobile and WhatsApp numbers
         if (!mobilePattern.test(mobile)) {
@@ -363,11 +363,11 @@ function CandidateReg() {
             return; // Stop the function if validation fails
         }
 
-        // Validate email format only if email is provided
-        if (email && !emailPattern.test(email)) {
-            alert('Please enter a valid email address.');
-            return; // Stop the function if validation fails
-        }
+        // // Validate email format only if email is provided
+        // if (email && !emailPattern.test(email)) {
+        //     alert('Please enter a valid email address.');
+        //     return; // Stop the function if validation fails
+        // }
 
 
         // Check for empty fields
