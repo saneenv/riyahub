@@ -191,12 +191,13 @@ function Home() {
 
 
                     const destinationNumber = `91${job.whatsapp_number}`;
+                    // const destinationNumber = '919207427150';
 
 
                     // Prepare WhatsApp message
                     const whatsappPayload = {
                         to: destinationNumber, // Destination WhatsApp number
-                        message: `Dear Employer, ${companyName} (ID: *${employeeId}*), താങ്കളുടെ സ്ഥാപനത്തിൽ ഉള്ള ജോലി ഒഴിവിന്  (Job ID: *${job.job_id}*) www.riyahubs.com വഴി ${formattedDate} തീയതിയിൽ ജോലിക്ക് വേണ്ടിയുള്ള അപേക്ഷ സമർപ്പിച്ചിരിക്കുന്നു.`,
+                        message: `Dear Employer, ${companyName} (ID: *${employeeId}*), താങ്കളുടെ സ്ഥാപനത്തിൽ ഉള്ള *${job.job}* (Job ID: *${job.manualJobID && job.manualJobID !== "0" ? job.manualJobID : job.job_id}*) ജോലി ഒഴിവിന് www.riyahubs.com വഴി ${formattedDate} തീയതിയിൽ ജോലിക്ക് വേണ്ടിയുള്ള അപേക്ഷ സമർപ്പിച്ചിരിക്കുന്നു.`,
                     };
 
                     // Send data to the WhatsApp API
@@ -349,7 +350,7 @@ function Home() {
                                         <span className='text-base font-display font-[600]'>:</span>
                                     </div>
                                     <div className='flex items-center justify-between'>
-                                        <span className='text-base font-display font-[600]'>GENDER</span>
+                                        <span className='text-base font-display font-[600]'>BOYS / GIRLS</span>
                                         <span className='text-base font-display font-[600]'>:</span>
                                     </div>
                                     <div className='flex items-center justify-between'>
@@ -386,7 +387,16 @@ function Home() {
                                         <span className='text-base font-display font-[500]'>{job.job_type}</span>
                                     </div>
                                     <div className='flex items-center justify-between'>
-                                        <span className='text-base font-display font-[500]'>{job.gender_type}</span>
+                                        <span className='text-base font-display font-[500]'>
+                                            {job.gender_type === "MALE"
+                                                ? "BOYS"
+                                                : job.gender_type === "FEMALE"
+                                                    ? "GIRLS"
+                                                    : job.gender_type === "MALE/FEMALE"
+                                                        ? "BOYS/GIRLS"
+                                                        : job.gender_type}
+                                        </span>
+
                                     </div>
                                     <div className='flex items-center justify-between'>
                                         <span className='text-base font-display font-[500]'> {job.min_salary > 0 && job.max_salary > 0

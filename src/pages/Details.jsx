@@ -239,7 +239,7 @@ function Details() {
                     // Prepare WhatsApp message
                     const whatsappPayload = {
                         to: destinationNumber, // Destination WhatsApp number
-                        message: `Dear Employer, ${companyName} (ID: *${employeeId}*), താങ്കളുടെ സ്ഥാപനത്തിൽ ഉള്ള ജോലി ഒഴിവിന്  (Job ID: *${jobDetails.job_id}*) www.riyahubs.com വഴി ${formattedDate} തീയതിയിൽ ജോലിക്ക് വേണ്ടിയുള്ള അപേക്ഷ സമർപ്പിച്ചിരിക്കുന്നു.`,
+                        message: `Dear Employer, ${companyName} (ID: *${employeeId}*), താങ്കളുടെ സ്ഥാപനത്തിൽ ഉള്ള *${jobDetails.job}* (Job ID: *${jobDetails.manualJobID && jobDetails.manualJobID !== "0" ? jobDetails.manualJobID : jobDetails.job_id}*) ജോലി ഒഴിവിന് www.riyahubs.com വഴി ${formattedDate} തീയതിയിൽ ജോലിക്ക് വേണ്ടിയുള്ള അപേക്ഷ സമർപ്പിച്ചിരിക്കുന്നു.`,
                     };
 
                     // Send data to the WhatsApp API
@@ -532,6 +532,16 @@ function Details() {
                         </div>
                         <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-lg font-[500] font-display'>
                             {jobDetails.qualification}
+                        </div>
+                    </div>
+
+                    <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
+                        <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
+
+                            <span className='text-[#B3B3B3] text-lg font-[500] font-display'>Experience Required</span>
+                        </div>
+                        <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-lg font-[500] font-display'>
+                            {jobDetails.experienceType}
                         </div>
                     </div>
                 </div>

@@ -391,7 +391,7 @@ function SearchedJobs() {
                                                 <span className='text-sm font-display font-[600]'>:</span>
                                             </div>
                                             <div className='flex items-center justify-between'>
-                                                <span className='text-sm font-display font-[600]'>GENDER</span>
+                                                <span className='text-sm font-display font-[600]'>BOYS / GIRLS</span>
                                                 <span className='text-sm font-display font-[600]'>:</span>
                                             </div>
                                             <div className='flex items-center justify-between'>
@@ -423,7 +423,15 @@ function SearchedJobs() {
                                                 <span className='text-sm font-display font-[500]'>{job.job_type}</span>
                                             </div>
                                             <div className='flex items-center justify-between'>
-                                                <span className='text-sm font-display font-[500]'>{job.gender_type}</span>
+                                                <span className='text-sm font-display font-[500]'>
+                                                {job.gender_type === "MALE"
+                                                ? "BOYS"
+                                                : job.gender_type === "FEMALE"
+                                                    ? "GIRLS"
+                                                    : job.gender_type === "MALE/FEMALE"
+                                                        ? "BOYS/GIRLS"
+                                                        : job.gender_type}
+                                                </span>
                                             </div>
                                             <div className='flex items-center justify-between'>
                                                 <span className='text-sm font-display font-[500]'> {job.min_salary > 0 && job.max_salary > 0

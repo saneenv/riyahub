@@ -401,7 +401,7 @@ function MatchingJobs() {
                                                 <span className='text-sm font-display font-[600]'>:</span>
                                             </div>
                                             <div className='flex items-center justify-between'>
-                                                <span className='text-sm font-display font-[600]'>GENDER</span>
+                                                <span className='text-sm font-display font-[600]'>BOYS / Girls</span>
                                                 <span className='text-sm font-display font-[600]'>:</span>
                                             </div>
                                             <div className='flex items-center justify-between'>
@@ -418,7 +418,7 @@ function MatchingJobs() {
                                         </div>
                                         <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-2'>
                                             <div className='flex items-center justify-between w-full'>
-                                                <span className='text-sm font-display font-[500]'>{job.job_id}</span>
+                                                <span className='text-sm font-display font-[500]'>{job.manualJobID && job.manualJobID !== "0" ? job.manualJobID : job.job_id}</span>
                                             </div>
                                             <div className='flex items-center justify-between'>
                                                 <span
@@ -432,7 +432,15 @@ function MatchingJobs() {
                                                 <span className='text-sm font-display font-[500]'>{job.job_type}</span>
                                             </div>
                                             <div className='flex items-center justify-between'>
-                                                <span className='text-sm font-display font-[500]'>{job.gender_type}</span>
+                                                <span className='text-sm font-display font-[500]'>
+                                                {job.gender_type === "MALE"
+                                                ? "BOYS"
+                                                : job.gender_type === "FEMALE"
+                                                    ? "GIRLS"
+                                                    : job.gender_type === "MALE/FEMALE"
+                                                        ? "BOYS/GIRLS"
+                                                        : job.gender_type}
+                                                </span>
                                             </div>
                                             <div className='flex items-center justify-between'>
                                                 <span className='text-sm font-display font-[500]'> {job.min_salary > 0 && job.max_salary > 0
