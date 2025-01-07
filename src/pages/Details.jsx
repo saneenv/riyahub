@@ -594,7 +594,13 @@ function Details() {
                                 </span>
                             </span>
                             <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>Qualification : <span>{jobDetails.qualification}</span> </span>
-                            <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>Gender : <span>{jobDetails.gender_type}</span> </span>
+                            <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>BOYS / GIRLS : <span>{jobDetails.gender_type === "MALE"
+                                                ? "BOYS"
+                                                : jobDetails.gender_type === "FEMALE"
+                                                    ? "GIRLS"
+                                                    : jobDetails.gender_type === "MALE/FEMALE"
+                                                        ? "BOYS/GIRLS"
+                                                        : jobDetails.gender_type}</span> </span>
                             <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>Location : <span>{jobDetails.location}</span> </span>
                         </div>
                         <div className='flex flex-col mt-[5%] gap-3'>
