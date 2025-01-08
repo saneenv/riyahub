@@ -34,7 +34,7 @@ function Navbar5() {
         <div className='h-[48px] w-full bg-[white] flex flex-row gap-12 justify-center items-center'>
             <span className='text-base font-[600] font-display text-[#D22D3A] cursor-pointer hover:text-black' onClick={matchjob}>Matching Jobs</span>
             <span className='text-base font-[600] font-display text-[#D22D3A] cursor-pointer hover:text-black' onClick={canapplied}>Applied Jobs</span>
-            {(selectedPlan === '0' || selectedPlan === 'null' || selectedPlan === '') && (
+            {(selectedPlan === 'null' || selectedPlan === '') && (
 
                 <span className='text-base font-[600] font-display text-[#D22D3A] cursor-pointer hover:text-black' onClick={packages}>Packages</span>
             )}

@@ -73,7 +73,7 @@ function DetailsForStaff() {
         }
 
         // Proceed with the existing logic for selected plans
-        if (['300', '500', '600', '800'].includes(selectedPlan)) {
+        if (['300', '500', '600', '800', '0'].includes(selectedPlan)) {
             navigate('/companydetails', { state: { employeeId: jobDetails.employee_id } });
         } else {
             navigate('/packages', { state: { job: jobDetails.job, jobId: jobDetails.manualJobID && jobDetails.manualJobID !== "0" ? jobDetails.manualJobID : jobDetails.job_id, location: jobDetails.location } });
@@ -86,7 +86,7 @@ function DetailsForStaff() {
             alert("Please login first"); // Alert if not logged in
             return; // Exit the function
         }
-        if (selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800') {
+        if (selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800' || selectedPlan === '0') {
             try {
                 // Prepare data to send to the backend
                 const payload = {
@@ -232,7 +232,7 @@ function DetailsForStaff() {
                                 {jobDetails.manualJobID && jobDetails.manualJobID !== "0" ? jobDetails.manualJobID : jobDetails.job_id}
                             </div>
                         </div>
-                        {(selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800' || customerType === 'admin' || customerType === 'mainAdmin') && (
+                        {(selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800' || selectedPlan === '0' || customerType === 'admin' || customerType === 'mainAdmin') && (
 
                             <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
                                 <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
@@ -254,7 +254,7 @@ function DetailsForStaff() {
                                 {jobDetails.job_type}
                             </div>
                         </div>
-                        {(selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800' || customerType === 'admin' || customerType === 'mainAdmin') && (
+                        {(selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800' || selectedPlan === '0' || customerType === 'admin' || customerType === 'mainAdmin') && (
 
                             <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
                                 <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
@@ -267,7 +267,7 @@ function DetailsForStaff() {
                             </div>
                         )}
 
-                        {(selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800' || customerType === 'admin' || customerType === 'mainAdmin') && (
+                        {(selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800' || selectedPlan === '0' || customerType === 'admin' || customerType === 'mainAdmin') && (
 
                             <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
                                 <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
@@ -320,7 +320,7 @@ function DetailsForStaff() {
                         </div> */}
 
 
-                        {(selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800' || customerType === 'admin' || customerType === 'mainAdmin') && (
+                        {(selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800' || selectedPlan === '0' || customerType === 'admin' || customerType === 'mainAdmin') && (
                             <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
                                 <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
                                     <img src={phone} alt="loc" />

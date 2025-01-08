@@ -32,6 +32,7 @@ function EditJobPost() {
     const [whatsappNumber, setWhatsappNumber] = useState('');
     const [email, setEmail] = useState('');
     const [address, setAddress] = useState('');
+    const [manualJobID, setManualJobID] = useState(null)
     const [genderType, setGenderType] = useState(null);
     const [foodType, setFoodType] = useState(null);
     const [locationData, setLocationData] = useState(null);
@@ -263,8 +264,6 @@ useEffect(() => {
 
 
 
-
-
     useEffect(() => {
         window.scrollTo(0, 0);
     
@@ -332,6 +331,7 @@ useEffect(() => {
                 setExperienceType(experienceOptions.find(option => option.value === data.experienceType) || null);
                 setVacancy(data.vacancy);
                 setSalaryType(salaryOptions.find(option => option.value === data.salaryType) || null);
+                setManualJobID(data.manualJobID);
 
             } catch (error) {
                 console.error('There was a problem with the fetch operation:', error);
@@ -366,7 +366,8 @@ useEffect(() => {
             address,
             experienceType: experienceType?.value,
             vacancy,
-            salaryType: salaryType?.value
+            salaryType: salaryType?.value,
+            manualJobID
         };
     
         console.log('Form Data:', formData); // Log formData for debugging
@@ -399,6 +400,7 @@ useEffect(() => {
                 setExperienceType('');
                 setVacancy('');
                 setSalaryType('');
+                setManualJobID('');
                 navigate('/postedjob')
                 // Optionally redirect or reset the form
             } else {
@@ -426,6 +428,16 @@ useEffect(() => {
                 <div className='lg:w-[90%] w-[90%] h-[70%] bg-[white] flex flex-col items-center gap-12 py-12 lg:rounded-[20px] rounded-[5px]'>
                     <span className='text-xl font-[700] font-display'>Edit Job Post</span>
                     <form onSubmit={handleSubmit} className='grid lg:grid-cols-3 grid-cols-1 gap-5 lg:px-12 px-3 w-full'>
+                    <div className='flex flex-col gap-3'>
+                            <span className='text-left text-base font-[500] font-display'>Manual Job ID *</span>
+                            <input
+                                placeholder='Enter ID'
+                                type="text"
+                                className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                                value={manualJobID}
+                                onChange={(e) => setManualJobID(e.target.value)}
+                            />
+                        </div>
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Job Title *</span>
                             <input
@@ -604,6 +616,7 @@ useEffect(() => {
                                 onChange={(e) => setAddress(e.target.value)}
                             />
                         </div>
+                   
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Experience *</span>
                             <Select

@@ -141,7 +141,13 @@ function Whatsapp() {
                         `*${startIndex + index + 1}. ജോലി ID - ${jobIDToDisplay}\n` +
                         `ജോലി Title: ${job.job_title}\n` +
                         `ശമ്പളം: ${job.salaryDisplay}\n` +
-                        `ജെൻഡർ: ${job.gender_type}\n` +
+                        `ബോയ് / ഗേൾ: ${job.gender_type === "MALE"
+                            ? "BOYS"
+                            : job.gender_type === "FEMALE"
+                                ? "GIRLS"
+                                : job.gender_type === "MALE/FEMALE"
+                                    ? "BOYS/GIRLS"
+                                    : job.gender_type}\n` +
                         `ക്വാളിഫിക്കേഷൻ: ${job.qualification}\n` +
                         `എക്സ്പീരിയൻസ്: ${job.experienceType}\n` +
                         `ഒഴിവ്: ${job.vacancy}\n` +

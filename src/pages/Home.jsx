@@ -119,7 +119,7 @@ function Home() {
             return;
         }
 
-        if (selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800') {
+        if (selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800' || selectedPlan === '0') {
             try {
                 // Fetch additional data from APIs based on employeeId
                 const fetchEmployeeData = async () => {
@@ -197,10 +197,10 @@ function Home() {
                     // Prepare WhatsApp message
                     const whatsappPayload = {
                         to: destinationNumber, // Destination WhatsApp number
-                        message: `Dear Employer, ${companyName} (ID: *${employeeId}*), താങ്കളുടെ സ്ഥാപനത്തിൽ ഉള്ള *${job.job}* (Job ID: *${job.manualJobID && job.manualJobID !== "0" ? job.manualJobID : job.job_id}*) ജോലി ഒഴിവിന് www.riyahubs.com വഴി ${formattedDate} തീയതിയിൽ ജോലിക്ക് വേണ്ടിയുള്ള അപേക്ഷ സമർപ്പിച്ചിരിക്കുന്നു.`,
+                        message: `Dear Employer, ${companyName} ${houseName} (ID: *${employeeId}*), താങ്കളുടെ സ്ഥാപനത്തിൽ ഉള്ള *${job.job}* (Job ID: *${job.manualJobID && job.manualJobID !== "0" ? job.manualJobID : job.job_id}*) ജോലി ഒഴിവിന് www.riyahubs.com വഴി ${formattedDate} തീയതിയിൽ ജോലിക്ക് വേണ്ടിയുള്ള അപേക്ഷ സമർപ്പിച്ചിരിക്കുന്നു.`,
                     };
 
-                    // Send data to the WhatsApp API
+                    // Send data to the WhatsApp APIhouseName
                     const whatsappResponse = await fetch(`${apiBaseUrl}/send-whatsapp`, {
                         method: 'POST',
                         headers: {

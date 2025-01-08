@@ -38,7 +38,7 @@ function Navbar5Mob() {
         >
           Applied Jobs
         </button>
-        {(selectedPlan === '0' || selectedPlan === 'null' || selectedPlan === '') && (
+        {(selectedPlan === 'null' || selectedPlan === '') && (
           <button
             className="text-sm font-semibold text-[#D22D3A] py-3 rounded-lg bg-[#FEE2E2] hover:bg-[#D22D3A] hover:text-white transition duration-300"
             onClick={packages}
