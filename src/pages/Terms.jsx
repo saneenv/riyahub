@@ -13,6 +13,119 @@ function Terms() {
         window.scrollTo(0, 0);
     }, []);
 
+    // function isPalindrome(str) {
+    //     const reversed = str.split('').reverse().join('');
+    //     return str === reversed;
+    //   }
+    //   console.log(isPalindrome("radar")); // Output: true
+    //   console.log(isPalindrome("hello")); // Output: false
+      
+
+    // function factorial(n) {
+    //     if (n === 0 || n === 1) return 1;
+    //     return n * factorial(n - 1);
+    //   }
+    //   console.log(factorial(5)); // Output: 120
+
+    // function isPrime(num) {
+    //     if (num < 2) return false;
+      
+    //     for (let i = 2; i <= Math.sqrt(num); i++) {
+    //       if (num % i === 0) return false;
+    //     }
+    //     return true;
+    //   }
+    //   console.log(isPrime(7)); // Output: true
+    //   console.log(isPrime(10)); // Output: false
+      
+    // function fibonacci(n) {
+    //     const result = [0, 1];
+      
+    //     for (let i = 2; i < n; i++) {
+    //       result.push(result[i - 1] + result[i - 2]);
+    //     }
+      
+    //     return result.slice(0, n); // Limit to `n` elements
+    //   }
+    //   console.log(fibonacci(5)); // Output: [0, 1, 1, 2, 3]
+      
+    // function secondLargest(arr) {
+    //     let max = -Infinity, secondMax = -Infinity;
+      
+    //     for (let num of arr) {
+    //       if (num > max) {
+    //         secondMax = max;
+    //         max = num;
+    //       } else if (num > secondMax && num !== max) {
+    //         secondMax = num;
+    //       }
+    //     }
+      
+    //     return secondMax;
+    //   }
+    //   console.log(secondLargest([1, 5, 3, 9, 2])); // Output: 5
+
+
+//     // 3. String Manipulation Questions
+// // Q11: How do you count the occurrences of each character in a string?
+
+// function countCharacters(str) {
+//   const charCount = {};
+
+//   for (let char of str) {
+//     charCount[char] = (charCount[char] || 0) + 1;
+//   }
+
+//   return charCount;
+// }
+// console.log(countCharacters("hello")); 
+// // Output: { h: 1, e: 1, l: 2, o: 1 }
+
+// How do you find all unique characters in a string?
+// function uniqueCharacters(str) {
+//     const charSet = new Set(str);
+//     return Array.from(charSet).join('');
+//   }
+//   console.log(uniqueCharacters("hello")); // Output: "helo"
+
+
+// How do you remove duplicates from an array?
+// function removeDuplicates(arr) {
+//     return [...new Set(arr)];
+//   }
+//   console.log(removeDuplicates([1, 2, 2, 3, 4, 4])); // Output: [1, 2, 3, 4]
+
+
+// // How do you merge two sorted arrays into a single sorted array?
+// function mergeSortedArrays(arr1, arr2) {
+//     let i = 0, j = 0;
+//     const merged = [];
+  
+//     while (i < arr1.length && j < arr2.length) {
+//       if (arr1[i] < arr2[j]) {
+//         merged.push(arr1[i++]);
+//       } else {
+//         merged.push(arr2[j++]);
+//       }
+//     }
+  
+//     return merged.concat(arr1.slice(i)).concat(arr2.slice(j));
+//   }
+//   console.log(mergeSortedArrays([1, 3, 5], [2, 4, 6])); 
+//   // Output: [1, 2, 3, 4, 5, 6]
+  
+  
+// // Write a program to find the missing number in an array of 1 to n.
+// function findMissingNumber(arr, n) {
+//     const total = (n * (n + 1)) / 2;
+//     const sum = arr.reduce((a, b) => a + b, 0);
+//     return total - sum;
+//   }
+//   console.log(findMissingNumber([1, 2, 4, 5], 5)); // Output: 3
+  
+      
+      
+
     return (
         <div className='min-h-screen flex flex-col'>
             {isMobile ? <NavbarMob /> : <Navbar />}

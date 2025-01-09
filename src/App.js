@@ -46,6 +46,7 @@ import AddQualifications from './pages/AddQualifications';
 import ChangePasswordPage from './components/ChangePasswordPage';
 import JobNames from './pages/JobNames';
 import DetailsForStaff from './pages/DetailsForStaff';
+import DeleteProfileCan from './components/DeleteProfileCan';
 
 
 function App() {
@@ -86,6 +87,7 @@ function App() {
                 <Route path='/privacy' element={<Privacy/>}/>
                 <Route path='/martialstatus' element={<MartialStatus/>}/>
                 <Route path='/deleteprofiles' element={<DeleteProfiles/>}/>
+                <Route path='/deleteprofilescan' element={<DeleteProfileCan/>}/>
                 <Route path='/services' element={<Services/>}/>
                 <Route path='/appliedcanall' element={<AppliedCanAll/>}/>
                 <Route path='/whatsapp' element={<Whatsapp/>}/>

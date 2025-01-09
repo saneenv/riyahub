@@ -123,7 +123,8 @@ function StaffOptions({ closeOptions }) {
             </li>
           )}
 
-          <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={deleteprofiles}>Delete Profiles</li>
+          {/* <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={deleteprofiles}>Employee Profiles</li>
+          <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={deleteprofiles}>Candidate Profiles</li> */}
 
 
           <li className="p-3 bg-gray-100 hover:bg-[#E22E37] hover:text-[white] rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={login}>Logout</li>

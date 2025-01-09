@@ -594,7 +594,7 @@ function Details() {
                                 </span>
                             </span>
                             <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>Qualification : <span>{jobDetails.qualification}</span> </span>
-                            <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>BOYS / GIRLS : <span>{jobDetails.gender_type === "MALE"
+                            <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>Gender : <span>{jobDetails.gender_type === "MALE"
                                                 ? "BOYS"
                                                 : jobDetails.gender_type === "FEMALE"
                                                     ? "GIRLS"

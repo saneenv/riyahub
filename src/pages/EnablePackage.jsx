@@ -43,6 +43,7 @@ function EnablePackage() {
                         return {
                             id: candidate.CandidateID,
                             name: candidate.Name,
+                            Mobile: candidate.Mobile,
                             selectedPlan,
                             planDays: candidate.PlanDays || null // Get PlanDays if it exists, else null
                         };
@@ -71,7 +72,9 @@ function EnablePackage() {
     // Filtered customers based on search term
     const filteredCustomers = customers.filter(customer =>
         customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        customer.id.toString().includes(searchTerm)
+        customer.id.toString().includes(searchTerm) ||
+        customer.Mobile.toString().includes(searchTerm)
+
     );
 
     // Function to handle checkbox changes
@@ -138,7 +141,7 @@ function EnablePackage() {
             <div className="lg:px-12 px-3 py-12 flex bg-[#eeebeb] w-full flex-col min-h-screen">
                 <input
                     type="text"
-                    placeholder="Search by Candidate Id or Name"
+                    placeholder="Search by Candidate Id, Name or Number"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="mb-4 p-2 border border-gray-300 rounded"
@@ -148,6 +151,7 @@ function EnablePackage() {
                         <tr className="bg-gray-100">
                             <th className="lg:p-4 p-1 border lg:text-base text-xs">ID</th>
                             <th className="lg:p-4 p-1 border lg:text-base text-xs font-display">Customer Name</th>
+                            <th className="lg:p-4 p-1 border lg:text-base text-xs font-display">Mobile Number</th>
                             <th className="lg:p-4 p-1 border lg:text-base text-xs font-display">300 Plan</th>
                             <th className="lg:p-4 p-1 border lg:text-base text-xs font-display">500 Plan</th>
                             <th className="lg:p-4 p-1 border lg:text-base text-xs font-display">500 Plan (TVM/EKM)</th>
@@ -160,6 +164,8 @@ function EnablePackage() {
                             <tr key={customer.id} className="text-center">
                                 <td className="lg:p-4 p-1 border font-display lg:text-base text-xs">{customer.id}</td>
                                 <td className="lg:p-4 p-1 border font-display lg:text-base text-xs">{customer.name}</td>
+                                <td className="lg:p-4 p-1 border font-display lg:text-base text-xs">{customer.Mobile}</td>
+
                                 <td className="lg:p-4 p-1 border">
                                     <input
                                         type="checkbox"

@@ -160,7 +160,7 @@ function NavbarMob() {
 
     const jobnames = () => {
         navigate('/jobnames');
-      };
+    };
 
     const customSelectStyles = {
         control: (provided) => ({
@@ -210,10 +210,12 @@ function NavbarMob() {
                         styles={customSelectStyles}
                         options={locationOptions}
                         placeholder="Select Location..."
-                        value={locationOptions.find(option => option.value === locationInput)}
+                        value={locationInput ? locationOptions.find(option => option.value === locationInput) : null}
                         onChange={(selectedOption) => setLocationInput(selectedOption?.value || '')}
                         isClearable
                     />
+
+
                 </div>
                 <div className='w-[30%] bg-[#E22E37] h-full flex justify-center items-center text-[white] text-base font-[700] font-display cursor-pointer rounded-[5px]' onClick={findJob}>Find Job</div>
             </div>
@@ -233,8 +235,8 @@ function NavbarMob() {
                             <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={home}>Home</li>
                             <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={findjob}>Find Jobs</li>
                             {(customerType === 'admin' || customerType === 'mainAdmin') && (
-                            <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={jobcategories}>Job By Categories</li>
-                        )}
+                                <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={jobcategories}>Job By Categories</li>
+                            )}
                             <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={jobnames}>Job Names</li>
 
                             <li className='p-4 hover:bg-gray-700 cursor-pointer' onClick={jobidpage}>Job ID Search</li>

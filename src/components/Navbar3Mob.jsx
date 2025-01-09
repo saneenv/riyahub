@@ -58,6 +58,10 @@ function Navbar3Mob() {
     navigate('/deleteprofiles');
   };
 
+  const deleteprofilescan = () => {
+    navigate('/deleteprofilescan');
+  };
+
   const enablejobpost = () => {
     navigate('/enablejobpost');
   };
@@ -109,7 +113,13 @@ function Navbar3Mob() {
           className="text-sm font-[600] font-display text-[#D22D3A] py-2 rounded-lg bg-[#FEE2E2] hover:bg-[#D22D3A] hover:text-white cursor-pointer"
           onClick={deleteprofiles}
         >
-          Delete Profiles
+          Employee Profiles
+        </span>
+        <span
+          className="text-sm font-[600] font-display text-[#D22D3A] py-2 rounded-lg bg-[#FEE2E2] hover:bg-[#D22D3A] hover:text-white cursor-pointer"
+          onClick={deleteprofilescan}
+        >
+          Candidate Profiles
         </span>
       </div>
     </div>

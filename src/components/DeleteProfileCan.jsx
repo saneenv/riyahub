@@ -7,16 +7,13 @@ import Footer from './Footer';
 import Navbar2 from './Navbar2';
 import Navbar2Mob from './Navbar2Mob';
 
-function DeleteProfiles() {
+function DeleteProfileCan() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
     const [candidates, setCandidates] = useState([]);
-    const [employees, setEmployees] = useState([]);
     const [candidateSearch, setCandidateSearch] = useState('');
-    const [employeeSearch, setEmployeeSearch] = useState('');
     const navigate = useNavigate();
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
     const customerType = sessionStorage.getItem('customerType');
-
 
     useEffect(() => {
         // Fetch candidates data
@@ -27,16 +24,6 @@ function DeleteProfiles() {
             })
             .catch((error) => {
                 console.error('Error fetching candidates:', error);
-            });
-
-        // Fetch employees data
-        fetch(`${apiBaseUrl}/getAllEmployees`)
-            .then((response) => response.json())
-            .then((data) => {
-                setEmployees(data);
-            })
-            .catch((error) => {
-                console.error('Error fetching employees:', error);
             });
     }, []);
 
@@ -60,61 +47,10 @@ function DeleteProfiles() {
             });
     };
 
-    const handleDeleteEmployee = (employeeID) => {
-        const confirmDelete = window.confirm("Are you sure you want to delete this employee's profile and all associated job posts?");
-        if (!confirmDelete) return;
-
-        // First, delete all job posts associated with the employee
-        fetch(`${apiBaseUrl}/jobposts/${employeeID}`, {
-            method: 'DELETE',
-        })
-            .then((response) => response.json())
-            .then((jobPostData) => {
-                if (jobPostData.success) {
-                    // Proceed to delete the employee's profile after job posts deletion
-                    fetch(`${apiBaseUrl}/employee/delete/${employeeID}`, {
-                        method: 'DELETE',
-                    })
-                        .then((response) => response.json())
-                        .then((data) => {
-                            if (data.success) {
-                                setEmployees(employees.filter(employee => employee.id !== employeeID));
-                            } else {
-                                console.error('Error deleting employee:', data.message);
-                            }
-                        })
-                        .catch((error) => {
-                            console.error('Error deleting employee:', error);
-                        });
-                } else {
-                    console.error('Error deleting job posts:', jobPostData.message || 'No job posts found for this employee');
-                }
-            })
-            .catch((error) => {
-                console.error('Error deleting job posts:', error);
-            });
-    };
-
-
-    const filteredCandidates = candidates.filter(candidate =>
-        candidate.Name.toLowerCase().includes(candidateSearch.toLowerCase()) ||
-        candidate.CandidateID.toString().includes(candidateSearch) ||
-        candidate.Mobile.toString().includes(candidateSearch) // Added mobile number search
-    );
-
-    const filteredEmployees = employees.filter(employee =>
-        employee.company_name.toLowerCase().includes(employeeSearch.toLowerCase()) ||
-        employee.id.toString().includes(employeeSearch) ||
-        employee.mobile_number.toString().includes(employeeSearch) // Added mobile number search
-    );
-
-
-
     const handleBlockProfile = (blockedId, mobileNumber, profileType) => {
         const confirmBlock = window.confirm("Are you sure you want to block this profile?");
         if (!confirmBlock) return;
 
-        // Updated payload keys to match backend expectations
         const payload = {
             blockedId,
             profileType,
@@ -141,6 +77,15 @@ function DeleteProfiles() {
             });
     };
 
+    const filteredCandidates = candidates.filter(candidate =>
+        (candidate.Name && candidate.Name.toLowerCase().includes(candidateSearch.toLowerCase())) ||
+        (candidate.CandidateID.toString().includes(candidateSearch)) ||
+        (candidate.Mobile.toString().includes(candidateSearch)) || 
+        (candidate.Gender && candidate.Gender.toLowerCase().includes(candidateSearch.toLowerCase())) || 
+        (candidate.experienced && candidate.experienced.toLowerCase().includes(candidateSearch.toLowerCase())) || 
+        (candidate.Jobs && candidate.Jobs.toLowerCase().includes(candidateSearch.toLowerCase()))
+    );
+    
 
     return (
         <div className="flex flex-col min-h-screen bg-gray-50">
@@ -153,63 +98,12 @@ function DeleteProfiles() {
             </div>
 
             <div className='flex flex-col lg:px-12 px-3 py-10 space-y-8'>
-                {/* Employees Section */}
-                <div className="bg-[#d4d4d4] shadow-md rounded-lg p-6">
-                    <h2 className="text-3xl font-semibold text-center  mb-6 font-display">Employers</h2>
-                    <input
-                        type="text"
-                        placeholder="Search by Name, ID or Mobile Number"
-                        value={employeeSearch}
-                        onChange={(e) => setEmployeeSearch(e.target.value)}
-                        className="mb-4 w-full p-2 border rounded"
-                    />
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                        {filteredEmployees.map((employee) => (
-                            <div key={employee.id} className="bg-white rounded-lg shadow-lg overflow-hidden">
-                                <div className="p-4 text-left">
-                                    <h3 className="font-bold text-xl text-gray-800 font-display">{employee.company_name}</h3>
-                                    <p className="text-gray-600 font-display">ID: {employee.id}</p>
-                                    <p className="text-gray-600 font-display">District: {employee.company_district}</p>
-                                    <p className="text-gray-600 font-display">Email: {employee.email}</p>
-                                    <p className="text-gray-600 font-display">Mobile Number: {employee.mobile_number}</p>
-                                    {customerType === 'mainAdmin' && (
-                                        <p className="text-gray-600 font-display">Password: {employee.password}</p>
-                                    )}
-                                    <div className="mt-4 flex justify-between">
-                                        <button
-                                            onClick={() => handleBlockProfile(employee.id, employee.mobile_number, "employee")}
-                                            className="text-red-500 hover:text-red-700 font-semibold font-display"
-                                        >
-                                            Block
-                                        </button>
-                                        {customerType === 'mainAdmin' && (
-                                            <button
-                                                onClick={() => navigate(`/change-password/${employee.id}`)}
-                                                className="text-red-500 hover:text-red-700 font-semibold font-display"
-                                            >
-                                                Change Password
-                                            </button>
-                                        )}
-
-                                        <button
-                                            onClick={() => handleDeleteEmployee(employee.id)}
-                                            className="text-red-500 hover:text-red-700 font-semibold font-display"
-                                        >
-                                            Delete
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
                 {/* Candidates Section */}
-                {/* <div className="bg-[#d4d4d4] shadow-md rounded-lg p-6">
-                    <h2 className="text-3xl font-semibold text-center  mb-6 font-display">Candidates</h2>
+                <div className="bg-[#d4d4d4] shadow-md rounded-lg p-6">
+                    <h2 className="text-3xl font-semibold text-center mb-6 font-display">Candidates</h2>
                     <input
                         type="text"
-                        placeholder="Search by Name, ID or Mobile Number"
+                        placeholder="Search by Name, ID, Mobile Number, Gender, Experience, or Preferred Jobs"
                         value={candidateSearch}
                         onChange={(e) => setCandidateSearch(e.target.value)}
                         className="mb-4 w-full p-2 border rounded"
@@ -219,23 +113,18 @@ function DeleteProfiles() {
                             <div key={candidate.CandidateID} className="bg-white rounded-lg shadow-lg overflow-hidden">
                                 <div className="p-4 text-left">
                                     <h3 className="font-bold text-xl text-gray-800 font-display">{candidate.Name}</h3>
-
                                     <p className="text-gray-600 font-display">ID: {candidate.CandidateID}</p>
                                     <p className="text-gray-600 font-display">District: {candidate.District}</p>
                                     <p className="text-gray-600 font-display">Near Big Town: {candidate.bigTown}</p>
                                     <p className="text-gray-600 font-display">Exact Location: {candidate.exactLocation}</p>
-
                                     <p className="text-gray-600 font-display">Email: {candidate.Email}</p>
                                     <p className="text-gray-600 font-display">Mobile Number: {candidate.Mobile}</p>
-
                                     {customerType === 'mainAdmin' && (
                                         <p className="text-gray-600 font-display">Password: {candidate.Password}</p>
                                     )}
-                                    <p className=" text-gray-600 font-display">Gender: {candidate.Gender}</p>
-                                    <p className=" text-gray-600 font-display">Experienced: {candidate.experienced}</p>
+                                    <p className="text-gray-600 font-display">Gender: {candidate.Gender}</p>
+                                    <p className="text-gray-600 font-display">Experienced: {candidate.experienced}</p>
                                     <p className="font-bold text-gray-600 font-display">Preferred Jobs: {candidate.Jobs}</p>
-
-
 
                                     <div className="mt-4 flex justify-between">
                                         <button
@@ -252,7 +141,6 @@ function DeleteProfiles() {
                                                 Change Password
                                             </button>
                                         )}
-
                                         <button
                                             onClick={() => handleDeleteCandidate(candidate.CandidateID)}
                                             className="text-red-500 hover:text-red-700 font-semibold font-display"
@@ -264,7 +152,7 @@ function DeleteProfiles() {
                             </div>
                         ))}
                     </div>
-                </div> */}
+                </div>
             </div>
 
             <Footer />
@@ -272,4 +160,4 @@ function DeleteProfiles() {
     );
 }
 
-export default DeleteProfiles;
+export default DeleteProfileCan;

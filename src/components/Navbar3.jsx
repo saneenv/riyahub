@@ -62,6 +62,10 @@ function Navbar3() {
         navigate('/deleteprofiles');
     };
 
+    const deleteprofilescan = () => {
+        navigate('/deleteprofilescan');
+    };
+
 
 
     const enablejobpost = () => {
@@ -83,7 +87,9 @@ function Navbar3() {
                 <span className='text-base font-[600] font-display text-[#D22D3A] cursor-pointer hover:text-black' onClick={enablejobpost}>Enable Job Post</span>
             )}
 
-            <span className='text-base font-[600] font-display text-[#D22D3A] cursor-pointer hover:text-black' onClick={deleteprofiles}>Delete Profiles</span>
+            <span className='text-base font-[600] font-display text-[#D22D3A] cursor-pointer hover:text-black' onClick={deleteprofiles}>Employee Profiles</span>
+            <span className='text-base font-[600] font-display text-[#D22D3A] cursor-pointer hover:text-black' onClick={deleteprofilescan}>Candidate Profiles</span>
+
 
 
         </div>
