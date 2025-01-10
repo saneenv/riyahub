@@ -164,6 +164,15 @@ function StaffReg() {
 
     };
 
+
+//     Vipin Kumar
+// 8:23 PM
+// let fruits = [
+// { item: 'apple', price: 100},
+// { item: 'orange', price: 50}.
+// { item:'banana', cost: 30 }
+// ]
+
     return (
         <div className='flex flex-col min-h-screen'>
             {isMobile ? <NavbarMob /> : <Navbar />}
