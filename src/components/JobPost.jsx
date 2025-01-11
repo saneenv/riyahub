@@ -37,7 +37,7 @@ function JobPost() {
     const [genderType, setGenderType] = useState(null);
     const [foodType, setFoodType] = useState(null);
     const [experienceType, setExperienceType] = useState(null);
-
+    const [shopName,setShopName] = useState('');
 
     const [companyCategory, setCompanyCategory] = useState('');
     const [categoryOptions, setCategoryOptions] = useState([]);
@@ -390,6 +390,11 @@ function JobPost() {
         setVacancy(e.target.value); // Update the state when the user types
     };
 
+      // Handle input change
+      const handleShopNameChange = (e) => {
+        setShopName(e.target.value); // Update the state when the user types
+    };
+
     const selectedCompanyCategory = categoryOptions.find(option => option.value === companyCategory);
     const selectedEndCategory = endOptions.find(option => option.value === endCategory);
     const selectedJobCategory = jobsOptions.find(option => option.value === jobsCategory);
@@ -416,6 +421,7 @@ function JobPost() {
         if (!experienceType) errors.experienceType = "Experience Type is required";
 
         if (!vacancy) errors.vacancy = "Number of Vacancies is required";
+        if (!shopName) errors.shopName = "Shop Name is required";
 
         // If there are errors, set them and focus the Job Title field
         if (Object.keys(errors).length > 0) {
@@ -457,7 +463,8 @@ function JobPost() {
             manualJobID,
             experienceType: experienceType?.value,
             vacancy,
-            salaryType: salaryType?.value
+            salaryType: salaryType?.value,
+            shopName
 
         };
 
@@ -495,6 +502,7 @@ function JobPost() {
                 setExperienceType('');
                 setVacancy('');
                 setSalaryType('');
+                setShopName('');
             
                 window.location.reload();
 
@@ -542,6 +550,19 @@ function JobPost() {
                                 onChange={(e) => setJobTitle(e.target.value)}
                             />
                             {errorState.jobTitle && <span className="text-red-500 text-sm">{errorState.jobTitle}</span>}
+                        </div>
+                        <div className='flex flex-col gap-3'>
+                            <span className='text-left text-base font-[500] font-display'>Shop Name *</span>
+                            <input
+                                type="text"
+                                placeholder='Enter Shop Name'
+                                className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                                value={shopName} // Controlled input
+                                onChange={handleShopNameChange} // Update state on change
+
+                            />
+                            {errorState.address && <span className="text-red-500 text-sm">{errorState.shopName}</span>}
+
                         </div>
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Job Type *</span>
@@ -602,6 +623,7 @@ function JobPost() {
                             {errorState.selectedJobCategory && <span className="text-red-500 text-sm">{errorState.selectedJobCategory}</span>}
 
                         </div>
+                    
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Experience *</span>
                             <Select

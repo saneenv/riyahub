@@ -168,9 +168,9 @@ function Home() {
                     whatsappNumber: whatsappNumber,
                     mobileNumber: mobileNumber,
                     Email: Email,
-                    additionalCompanyName: additionalData.additionalCompanyName, // New data
-                    additionalMobileNumber: additionalData.additionalMobileNumber, // New data
-                    additionalLocation: additionalData.additionalLocation,
+                    additionalCompanyName: job.shopName, // New data
+                    additionalMobileNumber: job.whatsapp_number, // New data
+                    additionalLocation: job.location,
                 };
 
                 const currentDate = new Date();

@@ -32,6 +32,8 @@ function EditJobPost() {
     const [whatsappNumber, setWhatsappNumber] = useState('');
     const [email, setEmail] = useState('');
     const [address, setAddress] = useState('');
+    const [shopName, setShopName] = useState('');
+
     const [manualJobID, setManualJobID] = useState(null)
     const [genderType, setGenderType] = useState(null);
     const [foodType, setFoodType] = useState(null);
@@ -332,6 +334,7 @@ useEffect(() => {
                 setVacancy(data.vacancy);
                 setSalaryType(salaryOptions.find(option => option.value === data.salaryType) || null);
                 setManualJobID(data.manualJobID);
+                setShopName(data.shopName);
 
             } catch (error) {
                 console.error('There was a problem with the fetch operation:', error);
@@ -367,7 +370,8 @@ useEffect(() => {
             experienceType: experienceType?.value,
             vacancy,
             salaryType: salaryType?.value,
-            manualJobID
+            manualJobID,
+            shopName
         };
     
         console.log('Form Data:', formData); // Log formData for debugging
@@ -401,6 +405,7 @@ useEffect(() => {
                 setVacancy('');
                 setSalaryType('');
                 setManualJobID('');
+                setShopName('');
                 navigate('/postedjob')
                 // Optionally redirect or reset the form
             } else {
@@ -446,6 +451,16 @@ useEffect(() => {
                                 className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
                                 value={jobTitle}
                                 onChange={(e) => setJobTitle(e.target.value)}
+                            />
+                        </div>
+                        <div className='flex flex-col gap-3'>
+                            <span className='text-left text-base font-[500] font-display'>Shop Name *</span>
+                            <input
+                                placeholder='Shop Name'
+                                type="text"
+                                className='h-[43px] w-full border-2 border-[#D7D7D7] rounded-[5px] px-4'
+                                value={shopName}
+                                onChange={(e) => setShopName(e.target.value)}
                             />
                         </div>
                         <div className='flex flex-col gap-3'>

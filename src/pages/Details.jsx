@@ -209,9 +209,9 @@ function Details() {
                     whatsappNumber: whatsappNumber,
                     mobileNumber: mobileNumber,
                     Email: Email,
-                    additionalCompanyName: additionalData.additionalCompanyName, // New data
-                    additionalMobileNumber: additionalData.additionalMobileNumber, // New data
-                    additionalLocation: additionalData.additionalLocation,
+                    additionalCompanyName: jobDetails.shopName, // New data
+                    additionalMobileNumber: jobDetails.whatsapp_number, // New data
+                    additionalLocation: jobDetails.location,
                 };
 
                 console.log("payload",payload);
