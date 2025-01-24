@@ -47,6 +47,7 @@ import ChangePasswordPage from './components/ChangePasswordPage';
 import JobNames from './pages/JobNames';
 import DetailsForStaff from './pages/DetailsForStaff';
 import DeleteProfileCan from './components/DeleteProfileCan';
+import AddCompanyName from './pages/AddCompanyName';
 
 
 function App() {
@@ -101,6 +102,7 @@ function App() {
                 <Route path="/change-password/:employeeId" element={<ChangePasswordPage />} />
                 <Route path="/jobnames" element={<JobNames />} />
                 <Route path="/detailsforstaff" element={<DetailsForStaff />} />
+                <Route path="/addcompanyname" element={<AddCompanyName />} />
 
 
 
