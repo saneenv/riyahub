@@ -19,8 +19,8 @@ function EditJobPost() {
     const employeeId = sessionStorage.getItem('employeeId');
     const jobId = sessionStorage.getItem('jobId')
     console.log(jobId);
-    const navigate= useNavigate();
-    
+    const navigate = useNavigate();
+
     const [jobTitle, setJobTitle] = useState('');
     const [minSalary, setMinSalary] = useState('');
     const [maxSalary, setMaxSalary] = useState('');
@@ -59,8 +59,8 @@ function EditJobPost() {
     const [optionsLoaded, setOptionsLoaded] = useState(false);
 
 
-    
-  
+
+
 
     const jobTypeOptions = [
         { value: 'Full Time', label: 'Full Time' },
@@ -159,42 +159,42 @@ function EditJobPost() {
             setLocationOptions(locations); // Set the location options once data is available
             setOptionsLoaded(true);
 
-            
+
         }
-        
+
     }, [locationData]);
 
 
-  // Fetch company data and set category options
-  const fetchCompanyData = async () => {
-    try {
-        const response = await fetch(`${apiBaseUrl}/datacompany`); 
-        if (response.ok) {
-            const data = await response.json();
-            setCompanyData(data); // Set the fetched data
-        } else {
-            console.error('Failed to fetch company data:', response.statusText);
+    // Fetch company data and set category options
+    const fetchCompanyData = async () => {
+        try {
+            const response = await fetch(`${apiBaseUrl}/datacompany`);
+            if (response.ok) {
+                const data = await response.json();
+                setCompanyData(data); // Set the fetched data
+            } else {
+                console.error('Failed to fetch company data:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error fetching company data:', error);
         }
-    } catch (error) {
-        console.error('Error fetching company data:', error);
-    }
-};
+    };
 
-useEffect(() => {
-    fetchCompanyData(); // Fetch company data when the component mounts
-}, []);
+    useEffect(() => {
+        fetchCompanyData(); // Fetch company data when the component mounts
+    }, []);
 
-useEffect(() => {
-    if (companyData) {
-        // Extract districts from company data and set category options
-        const districts = companyData.states[0].districts.map((district) => ({
-            value: district,
-            label: district,
-        }));
-        setCategoryOptions(districts);
-        setOptionsLoaded(true); // Mark options as loaded
-    }
-}, [companyData]); // This runs when companyData is fetched
+    useEffect(() => {
+        if (companyData) {
+            // Extract districts from company data and set category options
+            const districts = companyData.states[0].districts.map((district) => ({
+                value: district,
+                label: district,
+            }));
+            setCategoryOptions(districts);
+            setOptionsLoaded(true); // Mark options as loaded
+        }
+    }, [companyData]); // This runs when companyData is fetched
 
 
     const fetchJobsData = async () => {
@@ -217,7 +217,7 @@ useEffect(() => {
 
     useEffect(() => {
         if (jobsData) {
-         
+
 
             // Extract districts from location data for the select dropdown
             const job = jobsData.states[0].districts.map(district => ({
@@ -251,7 +251,7 @@ useEffect(() => {
 
     useEffect(() => {
         if (qualificationData) {
-         
+
 
             // Extract districts from location data for the select dropdown
             const degrees = qualificationData.states[0].districts.map(district => ({
@@ -268,30 +268,30 @@ useEffect(() => {
 
     useEffect(() => {
         window.scrollTo(0, 0);
-    
+
         const fetchOptions = async () => {
-     
-     
+
+
             const workstart = worktime.states[0].districts.map(district => ({
                 value: district,
                 label: district
             }));
-        
+
             const workend = endtime.states[0].districts.map(district => ({
                 value: district,
                 label: district
             }));
-    
+
             setStartOptions(workstart);
             setEndOptions(workend);
-    
+
             // Set options loaded to true after fetching options
             setOptionsLoaded(true);
         };
-    
+
         fetchOptions();
     }, []); // Only runs once, on mount
-    
+
     useEffect(() => {
         const fetchJobData = async () => {
             if (!optionsLoaded || !jobId) return; // Only fetch job data after options are loaded
@@ -303,17 +303,28 @@ useEffect(() => {
                 const data = await response.json();
                 console.log('Fetched Data:', data);
 
-                 // Find the selected company type from the fetched data and set it
-                 const selectedCategory = categoryOptions.find(
+                 // Convert the comma-separated string to an array
+            const selectedLocations = data.location ? data.location.split(', ') : [];
+
+            // Find selected options in the locationOptions
+            const selectedLocationValues = locationOptions.filter(option =>
+                selectedLocations.includes(option.value)
+            );
+
+            // Set the locations
+            setLocationCategory(selectedLocationValues);
+
+                // Find the selected company type from the fetched data and set it
+                const selectedCategory = categoryOptions.find(
                     (option) => option.value === data.company_type
                 );
                 setCompanyCategory(selectedCategory || null); // Set the category
-                
+
                 const selectedJobs = jobsOptions.find(
                     (option) => option.value === data.job
                 );
                 setJobsCategory(selectedJobs || null);
-    
+
                 // Populate state with fetched data
                 setJobTitle(data.job_title);
                 setMinSalary(data.min_salary);
@@ -323,8 +334,8 @@ useEffect(() => {
                 setJobType(jobTypeOptions.find(option => option.value === data.job_type) || null);
                 setGenderType(genderTypeOptions.find(option => option.value === data.gender_type) || null);
                 setFoodType(foodTypeOptions.find(option => option.value === data.food_type) || null);
-                
-                setLocationCategory(locationOptions.find(option => option.value === data.location) || null);
+
+                // setLocationCategory(locationOptions.find(option => option.value === data.location) || null);
                 setStartCategory(startOptions.find(option => option.value === data.start_time) || null);
                 setEndCategory(endOptions.find(option => option.value === data.end_time) || null);
                 setWhatsappNumber(data.whatsapp_number);
@@ -340,14 +351,17 @@ useEffect(() => {
                 console.error('There was a problem with the fetch operation:', error);
             }
         };
-    
+
         fetchJobData();
     }, [jobId, categoryOptions, optionsLoaded]); // Watch for jobId and optionsLoaded
-    
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
+
+         // Convert the selected location categories to a comma-separated string
+    const locationString = locationCategory.map(option => option.value).join(', ');
+
         const formData = {
             jobId,
             employeeId,
@@ -356,7 +370,7 @@ useEffect(() => {
             genderType: genderType?.value,
             companyType: companyCategory?.value || '',
             job: jobsCategory?.value || '',
-            location: locationCategory?.value || '',
+            location: locationString,  // Use the comma-separated string here
             minSalary,
             maxSalary,
             startTime: startCategory?.value || '',
@@ -373,9 +387,9 @@ useEffect(() => {
             manualJobID,
             shopName
         };
-    
+
         console.log('Form Data:', formData); // Log formData for debugging
-    
+
         try {
             const response = await fetch(`${apiBaseUrl}/jobpost/${jobId}`, {
                 method: 'PUT',
@@ -384,7 +398,7 @@ useEffect(() => {
                 },
                 body: JSON.stringify(formData),
             });
-    
+
             const result = await response.json();
             if (result.success) {
                 alert('Job updated successfully!');
@@ -410,14 +424,14 @@ useEffect(() => {
                 // Optionally redirect or reset the form
             } else {
                 alert('Failed to update job.');
-               
+
             }
         } catch (error) {
             console.error('Error:', error);
             alert('An error occurred while updating the job.');
         }
     };
-    
+
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
 
     return (
@@ -427,13 +441,13 @@ useEffect(() => {
                 <Navbar2 />
             </div>
             <div className='md:hidden flex flex-col'>
-            <Navbar2Mob />
+                <Navbar2Mob />
             </div>
             <div className='flex justify-center items-center bg-[black] py-12'>
                 <div className='lg:w-[90%] w-[90%] h-[70%] bg-[white] flex flex-col items-center gap-12 py-12 lg:rounded-[20px] rounded-[5px]'>
                     <span className='text-xl font-[700] font-display'>Edit Job Post</span>
                     <form onSubmit={handleSubmit} className='grid lg:grid-cols-3 grid-cols-1 gap-5 lg:px-12 px-3 w-full'>
-                    <div className='flex flex-col gap-3'>
+                        <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Manual Job ID *</span>
                             <input
                                 placeholder='Enter ID'
@@ -531,18 +545,20 @@ useEffect(() => {
                                 classNamePrefix="react-select"
                             />
                         </div>
-                        <div className='flex flex-col gap-3'>
-                            <span className='text-left text-base font-[500] font-display'>Location *</span>
+                        <div className="flex flex-col gap-3">
+                            <span className="text-left text-base font-[500] font-display">Location *</span>
                             <Select
                                 placeholder="Select Location"
                                 options={locationOptions}
-                                value={locationCategory}
-                                onChange={setLocationCategory}
+                                value={locationCategory}  // Array of selected locations
+                                onChange={setLocationCategory} // Handles multiple location selection
                                 isClearable={true}
+                                isMulti={true}
                                 styles={customStyles}
                                 classNamePrefix="react-select"
                             />
                         </div>
+
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Start Time *</span>
                             <Select
@@ -569,8 +585,8 @@ useEffect(() => {
                         </div>
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Qualification *</span>
-                        
-                              <Select
+
+                            <Select
                                 placeholder="Select Qualification"
                                 options={degreeOptions}
                                 value={qualification}
@@ -631,7 +647,7 @@ useEffect(() => {
                                 onChange={(e) => setAddress(e.target.value)}
                             />
                         </div>
-                   
+
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Experience *</span>
                             <Select
@@ -653,7 +669,7 @@ useEffect(() => {
                                 className='h-[43px] w-full  border-2 border-[#D7D7D7] rounded-[5px] px-4'
                                 value={vacancy} // Controlled input
                                 onChange={(e) => setVacancy(e.target.value)} // Update state on change
-                               
+
 
 
                             />

@@ -48,8 +48,8 @@ function Details() {
     const whatsappNumber = sessionStorage.getItem('whatsappNumber');
     const houseName = sessionStorage.getItem('houseName');
     const experienced = sessionStorage.getItem('experienced');
-    console.log("experienced",experienced);
-    
+    console.log("experienced", experienced);
+
 
 
     const address = sessionStorage.getItem('address');
@@ -177,7 +177,7 @@ function Details() {
                         };
                     } catch (error) {
                         console.log("Primary API failed:", error.message);
-    
+
                         // Try the fallback API if the primary fails
                         try {
                             const fallbackResponse = await fetch(`${apiBaseUrl}/staff/${jobDetails.employee_id}`);
@@ -196,15 +196,15 @@ function Details() {
                         }
                     }
                 };
-    
+
                 const additionalData = await fetchEmployeeData();
-    
+
                 // Prepare data to send to the backend
                 const payload = {
                     employeeId: jobDetails.employee_id,
                     customerName: companyName,
                     houseName: houseName,
-                    experienced:experienced,
+                    experienced: experienced,
                     jobId: jobDetails.job_id,
                     whatsappNumber: whatsappNumber,
                     mobileNumber: mobileNumber,
@@ -214,8 +214,8 @@ function Details() {
                     additionalLocation: jobDetails.location,
                 };
 
-                console.log("payload",payload);
-                
+                console.log("payload", payload);
+
                 const currentDate = new Date();
                 const formattedDate = `${String(currentDate.getDate()).padStart(2, '0')}/${String(currentDate.getMonth() + 1).padStart(2, '0')}/${currentDate.getFullYear()}`;
 
@@ -311,6 +311,8 @@ function Details() {
 
     const downloadStyledImage = () => {
         const container = document.getElementById('jobDetailsContainer');
+        const locations = jobDetails.location.split(','); // Split the locations by commas
+
         container.style.display = 'block'; // Show the container temporarily for capture
 
         // Set the container dimensions to portrait mode for a standard page size
@@ -325,26 +327,34 @@ function Details() {
                 qrCanvas.classList.add('absolute', 'bottom-10', 'right-10'); // Position it as needed
                 container.appendChild(qrCanvas);
 
-                // Capture the container with html2canvas
-                html2canvas(container, { scale: 2, width: 800, height: 1120 }).then(canvas => {
-                    const link = document.createElement('a');
-                    link.href = canvas.toDataURL('image/png');
-                    link.download = 'job_details.png';
-                    link.click();
+                // Loop through each location and create separate images
+                locations.forEach((location, index) => {
+                    // Modify the location value in the container
+                    const locationElement = container.querySelector('.location'); // Find the location span
+                    locationElement.textContent = `Location: ${location.trim()}`; // Update the location text
 
-                    // Clean up
-                    container.removeChild(qrCanvas); // Remove QR code after download
-                    container.style.display = 'none'; // Hide the container again after download
-                    container.style.width = ''; // Reset width
-                    container.style.height = ''; // Reset height
-                }).catch(error => {
-                    console.error('Error capturing image:', error);
+                    // Capture the container with html2canvas for each location
+                    html2canvas(container, { scale: 2, width: 800, height: 1120 }).then(canvas => {
+                        const link = document.createElement('a');
+                        link.href = canvas.toDataURL('image/png');
+                        link.download = `job_details_location_${index + 1}.png`; // Download with dynamic name based on location
+                        link.click();
+                    }).catch(error => {
+                        console.error('Error capturing image:', error);
+                    });
                 });
+
+                // Clean up
+                container.removeChild(qrCanvas); // Remove QR code after download
+                container.style.display = 'none'; // Hide the container again after download
+                container.style.width = ''; // Reset width
+                container.style.height = ''; // Reset height
             })
             .catch(error => {
                 console.error('Error generating QR code:', error);
             });
     };
+
 
     if (error) {
         return <div>{error}</div>; // Show error message
@@ -426,15 +436,15 @@ function Details() {
                         </div>
                         {/* {(selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800' || customerType === 'admin' || customerType === 'mainAdmin') && ( */}
 
-                            <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
-                                <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
-                                    <img src={loc} alt="loc" />
-                                    <span className='text-[#B3B3B3] text-lg font-[500] font-display'>Location</span>
-                                </div>
-                                <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-lg font-[500] font-display'>
-                                    {jobDetails.location}
-                                </div>
+                        <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
+                            <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3  items-center'>
+                                <img src={loc} alt="loc" />
+                                <span className='text-[#B3B3B3] text-lg font-[500] font-display'>Location</span>
                             </div>
+                            <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-lg font-[500] font-display'>
+                                {jobDetails.location}
+                            </div>
+                        </div>
                         {/* )} */}
 
                         {(customerType === 'admin' || customerType === 'mainAdmin' || (isJobValid && (selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800' || selectedPlan === '0'))) && (
@@ -477,13 +487,13 @@ function Details() {
                                 <span className='text-[#B3B3B3] text-lg font-[500] font-display'>Salary</span>
                             </div>
                             <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-lg font-[500] font-display'>
-                            {jobDetails.min_salary > 0 && jobDetails.max_salary > 0
-                                        ? `${jobDetails.min_salary} - ${jobDetails.max_salary}`
-                                        : jobDetails.min_salary > 0
-                                            ? jobDetails.min_salary
-                                            : jobDetails.max_salary > 0
-                                                ? jobDetails.max_salary
-                                                : jobDetails.salaryType}
+                                {jobDetails.min_salary > 0 && jobDetails.max_salary > 0
+                                    ? `${jobDetails.min_salary} - ${jobDetails.max_salary}`
+                                    : jobDetails.min_salary > 0
+                                        ? jobDetails.min_salary
+                                        : jobDetails.max_salary > 0
+                                            ? jobDetails.max_salary
+                                            : jobDetails.salaryType}
                             </div>
                         </div>
 
@@ -595,13 +605,15 @@ function Details() {
                             </span>
                             <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>Qualification : <span>{jobDetails.qualification}</span> </span>
                             <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>Gender : <span>{jobDetails.gender_type === "MALE"
-                                                ? "BOYS"
-                                                : jobDetails.gender_type === "FEMALE"
-                                                    ? "GIRLS"
-                                                    : jobDetails.gender_type === "MALE/FEMALE"
-                                                        ? "BOYS/GIRLS"
-                                                        : jobDetails.gender_type}</span> </span>
-                            <span className='flex flex-row gap-3 font-[600] text-2xl font-display'>Location : <span>{jobDetails.location}</span> </span>
+                                ? "BOYS"
+                                : jobDetails.gender_type === "FEMALE"
+                                    ? "GIRLS"
+                                    : jobDetails.gender_type === "MALE/FEMALE"
+                                        ? "BOYS/GIRLS"
+                                        : jobDetails.gender_type}</span> </span>
+                            <span className='flex flex-row gap-3 font-[600] text-2xl font-display location'>
+                                Location: <span>{jobDetails.location}</span>
+                            </span>
                         </div>
                         <div className='flex flex-col mt-[5%] gap-3'>
                             <div className='text-[#E22E37] font-[700] text-3xl font-display text-left'>Send your CV & Portfolio to:</div>

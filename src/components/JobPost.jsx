@@ -37,7 +37,7 @@ function JobPost() {
     const [genderType, setGenderType] = useState(null);
     const [foodType, setFoodType] = useState(null);
     const [experienceType, setExperienceType] = useState(null);
-    const [shopName,setShopName] = useState('');
+    const [shopName, setShopName] = useState('');
 
     const [companyCategory, setCompanyCategory] = useState('');
     const [categoryOptions, setCategoryOptions] = useState([]);
@@ -303,9 +303,12 @@ function JobPost() {
         setJobsCategory(selectedOption ? selectedOption.value : ''); // Set the selected district value
     };
 
-    const handleLocationChange = selectedOption => {
-        setLocationCategory(selectedOption ? selectedOption.value : ''); // Set the selected district value
+    const handleLocationChange = (selectedOptions) => {
+        const values = selectedOptions ? selectedOptions.map(option => option.value) : [];
+        console.log("Updated locationCategory:", values);
+        setLocationCategory(values);
     };
+
 
 
     const handleDegreeChange = selectedOption => {
@@ -390,15 +393,23 @@ function JobPost() {
         setVacancy(e.target.value); // Update the state when the user types
     };
 
-      // Handle input change
-      const handleShopNameChange = (e) => {
+    // Handle input change
+    const handleShopNameChange = (e) => {
         setShopName(e.target.value); // Update the state when the user types
     };
 
     const selectedCompanyCategory = categoryOptions.find(option => option.value === companyCategory);
     const selectedEndCategory = endOptions.find(option => option.value === endCategory);
     const selectedJobCategory = jobsOptions.find(option => option.value === jobsCategory);
-    const selectedLocationCategory = locationOptions.find(option => option.value === locationCategory);
+    const selectedLocationCategory = locationOptions
+        .filter(option => locationCategory.includes(option.value))
+        .map(option => option.value) // Extract only the values
+        .join(', '); // Join values with a comma and space
+
+    console.log("Selected Categories as String:", selectedLocationCategory);
+
+
+
     const selectedStartCategory = startOptions.find(option => option.value === startCategory)
 
     const handleSubmit = async (e) => {
@@ -449,7 +460,7 @@ function JobPost() {
             genderType: genderType?.value,
             companyType: selectedCompanyCategory ? selectedCompanyCategory.label : null,
             job: selectedJobCategory ? selectedJobCategory.label : null,
-            location: selectedLocationCategory ? selectedLocationCategory.label : null,
+            location: selectedLocationCategory,
             minSalary,
             maxSalary,
             startTime: selectedStartCategory ? selectedStartCategory.label : null,
@@ -503,7 +514,7 @@ function JobPost() {
                 setVacancy('');
                 setSalaryType('');
                 setShopName('');
-            
+
                 window.location.reload();
 
 
@@ -532,7 +543,7 @@ function JobPost() {
                 <Navbar2 />
             </div>
             <div className='md:hidden flex flex-col'>
-            <Navbar2Mob />
+                <Navbar2Mob />
             </div>
             <div className=' flex justify-center items-center bg-[black] py-12'>
                 <div className='lg:w-[90%] w-[90%] h-[70%] bg-[white]  flex flex-col items-center  gap-12 py-12 lg:rounded-[20px] rounded-[5px]'>
@@ -623,7 +634,7 @@ function JobPost() {
                             {errorState.selectedJobCategory && <span className="text-red-500 text-sm">{errorState.selectedJobCategory}</span>}
 
                         </div>
-                    
+
                         <div className='flex flex-col gap-3'>
                             <span className='text-left text-base font-[500] font-display'>Experience *</span>
                             <Select
@@ -643,13 +654,20 @@ function JobPost() {
                             <Select
                                 options={locationOptions}
                                 onChange={handleLocationChange}
-                                placeholder="Select Location"
-                                className='w-full'
-                                classNamePrefix='select'
+                                placeholder="Select Locations"
+                                className="w-full"
+                                classNamePrefix="select"
+                                isMulti={true} // Enables multiple selections
                                 isClearable={true}
-                                value={locationOptions.find(option => option.value === locationCategory) || null} // Set the selected option
+                                value={
+                                    locationCategory?.length > 0
+                                        ? locationOptions.filter(option => locationCategory.includes(option.value))
+                                        : null
+                                } // Set the selected options
                                 styles={customStyles}
                             />
+
+
                             {errorState.selectedLocationCategory && <span className="text-red-500 text-sm">{errorState.selectedLocationCategory}</span>}
 
                         </div>

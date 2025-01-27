@@ -190,9 +190,9 @@ function ViewProfile3() {
           {specialPower === 'on' && (
             <span className='lg:text-xl text-lg font-[600] font-display underline text-[#E22E37] cursor-pointer' onClick={addcompanytype}>Add CompanyType</span>
           )}
-          {specialPower === 'on' && (
+          {/* {specialPower === 'on' && (
             <span className='lg:text-xl text-lg font-[600] font-display underline text-[#E22E37] cursor-pointer' onClick={addcompanyname}>Add Company Name</span>
-          )}
+          )} */}
 
 
         </div>
