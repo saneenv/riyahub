@@ -10,6 +10,13 @@ import Navbar2Mob from '../components/Navbar2Mob';
 
 function EnableJobPost() {
   const [jobPosts, setJobPosts] = useState([]);
+  const [staffData, setStaffData] = useState(null);
+  const staffId = sessionStorage.getItem('employeeId');
+  const [loading, setLoading] = useState(true); // State to handle loading
+  const [error, setError] = useState(null); // State to handle errors
+
+
+
   const navigate = useNavigate();
 
   const [searchQuery, setSearchQuery] = useState({
@@ -64,14 +71,14 @@ function EnableJobPost() {
   // Toggle enable status
   const handleToggle = async (jobId, currentEnableStatus) => {
     const newEnableStatus = currentEnableStatus === 'off' ? 'on' : 'off';
-  
+
     // Update the UI optimistically
     setJobPosts((prevPosts) =>
       prevPosts.map((job) =>
         job.job_id === jobId ? { ...job, enable: newEnableStatus } : job
       )
     );
-  
+
     try {
       // Update the enable status
       const enableResponse = await fetch(`${apiBaseUrl}/updateJobEnable`, {
@@ -84,13 +91,13 @@ function EnableJobPost() {
           enable: newEnableStatus,
         }),
       });
-  
+
       const enableResult = await enableResponse.json();
       if (!enableResult.success) {
         console.error('Failed to update status:', enableResult.message);
         return; // Stop further execution if the status update fails
       }
-  
+
       // If the status is changed to "on," update the created_at field
       if (newEnableStatus === 'on') {
         const createdAtResponse = await fetch(`${apiBaseUrl}/jobpost/updateCreatedAt`, {
@@ -100,7 +107,7 @@ function EnableJobPost() {
           },
           body: JSON.stringify({ jobId }),
         });
-  
+
         const createdAtResult = await createdAtResponse.json();
         if (createdAtResult.success) {
           console.log('Created date updated successfully.');
@@ -112,7 +119,30 @@ function EnableJobPost() {
       console.error('Error updating job enable status or created date:', error);
     }
   };
-  
+
+
+  useEffect(() => {
+    const fetchStaffData = async () => {
+      try {
+        const response = await fetch(`${apiBaseUrl}/fetchstaff?staffId=${encodeURIComponent(staffId)}`); // Use fetch with query parameter
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json(); // Parse JSON response
+        setStaffData(data);
+      } catch (err) {
+        console.error('Error fetching staff data:', err);
+        setError('Unable to fetch staff data.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (staffId) {
+      fetchStaffData();
+    }
+  }, [staffId, apiBaseUrl]);
+
   return (
     <div className='min-h-screen flex flex-col'>
       {isMobile ? <NavbarMob /> : <Navbar />}
@@ -120,8 +150,8 @@ function EnableJobPost() {
         <Navbar2 />
       </div>
       <div className='md:hidden flex flex-col'>
-            <Navbar2Mob />
-            </div>
+        <Navbar2Mob />
+      </div>
 
       <div className='flex flex-col gap-8 px-3 mt-12 pb-12 sm:px-6 lg:px-12'>
         <h1 className='text-xl font-bold text-center text-gray-800'>
@@ -163,7 +193,7 @@ function EnableJobPost() {
             onChange={handleSearchChange}
             className='border border-[gray] p-2 rounded-lg'
           />
-           <input
+          <input
             type='text'
             name='whatsapp_number' // Added input field for job_id search
             placeholder='Search by number'
@@ -181,12 +211,15 @@ function EnableJobPost() {
                 <th className='border p-2'>Employee ID</th>
                 <th className='border p-2'>Job ID</th>
                 <th className='border p-2'>Job</th>
-                <th className='border p-2'>Number</th> 
-                <th className='border p-2'>Activated Date</th> 
- 
-                <th className='border p-2'></th>
+                <th className='border p-2'>Number</th>
+                <th className='border p-2'>Activated Date</th>
 
-                <th className='border p-2'>Accept</th>
+                <th className='border p-2'></th>
+                {staffData && staffData.power === 'on' && (
+
+                  <th className='border p-2'>Accept</th>
+                )}
+
               </tr>
             </thead>
             <tbody>
@@ -198,9 +231,9 @@ function EnableJobPost() {
                   <td className='border p-2'>{job.employee_id}</td>
                   <td className='border p-2'>{job.manualJobID && job.manualJobID !== "0" ? job.manualJobID : job.job_id}</td>
                   <td className='border p-2'>{job.job}</td>
-                  <td className='border p-2'>{job.whatsapp_number}</td> 
-                  <td className='border p-2'>{new Date(job.created_at).toLocaleDateString('en-GB')}</td> 
-       
+                  <td className='border p-2'>{job.whatsapp_number}</td>
+                  <td className='border p-2'>{new Date(job.created_at).toLocaleDateString('en-GB')}</td>
+
                   <td className='border p-2'>
                     <button
                       className={'text-[red] hover:text-[black] px-4 py-2 rounded-lg underline'}
@@ -209,15 +242,19 @@ function EnableJobPost() {
                       View Job
                     </button>
                   </td>
-                  <td className='border p-2 text-center'>
-                    <button
-                      className={`${job.enable === 'on' ? 'bg-green-500' : 'bg-red-500'
-                        } text-white px-4 py-2 rounded-lg`}
-                      onClick={() => handleToggle(job.job_id, job.enable)}
-                    >
-                      {job.enable === 'on' ? 'On' : 'Off'}
-                    </button>
-                  </td>
+                  {staffData && staffData.power === 'on' && (
+
+                    <td className='border p-2 text-center'>
+                      <button
+                        className={`${job.enable === 'on' ? 'bg-green-500' : 'bg-red-500'
+                          } text-white px-4 py-2 rounded-lg`}
+                        onClick={() => handleToggle(job.job_id, job.enable)}
+                      >
+                        {job.enable === 'on' ? 'On' : 'Off'}
+                      </button>
+                    </td>
+                  )}
+
                 </tr>
               ))}
             </tbody>

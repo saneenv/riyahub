@@ -101,14 +101,12 @@ function Navbar3Mob() {
             Enable Package
           </span>
         )}
-        {staffData && staffData.power === 'on' && (
           <span
             className="text-sm font-[600] font-display text-[#D22D3A] py-2 rounded-lg bg-[#FEE2E2] hover:bg-[#D22D3A] hover:text-white cursor-pointer"
             onClick={enablejobpost}
           >
             Enable Job Post
           </span>
-        )}
         <span
           className="text-sm font-[600] font-display text-[#D22D3A] py-2 rounded-lg bg-[#FEE2E2] hover:bg-[#D22D3A] hover:text-white cursor-pointer"
           onClick={deleteprofiles}

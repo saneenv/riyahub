@@ -83,9 +83,7 @@ function Navbar3() {
             {staffData && staffData.specialPower === 'on' && (
                 <span className='text-base font-[600] font-display text-[#D22D3A] cursor-pointer hover:text-black' onClick={enablePage}>Enable Package</span>
             )}
-            {staffData && staffData.power === 'on' && (
-                <span className='text-base font-[600] font-display text-[#D22D3A] cursor-pointer hover:text-black' onClick={enablejobpost}>Enable Job Post</span>
-            )}
+            <span className='text-base font-[600] font-display text-[#D22D3A] cursor-pointer hover:text-black' onClick={enablejobpost}>Enable Job Post</span>
 
             <span className='text-base font-[600] font-display text-[#D22D3A] cursor-pointer hover:text-black' onClick={deleteprofiles}>Employee Profiles</span>
             <span className='text-base font-[600] font-display text-[#D22D3A] cursor-pointer hover:text-black' onClick={deleteprofilescan}>Candidate Profiles</span>

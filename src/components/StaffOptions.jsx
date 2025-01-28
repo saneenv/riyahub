@@ -114,14 +114,12 @@ function StaffOptions({ closeOptions }) {
           {staffData && staffData.specialPower === 'on' && (
             <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={enablePage}>Enable Package</li>
           )}
-          {staffData && staffData.power === 'on' && (
             <li
               className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400] font-display"
               onClick={enablejobpost}
             >
               Enable Job Post
             </li>
-          )}
 
           {/* <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={deleteprofiles}>Employee Profiles</li>
           <li className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-center text-lg font-[400] font-display" onClick={deleteprofiles}>Candidate Profiles</li> */}
