@@ -74,6 +74,7 @@ function JobPost() {
     const jobTypeOptions = [
         { value: 'Full Time', label: 'Full Time' },
         { value: 'Part Time', label: 'Part Time' },
+        { value: 'Part Time/Full Time', label: 'Part Time/Full Time' },
         { value: 'Remote/work at home', label: 'Remote/work at home' }
     ];
 

@@ -362,12 +362,18 @@ function Home() {
                                         <span className='text-base font-display font-[600]'>:</span>
                                     </div>
 
-                                    <div className='flex items-center justify-center w-[80%] h-[38px] bg-[black] rounded-[10px] text-base font-[600] font-display text-[white] cursor-pointer hover:bg-[#E22E37] ' >
+                                    {/* <div className='flex items-center justify-center w-[80%] h-[38px] bg-[black] rounded-[10px] text-base font-[600] font-display text-[white] cursor-pointer hover:bg-[#E22E37] ' >
                                         {loadingJobs[job.job_id] ? (
                                             <div className="w-5 h-5 border-4 border-t-4 border-gray-200 border-solid rounded-full animate-spin border-t-[#E22E37]"></div> // Tailwind CSS spinner
                                         ) : (
                                             <span onClick={() => Packages2(job)}>Apply Now</span>
                                         )}
+                                    </div> */}
+                                    <div
+                                        className='flex items-center justify-center w-[80%] h-[38px] bg-[black] rounded-[10px] text-base font-[600] font-display text-[white] cursor-pointer hover:bg-[#E22E37]'
+                                        onClick={() => details(job.manualJobID && job.manualJobID !== "0" ? job.manualJobID : job.job_id)}
+                                    >
+                                        Apply Now
                                     </div>
                                 </div>
                                 <div className='flex flex-col w-[50%] h-full gap-3 mt-3 pl-2'>

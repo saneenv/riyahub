@@ -8,7 +8,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Select from 'react-select';
 import { useMediaQuery } from 'react-responsive';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFileExcel } from '@fortawesome/free-solid-svg-icons';
+import { faFileExcel, faMessage } from '@fortawesome/free-solid-svg-icons';
 import { faHistory } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom'
 import * as XLSX from 'xlsx';
@@ -182,7 +182,7 @@ function Whatsapp() {
         }
     };
 
-   const exportJobsToExcel = () => {
+    const exportJobsToExcel = () => {
         if (jobs.length === 0) {
             alert('No jobs available to export');
             return;
@@ -349,6 +349,10 @@ function Whatsapp() {
         navigate('/toexcel');
     };
 
+    
+    const messageemp = () => {
+        navigate('/messageemp');
+    };
 
     return (
         <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800">
@@ -370,6 +374,11 @@ function Whatsapp() {
                     className="text-green-600 text-4xl cursor-pointer"
                     onClick={toexcel}
                 />
+                {/* <FontAwesomeIcon
+                    icon={faMessage}  // Message icon
+                    className="text-green-600 text-4xl cursor-pointer"
+                    onClick={messageemp}  // Replace with your function
+                /> */}
             </div>
             <div className="lg:px-12 px-3 lg:py-12 py-6 flex flex-col gap-8 bg-gray-100">
                 {/* Filters */}

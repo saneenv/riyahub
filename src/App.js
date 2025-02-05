@@ -48,6 +48,7 @@ import JobNames from './pages/JobNames';
 import DetailsForStaff from './pages/DetailsForStaff';
 import DeleteProfileCan from './components/DeleteProfileCan';
 import AddCompanyName from './pages/AddCompanyName';
+import MessageEmp from './pages/MessageEmp';
 
 
 function App() {
@@ -103,11 +104,7 @@ function App() {
                 <Route path="/jobnames" element={<JobNames />} />
                 <Route path="/detailsforstaff" element={<DetailsForStaff />} />
                 <Route path="/addcompanyname" element={<AddCompanyName />} />
-
-
-
-
-
+                <Route path="/messageemp" element={<MessageEmp />} />
 
              </Routes>
         </BrowserRouter>

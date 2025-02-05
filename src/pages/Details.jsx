@@ -30,14 +30,12 @@ function Details() {
 
 
 
+
     const location = useLocation();
     const { jobId } = location.state || {}; // Extract jobId from state
     console.log("jobId:", jobId);
 
     const jobIdStr = jobId.toString();
-
-
-
 
     const customerType = sessionStorage.getItem('customerType');
     const [isJobValid, setIsJobValid] = useState(false);
@@ -384,13 +382,15 @@ function Details() {
 
                 <div className='flex flex-row justify-between w-full'>
                     <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#3B3D3B] hover:bg-[#2f302f] rounded-[10px] flex justify-center items-center text-base font-[600] font-display text-[white] cursor-pointer' onClick={handlePackageClick}>Company Details</div>
+                    {!isJobValid && (
                     <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#339030] hover:bg-[#267824] rounded-[10px] flex justify-center items-center text-base font-[600] font-display text-[white] cursor-pointer' >
                         {loading ? (
                             <div className="w-5 h-5 border-4 border-t-4 border-gray-200 border-solid rounded-full animate-spin border-t-[#E22E37]"></div> // Tailwind CSS spinner
-                        ) : (
+                        ) : ( 
                             <span onClick={Packages2}>Apply Now</span>
-                        )}
+                        )}   
                     </div>
+                    )}    
                     {(customerType === 'admin' || customerType === 'mainAdmin') && (
                         <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#282d55] hover:bg-[#1d2246] rounded-[10px] flex justify-center items-center text-lg font-[600] font-display text-[white] cursor-pointer' onClick={downloadStyledImage}>download</div>
                     )}
@@ -399,7 +399,7 @@ function Details() {
                     )}
                 </div>
 
-                <div className='w-full flex flex-col gap-4'>
+                <div className='w-full flex flex-col gap-4'>    
                     <span className='text-xl font-[700] font-display text-left'>{jobDetails.job}</span>
                     <span className='text-lg font-[400] font-display text-left'>{jobDetails.job_title}</span>
                     <div className='flex flex-col w-full h-auto gap-2'>
