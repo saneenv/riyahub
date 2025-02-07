@@ -83,7 +83,9 @@ function DeleteProfileCan() {
         (candidate.Mobile.toString().includes(candidateSearch)) || 
         (candidate.Gender && candidate.Gender.toLowerCase().includes(candidateSearch.toLowerCase())) || 
         (candidate.experienced && candidate.experienced.toLowerCase().includes(candidateSearch.toLowerCase())) || 
-        (candidate.Jobs && candidate.Jobs.toLowerCase().includes(candidateSearch.toLowerCase()))
+        (candidate.Jobs && candidate.Jobs.toLowerCase().includes(candidateSearch.toLowerCase())) ||
+        (candidate.Age !== null && candidate.Age !== undefined && candidate.Age.toString().includes(candidateSearch)) ||
+        (candidate.Degree && candidate.Degree.toLowerCase().includes(candidateSearch.toLowerCase())) 
     );
     
 
@@ -103,7 +105,7 @@ function DeleteProfileCan() {
                     <h2 className="text-3xl font-semibold text-center mb-6 font-display">Candidates</h2>
                     <input
                         type="text"
-                        placeholder="Search by Name, ID, Mobile Number, Gender, Experience, or Preferred Jobs"
+                        placeholder="Search by Name, ID, Mobile Number, Gender, Experience, Age, QUalification or Preferred Jobs"
                         value={candidateSearch}
                         onChange={(e) => setCandidateSearch(e.target.value)}
                         className="mb-4 w-full p-2 border rounded"
@@ -124,6 +126,9 @@ function DeleteProfileCan() {
                                     )}
                                     <p className="text-gray-600 font-display">Gender: {candidate.Gender}</p>
                                     <p className="text-gray-600 font-display">Experienced: {candidate.experienced}</p>
+                                    <p className="text-gray-600 font-display">Age: {candidate.Age}</p>
+                                    <p className="text-gray-600 font-display">Qualification: {candidate.Degree}</p>
+
                                     <p className="font-bold text-gray-600 font-display">Preferred Jobs: {candidate.Jobs}</p>
 
                                     <div className="mt-4 flex justify-between">

@@ -153,7 +153,7 @@ function EnableJobPost() {
         <Navbar2Mob />
       </div>
 
-      <div className='flex flex-col gap-8 px-3 mt-12 pb-12 sm:px-6 lg:px-12'>
+      <div className='flex flex-col gap-8 px-3 mt-12 pb-12 sm:px-6 lg:px-8'>
         <h1 className='text-xl font-bold text-center text-gray-800'>
           Job Post Requests
         </h1>
@@ -211,6 +211,7 @@ function EnableJobPost() {
                 <th className='border p-2'>Employee ID</th>
                 <th className='border p-2'>Job ID</th>
                 <th className='border p-2'>Job</th>
+                <th className='border p-2'>Location</th>
                 <th className='border p-2'>Number</th>
                 <th className='border p-2'>Activated Date</th>
 
@@ -231,6 +232,7 @@ function EnableJobPost() {
                   <td className='border p-2'>{job.employee_id}</td>
                   <td className='border p-2'>{job.manualJobID && job.manualJobID !== "0" ? job.manualJobID : job.job_id}</td>
                   <td className='border p-2'>{job.job}</td>
+                  <td className='border p-2'>{job.location}</td> 
                   <td className='border p-2'>{job.whatsapp_number}</td>
                   <td className='border p-2'>{new Date(job.created_at).toLocaleDateString('en-GB')}</td>
 
