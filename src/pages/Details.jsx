@@ -27,6 +27,8 @@ function Details() {
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL; // Assuming you have this in .env file
     const [loading, setLoading] = useState(false); // Track loading status
     const employeeId = sessionStorage.getItem('employeeId');
+    // const [employeeData, setEmployeeData] = useState(null);
+
 
 
 
@@ -178,6 +180,7 @@ function Details() {
 
                         // Try the fallback API if the primary fails
                         try {
+
                             const fallbackResponse = await fetch(`${apiBaseUrl}/staff/${jobDetails.employee_id}`);
                             if (!fallbackResponse.ok) {
                                 throw new Error('Employee not found in fallback API');
@@ -269,6 +272,49 @@ function Details() {
         setLoading(false); // End loading
     };
 
+    // const empData = jobDetails?.employee_id || null;
+    // console.log("empppppppppppppp:",empData);
+
+
+    // useEffect(() => {
+    //     if (!empData) {
+    //         console.log("empData is null or undefined, skipping API call.");
+    //         return; // Stop execution if empData is null
+    //     }
+
+    //     const fetchCompanyData = async () => {
+    //         console.log("Fetching data for empData:", empData);
+
+    //         try {
+    //             const response = await fetch(`${apiBaseUrl}/employee/${empData}`);
+    //             if (!response.ok) {
+    //                 throw new Error('Employee not found in primary API');
+    //             }
+    //             const data = await response.json();
+    //             setEmployeeData(data.employee);
+    //         } catch (error) {
+    //             console.log("Primary API failed:", error.message);
+    //             try {
+    //                 console.log("Fetching fallback data for empData:", empData);
+
+    //                 const fallbackResponse = await fetch(`${apiBaseUrl}/staff/${empData}`);
+    //                 if (!fallbackResponse.ok) {
+    //                     throw new Error('Employee not found in fallback API');
+    //                 }
+    //                 const fallbackData = await fallbackResponse.json();
+    //                 setEmployeeData(fallbackData.employee);
+    //             } catch (fallbackError) {
+    //                 console.log("Fallback API failed:", fallbackError.message);
+    //                 setError(fallbackError.message);
+    //             }
+    //         }
+    //     };
+
+    //     fetchCompanyData();
+    // }, [empData]); // Ensure useEffect runs when empData changes
+    //  // Ensure this dependency is correct
+
+
 
 
     useEffect(() => {
@@ -305,6 +351,8 @@ function Details() {
                 });
         }
     }, [jobId, apiBaseUrl]);
+
+
 
 
     const downloadStyledImage = () => {
@@ -383,14 +431,14 @@ function Details() {
                 <div className='flex flex-row justify-between w-full'>
                     <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#3B3D3B] hover:bg-[#2f302f] rounded-[10px] flex justify-center items-center text-base font-[600] font-display text-[white] cursor-pointer' onClick={handlePackageClick}>Company Details</div>
                     {!isJobValid && (
-                    <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#339030] hover:bg-[#267824] rounded-[10px] flex justify-center items-center text-base font-[600] font-display text-[white] cursor-pointer' >
-                        {loading ? (
-                            <div className="w-5 h-5 border-4 border-t-4 border-gray-200 border-solid rounded-full animate-spin border-t-[#E22E37]"></div> // Tailwind CSS spinner
-                        ) : ( 
-                            <span onClick={Packages2}>Apply Now</span>
-                        )}   
-                    </div>
-                    )}    
+                        <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#339030] hover:bg-[#267824] rounded-[10px] flex justify-center items-center text-base font-[600] font-display text-[white] cursor-pointer' >
+                            {loading ? (
+                                <div className="w-5 h-5 border-4 border-t-4 border-gray-200 border-solid rounded-full animate-spin border-t-[#E22E37]"></div> // Tailwind CSS spinner
+                            ) : (
+                                <span onClick={Packages2}>Apply Now</span>
+                            )}
+                        </div>
+                    )}
                     {(customerType === 'admin' || customerType === 'mainAdmin') && (
                         <div className='h-[42px] lg:w-[13%] w-[40%] bg-[#282d55] hover:bg-[#1d2246] rounded-[10px] flex justify-center items-center text-lg font-[600] font-display text-[white] cursor-pointer' onClick={downloadStyledImage}>download</div>
                     )}
@@ -399,7 +447,7 @@ function Details() {
                     )}
                 </div>
 
-                <div className='w-full flex flex-col gap-4'>    
+                <div className='w-full flex flex-col gap-4'>
                     <span className='text-xl font-[700] font-display text-left'>{jobDetails.job}</span>
                     <span className='text-lg font-[400] font-display text-left'>{jobDetails.job_title}</span>
                     <div className='flex flex-col w-full h-auto gap-2'>
@@ -509,6 +557,35 @@ function Details() {
                                 </div>
                             </div>
                         )}
+
+                        {(customerType === 'admin' || customerType === 'mainAdmin' || (isJobValid && (selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800' || selectedPlan === '0'))) && (
+                            <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
+                                <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
+                                    <img src={phone} alt="loc" />
+                                    <span className='text-[#B3B3B3] text-lg font-[500] font-display'>Company Name</span>
+                                </div>
+                                <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-lg font-[500] font-display'>
+                                    {jobDetails.shopName}
+
+                                </div>
+                            </div>
+                        )}
+
+
+                        {(customerType === 'admin' || customerType === 'mainAdmin' || (isJobValid && (selectedPlan === '300' || selectedPlan === '500' || selectedPlan === '600' || selectedPlan === '800' || selectedPlan === '0'))) && (
+                            <div className='flex lg:flex-row flex-col lg:h-[56px] h-[70px] w-full border-2 border-[#E3EAF1] rounded-[10px]'>
+                                <div className='lg:w-[30%] w-full h-full lg:border-r-2 border-b-2 border-[#E3EAF1] flex flex-row px-5 gap-3 items-center'>
+                                    <img src={phone} alt="loc" />
+                                    <span className='text-[#B3B3B3] text-lg font-[500] font-display'>Company Address</span>
+                                </div>
+                                <div className='lg:w-[70%] w-full h-full flex items-center px-5 text-lg font-[500] font-display'>
+                                    {jobDetails.address}
+                                </div>
+                            </div>
+                        )}
+
+
+
 
 
                     </div>

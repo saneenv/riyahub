@@ -18,6 +18,11 @@ function DateSearch() {
     const [startDate, setStartDate] = useState(null); // Start date for filtering
     const [endDate, setEndDate] = useState(null); // End date for filtering
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+    const [companyName, setCompanyName] = useState(''); // New state for filtering by company name
+    const [companyList, setCompanyList] = useState([]); // Store unique company names
+    const [selectedCompany, setSelectedCompany] = useState(''); // Selected company name
+
+
 
     // Fetch location data from the backend API
     const fetchLocationData = async () => {
@@ -55,6 +60,32 @@ function DateSearch() {
         setLocationCategory(selectedOption ? selectedOption.value : '');
     };
 
+    const fetchCompanyNames = async () => {
+        try {
+            const response = await fetch(`${apiBaseUrl}/getAllPackageSelections`);
+            if (response.ok) {
+                const data = await response.json();
+
+                if (data && data.data) {
+                    const uniqueCompanies = [
+                        ...new Set(data.data.map(item => item.additionalCompanyName).filter(Boolean))
+                    ];
+                    setCompanyList(uniqueCompanies);
+                }
+            } else {
+                console.error('Error fetching data:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error fetching company names:', error);
+        }
+    };
+
+    // Fetch company names when component loads
+    useEffect(() => {
+        fetchCompanyNames();
+    }, []);
+
+
     const exportHistoryDataToExcel = async () => {
         try {
             const response = await fetch(`${apiBaseUrl}/getAllPackageSelections`);
@@ -65,7 +96,7 @@ function DateSearch() {
                 if (data && data.data) {
                     let filteredData = data.data;
 
-                    // Filter data based on selected location
+                    // Filter by Location
                     if (locationCategory) {
                         filteredData = filteredData.filter(
                             item =>
@@ -74,19 +105,25 @@ function DateSearch() {
                         );
                     }
 
-                    // Filter data based on selected date range
+                    // Filter by Date Range
                     if (startDate && endDate) {
                         filteredData = filteredData.filter(item => {
                             const appliedDate = new Date(item.created_at);
 
-                            // If start date and end date are the same, filter by the exact date
                             if (startDate.getTime() === endDate.getTime()) {
-                                return appliedDate.toDateString() === startDate.toDateString(); // Compare only the date part
+                                return appliedDate.toDateString() === startDate.toDateString();
                             }
 
-                            // Otherwise, filter by date range
                             return appliedDate >= startDate && appliedDate <= endDate;
                         });
+                    }
+
+                    // Filter by Company Name
+                    // Filter by Company Name
+                    if (selectedCompany) {
+                        filteredData = filteredData.filter(item =>
+                            item.additionalCompanyName === selectedCompany
+                        );
                     }
 
 
@@ -95,13 +132,14 @@ function DateSearch() {
                         return;
                     }
 
-                    // Rest of the data formatting logic
+                    // Sort Data
                     const sortedData = filteredData.sort((a, b) => {
                         if (a.additionalCompanyName < b.additionalCompanyName) return -1;
                         if (a.additionalCompanyName > b.additionalCompanyName) return 1;
                         return new Date(b.created_at) - new Date(a.created_at);
                     });
 
+                    // Format Data for Excel
                     const formattedData = sortedData.map(item => {
                         const { id, ...rest } = item;
                         return {
@@ -110,6 +148,7 @@ function DateSearch() {
                         };
                     });
 
+                    // Define Headers for Excel
                     const headers = [
                         'Company Name',
                         'Company Number',
@@ -136,14 +175,8 @@ function DateSearch() {
 
                     const ws = XLSX.utils.aoa_to_sheet(customData);
                     const colWidths = [
-                        { wch: 25 }, // Company Name
-                        { wch: 25 }, // Company Number
-                        { wch: 25 }, // Company Location
-                        { wch: 25 }, // Candidate Name
-                        { wch: 25 }, // Candidate House Name
-                        { wch: 25 }, // Candidate Experience
-                        { wch: 25 }, // Applied Date
-                        { wch: 25 }, // Candidate Mobile Number
+                        { wch: 25 }, { wch: 25 }, { wch: 25 }, { wch: 25 },
+                        { wch: 25 }, { wch: 25 }, { wch: 25 }, { wch: 25 }
                     ];
                     ws['!cols'] = colWidths;
 
@@ -183,6 +216,15 @@ function DateSearch() {
                     value={locationCategory ? locationOptions.find(option => option.value === locationCategory) : null}
                 />
 
+                    <Select
+                        options={companyList.map(company => ({ value: company, label: company }))}
+                        value={selectedCompany ? { value: selectedCompany, label: selectedCompany } : null}
+                        onChange={(selectedOption) => setSelectedCompany(selectedOption ? selectedOption.value : '')}
+                        placeholder="Select Company Name"
+                        isClearable
+                        className="w-full mb-4"
+                    />
+
                 {/* Date Picker */}
                 <div className="flex gap-4 justify-center">
                     <DatePicker
@@ -200,6 +242,10 @@ function DateSearch() {
                         className="border px-4 py-2 rounded"
                     />
                 </div>
+
+               
+
+
 
                 <div className="text-center mt-4">
                     <button
