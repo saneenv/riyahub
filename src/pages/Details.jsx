@@ -19,6 +19,7 @@ import Navbar2Mob from '../components/Navbar2Mob';
 
 
 
+
 function Details() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
 
