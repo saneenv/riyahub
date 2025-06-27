@@ -94,7 +94,7 @@ function ContactUs() {
     const formattedMessage = `Name: ${name}\nNumber: ${mobileNumber}\nEmail: ${email}\nMessage: ${message}`;
 
     try {
-      const response = await fetch(`${apiBaseUrl}/send-whatsapp`, {
+      const response = await fetch(`${apiBaseUrl}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

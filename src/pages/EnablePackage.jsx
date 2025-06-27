@@ -5,6 +5,8 @@ import Navbar2 from '../components/Navbar2';
 import Footer from '../components/Footer';
 import { useMediaQuery } from 'react-responsive';
 import Navbar2Mob from '../components/Navbar2Mob';
+import DatePicker from 'react-datepicker';
+
 
 function EnablePackage() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
@@ -14,6 +16,7 @@ function EnablePackage() {
     const [customers, setCustomers] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [customPlanDays, setCustomPlanDays] = useState({}); // Object to hold custom days for each customer
+    const [customPlanExpiry, setCustomPlanExpiry] = useState({});
 
     // Fetch customer data from the API
     useEffect(() => {
@@ -23,29 +26,16 @@ function EnablePackage() {
                 const data = await response.json();
 
                 if (data.success) {
-                    const currentDate = new Date();
 
                     const customerNames = data.candidates.map(candidate => {
-                        const selectionDate = new Date(candidate.SelectionDate);
-                        let selectedPlan = candidate.SelectedPlan;
-
-                        // Reset selectedPlan based on expiration dates
-                        if (selectedPlan === '300' && (currentDate - selectionDate) / (1000 * 60 * 60 * 24) >= 30) {
-                            selectedPlan = null;
-                        } else if (selectedPlan === '500' && (currentDate - selectionDate) / (1000 * 60 * 60 * 24) >= 90) {
-                            selectedPlan = null;
-                        } else if (selectedPlan === '600' && (currentDate - selectionDate) / (1000 * 60 * 60 * 24) >= 60) {
-                            selectedPlan = null;
-                        } else if (selectedPlan === '800' && (currentDate - selectionDate) / (1000 * 60 * 60 * 24) >= 120) {
-                            selectedPlan = null;
-                        }
-
+                     
                         return {
                             id: candidate.CandidateID,
                             name: candidate.Name,
                             Mobile: candidate.Mobile,
-                            selectedPlan,
-                            planDays: candidate.PlanDays || null // Get PlanDays if it exists, else null
+                            selectedPlan: candidate.SelectedPlan,
+                            planDays: candidate.PlanDays || "nil", // Get PlanDays if it exists, else null
+                            expiryDate: candidate.ExpiryDate || "nil"
                         };
                     });
 
@@ -118,6 +108,42 @@ function EnablePackage() {
         }
     };
 
+    const handleCustomExpiryChange = (customerId, date) => {
+        setCustomPlanExpiry(prev => ({
+            ...prev,
+            [customerId]: date
+        }));
+    };
+
+    const handleSetCustomPlan = async (customerId, expiryDate) => {
+        if (!expiryDate) {
+            alert('Please select an expiration date');
+            return;
+        }
+
+        try {
+            const response = await fetch(`${apiBaseUrl}/updateSelectedPlan`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: customerId,
+                    selectedPlan: '0',
+                    expiryDate: expiryDate
+                }),
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                alert(`Custom plan until ${expiryDate} set successfully`);
+                window.location.reload();
+            }
+        } catch (error) {
+            console.error("Error setting custom plan:", error);
+        }
+    };
+
     const handleCustomPlanInputChange = (customerId, value) => {
         const numericValue = value ? parseInt(value, 10) : '';
         setCustomPlanDays(prevState => ({
@@ -125,7 +151,7 @@ function EnablePackage() {
             [customerId]: numericValue,
         }));
     };
-    
+
 
 
     return (
@@ -156,6 +182,8 @@ function EnablePackage() {
                             <th className="lg:p-4 p-1 border lg:text-base text-xs font-display">500 Plan</th>
                             <th className="lg:p-4 p-1 border lg:text-base text-xs font-display">500 Plan (TVM/EKM)</th>
                             <th className="lg:p-4 p-1 border lg:text-base text-xs font-display">800 Plan (TVM/EKM)</th>
+                            <th className="lg:p-4 p-1 border lg:text-base text-xs font-display">Old Plan</th>
+                            <th className="lg:p-4 p-1 border lg:text-base text-xs font-display">Expiry date</th>
                             <th className="lg:p-4 p-1 border lg:text-base text-xs font-display">Custom Plan</th>
                         </tr>
                     </thead>
@@ -199,16 +227,26 @@ function EnablePackage() {
                                     />
                                 </td>
                                 <td className="lg:p-4 p-1 border">
-                                    <input
-                                        type="number"
-                                        value={customPlanDays[customer.id] || ''}
-                                        onChange={(e) => handleCustomPlanInputChange(customer.id, e.target.value)}
-                                         placeholder="Custom Days"
+                                    <span className='text-black'>{customer.planDays}</span>
+                                </td>
+                                <td className="lg:p-4 p-1 border">
+                                    <span className='text-black'>
+                                        {customer.expiryDate ?
+                                            new Date(customer.expiryDate).toLocaleDateString('en-GB') :
+                                            'N/A'}
+                                    </span>
+                                </td>
+                                <td className="lg:p-4 p-1 border">
+                                    <DatePicker
+                                        selected={customPlanExpiry[customer.id] ? new Date(customPlanExpiry[customer.id]) : null}
+                                        onChange={(date) => handleCustomExpiryChange(customer.id, date)}
+                                        minDate={new Date()}
+                                        dateFormat="yyyy-MM-dd"
                                         className="p-1 border"
+                                        placeholderText="Select expiry date"
                                     />
-
                                     <button
-                                        onClick={() => handleCheckboxChange(customer.id, '0', customPlanDays[customer.id])}
+                                        onClick={() => handleSetCustomPlan(customer.id, customPlanExpiry[customer.id])}
                                         className="ml-2 p-2 bg-blue-500 text-white rounded"
                                     >
                                         Set Custom Plan

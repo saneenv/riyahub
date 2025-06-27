@@ -6,6 +6,7 @@ import Navbar from '../components/Navbar';
 import NavbarMob from '../components/NavbarMob';
 import { useNavigate } from 'react-router-dom'
 import Navbar2Mob from '../components/Navbar2Mob';
+import Select from 'react-select';
 
 
 function EnableJobPost() {
@@ -23,10 +24,11 @@ function EnableJobPost() {
     employee_id: '',
     job: '',
     location: '',
-    job_id: '', // Added job_id for search filtering
-    whatsapp_number: ''
-
+    job_id: '',
+    whatsapp_number: '',
+    gender_type: '' // Add this line
   });
+
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
@@ -53,9 +55,9 @@ function EnableJobPost() {
       job.employee_id.toString().includes(searchQuery.employee_id) &&
       job.job.toLowerCase().includes(searchQuery.job.toLowerCase()) &&
       job.location.toLowerCase().includes(searchQuery.location.toLowerCase()) &&
-      displayedJobId.toString().includes(searchQuery.job_id) && // Use displayedJobId here
-      job.whatsapp_number.toLowerCase().includes(searchQuery.whatsapp_number.toLowerCase())
-
+      displayedJobId.toString().includes(searchQuery.job_id) &&
+      job.whatsapp_number.toLowerCase().includes(searchQuery.whatsapp_number.toLowerCase()) &&
+      (searchQuery.gender_type === '' || job.gender_type === searchQuery.gender_type) // Add this line
     );
   });
 
@@ -201,6 +203,46 @@ function EnableJobPost() {
             onChange={handleSearchChange}
             className='border border-[gray] p-2 rounded-lg'
           />
+            <Select
+              options={[
+                { value: '', label: 'All Genders' },
+                { value: 'MALE', label: 'Male' },
+                { value: 'FEMALE', label: 'Female' },
+                { value: 'MALE/FEMALE', label: 'Male/Female' }
+              ]}
+              value={{
+                value: searchQuery.gender_type,
+                label: searchQuery.gender_type === 'MALE' ? 'Male' :
+                  searchQuery.gender_type === 'FEMALE' ? 'Female' :
+                    searchQuery.gender_type === 'MALE/FEMALE' ? 'Male/Female' : 'All Genders'
+              }}
+              onChange={(selectedOption) => {
+                setSearchQuery(prev => ({
+                  ...prev,
+                  gender_type: selectedOption.value
+                }));
+              }}
+              styles={{
+                control: (base) => ({
+                  ...base,
+                  border: '1px solid #9CA3AF', // gray-400
+                  borderRadius: '0.5rem', // rounded-lg
+                  padding: '0.5rem', // p-2
+                  minHeight: '44px', // Match other inputs
+                  boxShadow: 'none',
+                  '&:hover': {
+                    borderColor: '#9CA3AF' // gray-400
+                  }
+                }),
+                option: (base) => ({
+                  ...base,
+                  padding: '8px 12px'
+                })
+              }}
+              classNamePrefix="select"
+              placeholder="Filter by Gender"
+            />
+
         </div>
 
         {/* Table displaying job posts */}
@@ -212,6 +254,7 @@ function EnableJobPost() {
                 <th className='border p-2'>Job ID</th>
                 <th className='border p-2'>Job</th>
                 <th className='border p-2'>Location</th>
+                <th className='border p-2'>Gender</th>
                 <th className='border p-2'>Number</th>
                 <th className='border p-2'>Activated Date</th>
 
@@ -232,7 +275,8 @@ function EnableJobPost() {
                   <td className='border p-2'>{job.employee_id}</td>
                   <td className='border p-2'>{job.manualJobID && job.manualJobID !== "0" ? job.manualJobID : job.job_id}</td>
                   <td className='border p-2'>{job.job}</td>
-                  <td className='border p-2'>{job.location}</td> 
+                  <td className='border p-2'>{job.location}</td>
+                  <td className='border p-2'>{job.gender_type || 'Not specified'}</td>
                   <td className='border p-2'>{job.whatsapp_number}</td>
                   <td className='border p-2'>{new Date(job.created_at).toLocaleDateString('en-GB')}</td>
 
