@@ -28,7 +28,7 @@ function EnablePackage() {
                 if (data.success) {
 
                     const customerNames = data.candidates.map(candidate => {
-                     
+
                         return {
                             id: candidate.CandidateID,
                             name: candidate.Name,
@@ -152,6 +152,34 @@ function EnablePackage() {
         }));
     };
 
+    const handleDeletePlan = async (customerId) => {
+        if (window.confirm('Are you sure you want to delete this plan?')) {
+            try {
+                const response = await fetch(`${apiBaseUrl}/deletePlan`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        id: customerId
+                    }),
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    alert('Plan deleted successfully');
+                    window.location.reload();
+                } else {
+                    console.error("Error deleting plan:", data.message);
+                    alert('Failed to delete plan');
+                }
+            } catch (error) {
+                console.error("Error sending delete request:", error);
+                alert('Error deleting plan');
+            }
+        }
+    };
+
 
 
     return (
@@ -185,6 +213,7 @@ function EnablePackage() {
                             <th className="lg:p-4 p-1 border lg:text-base text-xs font-display">Old Plan</th>
                             <th className="lg:p-4 p-1 border lg:text-base text-xs font-display">Expiry date</th>
                             <th className="lg:p-4 p-1 border lg:text-base text-xs font-display">Custom Plan</th>
+                            <th className="lg:p-4 p-1 border lg:text-base text-xs font-display">Delete Plan</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -250,6 +279,14 @@ function EnablePackage() {
                                         className="ml-2 p-2 bg-blue-500 text-white rounded"
                                     >
                                         Set Custom Plan
+                                    </button>
+                                </td>
+                                <td className="lg:p-4 p-1 border">
+                                    <button
+                                        onClick={() => handleDeletePlan(customer.id)}
+                                        className="p-2 bg-red-500 text-white rounded hover:bg-red-600"
+                                    >
+                                        Delete
                                     </button>
                                 </td>
                             </tr>

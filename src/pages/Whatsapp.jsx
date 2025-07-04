@@ -55,9 +55,9 @@ function Whatsapp() {
 
         setLoading(true);
         try {
-            const response = await fetch(
-                `${apiBaseUrl}/getjobposts?start_date=${startDate.toISOString()}&end_date=${endDate.toISOString()}&location=${locationCategory.value}`
-            );
+            // First fetch all jobs (or use backend filtering if preferred)
+            const response = await fetch(`${apiBaseUrl}/getjobposts`);
+
             if (response.ok) {
                 const data = await response.json();
                 setJobs(data.filter(job => {
@@ -66,20 +66,20 @@ function Whatsapp() {
                     // Only include jobs where enable is "on"
                     if (job.enable !== "on") return false;
 
-                    // Start and End date are on the same day
-                    if (startDate.toDateString() === endDate.toDateString()) {
-                        return (
-                            jobDate.toDateString() === startDate.toDateString() &&
-                            job.location === locationCategory.value
-                        );
-                    }
+                    // Convert both to lowercase for case-insensitive comparison
+                    const jobLocation = job.location?.toLowerCase() || '';
+                    const searchLocation = locationCategory.value.toLowerCase();
 
-                    // Date range filtering
-                    return (
-                        jobDate >= startDate &&
-                        jobDate <= endDate &&
-                        job.location === locationCategory.value
+                    // Check if job location contains the search text
+                    const locationMatches = jobLocation.includes(searchLocation);
+
+                    // Date filtering - include jobs between start and end dates (inclusive)
+                    const dateMatches = (
+                        jobDate >= new Date(startDate.setHours(0, 0, 0, 0)) &&
+                        jobDate <= new Date(endDate.setHours(23, 59, 59, 999))
                     );
+
+                    return locationMatches && dateMatches;
                 }));
             } else {
                 console.error('Failed to fetch jobs:', response.statusText);
@@ -349,7 +349,7 @@ function Whatsapp() {
         navigate('/toexcel');
     };
 
-    
+
     const messageemp = () => {
         navigate('/messageemp');
     };
