@@ -1,5 +1,5 @@
 import './App.css';
-import {Route,Routes,BrowserRouter} from 'react-router-dom';
+import { Route, Routes, BrowserRouter } from 'react-router-dom';
 import Main from './pages/Main';
 import Home from './pages/Home';
 import Details from './pages/Details';
@@ -49,67 +49,70 @@ import DetailsForStaff from './pages/DetailsForStaff';
 import DeleteProfileCan from './components/DeleteProfileCan';
 import AddCompanyName from './pages/AddCompanyName';
 import MessageEmp from './pages/MessageEmp';
+import PlansManagement from './pages/PlansManagement';
 
 
 function App() {
   return (
     <div className="App">
-        <BrowserRouter>
-              <Routes>
-                <Route path='/' element={<Home/>}/>
-                <Route path='/Home' element={<Home/>}/>
-                <Route path='/details' element={<Details/>}/>
-                <Route path='/packages' element={<Packages/>}/>
-                <Route path='/canreg' element={<CandidateReg/>}/>
-                <Route path='/jobpost' element={<JobPost/>}/>
-                <Route path='/empreg' element={<EmployeeReg/>}/>
-                <Route path='/login' element={<Login/>}/>
-                <Route path='/verify' element={<Verify/>}/>
-                <Route path='/regchoose' element={<RegChoose/>}/>
-                <Route path='/postedjob' element={<PostedJobs/>}/>
-                <Route path='/editjobpost' element={<EditJobPost/>}/>
-                <Route path='/viewprofile' element={<ViewProfile/>}/>
-                <Route path='/editempreg' element={<EditEmpReg/>}/>
-                <Route path='/contact' element={<ContactUs/>}/>
-                <Route path='/viewcandidate' element={<ViewProfile2/>}/>
-                <Route path='/editcanreg' element={<EditCanReg/>}/>
-                <Route path='/matchingjobs' element={<MatchingJobs/>}/>
-                <Route path='/searchedjobs' element={<SearchedJobs/>}/>
-                <Route path='/jobcategories' element={<JobCategory/>}/>
-                <Route path='/jobs' element={<Jobs/>}/>
-                <Route path='/jobid' element={<JobId/>}/>
-                <Route path='/enablepackage' element={<EnablePackage/>}/>
-                <Route path='/companydetails' element={<CompanyDetails/>}/>
-                <Route path='/appliedcan' element={<AppliedCan/>}/>
-                <Route path='/staffreg' element={<StaffReg/>}/>
-                <Route path='/viewstaff' element={<ViewProfile3/>}/>
-                <Route path='/canapplied' element={<CanApplied/>}/>
-                <Route path='/about' element={<About/>}/>
-                <Route path='/terms' element={<Terms/>}/>
-                <Route path='/privacy' element={<Privacy/>}/>
-                <Route path='/martialstatus' element={<MartialStatus/>}/>
-                <Route path='/deleteprofiles' element={<DeleteProfiles/>}/>
-                <Route path='/deleteprofilescan' element={<DeleteProfileCan/>}/>
-                <Route path='/services' element={<Services/>}/>
-                <Route path='/appliedcanall' element={<AppliedCanAll/>}/>
-                <Route path='/whatsapp' element={<Whatsapp/>}/>
-                <Route path='/toexcel' element={<DateSearch/>}/>
-                <Route path='/enablejobpost' element={<EnableJobPost/>}/>
-                <Route path="/enablestaff" element={<EnableStaff />} />
-                <Route path="/addlocation" element={<AddLocation />} />
-                <Route path="/addcompanytype" element={<AddCompanyType />} />
-                <Route path="/addjobs" element={<AddJobs />} />
-                <Route path="/addqualifications" element={<AddQualifications />} />
-                <Route path="/change-password/:employeeId" element={<ChangePasswordPage />} />
-                <Route path="/jobnames" element={<JobNames />} />
-                <Route path="/detailsforstaff" element={<DetailsForStaff />} />
-                <Route path="/addcompanyname" element={<AddCompanyName />} />
-                <Route path="/messageemp" element={<MessageEmp />} />
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/Home' element={<Home />} />
+          <Route path='/details' element={<Details />} />
+          <Route path='/packages' element={<Packages />} />
+          <Route path='/canreg' element={<CandidateReg />} />
+          <Route path='/jobpost' element={<JobPost />} />
+          <Route path='/empreg' element={<EmployeeReg />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/verify' element={<Verify />} />
+          <Route path='/regchoose' element={<RegChoose />} />
+          <Route path='/postedjob' element={<PostedJobs />} />
+          <Route path='/editjobpost' element={<EditJobPost />} />
+          <Route path='/viewprofile' element={<ViewProfile />} />
+          <Route path='/editempreg' element={<EditEmpReg />} />
+          <Route path='/contact' element={<ContactUs />} />
+          <Route path='/viewcandidate' element={<ViewProfile2 />} />
+          <Route path='/editcanreg' element={<EditCanReg />} />
+          <Route path='/matchingjobs' element={<MatchingJobs />} />
+          <Route path='/searchedjobs' element={<SearchedJobs />} />
+          <Route path='/jobcategories' element={<JobCategory />} />
+          <Route path='/jobs' element={<Jobs />} />
+          <Route path='/jobid' element={<JobId />} />
+          <Route path='/enablepackage' element={<EnablePackage />} />
+          <Route path='/companydetails' element={<CompanyDetails />} />
+          <Route path='/appliedcan' element={<AppliedCan />} />
+          <Route path='/staffreg' element={<StaffReg />} />
+          <Route path='/viewstaff' element={<ViewProfile3 />} />
+          <Route path='/canapplied' element={<CanApplied />} />
+          <Route path='/about' element={<About />} />
+          <Route path='/terms' element={<Terms />} />
+          <Route path='/privacy' element={<Privacy />} />
+          <Route path='/martialstatus' element={<MartialStatus />} />
+          <Route path='/deleteprofiles' element={<DeleteProfiles />} />
+          <Route path='/deleteprofilescan' element={<DeleteProfileCan />} />
+          <Route path='/services' element={<Services />} />
+          <Route path='/appliedcanall' element={<AppliedCanAll />} />
+          <Route path='/whatsapp' element={<Whatsapp />} />
+          <Route path='/toexcel' element={<DateSearch />} />
+          <Route path='/enablejobpost' element={<EnableJobPost />} />
+          <Route path="/enablestaff" element={<EnableStaff />} />
+          <Route path="/addlocation" element={<AddLocation />} />
+          <Route path="/addcompanytype" element={<AddCompanyType />} />
+          <Route path="/addjobs" element={<AddJobs />} />
+          <Route path="/addqualifications" element={<AddQualifications />} />
+          <Route path="/change-password/:employeeId" element={<ChangePasswordPage />} />
+          <Route path="/jobnames" element={<JobNames />} />
+          <Route path="/detailsforstaff" element={<DetailsForStaff />} />
+          <Route path="/addcompanyname" element={<AddCompanyName />} />
+          <Route path="/messageemp" element={<MessageEmp />} />
+          <Route path="/plan" element={<PlansManagement />} />
 
-             </Routes>
-        </BrowserRouter>
+
+        </Routes>
+      </BrowserRouter>
     </div>
-  );                                                                                                                
+  );
 }
 
 export default App;

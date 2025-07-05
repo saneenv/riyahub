@@ -6,6 +6,8 @@ import Footer from '../components/Footer';
 import { useMediaQuery } from 'react-responsive';
 import Navbar2Mob from '../components/Navbar2Mob';
 import DatePicker from 'react-datepicker';
+import { useNavigate } from 'react-router-dom';
+
 
 
 function EnablePackage() {
@@ -17,6 +19,7 @@ function EnablePackage() {
     const [searchTerm, setSearchTerm] = useState('');
     const [customPlanDays, setCustomPlanDays] = useState({}); // Object to hold custom days for each customer
     const [customPlanExpiry, setCustomPlanExpiry] = useState({});
+    const navigate = useNavigate();
 
     // Fetch customer data from the API
     useEffect(() => {
@@ -180,6 +183,10 @@ function EnablePackage() {
         }
     };
 
+    const planpage = () => {
+        navigate('/plan');
+    };
+
 
 
     return (
@@ -193,6 +200,9 @@ function EnablePackage() {
             </div>
 
             <div className="lg:px-12 px-3 py-12 flex bg-[#eeebeb] w-full flex-col min-h-screen">
+                <div className='w-full flex justify-center items-center pb-6'>
+                    <span className='underline cursor-pointer lg:text-base text-xs font-display font-[600]' onClick={planpage}>Create Package</span>
+                </div>
                 <input
                     type="text"
                     placeholder="Search by Candidate Id, Name or Number"
