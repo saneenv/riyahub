@@ -119,25 +119,32 @@ function DateSearch() {
                     }
 
                     // Filter by Company Name
-                    // Filter by Company Name
                     if (selectedCompany) {
                         filteredData = filteredData.filter(item =>
-                            item.additionalCompanyName === selectedCompany
+                            (item.additionalCompanyName || item.companyName || "").trim() === selectedCompany
                         );
                     }
-
 
                     if (filteredData.length === 0) {
                         alert('No data found for the selected filters.');
                         return;
                     }
 
-                    // Sort Data
+                    // ✅ Sort Data (case-insensitive, fallback to companyName)
                     const sortedData = filteredData.sort((a, b) => {
-                        if (a.additionalCompanyName < b.additionalCompanyName) return -1;
-                        if (a.additionalCompanyName > b.additionalCompanyName) return 1;
+                        const nameA = (a.additionalCompanyName || a.companyName || "").toLowerCase().trim();
+                        const nameB = (b.additionalCompanyName || b.companyName || "").toLowerCase().trim();
+
+                        // ✅ Push empty/N/A names to the bottom
+                        if (!nameA && nameB) return 1;
+                        if (nameA && !nameB) return -1;
+
+                        if (nameA < nameB) return -1;
+                        if (nameA > nameB) return 1;
+
                         return new Date(b.created_at) - new Date(a.created_at);
                     });
+
 
                     // Format Data for Excel
                     const formattedData = sortedData.map(item => {
@@ -160,15 +167,16 @@ function DateSearch() {
                         'Candidate Mobile Number',
                     ];
 
+                    // ✅ Use safe fallback for company name
                     const customData = formattedData.map(item => [
-                        item.additionalCompanyName,
-                        item.additionalMobileNumber,
-                        item.additionalLocation,
-                        item.customerName,
-                        item.houseName,
-                        item.experienced,
-                        item.created_at,
-                        item.mobileNumber,
+                        item.additionalCompanyName || item.companyName || "N/A",
+                        item.additionalMobileNumber || "",
+                        item.additionalLocation || "",
+                        item.customerName || "",
+                        item.houseName || "",
+                        item.experienced || "",
+                        item.created_at || "",
+                        item.mobileNumber || "",
                     ]);
 
                     customData.unshift(headers);
@@ -216,14 +224,14 @@ function DateSearch() {
                     value={locationCategory ? locationOptions.find(option => option.value === locationCategory) : null}
                 />
 
-                    <Select
-                        options={companyList.map(company => ({ value: company, label: company }))}
-                        value={selectedCompany ? { value: selectedCompany, label: selectedCompany } : null}
-                        onChange={(selectedOption) => setSelectedCompany(selectedOption ? selectedOption.value : '')}
-                        placeholder="Select Company Name"
-                        isClearable
-                        className="w-full mb-4"
-                    />
+                <Select
+                    options={companyList.map(company => ({ value: company, label: company }))}
+                    value={selectedCompany ? { value: selectedCompany, label: selectedCompany } : null}
+                    onChange={(selectedOption) => setSelectedCompany(selectedOption ? selectedOption.value : '')}
+                    placeholder="Select Company Name"
+                    isClearable
+                    className="w-full mb-4"
+                />
 
                 {/* Date Picker */}
                 <div className="flex gap-4 justify-center">
@@ -243,7 +251,7 @@ function DateSearch() {
                     />
                 </div>
 
-               
+
 
 
 

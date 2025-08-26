@@ -23,9 +23,25 @@ function Login() {
     }, []);
 
     // Combined function to handle both employee and candidate login
+    // Combined function to handle both employee and candidate login
     const handleLogin = async () => {
         try {
-            // First, attempt employee login
+            // First check if number is blocked
+            const blockedProfilesResponse = await fetch(`${apiBaseUrl}/getBlockedProfiles`);
+            const blockedProfiles = await blockedProfilesResponse.json();
+
+            // Check if the mobile number exists in blocked profiles for employee or candidate
+            const isBlocked = blockedProfiles.some(profile =>
+                (profile.ProfileType === 'employee' || profile.ProfileType === 'candidate') &&
+                profile.MobileNumber === mobileNumber
+            );
+
+            if (isBlocked) {
+                alert('This mobile number is blocked.');
+                return; // Stop login flow
+            }
+
+            // If not blocked, attempt employee login
             const response = await fetch(`${apiBaseUrl}/login`, {
                 method: 'POST',
                 headers: {
@@ -52,7 +68,6 @@ function Login() {
             } else {
                 const candidateLoginSuccess = await attemptCandidateLogin();
                 if (!candidateLoginSuccess) {
-                    // If candidate login also fails, attempt staff login
                     await attemptStaffLogin();
                 }
             }
@@ -61,6 +76,7 @@ function Login() {
             setErrorMessage('An error occurred. Please try again.');
         }
     };
+
 
     // Function to attempt candidate login
     const attemptCandidateLogin = async () => {
@@ -162,10 +178,10 @@ function Login() {
 
         // Add any other relevant data here
     };
-    
-  const regchoose = () => {
-    navigate('/regchoose');
-  };
+
+    const regchoose = () => {
+        navigate('/regchoose');
+    };
 
     return (
         <div className='flex flex-col min-h-screen'>
@@ -174,7 +190,7 @@ function Login() {
                 <Navbar2 />
             </div>
             <div className='md:hidden flex flex-col'>
-            <Navbar2Mob />
+                <Navbar2Mob />
             </div>
             <div className='flex justify-center items-center bg-[black] py-7'>
                 <div className='lg:w-[30%] w-[90%] h-[70%] bg-[white] flex flex-col items-center px-2 gap-6 py-6 lg:rounded-[20px] rounded-[5px]'>

@@ -11,6 +11,7 @@ function DeleteProfileCan() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
     const [candidates, setCandidates] = useState([]);
     const [candidateSearch, setCandidateSearch] = useState('');
+    const [blockedProfiles, setBlockedProfiles] = useState([]);
     const navigate = useNavigate();
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
     const customerType = sessionStorage.getItem('customerType');
@@ -25,6 +26,21 @@ function DeleteProfileCan() {
             .catch((error) => {
                 console.error('Error fetching candidates:', error);
             });
+    }, []);
+
+    // Fetch blocked profiles
+    useEffect(() => {
+        fetch(`${apiBaseUrl}/getBlockedProfiles`)
+            .then((response) => response.json())
+            .then((data) => {
+                const normalized = data.map(profile => ({
+                    blockedId: profile.BlockedId,
+                    profileType: profile.ProfileType,
+                    mobileNumber: profile.MobileNumber,
+                }));
+                setBlockedProfiles(normalized);
+            })
+            .catch((error) => console.error('Error fetching blocked profiles:', error));
     }, []);
 
     const handleDeleteCandidate = (candidateID) => {
@@ -51,43 +67,60 @@ function DeleteProfileCan() {
         const confirmBlock = window.confirm("Are you sure you want to block this profile?");
         if (!confirmBlock) return;
 
-        const payload = {
-            blockedId,
-            profileType,
-            mobileNumber
-        };
+        const payload = { blockedId, profileType, mobileNumber };
 
         fetch(`${apiBaseUrl}/blockProfile`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload),
         })
             .then((response) => response.json())
             .then((data) => {
                 if (data.success) {
                     alert("Profile blocked successfully.");
-                } else {
-                    console.error('Error blocking profile:', data.message);
+                    setBlockedProfiles([...blockedProfiles, { blockedId, profileType, mobileNumber }]);
                 }
             })
-            .catch((error) => {
-                console.error('Error blocking profile:', error);
-            });
+            .catch((error) => console.error('Error blocking profile:', error));
     };
+
+    const handleUnblockProfile = (blockedId, mobileNumber) => {
+        const confirmUnblock = window.confirm("Are you sure you want to unblock this profile?");
+        if (!confirmUnblock) return;
+
+        fetch(`${apiBaseUrl}/unblockProfile`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ blockedId, mobileNumber }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    alert("Profile unblocked successfully.");
+                    setBlockedProfiles(blockedProfiles.filter(
+                        profile => !(profile.blockedId === blockedId && profile.mobileNumber === mobileNumber)
+                    ));
+                }
+            })
+            .catch((error) => console.error('Error unblocking profile:', error));
+    };
+
+    const isBlocked = (id, mobile) =>
+        blockedProfiles.some(profile =>
+            profile.blockedId === id && profile.mobileNumber === mobile
+        );
 
     const filteredCandidates = candidates.filter(candidate =>
         (candidate.Name && candidate.Name.toLowerCase().includes(candidateSearch.toLowerCase())) ||
         (candidate.CandidateID.toString().includes(candidateSearch)) ||
-        (candidate.Mobile.toString().includes(candidateSearch)) || 
-        (candidate.Gender && candidate.Gender.toLowerCase().includes(candidateSearch.toLowerCase())) || 
-        (candidate.experienced && candidate.experienced.toLowerCase().includes(candidateSearch.toLowerCase())) || 
+        (candidate.Mobile.toString().includes(candidateSearch)) ||
+        (candidate.Gender && candidate.Gender.toLowerCase().includes(candidateSearch.toLowerCase())) ||
+        (candidate.experienced && candidate.experienced.toLowerCase().includes(candidateSearch.toLowerCase())) ||
         (candidate.Jobs && candidate.Jobs.toLowerCase().includes(candidateSearch.toLowerCase())) ||
         (candidate.Age !== null && candidate.Age !== undefined && candidate.Age.toString().includes(candidateSearch)) ||
-        (candidate.Degree && candidate.Degree.toLowerCase().includes(candidateSearch.toLowerCase())) 
+        (candidate.Degree && candidate.Degree.toLowerCase().includes(candidateSearch.toLowerCase()))
     );
-    
+
 
     return (
         <div className="flex flex-col min-h-screen bg-gray-50">
@@ -132,12 +165,21 @@ function DeleteProfileCan() {
                                     <p className="font-bold text-gray-600 font-display">Preferred Jobs: {candidate.Jobs}</p>
 
                                     <div className="mt-4 flex justify-between">
-                                        <button
-                                            onClick={() => handleBlockProfile(candidate.CandidateID, candidate.Mobile, "candidate")}
-                                            className="text-red-500 hover:text-red-700 font-semibold font-display"
-                                        >
-                                            Block
-                                        </button>
+                                        {isBlocked(candidate.CandidateID, candidate.Mobile) ? (
+                                            <button
+                                                onClick={() => handleUnblockProfile(candidate.CandidateID, candidate.Mobile)}
+                                                className="text-green-600 hover:text-green-800 font-semibold font-display"
+                                            >
+                                                Unblock
+                                            </button>
+                                        ) : (
+                                            <button
+                                                onClick={() => handleBlockProfile(candidate.CandidateID, candidate.Mobile, "candidate")}
+                                                className="text-red-500 hover:text-red-700 font-semibold font-display"
+                                            >
+                                                Block
+                                            </button>
+                                        )}
                                         {customerType === 'mainAdmin' && (
                                             <button
                                                 onClick={() => navigate(`/change-password/${candidate.CandidateID}`)}

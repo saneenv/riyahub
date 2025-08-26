@@ -40,9 +40,9 @@ function EnablePackage() {
                             planDays: candidate.PlanDays || "nil", // Get PlanDays if it exists, else null
                             expiryDate: candidate.ExpiryDate || "nil"
                         };
-                    });
+                    });    
 
-                    // Set customers state
+                    // Set customers state   
                     setCustomers(customerNames);
 
                     // Set initial customPlanDays state based on PlanDays value

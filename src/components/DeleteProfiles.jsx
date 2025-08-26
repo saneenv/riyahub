@@ -11,8 +11,9 @@ function DeleteProfiles() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
     const [candidates, setCandidates] = useState([]);
     const [employees, setEmployees] = useState([]);
-    const [candidateSearch, setCandidateSearch] = useState('');
     const [employeeSearch, setEmployeeSearch] = useState('');
+    const [blockedProfiles, setBlockedProfiles] = useState([]);
+
     const navigate = useNavigate();
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
     const customerType = sessionStorage.getItem('customerType');
@@ -38,27 +39,30 @@ function DeleteProfiles() {
             .catch((error) => {
                 console.error('Error fetching employees:', error);
             });
+
+
     }, []);
 
-    const handleDeleteCandidate = (candidateID) => {
-        const confirmDelete = window.confirm("Are you sure you want to delete your profile?");
-        if (!confirmDelete) return;
-
-        fetch(`${apiBaseUrl}/deleteCandidate/${candidateID}`, {
-            method: 'DELETE',
-        })
+    useEffect(() => {
+        fetch(`${apiBaseUrl}/getBlockedProfiles`)
             .then((response) => response.json())
             .then((data) => {
-                if (data.success) {
-                    setCandidates(candidates.filter(candidate => candidate.CandidateID !== candidateID));
-                } else {
-                    console.error('Error deleting candidate:', data.message);
-                }
+                // normalize keys
+                const normalized = data.map(profile => ({
+                    blockedId: profile.BlockedId,
+                    profileType: profile.ProfileType,
+                    mobileNumber: profile.MobileNumber,
+                }));
+                setBlockedProfiles(normalized);
             })
             .catch((error) => {
-                console.error('Error deleting candidate:', error);
+                console.error('Error fetching blocked profiles:', error);
             });
-    };
+    }, []);
+
+
+
+
 
     const handleDeleteEmployee = (employeeID) => {
         const confirmDelete = window.confirm("Are you sure you want to delete this employee's profile and all associated job posts?");
@@ -96,11 +100,6 @@ function DeleteProfiles() {
     };
 
 
-    const filteredCandidates = candidates.filter(candidate =>
-        candidate.Name.toLowerCase().includes(candidateSearch.toLowerCase()) ||
-        candidate.CandidateID.toString().includes(candidateSearch) ||
-        candidate.Mobile.toString().includes(candidateSearch) // Added mobile number search
-    );
 
     const filteredEmployees = employees.filter(employee =>
         employee.company_name.toLowerCase().includes(employeeSearch.toLowerCase()) ||
@@ -114,32 +113,57 @@ function DeleteProfiles() {
         const confirmBlock = window.confirm("Are you sure you want to block this profile?");
         if (!confirmBlock) return;
 
-        // Updated payload keys to match backend expectations
-        const payload = {
-            blockedId,
-            profileType,
-            mobileNumber
-        };
+        const payload = { blockedId, profileType, mobileNumber };
 
         fetch(`${apiBaseUrl}/blockProfile`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload),
         })
             .then((response) => response.json())
             .then((data) => {
                 if (data.success) {
                     alert("Profile blocked successfully.");
-                } else {
-                    console.error('Error blocking profile:', data.message);
+                    setBlockedProfiles([...blockedProfiles, { blockedId, profileType, mobileNumber }]);
                 }
+
             })
             .catch((error) => {
                 console.error('Error blocking profile:', error);
             });
     };
+
+    const handleUnblockProfile = (blockedId, mobileNumber) => {
+        const confirmUnblock = window.confirm("Are you sure you want to unblock this profile?");
+        if (!confirmUnblock) return;
+
+        fetch(`${apiBaseUrl}/unblockProfile`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ blockedId, mobileNumber }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    alert("Profile unblocked successfully.");
+                    setBlockedProfiles(blockedProfiles.filter(profile =>
+                        !(profile.blockedId === blockedId && profile.mobileNumber === mobileNumber)
+                    ));
+
+                }
+            })
+            .catch((error) => {
+                console.error('Error unblocking profile:', error);
+            });
+    };
+
+
+    const isBlocked = (id, mobile) =>
+        blockedProfiles.some(profile =>
+            profile.blockedId === id && profile.mobileNumber === mobile
+        );
+
+
 
 
     return (
@@ -176,12 +200,22 @@ function DeleteProfiles() {
                                         <p className="text-gray-600 font-display">Password: {employee.password}</p>
                                     )}
                                     <div className="mt-4 flex justify-between">
-                                        <button
-                                            onClick={() => handleBlockProfile(employee.id, employee.mobile_number, "employee")}
-                                            className="text-red-500 hover:text-red-700 font-semibold font-display"
-                                        >
-                                            Block
-                                        </button>
+                                        {isBlocked(employee.id, employee.mobile_number) ? (
+                                            <button
+                                                onClick={() => handleUnblockProfile(employee.id, employee.mobile_number)}
+                                                className="text-green-600 hover:text-green-800 font-semibold font-display"
+                                            >
+                                                Unblock
+                                            </button>
+                                        ) : (
+                                            <button
+                                                onClick={() => handleBlockProfile(employee.id, employee.mobile_number, "employee")}
+                                                className="text-red-500 hover:text-red-700 font-semibold font-display"
+                                            >
+                                                Block
+                                            </button>
+                                        )}
+
                                         {customerType === 'mainAdmin' && (
                                             <button
                                                 onClick={() => navigate(`/change-password/${employee.id}`)}
@@ -204,67 +238,7 @@ function DeleteProfiles() {
                     </div>
                 </div>
 
-                {/* Candidates Section */}
-                {/* <div className="bg-[#d4d4d4] shadow-md rounded-lg p-6">
-                    <h2 className="text-3xl font-semibold text-center  mb-6 font-display">Candidates</h2>
-                    <input
-                        type="text"
-                        placeholder="Search by Name, ID or Mobile Number"
-                        value={candidateSearch}
-                        onChange={(e) => setCandidateSearch(e.target.value)}
-                        className="mb-4 w-full p-2 border rounded"
-                    />
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                        {filteredCandidates.map((candidate) => (
-                            <div key={candidate.CandidateID} className="bg-white rounded-lg shadow-lg overflow-hidden">
-                                <div className="p-4 text-left">
-                                    <h3 className="font-bold text-xl text-gray-800 font-display">{candidate.Name}</h3>
 
-                                    <p className="text-gray-600 font-display">ID: {candidate.CandidateID}</p>
-                                    <p className="text-gray-600 font-display">District: {candidate.District}</p>
-                                    <p className="text-gray-600 font-display">Near Big Town: {candidate.bigTown}</p>
-                                    <p className="text-gray-600 font-display">Exact Location: {candidate.exactLocation}</p>
-
-                                    <p className="text-gray-600 font-display">Email: {candidate.Email}</p>
-                                    <p className="text-gray-600 font-display">Mobile Number: {candidate.Mobile}</p>
-
-                                    {customerType === 'mainAdmin' && (
-                                        <p className="text-gray-600 font-display">Password: {candidate.Password}</p>
-                                    )}
-                                    <p className=" text-gray-600 font-display">Gender: {candidate.Gender}</p>
-                                    <p className=" text-gray-600 font-display">Experienced: {candidate.experienced}</p>
-                                    <p className="font-bold text-gray-600 font-display">Preferred Jobs: {candidate.Jobs}</p>
-
-
-
-                                    <div className="mt-4 flex justify-between">
-                                        <button
-                                            onClick={() => handleBlockProfile(candidate.CandidateID, candidate.Mobile, "candidate")}
-                                            className="text-red-500 hover:text-red-700 font-semibold font-display"
-                                        >
-                                            Block
-                                        </button>
-                                        {customerType === 'mainAdmin' && (
-                                            <button
-                                                onClick={() => navigate(`/change-password/${candidate.CandidateID}`)}
-                                                className="text-red-500 hover:text-red-700 font-semibold font-display"
-                                            >
-                                                Change Password
-                                            </button>
-                                        )}
-
-                                        <button
-                                            onClick={() => handleDeleteCandidate(candidate.CandidateID)}
-                                            className="text-red-500 hover:text-red-700 font-semibold font-display"
-                                        >
-                                            Delete
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div> */}
             </div>
 
             <Footer />

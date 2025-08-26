@@ -51,7 +51,7 @@ function Whatsapp() {
 
     // Fetch filtered jobs based on date and location
     const fetchFilteredJobs = async () => {
-        if (!startDate || !endDate || !locationCategory) return;
+        if (!endDate || !locationCategory) return;
 
         setLoading(true);
         try {
@@ -73,11 +73,15 @@ function Whatsapp() {
                     // Check if job location contains the search text
                     const locationMatches = jobLocation.includes(searchLocation);
 
-                    // Date filtering - include jobs between start and end dates (inclusive)
-                    const dateMatches = (
-                        jobDate >= new Date(startDate.setHours(0, 0, 0, 0)) &&
-                        jobDate <= new Date(endDate.setHours(23, 59, 59, 999))
-                    );
+                    const jobStartDate = startDate
+                        ? new Date(startDate.setHours(0, 0, 0, 0))
+                        : null;
+                    const jobEndDate = new Date(endDate.setHours(23, 59, 59, 999));
+
+                    const dateMatches =
+                        (!jobStartDate || jobDate >= jobStartDate) &&
+                        jobDate <= jobEndDate;
+
 
                     return locationMatches && dateMatches;
                 }));

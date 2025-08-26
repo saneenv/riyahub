@@ -26,7 +26,8 @@ function EnableJobPost() {
     location: '',
     job_id: '',
     whatsapp_number: '',
-    gender_type: '' // Add this line
+    gender_type: '',
+    shopName: ''
   });
 
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
@@ -48,6 +49,8 @@ function EnableJobPost() {
       .catch((error) => console.error('Error fetching job posts:', error));
   }, [apiBaseUrl]);
 
+  // console.log("jobpost:",jobPosts)
+
   // Filter job posts based on the search query
   const filteredJobPosts = jobPosts.filter((job) => {
     const displayedJobId = job.manualJobID && job.manualJobID !== "0" ? job.manualJobID : job.job_id;
@@ -57,7 +60,8 @@ function EnableJobPost() {
       job.location.toLowerCase().includes(searchQuery.location.toLowerCase()) &&
       displayedJobId.toString().includes(searchQuery.job_id) &&
       job.whatsapp_number.toLowerCase().includes(searchQuery.whatsapp_number.toLowerCase()) &&
-      (searchQuery.gender_type === '' || job.gender_type === searchQuery.gender_type) // Add this line
+      (searchQuery.gender_type === '' || job.gender_type === searchQuery.gender_type) &&
+      (job.shopName?.toLowerCase().includes(searchQuery.shopName.toLowerCase()) || !searchQuery.shopName) 
     );
   });
 
@@ -66,8 +70,9 @@ function EnableJobPost() {
     const { name, value } = e.target;
     setSearchQuery((prevQuery) => ({
       ...prevQuery,
-      [name]: value,
+      [name]: value, 
     }));
+    
   };
 
   // Toggle enable status
@@ -203,45 +208,54 @@ function EnableJobPost() {
             onChange={handleSearchChange}
             className='border border-[gray] p-2 rounded-lg'
           />
-            <Select
-              options={[
-                { value: '', label: 'All Genders' },
-                { value: 'MALE', label: 'Male' },
-                { value: 'FEMALE', label: 'Female' },
-                { value: 'MALE/FEMALE', label: 'Male/Female' }
-              ]}
-              value={{
-                value: searchQuery.gender_type,
-                label: searchQuery.gender_type === 'MALE' ? 'Male' :
-                  searchQuery.gender_type === 'FEMALE' ? 'Female' :
-                    searchQuery.gender_type === 'MALE/FEMALE' ? 'Male/Female' : 'All Genders'
-              }}
-              onChange={(selectedOption) => {
-                setSearchQuery(prev => ({
-                  ...prev,
-                  gender_type: selectedOption.value
-                }));
-              }}
-              styles={{
-                control: (base) => ({
-                  ...base,
-                  border: '1px solid #9CA3AF', // gray-400
-                  borderRadius: '0.5rem', // rounded-lg
-                  padding: '0.5rem', // p-2
-                  minHeight: '44px', // Match other inputs
-                  boxShadow: 'none',
-                  '&:hover': {
-                    borderColor: '#9CA3AF' // gray-400
-                  }
-                }),
-                option: (base) => ({
-                  ...base,
-                  padding: '8px 12px'
-                })
-              }}
-              classNamePrefix="select"
-              placeholder="Filter by Gender"
-            />
+          <Select
+            options={[
+              { value: '', label: 'All Genders' },
+              { value: 'MALE', label: 'Male' },
+              { value: 'FEMALE', label: 'Female' },
+              { value: 'MALE/FEMALE', label: 'Male/Female' }
+            ]}
+            value={{
+              value: searchQuery.gender_type,
+              label: searchQuery.gender_type === 'MALE' ? 'Male' :
+                searchQuery.gender_type === 'FEMALE' ? 'Female' :
+                  searchQuery.gender_type === 'MALE/FEMALE' ? 'Male/Female' : 'All Genders'
+            }}
+            onChange={(selectedOption) => {
+              setSearchQuery(prev => ({
+                ...prev,
+                gender_type: selectedOption.value
+              }));
+            }}
+            styles={{
+              control: (base) => ({
+                ...base,
+                border: '1px solid #9CA3AF', // gray-400
+                borderRadius: '0.5rem', // rounded-lg
+                padding: '0.5rem', // p-2
+                minHeight: '44px', // Match other inputs
+                boxShadow: 'none',
+                '&:hover': {
+                  borderColor: '#9CA3AF' // gray-400
+                }
+              }),
+              option: (base) => ({
+                ...base,
+                padding: '8px 12px'
+              })
+            }}
+            classNamePrefix="select"
+            placeholder="Filter by Gender"
+          />
+
+          <input
+            type='text'
+            name='shopName'
+            placeholder='Search by Shop Name'
+            value={searchQuery.shopName}
+            onChange={handleSearchChange}
+            className='border border-[gray] p-2 rounded-lg'
+          />
 
         </div>
 
@@ -256,6 +270,7 @@ function EnableJobPost() {
                 <th className='border p-2'>Location</th>
                 <th className='border p-2'>Gender</th>
                 <th className='border p-2'>Number</th>
+                <th className='border p-2'>Shop Name</th> {/* Add this column */}
                 <th className='border p-2'>Activated Date</th>
 
                 <th className='border p-2'></th>
@@ -278,6 +293,7 @@ function EnableJobPost() {
                   <td className='border p-2'>{job.location}</td>
                   <td className='border p-2'>{job.gender_type || 'Not specified'}</td>
                   <td className='border p-2'>{job.whatsapp_number}</td>
+                  <td className='border p-2'>{job.shopName || 'N/A'}</td>
                   <td className='border p-2'>{new Date(job.created_at).toLocaleDateString('en-GB')}</td>
 
                   <td className='border p-2'>

@@ -191,7 +191,7 @@ function PlansManagement() {
                                         value={editingPlan ? editingPlan.PlanName : newPlan.planName}
                                         onChange={handleInputChange}
                                         required
-                                        placeholder="e.g., Premium Plan"
+                                        placeholder="e.g., Premium Plan"   
                                     />
                                 </div>
                                 <div>
